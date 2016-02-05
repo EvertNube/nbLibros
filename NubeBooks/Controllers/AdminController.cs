@@ -1042,7 +1042,7 @@ namespace NubeBooks.Controllers
         public ActionResult ComprobantesIngreso(int? idTipoComprobante = 1)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobantes de Ingreso";
+            ViewBag.Title += " - Comprobantes de Ingreso Test";
 
             MenuNavBarSelected(2);
 
