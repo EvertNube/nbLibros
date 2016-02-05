@@ -1,0 +1,66 @@
+﻿@using NubeBooks.Core.DTO
+@using System.Globalization;
+@model List<ComprobanteDTO>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+
+<div class="bg-light lter b-b wrapper-md">
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <button class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</button>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Fecha</th>
+                        <th style="width:10%">Documento</th>
+                        <th style="width:10%">Número</th>
+                        <th style="width:20%">Cliente</th>
+                        <th style="width:10%">Monto</th>
+                        <th style="width:15%">Partida</th>
+                        <th style="width:5%">Estado</th>
+                        <th style="width:10%">Opc.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FechaEmision</td>
+                                <td>@item.NombreTipoDocumento</td>
+                                <td>@item.NroDocumento</td>
+                                <td>@item.NombreEntidad</td>
+                                <td>@item.Monto</td>
+                                <td>@item.NombreCategoria</td>
+                                <td>@item.Estado</td>
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                <td>
+                                    <a href="@Url.Action("Comprobante", "Admin", new { id = item.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                    @if (!ViewBag.EsUsuarioExterno)
+                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

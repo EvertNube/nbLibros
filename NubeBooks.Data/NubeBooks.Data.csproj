@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E093BAB-A055-4BF2-A59C-D7FA80F036D5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NubeBooks.Data</RootNamespace>
+    <AssemblyName>NubeBooks.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Area.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AreaPorComprobante.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Categoria.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CategoriaPorPeriodo.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Comprobante.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contacto.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CuentaBancaria.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntidadResponsable.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EstadoMovimiento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormaMovimiento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Honorario.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibrosModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibrosModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibrosModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibrosModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Moneda.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Movimiento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Periodo.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proyecto.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Responsable.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Rol.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetReporteDetalleMovimientos_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetReporteResumenCategorias_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetReporteResumenEntidadesRes_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Get_Arbol_Categoria_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Get_MontoIncompletoEnComprobante_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_AvanceDePresupuesto_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_DetalleGastosPorPartidaDePresupuesto_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_EgresosPorAreas_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_FacturacionPorAreas_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_FacturacionPorCliente_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_FacturacionPorHonorarios_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_FacturacionPorVendedor_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_GastosPorProveedor_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_Rep_IngresosEgresosPorAreas_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoComprobante.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoCuenta.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoDocumento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoEntidad.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoIdentificacion.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoMovimiento.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="LibrosModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LibrosModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="LibrosModel.edmx.diagram">
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LibrosModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+      <LastGenOutput>LibrosModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="LibrosModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LibrosModel.edmx</DependentUpon>
+      <LastGenOutput>LibrosModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

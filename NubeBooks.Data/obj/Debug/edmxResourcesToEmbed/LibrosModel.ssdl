@@ -1,0 +1,1093 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="IdArea" />
+    </Key>
+    <Property Name="IdArea" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AreaPorComprobante">
+    <Key>
+      <PropertyRef Name="IdArea" />
+      <PropertyRef Name="IdComprobante" />
+    </Key>
+    <Property Name="IdArea" Type="int" Nullable="false" />
+    <Property Name="IdComprobante" Type="int" Nullable="false" />
+    <Property Name="Monto" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="IdCategoria" />
+    </Key>
+    <Property Name="IdCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Orden" Type="int" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdCategoriaPadre" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategoriaPorPeriodo">
+    <Key>
+      <PropertyRef Name="IdCategoria" />
+      <PropertyRef Name="IdPeriodo" />
+    </Key>
+    <Property Name="IdCategoria" Type="int" Nullable="false" />
+    <Property Name="IdPeriodo" Type="int" Nullable="false" />
+    <Property Name="Monto" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comprobante">
+    <Key>
+      <PropertyRef Name="IdComprobante" />
+    </Key>
+    <Property Name="IdComprobante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTipoComprobante" Type="int" Nullable="false" />
+    <Property Name="IdTipoDocumento" Type="int" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="IdMoneda" Type="int" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="IdArea" Type="int" />
+    <Property Name="IdResponsable" Type="int" />
+    <Property Name="IdCategoria" Type="int" />
+    <Property Name="IdProyecto" Type="int" />
+    <Property Name="FechaEmision" Type="datetime" Nullable="false" />
+    <Property Name="FechaConclusion" Type="datetime" />
+    <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Ejecutado" Type="bit" Nullable="false" />
+    <Property Name="IdHonorario" Type="int" />
+    <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contacto">
+    <Key>
+      <PropertyRef Name="IdContacto" />
+    </Key>
+    <Property Name="IdContacto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="Telefono" Type="nvarchar" MaxLength="20" />
+    <Property Name="Celular" Type="nvarchar" MaxLength="20" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CuentaBancaria">
+    <Key>
+      <PropertyRef Name="IdCuentaBancaria" />
+    </Key>
+    <Property Name="IdCuentaBancaria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreCuenta" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="FechaConciliacion" Type="datetime" Nullable="false" />
+    <Property Name="SaldoDisponible" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="SaldoBancario" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdMoneda" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="IdTipoCuenta" Type="int" />
+  </EntityType>
+  <EntityType Name="Empresa">
+    <Key>
+      <PropertyRef Name="IdEmpresa" />
+    </Key>
+    <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="Codigo" Type="nvarchar" MaxLength="12" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IGV" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="IdPeriodo" Type="int" />
+    <Property Name="IdMoneda" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EntidadResponsable">
+    <Key>
+      <PropertyRef Name="IdEntidadResponsable" />
+    </Key>
+    <Property Name="IdEntidadResponsable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTipoIdentificacion" Type="int" />
+    <Property Name="IdTipoEntidad" Type="int" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Detraccion" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Tipo" Type="nvarchar" MaxLength="250" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="NroIdentificacion" Type="nvarchar" MaxLength="100" />
+    <Property Name="NombreComercial" Type="nvarchar" MaxLength="250" />
+    <Property Name="Direccion" Type="nvarchar" MaxLength="250" />
+    <Property Name="Banco" Type="nvarchar" MaxLength="100" />
+    <Property Name="CuentaSoles" Type="nvarchar" MaxLength="50" />
+    <Property Name="CuentaDolares" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="EstadoMovimiento">
+    <Key>
+      <PropertyRef Name="IdEstadoMovimiento" />
+    </Key>
+    <Property Name="IdEstadoMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FormaMovimiento">
+    <Key>
+      <PropertyRef Name="IdFormaMovimiento" />
+    </Key>
+    <Property Name="IdFormaMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTipoMovimiento" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Honorario">
+    <Key>
+      <PropertyRef Name="IdHonorario" />
+    </Key>
+    <Property Name="IdHonorario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Moneda">
+    <Key>
+      <PropertyRef Name="IdMoneda" />
+    </Key>
+    <Property Name="IdMoneda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Simbolo" Type="varchar" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="Movimiento">
+    <Key>
+      <PropertyRef Name="IdMovimiento" />
+    </Key>
+    <Property Name="IdMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdCuentaBancaria" Type="int" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="IdFormaMovimiento" Type="int" Nullable="false" />
+    <Property Name="IdEstadoMovimiento" Type="int" Nullable="false" />
+    <Property Name="IdTipoDocumento" Type="int" />
+    <Property Name="IdCategoria" Type="int" />
+    <Property Name="IdComprobante" Type="int" />
+    <Property Name="NroOperacion" Type="nvarchar" MaxLength="100" />
+    <Property Name="Fecha" Type="datetime" Nullable="false" />
+    <Property Name="Monto" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="MontoSinIGV" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="TipoCambio" Type="numeric" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="NumeroDocumento" Type="nvarchar" MaxLength="100" />
+    <Property Name="Comentario" Type="nvarchar(max)" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
+    <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Periodo">
+    <Key>
+      <PropertyRef Name="IdPeriodo" />
+    </Key>
+    <Property Name="IdPeriodo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+    <Property Name="FechaFin" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Proyecto">
+    <Key>
+      <PropertyRef Name="IdProyecto" />
+    </Key>
+    <Property Name="IdProyecto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Responsable">
+    <Key>
+      <PropertyRef Name="IdResponsable" />
+    </Key>
+    <Property Name="IdResponsable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rol">
+    <Key>
+      <PropertyRef Name="IdRol" />
+    </Key>
+    <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TipoComprobante">
+    <Key>
+      <PropertyRef Name="IdTipoComprobante" />
+    </Key>
+    <Property Name="IdTipoComprobante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoCuenta">
+    <Key>
+      <PropertyRef Name="IdTipoCuenta" />
+    </Key>
+    <Property Name="IdTipoCuenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoDocumento">
+    <Key>
+      <PropertyRef Name="IdTipoDocumento" />
+    </Key>
+    <Property Name="IdTipoDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoEntidad">
+    <Key>
+      <PropertyRef Name="IdTipoEntidad" />
+    </Key>
+    <Property Name="IdTipoEntidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoIdentificacion">
+    <Key>
+      <PropertyRef Name="IdTipoIdentificacion" />
+    </Key>
+    <Property Name="IdTipoIdentificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoMovimiento">
+    <Key>
+      <PropertyRef Name="IdTipoMovimiento" />
+    </Key>
+    <Property Name="IdTipoMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="InicialesNombre" Type="nvarchar" MaxLength="10" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cuenta" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="Pass" Type="nvarchar" MaxLength="64" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="IdRol" Type="int" Nullable="false" />
+    <Property Name="IdCargo" Type="int" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="Token" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <Association Name="FK_Area_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Area" Type="Self.Area" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Area">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AreaPorComprobante_Area">
+    <End Role="Area" Type="Self.Area" Multiplicity="1" />
+    <End Role="AreaPorComprobante" Type="Self.AreaPorComprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Area">
+        <PropertyRef Name="IdArea" />
+      </Principal>
+      <Dependent Role="AreaPorComprobante">
+        <PropertyRef Name="IdArea" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AreaPorComprobante_Comprobante">
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="1" />
+    <End Role="AreaPorComprobante" Type="Self.AreaPorComprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Principal>
+      <Dependent Role="AreaPorComprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Categoria_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Categoria">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CategoriaPorPeriodo_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+    <End Role="CategoriaPorPeriodo" Type="Self.CategoriaPorPeriodo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="IdCategoria" />
+      </Principal>
+      <Dependent Role="CategoriaPorPeriodo">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CategoriaPorPeriodo_Periodo">
+    <End Role="Periodo" Type="Self.Periodo" Multiplicity="1" />
+    <End Role="CategoriaPorPeriodo" Type="Self.CategoriaPorPeriodo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Principal>
+      <Dependent Role="CategoriaPorPeriodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="IdCategoria" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Honorario">
+    <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Honorario">
+        <PropertyRef Name="IdHonorario" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdHonorario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Proyecto">
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proyecto">
+        <PropertyRef Name="IdProyecto" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdProyecto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_TipoComprobante">
+    <End Role="TipoComprobante" Type="Self.TipoComprobante" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoComprobante">
+        <PropertyRef Name="IdTipoComprobante" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdTipoComprobante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_TipoDocumento">
+    <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoDocumento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="UsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Contacto_EntidadResponsable1">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Contacto" Type="Self.Contacto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Contacto">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentaBancaria_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="CuentaBancaria">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentaBancaria_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="0..1" />
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="CuentaBancaria">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentaBancaria_TipoCuenta">
+    <End Role="TipoCuenta" Type="Self.TipoCuenta" Multiplicity="0..1" />
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCuenta">
+        <PropertyRef Name="IdTipoCuenta" />
+      </Principal>
+      <Dependent Role="CuentaBancaria">
+        <PropertyRef Name="IdTipoCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Empresa_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="Empresa">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Empresa_Periodo">
+    <End Role="Periodo" Type="Self.Periodo" Multiplicity="0..1" />
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periodo">
+        <PropertyRef Name="IdPeriodo" />
+      </Principal>
+      <Dependent Role="Empresa">
+        <PropertyRef Name="IdPeriodo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_TipoEntidad">
+    <End Role="TipoEntidad" Type="Self.TipoEntidad" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoEntidad">
+        <PropertyRef Name="IdTipoEntidad" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdTipoEntidad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_TipoIdentificacion">
+    <End Role="TipoIdentificacion" Type="Self.TipoIdentificacion" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoIdentificacion">
+        <PropertyRef Name="IdTipoIdentificacion" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdTipoIdentificacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FormaMovimiento_TipoMovimiento">
+    <End Role="TipoMovimiento" Type="Self.TipoMovimiento" Multiplicity="1" />
+    <End Role="FormaMovimiento" Type="Self.FormaMovimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoMovimiento">
+        <PropertyRef Name="IdTipoMovimiento" />
+      </Principal>
+      <Dependent Role="FormaMovimiento">
+        <PropertyRef Name="IdTipoMovimiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Honorario_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Honorario" Type="Self.Honorario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Honorario">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="IdCategoria" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_Comprobante">
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comprobante">
+        <PropertyRef Name="IdComprobante" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdComprobante" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_CuentaBancaria">
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaBancaria">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_EstadoMovimiento">
+    <End Role="EstadoMovimiento" Type="Self.EstadoMovimiento" Multiplicity="1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EstadoMovimiento">
+        <PropertyRef Name="IdEstadoMovimiento" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdEstadoMovimiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_FormaMovimiento">
+    <End Role="FormaMovimiento" Type="Self.FormaMovimiento" Multiplicity="1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FormaMovimiento">
+        <PropertyRef Name="IdFormaMovimiento" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdFormaMovimiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_TipoDocumento">
+    <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="0..1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoDocumento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="IdTipoDocumento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimiento_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="UsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyecto_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Proyecto">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Responsable_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Responsable">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_Rol">
+    <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rol">
+        <PropertyRef Name="IdRol" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="IdRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="FN_FacturacionPorCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_FacturacionPorHonorario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdHonorario" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_FacturacionPorVendedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdVendedor" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_GastosPorProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_Get_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_Get_Rep_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_GetAreaOsEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+    <Parameter Name="IdComprobante" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_GetSaldoBancarioLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_GetSaldoDisponibleLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_GetSumaMovsCatEnLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_GetSumaMovsEntResEnLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="IdEntidadResponsable" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_GetSumaPresupuestoPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="IdPeriodo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_IngresosEgresos_AreaEnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_MontoAreaXEntidadEnComp_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEntidad" Type="int" Mode="In" />
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_MontoCat_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_MontoCatXComp_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_ActualizarPresupuestoPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="IdPeriodo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_Arbol_Categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GetReporteDetalleMovimientos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_GetReporteResumenCategorias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_GetReporteResumenEntidadesRes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_AvanceDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_DetalleGastosPorPartidaDePresupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdCategoria" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_EgresosPorAreas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_FacturacionPorAreas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_FacturacionPorCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_FacturacionPorHonorarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_FacturacionPorVendedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_GastosPorProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Rep_IngresosEgresosPorAreas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <EntityContainer Name="LibrosDBModelStoreContainer">
+    <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AreaPorComprobante" EntityType="Self.AreaPorComprobante" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CategoriaPorPeriodo" EntityType="Self.CategoriaPorPeriodo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comprobante" EntityType="Self.Comprobante" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contacto" EntityType="Self.Contacto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EstadoMovimiento" EntityType="Self.EstadoMovimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FormaMovimiento" EntityType="Self.FormaMovimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Honorario" EntityType="Self.Honorario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Periodo" EntityType="Self.Periodo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoEntidad" EntityType="Self.TipoEntidad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoIdentificacion" EntityType="Self.TipoIdentificacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoMovimiento" EntityType="Self.TipoMovimiento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Area_Empresa" Association="Self.FK_Area_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Area" EntitySet="Area" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AreaPorComprobante_Area" Association="Self.FK_AreaPorComprobante_Area">
+      <End Role="Area" EntitySet="Area" />
+      <End Role="AreaPorComprobante" EntitySet="AreaPorComprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AreaPorComprobante_Comprobante" Association="Self.FK_AreaPorComprobante_Comprobante">
+      <End Role="Comprobante" EntitySet="Comprobante" />
+      <End Role="AreaPorComprobante" EntitySet="AreaPorComprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Categoria_Empresa" Association="Self.FK_Categoria_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Categoria" EntitySet="Categoria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CategoriaPorPeriodo_Categoria" Association="Self.FK_CategoriaPorPeriodo_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="CategoriaPorPeriodo" EntitySet="CategoriaPorPeriodo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CategoriaPorPeriodo_Periodo" Association="Self.FK_CategoriaPorPeriodo_Periodo">
+      <End Role="Periodo" EntitySet="Periodo" />
+      <End Role="CategoriaPorPeriodo" EntitySet="CategoriaPorPeriodo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Categoria" Association="Self.FK_Comprobante_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Empresa" Association="Self.FK_Comprobante_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="Self.FK_Comprobante_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Honorario" Association="Self.FK_Comprobante_Honorario">
+      <End Role="Honorario" EntitySet="Honorario" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Moneda" Association="Self.FK_Comprobante_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Proyecto" Association="Self.FK_Comprobante_Proyecto">
+      <End Role="Proyecto" EntitySet="Proyecto" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="Self.FK_Comprobante_TipoComprobante">
+      <End Role="TipoComprobante" EntitySet="TipoComprobante" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_TipoDocumento" Association="Self.FK_Comprobante_TipoDocumento">
+      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Usuario" Association="Self.FK_Comprobante_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Contacto_EntidadResponsable1" Association="Self.FK_Contacto_EntidadResponsable1">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Contacto" EntitySet="Contacto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentaBancaria_Empresa" Association="Self.FK_CuentaBancaria_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentaBancaria_Moneda" Association="Self.FK_CuentaBancaria_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentaBancaria_TipoCuenta" Association="Self.FK_CuentaBancaria_TipoCuenta">
+      <End Role="TipoCuenta" EntitySet="TipoCuenta" />
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empresa_Moneda" Association="Self.FK_Empresa_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="Empresa" EntitySet="Empresa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empresa_Periodo" Association="Self.FK_Empresa_Periodo">
+      <End Role="Periodo" EntitySet="Periodo" />
+      <End Role="Empresa" EntitySet="Empresa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
+      <End Role="TipoEntidad" EntitySet="TipoEntidad" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_TipoIdentificacion" Association="Self.FK_EntidadResponsable_TipoIdentificacion">
+      <End Role="TipoIdentificacion" EntitySet="TipoIdentificacion" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FormaMovimiento_TipoMovimiento" Association="Self.FK_FormaMovimiento_TipoMovimiento">
+      <End Role="TipoMovimiento" EntitySet="TipoMovimiento" />
+      <End Role="FormaMovimiento" EntitySet="FormaMovimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Honorario_Empresa" Association="Self.FK_Honorario_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Honorario" EntitySet="Honorario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_Comprobante" Association="Self.FK_Movimiento_Comprobante">
+      <End Role="Comprobante" EntitySet="Comprobante" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="Self.FK_Movimiento_CuentaBancaria">
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="Self.FK_Movimiento_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_EstadoMovimiento" Association="Self.FK_Movimiento_EstadoMovimiento">
+      <End Role="EstadoMovimiento" EntitySet="EstadoMovimiento" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_FormaMovimiento" Association="Self.FK_Movimiento_FormaMovimiento">
+      <End Role="FormaMovimiento" EntitySet="FormaMovimiento" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_TipoDocumento" Association="Self.FK_Movimiento_TipoDocumento">
+      <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimiento_Usuario" Association="Self.FK_Movimiento_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyecto_EntidadResponsable" Association="Self.FK_Proyecto_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Proyecto" EntitySet="Proyecto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Responsable" EntitySet="Responsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+      <End Role="Rol" EntitySet="Rol" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

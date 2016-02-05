@@ -1,0 +1,405 @@
+﻿@using NubeBooks.Core.DTO
+@model ComprobanteDTO
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        @{
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var userInfoJson = jss.Serialize(ViewBag.Categorias);
+            var userInfoJson2 = jss.Serialize(ViewBag.Proyectos);
+        }
+        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var lstProyectos = JSON.parse('@Html.Raw(userInfoJson2)');
+
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
+
+        $(function () {
+            $('.miselect2').select2();
+
+            $('#IdCategoria').select2({
+                placeholder: "Seleccione una categoría",
+                data: mydata,
+                allowClear: true
+            })
+
+            $('#IdProyecto').select2({ data: lstProyectos })
+
+            $("#add-monto").click(function () {
+                var existe = false;
+                var AreaSel = $('#IdArea :selected');
+                var valorArea = $('#IdArea :selected').val();
+                if (valorArea > 0) {
+                    var txtArea = $('#IdArea :selected').text();
+                    var txtMonto = parseFloat($('#MontoSinIGV').val()).toFixed(2);
+                    $('#lstMontos option').each(function () {
+                        if ($(this).val() == valorArea) existe = true;
+                    });
+                    if (!existe) {
+                        //var element = $('<option/>', {})
+                        $('#lstMontos').append($('<option>', {
+                            value: valorArea,
+                            text: txtArea + ' - ' + txtMonto
+                        }).attr('data-monto', txtMonto));
+                        //$('#IdArea :selected').attr('disabled', true);
+                        /*var optionvalida = $('#IdArea option:not([disabled])').first().val();
+                        $('#IdArea').val(optionvalida).change();*/
+                        $('#IdArea').select2("val", 0);
+                        ActualizarMontos();
+                    } else {
+                        alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
+                    }
+                } else {
+                    alert("Por favor, seleccione otra área válido.");
+                }
+            });
+            $("#remove-monto").click(function () {
+                var val = $('#lstMontos :selected').val();
+                var text = $('#lstMontos :selected').text();
+
+                //$('#IdArea option[value="'+ val +'"]').attr('disabled', false);
+                $('#lstMontos :selected').remove();
+                ActualizarMontos();
+            });
+
+            BloquearTDocumentos();
+
+            ListarProyectos(0);
+
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            });
+        });
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar caracteres numericos");
+                return false;
+            }
+        }
+
+        function ActualizarMontoSinIGV() {
+            var montoSinIGV = 0;
+            var numTipoDoc = $('#IdTipoDocumento').select2("val");
+            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
+            { montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2); }
+            else
+            { montoSinIGV = ($('#Monto').val() / 1).toFixed(2); }
+            $('#MontoSinIGV').val(montoSinIGV);
+        }
+
+        function ActualizarMontoConIGV() {
+            var montoConIGV = 0;
+            var numTipoDoc = $('#IdTipoDocumento').select2("val");
+            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
+            { montoConIGV = ($('#MontoSinIGV').val() * 1.18).toFixed(2); }
+            else
+            { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }
+            $('#Monto').val(montoConIGV);
+        }
+
+        function BloquearTDocumentos()
+        {
+            if(@Model.IdTipoComprobante == 1)
+            {
+                //Bloqueo de Staff
+                $("#IdTipoDocumento option[value='4']").attr('disabled', true);
+                //Bloqueo de Ordenes de Compra
+                $("#IdTipoDocumento option[value='10']").attr('disabled', true);
+            }
+            else
+            {
+                //Bloquear Proforma
+                $("#IdTipoDocumento option[value='9']").attr('disabled', true);
+            }
+        }
+
+        function ActualizarMontos()
+        {
+            var suma = 0;
+            $('#lstMontos option').each(function(){
+                suma += parseFloat($(this).data("monto"));
+            })
+            $('#MontoSinIGV').val(suma);
+            ActualizarMontoConIGV();
+        }
+
+        function ListaMontosAreas()
+        {
+            var lista = [];
+            $('#lstMontos option').each(function () {
+                var elem = {
+                    IdArea: $(this).val(),
+                    Monto: $(this).data("monto")
+                };
+                lista.push(elem);
+            });
+
+            lista = JSON.stringify({'lista': lista});
+
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/PasslstAreasXMontos',
+                data: lista,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    return true;
+                },
+                error: function(xhr, status, error) {
+                    return false;
+                }
+            });
+        }
+
+        function ListarProyectos(cambio) {
+            if ($('#IdEntidadResponsable').val() != 0)
+            {
+                var idEntidad = parseInt($('#IdEntidadResponsable').val());
+                if(cambio == 1)
+                {
+                    $('#IdProyecto').select2("val", "");
+                }
+
+                GetProyectosAjax(idEntidad);
+                $('#IdProyecto').select2({
+                    data: lstProyectos
+                })
+            }
+        }
+
+        function GetProyectosAjax(idEntidad)
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GetProyectos",
+                async: false,
+                cache: false,
+                data: { idEntidad: idEntidad },
+                dataType: 'json',
+                success: function (data) {
+                    lstProyectos = data.listaProyectos;
+                }
+            });
+        }
+    </script>
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12">
+                @{
+                    string strTitulo = "", strFechaIni = "", strEntidad = "", strFechaFin = "";
+                    if (Model != null)
+                    {
+                        switch (Model.IdTipoComprobante)
+                        {
+                            case 1:
+                                strTitulo = "Ingreso";
+                                strFechaIni = "Fecha Facturación";
+                                strEntidad = "Cliente";
+                                strFechaFin = "Cobranza";
+                                break;
+                            default:
+                                strTitulo = "Egreso";
+                                strFechaIni = "Fecha Documento";
+                                strEntidad = "Proveedor";
+                                strFechaFin = "Pago";
+                                break;
+                        }
+                    }
+                }
+                @if (Model == null || Model.IdComprobante == 0)
+                {
+                    <h2>Nuevo @strTitulo</h2>
+                }
+                else
+                {
+                    <h2>Actualizar @strTitulo</h2>
+                }
+
+                @using (Html.BeginForm("AddComprobante", "Admin", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="row m-b">
+                        <div class="col-xs-12 col-md-12">
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label>@strFechaIni</label>
+                                            @Html.TextBoxFor(u => u.FechaEmision, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                                            @Html.ValidationMessageFor(u => u.FechaEmision)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Tipo de Documento</label>
+                                            @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ActualizarMontoConIGV()" })
+                                            @Html.ValidationMessageFor(u => u.IdTipoDocumento)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Nro de Documento</label>
+                                            @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control rol-accs", @placeholder = "Ingrese el numero de documento", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.NroDocumento)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @{var columnas = 2; if (Model.IdTipoComprobante != 1) { columnas = 4; }}
+                                        <div class="form-group col-md-@columnas">
+                                            <label>@strEntidad</label>
+                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
+                                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
+                                        </div>
+                                        @if (Model.IdTipoComprobante == 1)
+                                        {
+                                            <div class="form-group col-md-2">
+                                                <label>Proyecto</label>
+                                                @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                                                @Html.ValidationMessageFor(u => u.IdProyecto)
+                                            </div>
+                                        }
+                                        <div class="form-group col-md-4">
+                                            <label>Partida de Presupuesto</label>
+                                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                                            @Html.ValidationMessageFor(u => u.IdCategoria)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>@strFechaFin</label>
+                                            @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                                            @Html.ValidationMessageFor(u => u.FechaConclusion)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label>Moneda</label>
+                                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                            @Html.ValidationMessageFor(u => u.IdMoneda)
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label>Tipo de Cambio</label>
+                                            @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                            @Html.ValidationMessageFor(u => u.TipoCambio)
+                                        </div>
+                                        @if (Model.IdTipoComprobante == 1)
+                                        {
+                                            <div class="form-group col-md-4">
+                                                <label>Modalidad de Pago</label>
+                                                @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                                @Html.ValidationMessageFor(u => u.IdHonorario)
+                                            </div>
+                                        }
+                                        @if (Model.IdTipoComprobante == 1)
+                                        {
+                                            <div class="form-group col-md-4">
+                                                <label>Consultor</label>
+                                                @Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                                @Html.ValidationMessageFor(u => u.IdResponsable)
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="line line-dashed line-md pull-in"></div>
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        <label>Área</label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                                        @Html.ValidationMessageFor(u => u.IdArea)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        <label>Monto Sin IGV</label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })
+                                                        @Html.ValidationMessageFor(u => u.MontoSinIGV)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-4">
+                                                        <label>Monto Total</label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
+                                                        @Html.ValidationMessageFor(u => u.Monto)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 no-padder text-center">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Área por Monto">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                    &nbsp;
+                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Área por Monto">
+                                                        <i class="fa fa-minus-circle"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="@Html.NameFor(u => u.lstMontos)" id="@Html.IdFor(u => u.lstMontos)" name="@Html.NameFor(u => u.lstMontos)" multiple="multiple" class="form-control rol-accs" size="6">
+                                                    @{List<AreaPorComprobanteDTO> listaMontos = ViewBag.Montos ?? new List<AreaPorComprobanteDTO>(); }
+                                                    @foreach (var item in listaMontos)
+                                                    {
+                                                        <option value="@item.IdArea" data-monto="@item.Monto">@(item.NombreArea + " - " + item.Monto.ToString("#.00"))</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Comentario</label>
+                                        @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese un comentario", @type = "text", @rows = "3", @style = "resize: none;" })
+                                        @Html.ValidationMessageFor(u => u.Comentario)
+                                    </div>
+                                    @*@if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdEntidadResponsable > 0)
+                                    {
+                                        <div class="line line-dashed line-md pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }*@
+                                    <div class="line line-dashed line-md pull-in"></div>
+                                    @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
+                                    @if (!ViewBag.EsUsuarioExterno)
+                                    {<button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>}
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = Model.IdTipoComprobante })">Salir</a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</section>

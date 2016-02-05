@@ -1,0 +1,4 @@
+﻿@using NubeBooks.Helpers;
+@using NubeBooks.Helpers.Razor;
+@Html.showAlertMessage(TempData[CONSTANTES.STATUS_FIELD] != null ? TempData[CONSTANTES.STATUS_FIELD].ToString() : "", 
+        TempData[CONSTANTES.MESSAGE_FIELD] != null ? TempData[CONSTANTES.MESSAGE_FIELD].ToString() : "")

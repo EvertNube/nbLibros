@@ -1,0 +1,90 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model IList<NubeBooks.Core.DTO.UsuarioDTO>
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <h2>Usuarios</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    @if (ViewBag.EsAdmin)
+                    {
+                        <header class="panel-heading">
+                            <div class="row text-sm">
+                                <div class="col-sm-8">
+                                    <div class="btn-group">
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    @if(ViewBag.EsSuperAdmin)
+                                    { 
+                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Usuario")"><i class="fa fa-plus"></i> Crear nuevo usuario</a>
+                                    }
+                                </div>
+                            </div>
+                        </header>
+                    }
+                    <div class="table-responsive">
+                        <table class="table table-striped m-b-none dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th width="10%">ID</th>
+                                    <th width="30%">Nombre</th>
+                                    <th width="25%">Tipo de Usuario</th>
+                                    <th width="20%">Cuenta</th>
+                                    @if (ViewBag.EsAdmin)
+                                    {
+                                        <th class="text-center" width="15%">Opc.</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int cont = 1;}
+                                @foreach (var usuario in Model)
+                                {
+                                    var classInactive = (ViewBag.EsAdmin && !usuario.Active) ? "class='inactive'" : "";
+                                    <tr @Html.Raw(classInactive)>
+                                        <td align="center">
+                                            @if (ViewBag.EsAdmin && !usuario.Active)
+                                            { <span class="badge bg-danger" data-toggle="tooltip" data-placement="left" data-original-title="Inactivo">@cont</span>}
+                                            else
+                                            {@cont}
+                                        </td>
+                                        <td>@usuario.Nombre</td>
+                                        <td>@usuario.NombreRol</td>
+                                        <td>@usuario.Cuenta</td>
+                                        @if (ViewBag.EsAdmin)
+                                        {
+                                            <td align="center"><a href="@Url.Action("Usuario", new { id = usuario.IdUsuario})"><i class="fa fa-pencil"></i></a></td>
+                                        }
+                                    </tr>
+                                        cont++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </section>
+</section>

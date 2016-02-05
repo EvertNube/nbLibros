@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+  <meta charset="utf-8" />
+  <title>UARM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/font.css" type="text/css" />
+  <link rel="stylesheet" href="css/app.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="js/ie/html5shiv.js"></script>
+    <script src="js/ie/respond.min.js"></script>
+    <script src="js/ie/excanvas.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <section class="vbox">
+    <header class="bg-dark dk header navbar navbar-fixed-top-xs">
+      <div class="navbar-header aside-md">
+        <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
+          <i class="fa fa-bars"></i>
+        </a>
+        <a href="#" class="navbar-brand" data-toggle="fullscreen"><img src="images/logo.png" class="m-r-sm">Administrador</a>
+        <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".nav-user">
+          <i class="fa fa-cog"></i>
+        </a>
+      </div>    
+      <ul class="nav navbar-nav navbar-right hidden-xs nav-user">
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            John.Smith <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu animated fadeInRight">
+            <span class="arrow top"></span>
+            <li>
+              <a href="#">Configuración</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="modal.lockme.html" data-toggle="ajaxModal" >Salir</a>
+            </li>
+          </ul>
+        </li>
+      </ul>      
+    </header>
+    <section>
+      <section class="hbox stretch">
+        <!-- .aside -->
+        <aside class="bg-dark lter aside-md hidden-print" id="nav">          
+          <section class="vbox">
+            
+            <section class="w-f scrollable">
+              <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="5px" data-color="#333333">
+                
+                <!-- nav -->
+                <nav class="nav-primary hidden-xs">
+                  <ul class="nav">
+                    <li  class="active">
+                      <a href="index.html" class="active">
+                        <i class="fa fa-file-text icon">
+                          <b class="bg-danger"></b>
+                        </i>
+                        <span>Páginas</span>
+                      </a>
+                    </li>
+					<li >
+                      <a href="index.html">
+                        <i class="fa fa-columns icon">
+                          <b class="bg-warning"></b>
+                        </i>
+                        <span>Archivos</span>
+                      </a>
+                    </li>
+                    
+                  </ul>
+                </nav>
+                <!-- / nav -->
+              </div>
+            </section>
+            
+            <footer class="footer lt hidden-xs b-t b-dark">
+              <a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-dark btn-icon">
+                <i class="fa fa-angle-left text"></i>
+                <i class="fa fa-angle-right text-active"></i>
+              </a>
+            </footer>
+          </section>
+        </aside>
+        <!-- /.aside -->
+        <section id="content">
+          <section class="vbox">          
+            <section class="scrollable padder">
+              <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
+                <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+                <li class="active">Workset</li>
+              </ul>
+              <div class="m-b-md">
+                <h3 class="m-b-none">Workset</h3>
+                <small>Welcome back, Noteman</small>
+              </div>
+              
+             
+            </section>
+          </section>
+          <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+        </section>
+        <aside class="bg-light lter b-l aside-md hide" id="notes">
+          <div class="wrapper">Notification</div>
+        </aside>
+      </section>
+    </section>
+  </section>
+  <script src="js/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="js/bootstrap.js"></script>
+  <!-- App -->
+  <script src="js/app.js"></script>
+  <script src="js/app.plugin.js"></script>
+  <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="js/sortable/jquery.sortable.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    @Styles.Render("~/Content/themes/uarm/css/page.css") 
+    @Styles.Render("~/Content/themes/uarm/css/error.css")       
+}
+<div class="container">
+<div class="row">
+    <div class="col-sm-6">
+<header>
+    
+        <h2>Página No Encontrada</h2>
+    
+</header>
+    <div class="error-details">
+        <section class="content">
+            
+                Al parecer la página que buscas no se encuentra disponible. Por favor, revisa si has ingresado la dirección correcta.
+        
+            @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
+            {
+                <div>
+                    <p>
+                        <b>Exception:</b> @Model.Exception.Message<br />
+                        <b>Controller:</b> @Model.ControllerName<br />
+                        <b>Action:</b> @Model.ActionName
+                    </p>
+                    <div style="overflow:scroll">
+                        <pre>
+                            @Model.Exception.StackTrace
+                        </pre>
+                    </div>
+                </div>
+            }
+
+            </section>
+    </div>
+        </div>
+    </div>
+    </div>

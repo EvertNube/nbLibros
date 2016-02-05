@@ -1,0 +1,136 @@
+﻿@using NubeBooks.Core.DTO
+@model IList<NubeBooks.Core.DTO.EntidadResponsableDTO>
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <h2>Entidades</h2>
+                @Html.Partial("_showAlertMessages")
+                @*<div class="col-lg-12 no-padder">
+                    <ul class="breadcrumb">
+                        <li><label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label></li>
+                    </ul>
+                </div>*@
+                <section class="panel panel-default">
+                    <header class="panel-heading bg-light">
+                        <ul class="nav nav-tabs nav-justified">
+                            @{bool idnull1 = false;
+                            string cadena1 = "";}
+                            @foreach (var item in (List<TipoEntidadDTO>)ViewBag.lstTipoEntidades)
+                            {
+                                if (ViewBag.idTipoEntidad != null)
+                                { cadena1 = ViewBag.idTipoEntidad == item.IdTipoEntidad ? "active" : ""; }
+                                else if (!idnull1)
+                                { idnull1 = true; cadena1 = "active"; }
+                                <li class="@cadena1">
+                                    <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
+                                </li>
+                                if (idnull1) { cadena1 = ""; }
+                            }
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            @{bool idnull2 = false;
+                            string cadena2 = "";}
+                            @foreach (var item in (List<TipoEntidadDTO>)ViewBag.lstTipoEntidades)
+                            {
+                                if (ViewBag.idTipoEntidad != null)
+                                { cadena2 = ViewBag.idTipoEntidad == item.IdTipoEntidad ? "active" : ""; }
+                                else if (!idnull2)
+                                { idnull2 = true; cadena2 = "active"; }
+                                <div class="tab-pane @cadena2" id="@item.Nombre">
+                                    <section class="panel panel-default">
+                                        @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
+                                        {
+                                            <header class="panel-heading">
+                                                <div class="row text-sm">
+                                                    <div class="col-sm-8 col-xs-8">
+                                                        <div class="btn-group">
+                                                            <label><input class="btn-showInactive" type="checkbox" id="btn-showInactive@("-" + item.IdTipoEntidad)" style="margin-left: 13px;" /> Mostrar Inactivos</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-xs-4">
+                                                        <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Entidad", "Admin", new { id = 0, idTipoEntidad = item.IdTipoEntidad })"><i class="fa fa-plus"></i> Crear nueva Entidad</a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                        }
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-none dataTable no-footer">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="25%">Nombre</th>
+                                                        <th class="text-center">Tipo Documento</th>
+                                                        @if (item.IdTipoEntidad == 2)
+                                                        {
+                                                            <th class="text-center">Detracción</th>
+                                                            <th class="text-center">Bien o Servicio</th>
+                                                        }
+                                                        <th class="text-center" width="12%">Estado</th>
+                                                        <th class="text-center" width="12%">Opc.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        foreach (var obj in Model)
+                                                        {
+                                                            if (item.IdTipoEntidad == obj.IdTipoEntidad)
+                                                            {
+                                                                var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                                                <tr @Html.Raw(classInactive)>
+                                                                    <td width="25%">@obj.Nombre</td>
+                                                                    <td class="text-center">@(obj.NombreIdentificacion)</td>
+                                                                    @*<td class="text-center" width="20%">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>*@
+                                                                    @if (item.IdTipoEntidad == 2)
+                                                                    {
+                                                                        <td class="text-center">@obj.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
+                                                                        <td class="text-center">@obj.Tipo</td>
+                                                                    }
+                                                                    @if (obj.Estado == true)
+                                                                    {
+                                                                        <td class="text-center" width="12%">Activo</td>}
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center" width="12%">Inactivo</td>}
+                                                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
+                                                                    {
+                                                                        <td align="center" width="12%"><a href="@Url.Action("Entidad", new { id = obj.IdEntidadResponsable })"><i class="fa fa-pencil"></i></a></td>
+                                                                    }
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </div>
+                                                    if (idnull2) { cadena2 = ""; }
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>

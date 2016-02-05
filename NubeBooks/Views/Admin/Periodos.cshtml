@@ -1,0 +1,78 @@
+﻿@model IList<NubeBooks.Core.DTO.PeriodoDTO>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; 
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.dataTable').DataTable();
+        });
+    </script>
+}
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <h2>Periodos de Presupuesto</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    @if (ViewBag.EsAdmin)
+                    {
+                        <header class="panel-heading">
+                            <div class="row text-sm">
+                                <div class="col-sm-8">
+                                    <div class="btn-group">
+                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Periodo")"><i class="fa fa-plus"></i> Crear nuevo Periodo</a>
+                                </div>
+                            </div>
+                        </header>
+                    }
+                    <div class="table-responsive">
+                        <table class="table table-striped m-b-none dataTable no-footer">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Nombre</th>
+                                    <th class="text-center" width="20%">Fecha de Inicio</th>
+                                    <th class="text-center" width="20%">Fecha de Fin</th>
+                                    <th class="text-center" width="10%">Estado</th>
+                                    <th class="text-center">Opc.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var obj in Model)
+                                    {
+                                        var classInactive = (ViewBag.EsAdmin && !obj.Active) ? "class='inactive'" : "";
+                                        <tr @Html.Raw(classInactive)>
+                                            <td width="40%">@obj.Nombre</td>
+                                            <td class="text-center" width="20%">@obj.FechaInicio.ToShortDateString()</td>
+                                            <td class="text-center" width="20%">@obj.FechaFin.ToShortDateString()</td>
+                                            @{var sActivo = obj.Active == true ? "Activo" : "Inactivo";}
+                                            <td class="text-center" width="10%">@sActivo</td>
+                                            @if (ViewBag.EsAdmin)
+                                            {
+                                                <td align="center"><a href="@Url.Action("Periodo", new { id = obj.IdPeriodo })"><i class="fa fa-pencil"></i></a></td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
+

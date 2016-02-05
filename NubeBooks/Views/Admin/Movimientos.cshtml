@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; 
+}
+@model IList<NubeBooks.Core.DTO.MovimientoDTO>
+
+@Styles.Render("~/Content/themes/admin/js/datatables/css/jquery.dataTables.min.css")
+
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    
+    <script type="text/javascript">
+        $(function () {
+            $('#miTabla').DataTable();
+        });
+    </script>
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <h2>Movimmientos</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    @if (ViewBag.EsAdmin)
+                    {
+                        <div class="row text-sm wrapper">
+                            <div class="col-sm-8">
+                                <div class="btn-group">
+                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento")"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                            </div>
+                        </div>
+                    }
+                    <div class="table-responsive">
+                        <table id="miTabla" class="table table-striped m-b-none">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Nombre</th>
+                                    <th class="text-center" width="20%">Fecha</th>
+                                    <th class="text-center" width="20%">Tipo</th>
+                                    <th class="text-center" width="20%">Monto</th>
+                                    @*<th width="20%">Estado Movimiento</th>*@
+                                    <th class="text-center" width="20%">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var obj in Model)
+                                    {
+                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
+                                        <tr @Html.Raw(classInactive)>
+                                            <td width="40%">@obj.NroOperacion</td>
+                                            <td class="text-center" width="20%">@obj.Fecha</td>
+                                            @if(obj.IdTipoMovimiento == 1)
+                                            {<td class="text-center" width="20%">Entrada</td>}
+                                            else {<td class="text-center" width="20%">Salida</td> }                                                                                      
+                                            
+                                            <td class="text-center" width="20%">@obj.Monto</td>
+                                            @if (ViewBag.EsAdmin)
+                                            {
+                                                <td align="center"><a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento })"><i class="fa fa-pencil"></i></a></td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</section>
