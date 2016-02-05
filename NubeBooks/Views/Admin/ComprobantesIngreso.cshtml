@@ -6,12 +6,9 @@
 }
 
 @section scripts{
-    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    @*@Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")*@
 
     <script type="text/javascript">
-        $(function () {
-            $('.dataTable').DataTable();
-        });
     </script>
 }
 
@@ -22,8 +19,27 @@
 </div>
 <div class="wrapper-md">
     <div class="panel panel-default">
+        @*<div ng-app="myApp" ng-controller="myCtrl">
+            {{ nombre  + apellido }}
+        </div>*@
         <div class="table-responsive">
-            <table ui-jq="dataTable" class="table table-striped b-t b-b dataTable">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    }
+}" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
                         <th style="width:10%">Fecha</th>

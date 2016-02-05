@@ -1039,10 +1039,10 @@ namespace NubeBooks.Controllers
             return View();
         }
 
-        public ActionResult ComprobantesIngreso(int? idTipoComprobante = 1)
+        public ActionResult ComprobantesIngreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobantes de Ingreso Test new vs 2015";
+            ViewBag.Title += " - Comprobantes de Ingreso";
 
             MenuNavBarSelected(2);
 
