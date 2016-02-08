@@ -1,9 +1,9 @@
 ﻿@using NubeBooks.Core.DTO
 @using System.Globalization;
-@{ 
+@model IList<NubeBooks.Core.DTO.CategoriaDTO>
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IList<NubeBooks.Core.DTO.CategoriaDTO>
 
 @section styles{
     @Styles.Render("~/Content/themes/admin/js/nestable/nestable.css")
@@ -35,7 +35,7 @@
                 label = input && input.prev();
 
             //label.text(input.val() === '' ? defaultText : input.val();
-            
+
             var jValor = parseFloat(input.val()).toFixed(2);
             label.text(input.val() === '' ? defaultText : jValor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             input.hide();
@@ -60,8 +60,7 @@
             if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                 endEdit(e);
                 var jPeriodo = $('#idPeriodo').data('periodo');
-                if (jPeriodo == null || jPeriodo == 0)
-                {
+                if (jPeriodo == null || jPeriodo == 0) {
                     confirm("Necesita seleccionar un periodo para ingresar un monto de presupuesto.");
                     return false;
                 }
@@ -100,16 +99,15 @@
                 data: { idPeriodo: idPeriodo },
                 dataType: 'text',
                 success: function (response) {
-                    if(response == "true")
-                    {window.location.href = "@Url.Action("Categorias","Admin")";}
+                    if (response == "true")
+                    { window.location.href = "@Url.Action("Categorias","Admin")"; }
                     else
-                    { alert("Error al actualizar el periodo");}
+                    { alert("Error al actualizar el periodo"); }
                 }
             });
         }
 
-        function actualizarPresupuesto(idCategoria, Monto)
-        {
+        function actualizarPresupuesto(idCategoria, Monto) {
             $.ajax({
                 type: "POST",
                 url: "/Admin/ActualizarPresupuesto",
@@ -122,8 +120,7 @@
             });
         }
 
-        function actualizarMontoPadre(e)
-        {
+        function actualizarMontoPadre(e) {
             var pValor = e.val();
             var pId = e.data('id');
             var pPadre = e.data('padre');
@@ -134,8 +131,7 @@
             });
             suma = (parseFloat(suma).toFixed(2)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             $("label[data-lblid='" + pPadre + "']").text(suma);
-            if(pPadre != 0)
-            {
+            if (pPadre != 0) {
                 actualizarMontoPadre($("input[data-id='" + pPadre + "']"));
             }
         }
@@ -166,17 +162,17 @@
                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? " inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
                 output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == nivelMax || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
-                
+
                 output.Append("<div class='col-md-3 text-right'>");
                 if (obj.Hijos == null || obj.Hijos.Count == 0)
                     output.AppendFormat("<label class='pull-left {4}' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input class='form-control input-sm clickedit' data-padre='{0}' data-id='{1}' type='text' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Sin valor", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null, classInactive);
                 else
                     output.AppendFormat("<label class='pull-left {4}' data-lblpadre='{0}' data-lblid='{1}'>{2}</label><input data-padre='{0}' data-id='{1}' type='hidden' value='{3}' onkeypress='return CheckNumericValue(event)' />", obj.IdCategoriaPadre.GetValueOrDefault(), obj.IdCategoria, obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture) : "Monto Padre", obj.Presupuesto != null ? obj.Presupuesto.GetValueOrDefault().ToString("0.00") : null, classInactive);
                 output.Append("</div>");
-                
+
                 output.Append("<div class='col-md-3 text-right'><div class='btn-group'>");
-                if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i></a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
-                if (nivel < nivelMax) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'><i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
+                if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin) { output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i>&nbsp;</a>", Url.Action("Categoria", new { id = obj.IdCategoria })); }
+                if (nivel < nivelMax) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'>&nbsp;<i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
                 output.Append("</div></div></div>");
                 if (obj.Hijos != null && obj.Hijos.Count != 0) { output.Append(printTree(obj.Hijos, nivel + 1)); }
                 output.Append("</li>");
@@ -188,78 +184,82 @@
         else return "";
     }
 }
+<div class="bg-light lter b-b wrapper-md">
+    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="icon-calendar"></i>Exportar</button>*@
+    <div class="btn-group pull-right m-r">
+        @{string vOption = "Periodos";}
+        <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l">
+            <i class="icon-calendar"></i>
+            @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+            {
+                if (item.IdPeriodo == ViewBag.IdPeriodo)
+                {
+                    vOption = item.Nombre;
+                }
+            }
+            @vOption &nbsp;
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" id="grupoPeriodos">
+            @{string pCadena = "";}
+            @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+            {
+                pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
+                <li class="@pCadena"><a href="#" id="@item.IdPeriodo">@item.Nombre</a></li>
+            }
+        </ul>
+    </div>
 
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                <h2>Partidas de Presupuesto</h2>
-                @Html.Partial("_showAlertMessages")
-                <section class="panel panel-default">
-                    @if (ViewBag.EsAdmin)
-                    {
-                        <div class="panel-header text-sm wrapper">
-                            <div class="col-sm-4">
-                                <div class="btn-group">
-                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="leyend" style="transform:translateY(48%);">
-                                    <p>Leyenda:&nbsp;<b class='badge bg-warning dot'></b> Activo&nbsp;<b class='badge bg-warning dot red'></b> Inactivo</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Categoria")"><i class="fa fa-plus"></i> Crear nuevo</a>
-                            </div>
+    <a href="@Url.Action("Categoria")" class="btn m-b-xs btn-sm btn-success btn-addon pull-right m-r"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        @Html.Partial("_showAlertMessages")
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
+                        <i class="fa fa-plus text"></i> <span class="text">Expandir</span>
+                        <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
+                    </button>
+                </div>
+                <div class="col-md-2 text-center">
+                    <label>
+                        Moneda (@(ViewBag.SimboloMoneda))
+                    </label>
+                </div>
+                @*<div class="col-md-4">
+                        <div class="btn-group pull-right m-r">
+                            @{string vOption = "Periodos";}
+                            <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
+                                @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+                                {
+                                    if (item.IdPeriodo == ViewBag.IdPeriodo)
+                                    {
+                                        vOption = item.Nombre;
+                                    }
+                                }
+                                @vOption &nbsp;
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="grupoPeriodos">
+                                @{string pCadena = "";}
+                                @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
+                                {
+                                    pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
+                                    <li class="@pCadena"><a href="#" id="@item.IdPeriodo">@item.Nombre</a></li>
+                                }
+                            </ul>
                         </div>
-                    }
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6 text-left">
-                                <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
-                                    <i class="fa fa-plus text"></i> <span class="text">Expandir</span>
-                                    <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
-                                </button>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <label>
-                                    Moneda (@(ViewBag.SimboloMoneda))
-                                </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="btn-group pull-right m-r">
-                                        @{string vOption = "Periodos";}
-                                        <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
-                                            @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
-                                            {
-                                                if (item.IdPeriodo == ViewBag.IdPeriodo)
-                                                {
-                                                    vOption = item.Nombre;
-                                                }
-                                            }
-                                            @vOption &nbsp;
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" id="grupoPeriodos">
-                                            @{string pCadena = "";}
-                                            @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
-                                            {
-                                                pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
-                                                <li class="@pCadena"><a href="#" id="@item.IdPeriodo">@item.Nombre</a></li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        <div class="col-md-12">
-                            <div class="dd" id="nestable3">
-                                @Html.Raw(printTree(Model, 1))
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </div>*@
+            </div>
+            <div class="col-md-12">
+                <div class="dd" id="nestable3">
+                    @Html.Raw(printTree(Model, 1))
+                </div>
             </div>
         </div>
-    </section>
-</section>
+    </div>
+</div>

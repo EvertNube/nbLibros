@@ -1,79 +1,57 @@
-﻿@{ 
+﻿@model IList<NubeBooks.Core.DTO.AreaDTO>
+@{ 
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IList<NubeBooks.Core.DTO.AreaDTO>
-@section Styles{
-    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
-    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
-}
-@section scripts{
-    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
-    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
-    <script type="text/javascript">
-        $(function () {
-            $('.dataTable').DataTable();
-        });
-    </script>
-}
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                <h2>Áreas</h2>
-                @Html.Partial("_showAlertMessages")
-                <section class="panel panel-default">
-                    @if (ViewBag.EsAdmin)
+<div class="bg-light lter b-b wrapper-md">
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <a href="@Url.Action("Area")" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    }
+}" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Nombre</th>
+                        <th style="width:10%">Descripción</th>
+                        <th class="text-center" style="width:10%">Estado</th>
+                        <th class="text-center" style="width:20%">Opc.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
                     {
-                        <header class="panel-heading">
-                            <div class="row text-sm">
-                                <div class="col-sm-8">
-                                    <div class="btn-group">
-                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Area")"><i class="fa fa-plus"></i> Crear nueva Área</a>
-                                </div>
-                            </div>
-                        </header>
-                    }
-                    <div class="table-responsive">
-                        <table class="table table-striped m-b-none dataTable no-footer">
-                            <thead>
-                                <tr>
-                                    <th width="25%">Nombre</th>
-                                    <th class="text-center" width="45%">Descripción</th>
-                                    <th class="text-center" width="20%">Estado</th>
-                                    <th class="text-center" width="10%">Opc.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null)
-                                {
-                                    foreach (var obj in Model)
-                                    {
-                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                        <tr @Html.Raw(classInactive)>
-                                            <td width="25%">@obj.Nombre</td>
-                                            <td class="text-center" width="45%">@obj.Descripcion</td>
-                                            @if (obj.Estado == true)
-                                            {
-                                                <td class="text-center" width="20%">Activo</td>}
-                                            else
-                                            {
-                                                <td class="text-center" width="20%">Inactivo</td>}
-                                            @if (ViewBag.EsAdmin)
-                                            {
-                                                <td align="center"><a href="@Url.Action("Area", new { id = obj.IdArea })"><i class="fa fa-pencil"></i></a></td>
-                                            }
-                                        </tr>
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Nombre</td>
+                                <td>@item.Descripcion</td>
+                                <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("Area", new { id = item.IdArea })"><i class="fa fa-pencil"></i></a>
+                                </td>
+                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </div>
+                </tbody>
+            </table>
         </div>
-    </section>
-</section>
+    </div>
+</div>

@@ -357,6 +357,7 @@ namespace NubeBooks.Controllers
 
             return View(obj);
         }
+        
         private IPagedList<MovimientoDTO> BusquedaYPaginado_Movimiento(IList<MovimientoDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!String.IsNullOrEmpty(searchString))
@@ -539,7 +540,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += " - Categorias";
+            ViewBag.Title += " - Partidas de Presupuesto";
 
             MenuNavBarSelected(4, 5);
             EmpresaBL empBL = new EmpresaBL();
@@ -939,6 +940,20 @@ namespace NubeBooks.Controllers
                 listaEntidades = objBL.getEntidadResponsablesEnEmpresa(currentUser.IdEmpresa);
             }
             return View(listaEntidades);
+        }
+        public ActionResult EntidadesClientes()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (isUsuarioExterno()) { return RedirectToAction("Index"); }
+
+            ViewBag.Title += "Entidades - Clientes";
+            MenuNavBarSelected(4, 3);
+
+            UsuarioDTO user = getCurrentUser();
+
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+
+            return View();
         }
         public ActionResult Entidad(int? id = null, int? idTipoEntidad = null)
         {
@@ -1424,7 +1439,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Responsables";
+            ViewBag.Title += " - Consultores";
             MenuNavBarSelected(4, 2);
 
             UsuarioDTO currentUser = getCurrentUser();
