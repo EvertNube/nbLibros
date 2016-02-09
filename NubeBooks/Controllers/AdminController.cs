@@ -952,8 +952,30 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
+            List<EntidadResponsableDTO> lista = new List<EntidadResponsableDTO>();
 
-            return View();
+            if(user.IdEmpresa > 0)
+            { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 1); }
+
+            return View(lista);
+        }
+        public ActionResult EntidadesProveedores()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (isUsuarioExterno()) { return RedirectToAction("Index"); }
+
+            ViewBag.Title += "Entidades - Proveedores";
+            MenuNavBarSelected(4, 3);
+
+            UsuarioDTO user = getCurrentUser();
+
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+            List<EntidadResponsableDTO> lista = new List<EntidadResponsableDTO>();
+
+            if (user.IdEmpresa > 0)
+            { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 2); }
+
+            return View(lista);
         }
         public ActionResult Entidad(int? id = null, int? idTipoEntidad = null)
         {
