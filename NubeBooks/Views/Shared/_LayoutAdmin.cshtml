@@ -121,7 +121,7 @@
                             <span>Mantenimiento</span>
                         </li>
                         <li class="@ViewBag.navbar.lstOptions[0].cadena">
-                            <a href="@Url.Action("Libros", "Admin")" class="auto">
+                            <a href="@Url.Action("LibrosBancarios", "Admin")" class="auto">
                                 <span class="pull-right text-muted">
                                     <i class="fa fa-fw fa-angle-right text"></i>
                                     <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -131,22 +131,22 @@
                             </a>
                             <ul class="nav nav-sub dk">
                                 <li class="nav-sub-header">
-                                    <a href="@Url.Action("Libros", "Admin")">
+                                    <a href="@Url.Action("LibrosBancarios", "Admin")">
                                         <span>Libros de Control</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[0].cadena">
-                                    <a href="@Url.Action("Libros", "Admin", new { idTipoCuenta = 2 })">
+                                    <a href="@Url.Action("LibrosAdministrativos", "Admin")">
                                         <span>Administrativos</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[0].cadena">
-                                    <a href="@Url.Action("Libros", "Admin", new { idTipoCuenta = 1 })">
+                                    <a href="@Url.Action("LibrosBancarios", "Admin")">
                                         <span>Bancarios</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[0].cadena">
-                                    <a href="@Url.Action("Libros", "Admin", new { idTipoCuenta = 2 })">
+                                    <a href="@Url.Action("LibrosBancarios", "Admin")">
                                         <b class="label bg-info pull-right">N</b>
                                         <span>Otros Controles</span>
                                     </a>

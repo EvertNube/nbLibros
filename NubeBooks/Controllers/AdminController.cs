@@ -337,7 +337,7 @@ namespace NubeBooks.Controllers
             {
                 lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 1);
             }
-            return View("Libros", lista);
+            return View(lista);
         }
         public ActionResult LibrosAdministrativos()
         {
@@ -353,7 +353,7 @@ namespace NubeBooks.Controllers
             {
                 lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 2);
             }
-            return View("Libros", lista);
+            return View(lista);
         }
 
         public ActionResult Libro(int? id = null, int? idTipoCuenta = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
@@ -2078,323 +2078,7 @@ namespace NubeBooks.Controllers
 
             return View();
         }
-
-        /*
-        [HttpGet]
-        public ActionResult GenerarReporteCategorias(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
-        {
-            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
-            {
-
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
-            }
-
-            CategoriaBL objBL = new CategoriaBL();
-            var data = objBL.getReporteCategorias(IdCuentaB, FechaInicio, FechaFin);
-
-            //Lista de Categorias
-            List<CategoriaDTO> lstCats = objBL.getCategorias();
-
-            if (data == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
-
-            System.Data.DataTable dt = new System.Data.DataTable();
-            dt.Clear();
-
-
-            //dt.Columns.Add("Categorias");
-
-            //Llenado de Padres
-            for (int i = 0; i < data.Count; i++)
-            {
-                data[i] = objBL.obtenerPadreEntidadReporte(data[i], lstCats, 0);
-            }
-
-            //Columnas de Categorias
-            for (int i = 0; i <= CONSTANTES.NivelCat; i++)
-            {
-                //dt.Columns.Add("Categoria N." + i.ToString());
-                switch (i)
-                {
-                    case 0:
-                        dt.Columns.Add("Categoria");
-                        break;
-                    default:
-                        dt.Columns.Add("Categoria Sub " + i.ToString());
-                        break;
-                }
-            }
-            dt.Columns.Add("Montos Totales");
-
-            //Ultimo Data Row
-            System.Data.DataRow lastRow = dt.NewRow();
-            Decimal MontoCategoria = 0;
-            Decimal MontoSubCategoria = 0;
-            //bool inicio = false;
-
-            //Pintado de Padres
-            for (int i = 0; i < data.Count; i++)
-            {
-                System.Data.DataRow row = dt.NewRow();
-
-                row = DameRowPintarPadres(row, data[i]);
-                row["Montos Totales"] = data[i].MontoTotal.ToString("N2", CultureInfo.InvariantCulture);
-                dt.Rows.Add(row);
-
-                if (i + 1 < data.Count)
-                {
-                    System.Data.DataRow rowFutura = dt.NewRow();
-                    rowFutura = DameRowPintarPadres(rowFutura, data[i + 1]);
-
-                    string miCadena = (string)row["Categoria"];
-                    string miCadena2 = (string)rowFutura["Categoria"];
-                    //if (miCadena != "OTROS" && miCadena != "INGRESOS")
-                    //{
-                        MontoCategoria += data[i].MontoTotal;
-                        MontoSubCategoria += data[i].MontoTotal;
-                        if (CONSTANTES.NivelCat > 0)
-                        {
-                            if (row["Categoria Sub 1"] != rowFutura["Categoria Sub 1"] && !string.IsNullOrEmpty(row["Categoria Sub 1"].ToString()))
-                            {
-                                System.Data.DataRow aux1 = dt.NewRow();
-                                aux1["Categoria Sub 1"] = "TOTAL :";
-                                aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                                dt.Rows.Add(aux1);
-                                MontoSubCategoria = 0;
-                            }
-                        }
-                        if (row["Categoria"] != rowFutura["Categoria"])
-                        {
-                            MontoSubCategoria = 0;
-                            System.Data.DataRow aux = dt.NewRow();
-                            aux["Categoria"] = "TOTAL :";
-                            aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                            dt.Rows.Add(aux);
-                            MontoCategoria = 0;
-                        }
-                    //}
-                }
-                else
-                {
-                    MontoCategoria += data[i].MontoTotal;
-                    MontoSubCategoria += data[i].MontoTotal;
-                    //Sub Categoria
-                    if(CONSTANTES.NivelCat > 0)
-                    { 
-                        System.Data.DataRow aux1 = dt.NewRow();
-                        aux1["Categoria Sub 1"] = "TOTAL :";
-                        aux1["Montos Totales"] = MontoSubCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                        dt.Rows.Add(aux1);
-                        MontoSubCategoria = 0;
-                    }
-                    //Categoria Principal
-                    System.Data.DataRow aux = dt.NewRow();
-                    aux["Categoria"] = "TOTAL :";
-                    aux["Montos Totales"] = MontoCategoria.ToString("N2", CultureInfo.InvariantCulture);
-                    dt.Rows.Add(aux);
-                    MontoCategoria = 0;
-                }
-            }
-
-            GridView gv = new GridView();
-
-            gv.DataSource = dt;
-            gv.AllowPaging = false;
-            gv.DataBind();
-
-            if (dt.Rows.Count > 0)
-            {
-                CuentaBancariaBL oBL = new CuentaBancariaBL();
-                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
-
-                PintarCabeceraTabla(gv);
-                PintarIntercaladoCategorias(gv);
-
-                AddSuperHeader(gv, "RESUMEN DE MOVIMIENTOS EN CATEGORIAS - Libro:" + obj.NombreCuenta);
-                //Cabecera principal
-                AddWhiteHeader(gv, 1, "");
-                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
-                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
-
-                PintarCategorias(gv);
-
-                Response.ClearContent();
-                Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "_RCategorias.xls");
-                Response.ContentType = "application/ms-excel";
-                Response.Charset = "";
-
-                StringWriter sw = new StringWriter();
-                HtmlTextWriter htw = new HtmlTextWriter(sw);
-                gv.RenderControl(htw);
-                Response.Output.Write(sw.ToString());
-                Response.Flush();
-                Response.End();
-                htw.Close();
-                sw.Close();
-            }
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
-            //return View();
-        }
-        public ActionResult GenerarReporteDetalleMovimientos(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
-        {
-            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
-            {
-
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
-            }
-
-            MovimientoBL objBL = new MovimientoBL();
-
-            var data = objBL.getReporteDetalleLibro(IdCuentaB, FechaInicio, FechaFin);
-
-            if (data == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
-
-            System.Data.DataTable dt = new System.Data.DataTable();
-            dt.Clear();
-
-            dt.Columns.Add("Nombre");
-            dt.Columns.Add("Categoria");
-            dt.Columns.Add("Entidad");
-            dt.Columns.Add("Fecha");
-            dt.Columns.Add("N° Doc");
-            dt.Columns.Add("Monto");
-            dt.Columns.Add("Tipo");
-            dt.Columns.Add("Estado");
-            dt.Columns.Add("Comentario");
-
-            foreach (var item in data)
-            {
-                System.Data.DataRow row = dt.NewRow();
-
-                row["Nombre"] = item.NroOperacion;
-                row["Categoria"] = item.NombreCategoria;
-                row["Entidad"] = item.NombreEntidadR;
-                row["Fecha"] = item.Fecha.ToShortDateString();
-                row["N° Doc"] = (item.NumeroDocumento != null && item.NumeroDocumento != "0") ? item.NumeroDocumento : "N/A";
-                row["Monto"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
-                row["Tipo"] = item.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
-                row["Estado"] = item.IdEstadoMovimiento == 1 ? "Pendiente" : "Realizado";
-                row["Comentario"] = item.Comentario == "No existe comentario" ? "" : item.Comentario;
-
-                dt.Rows.Add(row);
-            }
-
-            GridView gv = new GridView();
-
-            gv.DataSource = dt;
-            gv.AllowPaging = false;
-            gv.DataBind();
-
-            if (dt.Rows.Count > 0)
-            {
-                CuentaBancariaBL oBL = new CuentaBancariaBL();
-                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
-
-                PintarCabeceraTabla(gv);
-                PintarColumnaNegrita(gv, 5, true);
-
-                AddSuperHeader(gv, "DETALLE DE MOVIMIENTOS - Libro:" + obj.NombreCuenta);
-                //Cabecera principal
-                AddWhiteHeader(gv, 1, "");
-                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
-                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
-
-                Response.ClearContent();
-                Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "DMovimientos.xls");
-                Response.ContentType = "application/ms-excel";
-                Response.Charset = "";
-
-                StringWriter sw = new StringWriter();
-                HtmlTextWriter htw = new HtmlTextWriter(sw);
-                gv.RenderControl(htw);
-                Response.Output.Write(sw.ToString());
-                Response.Flush();
-                Response.End();
-                htw.Close();
-                sw.Close();
-            }
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
-        }
-        public ActionResult GenerarReporteResumenEntidadesR(int? IdCuentaB, DateTime? FechaInicio, DateTime? FechaFin)
-        {
-            if (IdCuentaB == null || FechaInicio == null || FechaFin == null)
-            {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
-            }
-
-            EntidadResponsableBL objBL = new EntidadResponsableBL();
-
-            var data = objBL.getReporteResumenEntidadesR(IdCuentaB, FechaInicio, FechaFin);
-
-            if (data == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
-
-            System.Data.DataTable dt = new System.Data.DataTable();
-            dt.Clear();
-
-            dt.Columns.Add("Entidad Responsable");
-            dt.Columns.Add("Tipo de Bien o Servicio");
-            dt.Columns.Add("Detracción");
-            dt.Columns.Add("Montos Totales");
-
-
-            foreach (var item in data)
-            {
-                System.Data.DataRow row = dt.NewRow();
-
-                row["Entidad Responsable"] = item.Nombre;
-                row["Tipo de Bien o Servicio"] = item.Tipo;
-                row["Detracción"] = item.Detraccion;
-                row["Montos Totales"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture); ;
-
-                dt.Rows.Add(row);
-            }
-
-            GridView gv = new GridView();
-
-            gv.DataSource = dt;
-            gv.AllowPaging = false;
-            gv.DataBind();
-
-            if (dt.Rows.Count > 0)
-            {
-                CuentaBancariaBL oBL = new CuentaBancariaBL();
-                CuentaBancariaDTO obj = oBL.getCuentaBancaria(IdCuentaB.GetValueOrDefault());
-
-                PintarCabeceraTabla(gv);
-                PintarColumnaNegrita(gv, 3, true);
-
-                AddSuperHeader(gv, "RESUMEN DE MOVIMIENTOS EN ENTIDADES - Libro:" + obj.NombreCuenta);
-                //Cabecera principal
-                AddWhiteHeader(gv, 1, "");
-                AddWhiteHeader(gv, 2, "Periodo del reporte: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Fecha de conciliaci&oacute;n actual: " + obj.FechaConciliacion.ToShortDateString());
-                AddWhiteHeader(gv, 4, "Moneda: " + obj.NombreMoneda);
-
-                Response.ClearContent();
-                Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + obj.NombreCuenta + "_" + DateTime.Now.ToString("dd-MM-yyyy") + "REntidades.xls");
-                Response.ContentType = "application/ms-excel";
-                Response.Charset = "";
-
-                StringWriter sw = new StringWriter();
-                HtmlTextWriter htw = new HtmlTextWriter(sw);
-                gv.RenderControl(htw);
-                Response.Output.Write(sw.ToString());
-                Response.Flush();
-                Response.End();
-                htw.Close();
-                sw.Close();
-            }
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
-        }
-         */
-
+        
         #region Reportes
         public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
@@ -3181,6 +2865,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Fecha");
             dt.Columns.Add("Movimiento");
             dt.Columns.Add("Detalle");
+            dt.Columns.Add("Moneda");
             dt.Columns.Add("Monto");
             dt.Columns.Add("Partida de Presupuesto");
             dt.Columns.Add("Entidad");
@@ -3196,7 +2881,8 @@ namespace NubeBooks.Controllers
                 row["Fecha"] = obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")); ;
                 row["Movimiento"] = obj.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
                 row["Detalle"] = obj.NroOperacion;
-                row["Monto"] = CuentaBancaria.SimboloMoneda + obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Moneda"] = CuentaBancaria.SimboloMoneda;
+                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 row["Partida de Presupuesto"] = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;
                 row["Entidad"] = obj.NombreEntidadR;
                 row["Numero de documento"] = obj.NumeroDocumento != null ? obj.NumeroDocumento : obj.NumeroDocumento2 != null ? obj.NumeroDocumento2 : "N/A";
@@ -3279,25 +2965,7 @@ namespace NubeBooks.Controllers
         }
 
         #endregion
-        /*
-        private static System.Data.DataRow DameRowPintarPadres(System.Data.DataRow row, CategoriaR_DTO categoria)
-        {
-            if (categoria.Padre != null)
-            {
-                row = DameRowPintarPadres(row, categoria.Padre);
-            }
-
-            switch (categoria.Nivel)
-            {
-                case 0:
-                    row["Categoria"] = categoria.Nombre;
-                    break;
-                default:
-                    row["Categoria Sub " + categoria.Nivel.ToString()] = categoria.Nombre;
-                    break;
-            }
-            return row;
-        }*/
+        
         private static void AddSuperHeader(GridView gridView, string text = null)
         {
             var myTable = (Table)gridView.Controls[0];

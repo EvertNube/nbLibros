@@ -1,12 +1,13 @@
 ﻿@using NubeBooks.Core.DTO
-@model List<EntidadResponsableDTO>
+@using System.Globalization;
+@model IList<NubeBooks.Core.DTO.CuentaBancariaDTO>
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>*@
-    <a href="@Url.Action("Entidad", "Admin", new { id = 0, idTipoEntidad = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <a href="@Url.Action("Libro", "Admin", new { id = 0, idTipoCuenta = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 <div class="wrapper-md">
@@ -32,9 +33,11 @@
                 <thead>
                     <tr>
                         <th class="text-center" style="width:25%">Nombre</th>
-                        <th class="text-center" style="width:25%">Tipo Documento</th>
-                        <th class="text-center" style="width:25%">Estado</th>
-                        <th class="text-center" style="width:25%">Opc.</th>
+                        <th class="text-center" style="width:25%">Fecha</th>
+                        <th class="text-center">Saldo Disponible</th>
+                        <th class="text-center">Saldo Bancario</th>
+                        <th class="text-center" style="width:10%">Estado</th>
+                        <th class="text-center" style="width:10%">Opc.</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,12 +46,14 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-center">@item.Nombre</td>
-                                <td class="text-center">@item.NombreIdentificacion</td>
+                                <td >@item.NombreCuenta</td>
+                                <td class="text-center">@item.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                <td class="text-right">@item.SimboloMoneda @item.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                <td class="text-right">@item.SimboloMoneda @item.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
                                 <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
-                                    <a href="@Url.Action("Entidad", "Admin", new { id = item.IdEntidadResponsable })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
+                                    <a href="@Url.Action("Libro", "Admin", new { id = item.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
                                 </td>
                             </tr>
                                         }
@@ -58,3 +63,4 @@
         </div>
     </div>
 </div>
+

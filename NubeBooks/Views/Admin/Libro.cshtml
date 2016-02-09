@@ -208,7 +208,8 @@
                                     @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
                                     @if (!ViewBag.EsUsuarioExterno)
                                     {<button type="submit" class="btn btn-sm btn-success">@btnName</button>}
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Libros", "Admin", new { idTipoCuenta = Model.IdTipoCuenta })">Salir</a>
+                                    @{var sTipoCuenta = Model.IdTipoCuenta == 1 ? "Bancarios" : "Administrativos"; }
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Libros" + sTipoCuenta, "Admin")">Salir</a>
                                 </div>
                             </section>
                         }

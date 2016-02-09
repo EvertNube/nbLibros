@@ -303,6 +303,8 @@
     <Content Include="Views\Admin\ComprobantesEgreso.cshtml" />
     <Content Include="Views\Admin\EntidadesClientes.cshtml" />
     <Content Include="Views\Admin\EntidadesProveedores.cshtml" />
+    <Content Include="Views\Admin\LibrosBancarios.cshtml" />
+    <Content Include="Views\Admin\LibrosAdministrativos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
