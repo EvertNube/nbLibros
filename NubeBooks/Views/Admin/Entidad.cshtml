@@ -154,7 +154,8 @@
                                     @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
                                     @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
                                     <button type="submit" class="btn btn-sm btn-success">@btnName</button>
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Entidades", "Admin", new { idTipoEntidad = Model.IdTipoEntidad })">Salir</a>
+                                    @{var sTipoEntidad = Model.IdTipoEntidad == 1 ? "Clientes" : "Proveedores"; }
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Entidades" + sTipoEntidad, "Admin")">Salir</a>
                                 </div>
                             </section>
                         }

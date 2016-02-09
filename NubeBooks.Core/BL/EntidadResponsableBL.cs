@@ -13,6 +13,32 @@ namespace NubeBooks.Core.BL
 {
     public class EntidadResponsableBL : Base
     {
+        public List<EntidadResponsableDTO> getEntidadesResponsablesPorTipoEnEmpresa(int idEmpresa, int pTipoEntidad)
+        {
+            using (var context = getContext())
+            {
+                var result = context.EntidadResponsable.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoEntidad == pTipoEntidad).Select(x => new EntidadResponsableDTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoIdentificacion = x.IdTipoIdentificacion,
+                    IdTipoEntidad = x.IdTipoEntidad,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Detraccion = x.Detraccion,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    NroIdentificacion = x.NroIdentificacion,
+                    NombreIdentificacion = x.NroIdentificacion != null ? x.TipoIdentificacion.Nombre + " - " + x.NroIdentificacion : "N/A",
+                    NombreComercial = x.NombreComercial,
+                    Direccion = x.Direccion,
+                    Banco = x.Banco,
+                    CuentaSoles = x.CuentaSoles,
+                    CuentaDolares = x.CuentaDolares
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+
         public List<EntidadResponsableDTO> getEntidadResponsablesEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())

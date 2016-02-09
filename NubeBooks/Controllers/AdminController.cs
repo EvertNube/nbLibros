@@ -323,6 +323,39 @@ namespace NubeBooks.Controllers
             return View("Libros", listaLibros);
         }
 
+        public ActionResult LibrosBancarios()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Bancarios";
+            MenuNavBarSelected(1);
+
+            UsuarioDTO user = getCurrentUser();
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            List<CuentaBancariaDTO> lista = new List<CuentaBancariaDTO>();
+
+            if (user.IdEmpresa != 0)
+            {
+                lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 1);
+            }
+            return View("Libros", lista);
+        }
+        public ActionResult LibrosAdministrativos()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Administrativos";
+            MenuNavBarSelected(1);
+
+            UsuarioDTO user = getCurrentUser();
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            List<CuentaBancariaDTO> lista = new List<CuentaBancariaDTO>();
+
+            if(user.IdEmpresa != 0)
+            {
+                lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 2);
+            }
+            return View("Libros", lista);
+        }
+
         public ActionResult Libro(int? id = null, int? idTipoCuenta = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -946,7 +979,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += "Entidades - Clientes";
+            ViewBag.Title += " - Clientes";
             MenuNavBarSelected(4, 3);
 
             UsuarioDTO user = getCurrentUser();
@@ -964,7 +997,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += "Entidades - Proveedores";
+            ViewBag.Title += " - Proveedores";
             MenuNavBarSelected(4, 3);
 
             UsuarioDTO user = getCurrentUser();
