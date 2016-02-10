@@ -197,31 +197,8 @@ namespace NubeBooks.Controllers
         public ActionResult Index()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            /*
-            EmpresaBL empBL = new EmpresaBL();
-            
-            if(isSuperAdministrator())
-            {
-                MenuNavBarSelected(0);
-                
-                List<EmpresaDTO> listaEmpresas = new List<EmpresaDTO>();
-                listaEmpresas = empBL.getEmpresas();
-
-                return View(listaEmpresas);
-            }
-
-            MenuNavBarSelected(1);
-
-            ViewBag.TipoCambio = empBL.getEmpresa((int)getCurrentUser().IdEmpresa).TipoCambio;
-
-            CuentaBancariaBL objBL = new CuentaBancariaBL();
-            List<CuentaBancariaDTO> listaLibros = new List<CuentaBancariaDTO>();
-            listaLibros = objBL.getCuentasBancariasEnEmpresa(getCurrentUser().IdEmpresa);
-            ViewBag.TotalSoles = DameTotalSoles(listaLibros);
-            ViewBag.TotalDolares = DameTotalDolares(listaLibros);
-            ViewBag.TotalConsolidado = DameTotalConsolidado(listaLibros);
-            return View("Libros", listaLibros);*/
-            return RedirectToAction("Libros", "Admin");
+            MenuNavBarSelected(0);
+            return View();
         }
         public ActionResult Empresa(int? id = null)
         {

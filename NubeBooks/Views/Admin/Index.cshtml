@@ -1,81 +1,291 @@
-﻿@model IList<NubeBooks.Core.DTO.EmpresaDTO>
-@{ 
+﻿@{ 
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@using System.Globalization;
-@section Styles{
-    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
-    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
-}
-@section scripts{
-    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
-    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
-    <script type="text/javascript">
-        $(function () {
-            $('.dataTable').DataTable();
-        });
-    </script>
-}
-
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-12">
-                <h2>Empresas</h2>
-                @Html.Partial("_showAlertMessages")
-                <section class="panel panel-default">
-                    @if (ViewBag.EsAdmin)
-                    {
-                        <header class="panel-heading">
-                            <div class="row text-sm">
-                                <div class="col-sm-8">
-                                    <div class="btn-group">
-                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Empresa")"><i class="fa fa-plus"></i> Crear nueva Empresa</a>
-                                </div>
-                            </div>
-                        </header>
-                    }
-                    <div class="table-responsive">
-                        <table class="table table-striped m-b-none dataTable no-footer">
-                            <thead>
-                                <tr>
-                                    <th width="20%">Nombre</th>
-                                    <th class="text-center" width="40%">Descripción</th>
-                                    <th class="text-center" width="20%">Estado</th>
-                                    <th class="text-center" width="20%">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null)
-                                {
-                                    foreach (var obj in Model)
-                                    {
-                                        var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? "class='inactive'" : "";
-                                        <tr @Html.Raw(classInactive)>
-                                            <td width="20%">@obj.Nombre</td>
-                                            <td class="text-center" width="40%">@obj.Descripcion</td>
-                                            @if (obj.Estado == true)
-                                            {
-                                                <td class="text-center" width="20%">Activo</td>}
-                                            else
-                                            {
-                                                <td class="text-center" width="20%">Inactivo</td>}
-                                            @if (ViewBag.EsAdmin)
-                                            {
-                                                <td align="center"><a href="@Url.Action("Empresa", new { id = obj.IdEmpresa })"><i class="fa fa-pencil"></i></a></td>
-                                            }
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="app.settings.asideFolded=false;app.settings.asideDock=false;">
+    <div class="col">
+        <!-- main header -->
+        <div class="bg-light lter b-b wrapper-md">
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <h1 class="m-n font-thin h3 text-black">Dashboard</h1>
+                    <small class="text-muted">Bienvenido a Nube Books.</small>
+                </div>
+                <div class="col-sm-6 text-right hidden-xs">
+                    <div class="inline m-r text-left">
+                        <div class="m-b-xs">1080 <span class="text-muted">movimientos</span></div>
+                        <div ng-init="d3_1=[ 106,108,110,105,110,109,105,104,107,109,105,100 ]"
+                             ui-jq="sparkline"
+                             ui-options="[ 106,108,110,105,110,109,105,104,107,109,105,100 ], {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
+                             class="sparkline inline">
+                            cargando...
+                        </div>
                     </div>
-                </section>
+                    <div class="inline text-left">
+                        <div class="m-b-xs">1031 <span class="text-muted">comprobantes</span></div>
+                        <div ng-init="d3_2=[ 105,102,106,107,105,104,101,99,98,109,105,100 ]"
+                             ui-jq="sparkline"
+                             ui-options="[ 105,102,106,107,105,104,101,99,98,109,105,100 ], {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
+                             class="sparkline inline">
+                            cargando...
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-</section>
+        <!-- / main header -->
+        <div class="wrapper-md" ng-controller="FlotChartDemoCtrl">
+            <!-- stats -->
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="row row-sm text-center">
+                        <div class="col-xs-6">
+                            <div class="panel padder-v bg-info item">
+                                <div class="h1 text-white font-thin h1">15/01/2016</div>
+                                <span class="text-muted text-xs">Última fecha de conciliación</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href class="block panel padder-v bg-primary item">
+                                <span class="text-white font-thin h1 block">3.44</span>
+                                <span class="text-muted text-xs">Tipo de Cambio</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href class="block panel padder-v item">
+                                <span class="font-thin h3 block">S/ 25,972.00</span>
+                                <span class="text-muted text-xs">SOLES</span>
+                                <span class="bottom text-left">
+                                    <i class="fa fa-caret-up text-success m-l-sm"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href class="block panel padder-v item">
+                                <span class="font-thin h3 block">$ 14,900.00</span>
+                                <span class="text-muted text-xs">DÓLARES</span>
+                                <span class="bottom text-left">
+                                    <i class="fa fa-caret-down text-danger m-l-sm"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 m-b-md">
+                            <div class="r bg-light dker item hbox no-border">
+                                <div class="col w-xs v-middle hidden-md">
+                                    <div ng-init="d3_3=[60,40]" ui-jq="sparkline" ui-options="[60,40], {type:'pie', height:60,  tooltipFormat: '{{offset:offset}} ({{percent.1}}%)', tooltipValueLookups: {'offset': {0:'Dólares',1:'Soles'}}, sliceColors:['#fad733','#1a9c39']}" class="sparkline inline"></div>
+                                </div>
+                                <div class="col dk padder-v r-r">
+                                    <div class="text-primary-dk font-thin h1"><span>S/ 75,142.00</span></div>
+                                    <span class="text-muted text-xs">CONSOLIDADO</span>
+                                </div>
+                                <div class="col w-xs v-middle hidden-md bg-success dker">
+                                    <a href><i class="fa fa-money fa-3x"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="panel wrapper">
+                        <label class="i-switch bg-warning pull-right" ng-init="showSpline=true">
+                            <input type="checkbox" ng-model="showSpline">
+                            <i></i>
+                        </label>
+                        <h4 class="font-thin m-t-none m-b text-muted">Liquidez de la Empresa</h4>
+                        <div ui-jq="plot" ui-refresh="showSpline" ui-options="
+                             [
+                             { data [ [1,8],[2,13],[3,9],[4,10],[5,8],[6,11],[7,8.5],[8,10],[9,7.5],[10,8.5],[11,6],[12,12.5], ], label:'Soles', points { show true, radius 1}, splines { show true, tension 0.4, lineWidth 1, fill 0.8 } },
+                             { data [ [1,2],[2,7],[3,4.5],[4,3],[5,3.5],[6,5],[7,3],[8,4],[9,3],[10,4],[11,3],[12,7], ], label:'Dólares', points { show true, radius 1}, splines { show true, tension 0.4, lineWidth 1, fill 0.8 } }
+                             ],
+                             {
+                             colors ['#23b7e5', '#7266ba' ],
+                             series { shadowSize 3 },
+                             xaxis:{ font { color '#a1a7ac' } },
+                             yaxis:{ font { color '#a1a7ac' }, max:20 },
+                             grid { hoverable true, clickable true, borderWidth 0, color '#dce5ec' },
+                             tooltip true,
+                             tooltipOpts { content '%y.2' , defaultTheme false, shifts { x 10, y -25 } }
+                             }
+                             " style="height:246px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / stats -->
+            <!-- service -->
+            <div class="panel hbox hbox-auto-xs no-border">
+                <div class="col wrapper">
+                    <i class="fa fa-circle-o text-info m-r-sm pull-right"></i>
+                    <h4 class="font-thin m-t-none m-b-none text-primary-lt">Rentabilidad</h4>
+                    <span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>
+                    <div ui-jq="plot" ui-options="
+                         [
+                         { data [ [1,5500],[2,7500],[3,6000],[4,8000],[5,7500],[6,5000],[7,7800],[8,10000],[9,6200],[10,8000],[11,5800],[12,8000] ], lines { show true, lineWidth 1, fill:true, fillColor { colors [{opacity 0.2}, {opacity 0.8}] } } }
+                         ],
+                         {
+                         colors ['#e8eff0'],
+                         series { shadowSize 3 },
+                         xaxis:{ font { color '#a1a7ac' } },
+                         yaxis:{ font { color '#a1a7ac' } },
+                         grid { hoverable true, clickable true, borderWidth 0, color '#dce5ec' },
+                         tooltip true,
+                         tooltipOpts { content '%y' , defaultTheme false, shifts { x 10, y -25 } }
+                         }
+                         " style="height:240px">
+                    </div>
+                </div>
+                <div class="col wrapper-lg w-lg bg-light dk r-r">
+                    <h4 class="font-thin m-t-none m-b">Ejecución de Presupuesto</h4>
+                    <div class="">
+                        <div class="">
+                            <span class="pull-right">60%</span>
+                            <span>Ingresos</span>
+                        </div>
+                        <div class="progress progress-xs m-t-sm bg-white">
+                            <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="60%" style="width: 60%"></div>
+                        </div>
+                        <div class="">
+                            <span class="pull-right">35%</span>
+                            <span>Egresos</span>
+                        </div>
+                        <div class="progress progress-xs m-t-sm bg-white">
+                            <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="35%" style="width: 35%"></div>
+                        </div>
+                    </div>
+                    <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>
+                </div>
+            </div>
+            <!-- / service -->
+            <!-- tasks -->
+            <div class="panel wrapper">
+                <div class="row">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <a href class="text-muted pull-right text-lg"><i class="icon-arrow-right"></i></a>
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Principales Clientes</h4>
+                        <div class=" m-b">
+                            <div class="m-b">
+                                <span class="label text-base bg-success pos-rlt m-r"> 22.5%</span>
+                                <a href>Empresa Cliente 1</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-success pos-rlt m-r"> 13.0%</span>
+                                <a href>Empresa Cliente 2</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-light pos-rlt m-r"> 8.50%</span>
+                                <a href>Empresa Cliente 3</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-light pos-rlt m-r"> 6.00%</span>
+                                <a href>Empresa Cliente 4</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-light pos-rlt m-r"> 4.50%</span>
+                                <a href>Empresa Cliente 5</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <a href class="text-muted pull-right text-lg"><i class="icon-arrow-right"></i></a>
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Principales Proveedores</h4>
+                        <div class=" m-b">
+                            <div class="m-b">
+                                <span class="label text-base bg-warning pos-rlt m-r"> 11.0%</span>
+                                <a href>Empresa Proveedora 1</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-warning pos-rlt m-r"> 10.5%</span>
+                                <a href>Empresa Proveedora 2</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-light pos-rlt m-r"> 5.50%</span>
+                                <a href>Empresa Proveedora 3</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-light pos-rlt m-r"> 4.00%</span>
+                                <a href>Empresa Proveedora 4</a>
+                            </div>
+                            <div class="m-b">
+                                <span class="label text-base bg-light pos-rlt m-r"> 3.50%</span>
+                                <a href>Empresa Proveedora 5</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-md-6">
+                      <div class="row row-sm">
+                        <div class="col-xs-6 text-center">
+                          <div ui-jq="easyPieChart" ui-options="{
+                              percent: 75,
+                              lineWidth: 4,
+                              trackColor: '#e8eff0',
+                              barColor: '#7266ba',
+                              scaleColor: false,
+                              size: 115,
+                              rotate: 90,
+                              lineCap: 'butt'
+                            }" class="inline m-t">
+                            <div>
+                              <span class="text-primary h4">75%</span>
+                            </div>
+                          </div>
+                          <div class="text-muted font-bold text-xs m-t m-b">Work Done</div>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                          <div ui-jq="easyPieChart" ui-options="{
+                              percent: 50,
+                              lineWidth: 4,
+                              trackColor: '#e8eff0',
+                              barColor: '#23b7e5',
+                              scaleColor: false,
+                              size: 115,
+                              rotate: 180,
+                              lineCap: 'butt'
+                            }" class="inline m-t">
+                            <div>
+                              <span class="text-info h4">50%</span>
+                            </div>
+                          </div>
+                          <div class="text-muted font-bold text-xs m-t m-b">Started</div>
+                        </div>
+                      </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+            <!-- / tasks -->
+            <!-- tasks -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading font-bold">Ingresos por Área</div>
+                        <div class="panel-body">
+                            <div ui-jq="plot" ui-options="[
+                        {'label':'Área 1','data':40},
+                        {'label':'Área 2','data':10},
+                        {'label':'Área 3','data':20},
+                        {'label':'Área 4','data':12},
+                        {'label':'Área 5','data':18}],
+                        { series:
+                          { pie:
+                            { show: true,
+                              innerRadius: 0.5,
+                              stroke: { width: 0 },
+                              label: { show: true, threshold: 0.05 }
+                            }
+                          },
+                        colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050'],
+                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                        tooltip: true,
+                        tooltipOpts: { content: '%s: %p.0%' }
+                        }" style="height: 240px; padding: 0px; position: relative;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+            <!-- / tasks -->
+        </div>
+    </div>
+</div>

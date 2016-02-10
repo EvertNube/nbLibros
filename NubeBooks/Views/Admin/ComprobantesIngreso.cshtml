@@ -4,9 +4,42 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#modal-form').on('show.bs.modal', function (e) {
+                //if (!data) return e.preventDefault()
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var modal = $(this);
+                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+                modal.find('.modal-body input').val(idElement);
+            });
+            $("input#delete").click(function () {
+                var idelement = $('form.element').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteComprobante",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        //$("#thanks").html(msg)
+                        $("#modal-form").modal('hide');
+                        window.location.href = "/Admin/Comprobantes";
+                        //window.location.reload();
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
 <div class="bg-light lter b-b wrapper-md">
     <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
-    <button class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</button>
+    <a href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 <div class="wrapper-md">
@@ -72,3 +105,41 @@
     </div>
 </div>
 
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de eliminar este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element">
+                    @*<label for="id-element" class="control-label">Elemento</label>*@
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-controller="ModalCtrl" >
+    <script type="text/ng-template">
+        <div class="modal-header">
+            <h3 class="modal-title">Exportar Datos</h3>
+        </div>
+        <div class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+</div>
