@@ -33,20 +33,40 @@
                     }
                 });
             });
+            $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
+            $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+            $("input#exportar").click(function () {
+                var idelement = $('form.element')
+
+                //var miURL = "/Admin/ComprobantesIngreso";
+
+                //var FechaInicio = idelement.fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+                //var FechaFin = idelement.fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+                this.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+                //$('#modal-form-exportar').modal('toggle');
+            });
         });
+
+        function exportarDetalle(fechaInicio, fechaFin) {
+            var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return "/Admin/ExportarComprobantes/?idTipoComprobante=" + 1 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
     </script>
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
     <a href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 <div class="wrapper-md">
     <div class="panel panel-default">
         @*<div ng-app="myApp" ng-controller="myCtrl">
-            {{ nombre  + apellido }}
-        </div>*@
+                {{ nombre  + apellido }}
+            </div>*@
         <div class="table-responsive">
             <table ui-jq="dataTable" ui-options="{
     oLanguage: {
@@ -97,8 +117,8 @@
                                     {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
                                 </td>
                             </tr>
-                        }
-                    }
+                                        }
+                                    }
                 </tbody>
             </table>
         </div>
@@ -129,17 +149,39 @@
     </div>
 </div>
 
-<div ng-controller="ModalCtrl" >
-    <script type="text/ng-template">
-        <div class="modal-header">
-            <h3 class="modal-title">Exportar Datos</h3>
+<div class="modal fade modal-task" id="modal-form-exportar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Exportar Comprobantes</h4>
+            </div>
+            <div class="modal-body">
+                <form class="element" name="element">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="01/01/2015"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin">Fecha Fin:</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="31/12/2015"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-success" type="submit" value="Exportar" id="exportar">
+            </div>
         </div>
-        <div class="modal-body">
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+    </div>
 </div>

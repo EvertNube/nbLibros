@@ -2938,7 +2938,7 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Detalle de Comprobantes", "DetalleComprobantes", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("Comprobantes", "Admin");
+            return RedirectToAction("ComprobantesIngreso", "Admin");
         }
 
         #endregion

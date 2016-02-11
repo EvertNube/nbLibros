@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/admin-nb/libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+    @Styles.Render("~/Content/themes/admin/js/datepicker/datepicker.css")
 
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/font.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/app.css" type="text/css" />
@@ -328,6 +329,7 @@
     <script src="~/Content/themes/admin-nb/js/ui-nav.js"></script>
     <script src="~/Content/themes/admin-nb/js/ui-toggle.js"></script>
     <script src="~/Content/themes/admin-nb/js/ui-client.js"></script>
+    @Scripts.Render("~/Content/themes/admin/js/datepicker/bootstrap-datepicker.js")
 
     @RenderSection("scripts", required: false)
 
