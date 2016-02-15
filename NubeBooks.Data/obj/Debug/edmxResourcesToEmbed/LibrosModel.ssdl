@@ -180,6 +180,7 @@
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
     <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+    <Property Name="SaldoBancario" Type="numeric" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="Periodo">
     <Key>
@@ -284,7 +285,7 @@
     <Property Name="IdRol" Type="int" Nullable="false" />
     <Property Name="IdCargo" Type="int" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
-    <Property Name="Token" Type="nvarchar" MaxLength="250" />
+    <Property Name="Token" Type="nvarchar(max)" />
   </EntityType>
   <Association Name="FK_Area_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />

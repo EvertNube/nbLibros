@@ -28,6 +28,9 @@ namespace NubeBooks.Core.DTO
         public DateTime FechaCreacion { get; set; }
         public Decimal? MontoSinIGV { get; set; }
         public int? IdComprobante { get; set; }
+        public Decimal? SaldoBancario { get; set; }
+
+
         public string NombreEntidadR { get; set; }
         public string NombreCategoria { get; set; }
         public string NombreUsuario { get; set; }

@@ -2777,6 +2777,7 @@ namespace NubeBooks.Controllers
                 return RedirectToAction("Libros", "Admin");
             }
 
+            string tipo = idTipoCuenta == 1 ? "Bancarios" : "Administrativos";
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
@@ -2785,7 +2786,7 @@ namespace NubeBooks.Controllers
             if (lstCuentas == null || lstCuentas.Count == 0)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
-                return RedirectToAction("Libros", "Admin");
+                return RedirectToAction("Libros"+tipo, "Admin");
             }
 
             System.Data.DataTable dt = new System.Data.DataTable();
@@ -2814,7 +2815,7 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Detalle de Libros", "DetalleLibros", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("Libros", "Admin");
+            return RedirectToAction("Libros"+tipo, "Admin");
         }
 
         public ActionResult ExportarMovimientos(int idLibro, DateTime? FechaInicio, DateTime? FechaFin)
@@ -2884,6 +2885,7 @@ namespace NubeBooks.Controllers
                 return RedirectToAction("Libros", "Admin");
             }
 
+            string tipo = idTipoComprobante == 1 ? "Ingreso" : "Egreso";
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
@@ -2892,7 +2894,7 @@ namespace NubeBooks.Controllers
             if (lstComprobantes == null || lstComprobantes.Count == 0)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
-                return RedirectToAction("Comprobantes", "Admin");
+                return RedirectToAction("Comprobantes"+tipo, "Admin");
             }
 
             System.Data.DataTable dt = new System.Data.DataTable();
@@ -2927,7 +2929,7 @@ namespace NubeBooks.Controllers
                 row["Moneda"] = obj.SimboloMoneda;
                 row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 row["Partida de Presupuesto"] = obj.NombreCategoria;
-                row[rFechaFin] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row[rFechaFin] = (obj.FechaConclusion == null) ? "N/A" : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
                 row["Usuario"] = obj.NombreUsuario;
                 row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
                 row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
@@ -2938,7 +2940,7 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Detalle de Comprobantes", "DetalleComprobantes", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("ComprobantesIngreso", "Admin");
+            return RedirectToAction("Comprobantes"+tipo, "Admin");
         }
 
         #endregion

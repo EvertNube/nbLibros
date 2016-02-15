@@ -8,7 +8,6 @@
     <script type="text/javascript">
         $(function () {
             $('#modal-form').on('show.bs.modal', function (e) {
-                //if (!data) return e.preventDefault()
                 var button = $(e.relatedTarget);
                 var idElement = button.data('id');
                 var nroDocumento = button.data('nro');
@@ -23,30 +22,39 @@
                     url: "/Admin/DeleteComprobante",
                     data: $('form.element').serialize(),
                     success: function (msg) {
-                        //$("#thanks").html(msg)
                         $("#modal-form").modal('hide');
                         window.location.href = "/Admin/Comprobantes";
-                        //window.location.reload();
                     },
                     error: function () {
                         alert("failure");
                     }
                 });
             });
+            $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
+            $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+
+            $("input#exportar").click(function () {
+                window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+                $('#modal-form-exportar').modal('toggle');
+            });
         });
+
+        function exportarDetalle(fechaInicio, fechaFin) {
+            var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return "/Admin/ExportarComprobantes/?idTipoComprobante=2&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
     </script>
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
     <a href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = 2 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 <div class="wrapper-md">
     <div class="panel panel-default">
-        @*<div ng-app="myApp" ng-controller="myCtrl">
-                {{ nombre  + apellido }}
-            </div>*@
         <div class="table-responsive">
             <table ui-jq="dataTable" ui-options="{
     oLanguage: {
@@ -115,15 +123,49 @@
             <div class="modal-body">
                 <p>Estas a punto de eliminar este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
                 <form class="element" name="element">
-                    @*<label for="id-element" class="control-label">Elemento</label>*@
                     <input type="hidden" class="form-control" name="id" id="id-element">
                 </form>
             </div>
             <div class="modal-footer">
-                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
-                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form-exportar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Exportar Comprobantes</h4>
+            </div>
+            <div class="modal-body">
+                <form class="element" name="element">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin">Fecha Fin:</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-success" type="submit" value="Exportar" id="exportar">
             </div>
         </div>
     </div>

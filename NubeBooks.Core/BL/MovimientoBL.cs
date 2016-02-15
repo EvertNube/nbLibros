@@ -105,6 +105,9 @@ namespace NubeBooks.Core.BL
                     context.SaveChanges();
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
+
+                    //Actualizar saldo Bancario en Movimiento
+                    ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
                     return true;
                 }
                 catch (Exception e)
@@ -143,6 +146,8 @@ namespace NubeBooks.Core.BL
                     context.SaveChanges();
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
+                    //Actualizar saldo Bancario en Movimiento
+                    ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
                     return true;
                 }
                 catch (Exception e)
@@ -267,6 +272,23 @@ namespace NubeBooks.Core.BL
             {
                 CuentaBancariaBL oBL = new CuentaBancariaBL();
                 oBL.updateSaldos(idCuentaB);
+            }
+        }
+
+        public void ActualizarSaldoBancarioEnMovimiento(int idMovimiento)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var obj = context.Movimiento.Where(x => x.IdMovimiento == idMovimiento).SingleOrDefault();
+                    obj.SaldoBancario = obj.CuentaBancaria.SaldoBancario;
+                    context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
         }
 

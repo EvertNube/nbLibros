@@ -23,10 +23,8 @@
                     url: "/Admin/DeleteComprobante",
                     data: $('form.element').serialize(),
                     success: function (msg) {
-                        //$("#thanks").html(msg)
                         $("#modal-form").modal('hide');
                         window.location.href = "/Admin/Comprobantes";
-                        //window.location.reload();
                     },
                     error: function () {
                         alert("failure");
@@ -35,16 +33,10 @@
             });
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+
             $("input#exportar").click(function () {
-                var idelement = $('form.element')
-
-                //var miURL = "/Admin/ComprobantesIngreso";
-
-                //var FechaInicio = idelement.fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
-                //var FechaFin = idelement.fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
-
-                this.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
-                //$('#modal-form-exportar').modal('toggle');
+                window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+                $('#modal-form-exportar').modal('toggle');
             });
         });
 
@@ -52,7 +44,7 @@
             var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
-            return "/Admin/ExportarComprobantes/?idTipoComprobante=" + 1 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return "/Admin/ExportarComprobantes/?idTipoComprobante=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }
@@ -135,15 +127,12 @@
             <div class="modal-body">
                 <p>Estas a punto de eliminar este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
                 <form class="element" name="element">
-                    @*<label for="id-element" class="control-label">Elemento</label>*@
                     <input type="hidden" class="form-control" name="id" id="id-element">
                 </form>
             </div>
             <div class="modal-footer">
-                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
-                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
             </div>
         </div>
     </div>
@@ -163,7 +152,7 @@
                             <label for="fechaInicio">Fecha Inicio:</label>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="01/01/2015"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +160,7 @@
                             <label for="fechaFin">Fecha Fin:</label>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="31/12/2015"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
                                 </div>
                             </div>
                         </div>

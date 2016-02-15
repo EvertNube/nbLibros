@@ -32,6 +32,7 @@ namespace NubeBooks.Data
         public bool Estado { get; set; }
         public int UsuarioCreacion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
+        public Nullable<decimal> SaldoBancario { get; set; }
     
         public virtual Categoria Categoria { get; set; }
         public virtual Comprobante Comprobante { get; set; }
