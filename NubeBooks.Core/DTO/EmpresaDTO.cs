@@ -18,6 +18,9 @@ namespace NubeBooks.Core.DTO
         public Decimal? IGV { get; set; }
         public int? IdPeriodo { get; set; }
         public int IdMoneda { get; set; }
+        public Decimal? TotalSoles { get; set; }
+        public Decimal? TotalDolares { get; set; }
+        public DateTime? FechaConciliacion { get; set; }
 
         public string SimboloMoneda { get; set; }
     }

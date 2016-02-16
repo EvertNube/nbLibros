@@ -109,6 +109,9 @@
           <ScalarProperty Name="IGV" ColumnName="IGV" />
           <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
           <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="TotalSoles" ColumnName="TotalSoles" />
+          <ScalarProperty Name="TotalDolares" ColumnName="TotalDolares" />
+          <ScalarProperty Name="FechaConciliacion" ColumnName="FechaConciliacion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -167,6 +170,31 @@
           <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Simbolo" ColumnName="Simbolo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movimiento">
+      <EntityTypeMapping TypeName="LibrosDBModel.Movimiento">
+        <MappingFragment StoreEntitySet="Movimiento">
+          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdFormaMovimiento" ColumnName="IdFormaMovimiento" />
+          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
+          <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+          <ScalarProperty Name="NroOperacion" ColumnName="NroOperacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
+          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -287,6 +315,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
+    <FunctionImportMapping FunctionImportName="SP_ActualizarMontos_Empresa" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos_Empresa" />
     <FunctionImportMapping FunctionImportName="SP_ActualizarPresupuestoPadre" FunctionName="LibrosDBModel.Store.SP_ActualizarPresupuestoPadre" />
     <FunctionImportMapping FunctionImportName="SP_Get_Arbol_Categoria" FunctionName="LibrosDBModel.Store.SP_Get_Arbol_Categoria">
       <ResultMapping>
@@ -508,30 +537,5 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <EntitySetMapping Name="Movimiento">
-      <EntityTypeMapping TypeName="LibrosDBModel.Movimiento">
-        <MappingFragment StoreEntitySet="Movimiento">
-          <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
-          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
-          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
-          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-          <ScalarProperty Name="NroOperacion" ColumnName="NroOperacion" />
-          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
-          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
-          <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
-          <ScalarProperty Name="IdEstadoMovimiento" ColumnName="IdEstadoMovimiento" />
-          <ScalarProperty Name="IdFormaMovimiento" ColumnName="IdFormaMovimiento" />
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
-          <ScalarProperty Name="IdMovimiento" ColumnName="IdMovimiento" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -32,26 +32,29 @@ namespace NubeBooks.Core.BL
 
         public List<EmpresaDTO> getEmpresasActivas()
         {
-            using(var context = getContext())
+            using (var context = getContext())
             {
                 var result = context.Empresa.Where(x => x.Estado).Select(x => new EmpresaDTO
-                    {
-                        IdEmpresa = x.IdEmpresa,
-                        Nombre = x.Nombre,
-                        Estado = x.Estado,
-                        Descripcion = x.Descripcion,
-                        TipoCambio = x.TipoCambio,
-                        IdPeriodo = x.IdPeriodo,
-                        IdMoneda = x.IdMoneda,
-                        SimboloMoneda = x.Moneda.Simbolo
-                    }).OrderBy(x => x.Nombre).ToList();
+                {
+                    IdEmpresa = x.IdEmpresa,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Descripcion = x.Descripcion,
+                    TipoCambio = x.TipoCambio,
+                    IdPeriodo = x.IdPeriodo,
+                    IdMoneda = x.IdMoneda,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    TotalSoles = x.TotalSoles,
+                    TotalDolares = x.TotalDolares,
+                    FechaConciliacion = x.FechaConciliacion
+                }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }
 
         public EmpresaDTO getEmpresa(int id)
         {
-            using(var context = getContext())
+            using (var context = getContext())
             {
                 var result = context.Empresa.Where(x => x.IdEmpresa == id)
                     .Select(r => new EmpresaDTO
@@ -63,14 +66,17 @@ namespace NubeBooks.Core.BL
                         TipoCambio = r.TipoCambio,
                         IdPeriodo = r.IdPeriodo,
                         IdMoneda = r.IdMoneda,
-                        SimboloMoneda = r.Moneda.Simbolo
+                        SimboloMoneda = r.Moneda.Simbolo,
+                        TotalSoles = r.TotalSoles,
+                        TotalDolares = r.TotalDolares,
+                        FechaConciliacion = r.FechaConciliacion
                     }).SingleOrDefault();
                 return result;
             }
         }
         public bool add(EmpresaDTO Empresa)
         {
-            using(var context = getContext())
+            using (var context = getContext())
             {
                 try
                 {
@@ -84,7 +90,7 @@ namespace NubeBooks.Core.BL
                     context.SaveChanges();
                     return true;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     throw e;
                 }
@@ -92,7 +98,7 @@ namespace NubeBooks.Core.BL
         }
         public bool update(EmpresaDTO Empresa)
         {
-            using(var context = getContext())
+            using (var context = getContext())
             {
                 try
                 {
@@ -105,7 +111,7 @@ namespace NubeBooks.Core.BL
                     context.SaveChanges();
                     return true;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     throw e;
                 }
@@ -139,6 +145,21 @@ namespace NubeBooks.Core.BL
                     var row = context.Empresa.Where(x => x.IdEmpresa == Empresa.IdEmpresa).SingleOrDefault();
                     row.IdPeriodo = Empresa.IdPeriodo;
                     context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+        public bool updateMontosSolesDolares(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    context.SP_ActualizarMontos_Empresa(id);
                     return true;
                 }
                 catch (Exception e)

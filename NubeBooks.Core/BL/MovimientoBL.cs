@@ -103,11 +103,13 @@ namespace NubeBooks.Core.BL
                     nuevo.IdComprobante = Movimiento.IdComprobante == 0 ? null : Movimiento.IdComprobante;
                     context.Movimiento.Add(nuevo);
                     context.SaveChanges();
+                    
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
-
                     //Actualizar saldo Bancario en Movimiento
                     ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
+                    //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
+                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
                     return true;
                 }
                 catch (Exception e)
@@ -148,6 +150,8 @@ namespace NubeBooks.Core.BL
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
                     //Actualizar saldo Bancario en Movimiento
                     ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
+                    //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
+                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
                     return true;
                 }
                 catch (Exception e)
@@ -272,6 +276,26 @@ namespace NubeBooks.Core.BL
             {
                 CuentaBancariaBL oBL = new CuentaBancariaBL();
                 oBL.updateSaldos(idCuentaB);
+            }
+        }
+
+        public void ActualizarFechaConciliacionEnEmpresa(int idCuentaB, DateTime Fecha)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var cuenta = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == idCuentaB).SingleOrDefault();
+                    var empresa = context.Empresa.Where(x => x.IdEmpresa == cuenta.IdEmpresa).SingleOrDefault();
+                    empresa.FechaConciliacion = Convert.ToDateTime(Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
+                    context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+
             }
         }
 

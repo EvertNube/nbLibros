@@ -40,6 +40,7 @@ namespace NubeBooks.Data
         public virtual DbSet<FormaMovimiento> FormaMovimiento { get; set; }
         public virtual DbSet<Honorario> Honorario { get; set; }
         public virtual DbSet<Moneda> Moneda { get; set; }
+        public virtual DbSet<Movimiento> Movimiento { get; set; }
         public virtual DbSet<Periodo> Periodo { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Responsable> Responsable { get; set; }
@@ -51,7 +52,6 @@ namespace NubeBooks.Data
         public virtual DbSet<TipoIdentificacion> TipoIdentificacion { get; set; }
         public virtual DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
-        public virtual DbSet<Movimiento> Movimiento { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {
@@ -60,6 +60,15 @@ namespace NubeBooks.Data
                 new ObjectParameter("IdCuentaB", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActualizarMontos", idCuentaBParameter);
+        }
+    
+        public virtual int SP_ActualizarMontos_Empresa(Nullable<int> idEmpresa)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActualizarMontos_Empresa", idEmpresaParameter);
         }
     
         public virtual int SP_ActualizarPresupuestoPadre(Nullable<int> idCategoria, Nullable<int> idPeriodo)

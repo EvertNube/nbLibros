@@ -104,6 +104,9 @@
     <Property Name="IGV" Type="numeric" Precision="18" Scale="2" />
     <Property Name="IdPeriodo" Type="int" />
     <Property Name="IdMoneda" Type="int" Nullable="false" />
+    <Property Name="TotalSoles" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="TotalDolares" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="FechaConciliacion" Type="datetime" />
   </EntityType>
   <EntityType Name="EntidadResponsable">
     <Key>
@@ -801,6 +804,12 @@
     <Parameter Name="IdCategoria" Type="int" Mode="In" />
     <Parameter Name="IdPeriodo" Type="int" Mode="In" />
   </Function>
+  <Function Name="FN_GetTotalDolares_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="numeric">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_GetTotalSoles_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="numeric">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
   <Function Name="FN_IngresosEgresos_AreaEnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
     <Parameter Name="IdArea" Type="int" Mode="In" />
@@ -830,6 +839,9 @@
   </Function>
   <Function Name="SP_ActualizarMontos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_ActualizarMontos_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
   </Function>
   <Function Name="SP_ActualizarPresupuestoPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCategoria" Type="int" Mode="In" />

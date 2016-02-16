@@ -198,6 +198,29 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             MenuNavBarSelected(0);
+
+            UsuarioDTO user = getCurrentUser();
+
+            if(user.IdEmpresa != 0)
+            {
+                EmpresaBL objBL = new EmpresaBL();
+                EmpresaDTO empresaOld = objBL.getEmpresa(user.IdEmpresa);
+                //objBL.updateMontosSolesDolares(user.IdEmpresa);
+                EmpresaDTO empresa = objBL.getEmpresa(user.IdEmpresa);
+                ViewBag.FechaConciliacion = empresa.FechaConciliacion.GetValueOrDefault().ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"));
+                ViewBag.TotalSoles = empresa.TotalSoles.GetValueOrDefault();
+                ViewBag.TotalDolares = empresa.TotalDolares.GetValueOrDefault();
+                ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
+                ViewBag.TipoCambio = empresa.TipoCambio;
+            }
+            else
+            {
+                ViewBag.TotalSoles = 0.0;
+                ViewBag.TotalDolares = 0.0;
+                ViewBag.TotalConsolidado = 0.0;
+                ViewBag.TipoCambio = 1.0;
+            }
+
             return View();
         }
         public ActionResult Empresa(int? id = null)
@@ -724,6 +747,7 @@ namespace NubeBooks.Controllers
                     if (objLibroMov.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index", "Admin");
 
                     obj.UsuarioCreacion = miUsuario.IdUsuario;
+                    obj.Fecha = DateTime.Now;
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoria.GetValueOrDefault());
                     return View(obj);
                 }

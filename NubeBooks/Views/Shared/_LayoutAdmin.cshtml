@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/font.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/app.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/themes/admin-nb/css/custom.css" type="text/css" />
     @RenderSection("styles", required: false)
 
     <!-- Angular -->
@@ -68,7 +69,6 @@
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle clear" data-toggle="dropdown">
                         <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
                             <img src="~/Content/themes/admin-nb/img/c1_b.png" alt="...">
-                            @*img/rodrigo-sarria.jpg*@
                         </span>
                         @user.Nombre &nbsp;<span class="hidden-sm hidden-md"></span><b class="caret"></b>
                     </a>
@@ -77,8 +77,6 @@
                         <li>
                             <a href="@Url.Action("Usuario", new { id = user.IdUsuario})" ui-sref="app.page.profile">Perfil</a>
                         </li>
-                        @*<li><a href="#"><span>Ajustes</span></a></li>
-                            <li><a ui-sref="app.docs"><span class="label bg-info pull-right">nuevo</span>Ayuda</a></li>*@
                         <li class="divider"></li>
                         <li>
                             <a href="@Url.Action("Logout")" ui-sref="access.signin">Cerrar sesión</a>
