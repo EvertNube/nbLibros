@@ -106,6 +106,8 @@
     <Property Name="IdMoneda" Type="int" Nullable="false" />
     <Property Name="TotalSoles" Type="numeric" Precision="18" Scale="2" />
     <Property Name="TotalDolares" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="TotalSolesOld" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="TotalDolaresOld" Type="numeric" Precision="18" Scale="2" />
     <Property Name="FechaConciliacion" Type="datetime" />
   </EntityType>
   <EntityType Name="EntidadResponsable">

@@ -20,6 +20,9 @@ namespace NubeBooks.Core.DTO
         public int IdMoneda { get; set; }
         public Decimal? TotalSoles { get; set; }
         public Decimal? TotalDolares { get; set; }
+        public Decimal? TotalSolesOld { get; set; }
+        public Decimal? TotalDolaresOld { get; set; }
+
         public DateTime? FechaConciliacion { get; set; }
 
         public string SimboloMoneda { get; set; }

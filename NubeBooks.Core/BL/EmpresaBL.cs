@@ -46,6 +46,8 @@ namespace NubeBooks.Core.BL
                     SimboloMoneda = x.Moneda.Simbolo,
                     TotalSoles = x.TotalSoles,
                     TotalDolares = x.TotalDolares,
+                    TotalSolesOld = x.TotalSolesOld,
+                    TotalDolaresOld = x.TotalDolaresOld,
                     FechaConciliacion = x.FechaConciliacion
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
@@ -69,6 +71,8 @@ namespace NubeBooks.Core.BL
                         SimboloMoneda = r.Moneda.Simbolo,
                         TotalSoles = r.TotalSoles,
                         TotalDolares = r.TotalDolares,
+                        TotalSolesOld = r.TotalSolesOld,
+                        TotalDolaresOld = r.TotalDolaresOld,
                         FechaConciliacion = r.FechaConciliacion
                     }).SingleOrDefault();
                 return result;
@@ -179,6 +183,39 @@ namespace NubeBooks.Core.BL
                     Nombre = x.Nombre
                 }).ToList();
                 return lista;
+            }
+        }
+
+        public List<LiquidezDTO> getLiquidezEnEmpresaPorMoneda(int idEmpresa, int moneda)
+        {
+            using (var context = getContext())
+            {
+                DateTime today = new DateTime();
+                today = DateTime.Now;
+                //Ultimo dia del mes y dia inicial del mes actual
+                DateTime firstDayMonth = new DateTime(today.Year, today.Month, 1);
+                DateTime lastDayMonth = firstDayMonth.AddMonths(1).AddDays(-1);
+                //Ultimo dia inicial de hace un año atras (YA - Year Ago)
+                DateTime firstDayMonthYA = new DateTime(today.Year - 1, today.Month + 1, 1);
+
+                //Conseguir todos movimientos desde el mes actual hasta 11 meses atras (12 meses)
+                var lista = from mov in context.Movimiento
+                            join lib in context.CuentaBancaria on mov.IdCuentaBancaria equals lib.IdCuentaBancaria
+                            where lib.IdEmpresa == idEmpresa && lib.IdMoneda == moneda && mov.Estado == true && (mov.FechaCreacion <= lastDayMonth && mov.FechaCreacion >= firstDayMonthYA)
+                            select new MovimientoDTO
+                            {
+                                IdMovimiento = mov.IdMovimiento,
+                                Fecha = mov.Fecha,
+                                FechaCreacion = mov.FechaCreacion,
+                                Monto = mov.Monto,
+                                MontoSinIGV = mov.MontoSinIGV,
+                                TipoCambio = mov.TipoCambio
+                            };
+
+                List<MovimientoDTO> listMovs = lista.OrderBy(x => x.FechaCreacion).ToList();
+
+                //Obtener Liquidez por cada mes segun la moneda que corresponda
+                return new List<LiquidezDTO>();
             }
         }
     }

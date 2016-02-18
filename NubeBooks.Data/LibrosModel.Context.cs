@@ -34,7 +34,6 @@ namespace NubeBooks.Data
         public virtual DbSet<Comprobante> Comprobante { get; set; }
         public virtual DbSet<Contacto> Contacto { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
-        public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual DbSet<EstadoMovimiento> EstadoMovimiento { get; set; }
         public virtual DbSet<FormaMovimiento> FormaMovimiento { get; set; }
@@ -52,6 +51,7 @@ namespace NubeBooks.Data
         public virtual DbSet<TipoIdentificacion> TipoIdentificacion { get; set; }
         public virtual DbSet<TipoMovimiento> TipoMovimiento { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Empresa> Empresa { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {

@@ -200,26 +200,20 @@ namespace NubeBooks.Controllers
             MenuNavBarSelected(0);
 
             UsuarioDTO user = getCurrentUser();
+            
+            EmpresaBL objBL = new EmpresaBL();
+            
+            EmpresaDTO empresaOld = objBL.getEmpresa(user.IdEmpresa);
+            EmpresaDTO empresa = objBL.getEmpresa(user.IdEmpresa);
+            ViewBag.FechaConciliacion = empresa.FechaConciliacion.GetValueOrDefault().ToString("dd/MM/yy", CultureInfo.CreateSpecificCulture("es-PE"));
+            ViewBag.TotalSoles = empresa.TotalSoles.GetValueOrDefault();
+            ViewBag.TotalDolares = empresa.TotalDolares.GetValueOrDefault();
+            ViewBag.TotalSolesOld = empresa.TotalSolesOld.GetValueOrDefault();
+            ViewBag.TotalDolaresOld = empresa.TotalDolaresOld.GetValueOrDefault();
+            ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
+            ViewBag.TipoCambio = empresa.TipoCambio;
 
-            if(user.IdEmpresa != 0)
-            {
-                EmpresaBL objBL = new EmpresaBL();
-                EmpresaDTO empresaOld = objBL.getEmpresa(user.IdEmpresa);
-                //objBL.updateMontosSolesDolares(user.IdEmpresa);
-                EmpresaDTO empresa = objBL.getEmpresa(user.IdEmpresa);
-                ViewBag.FechaConciliacion = empresa.FechaConciliacion.GetValueOrDefault().ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-PE"));
-                ViewBag.TotalSoles = empresa.TotalSoles.GetValueOrDefault();
-                ViewBag.TotalDolares = empresa.TotalDolares.GetValueOrDefault();
-                ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
-                ViewBag.TipoCambio = empresa.TipoCambio;
-            }
-            else
-            {
-                ViewBag.TotalSoles = 0.0;
-                ViewBag.TotalDolares = 0.0;
-                ViewBag.TotalConsolidado = 0.0;
-                ViewBag.TipoCambio = 1.0;
-            }
+            List<LiquidezDTO> listaLiquidez = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
 
             return View();
         }

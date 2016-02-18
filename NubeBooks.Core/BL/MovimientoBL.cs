@@ -174,8 +174,10 @@ namespace NubeBooks.Core.BL
                         var row2 = context.Comprobante.Where(x => x.IdComprobante == row.IdComprobante).SingleOrDefault();
                         row2.Ejecutado = false;
                     }
+                    int idCuenta = row.IdCuentaBancaria;
                     context.Movimiento.Remove(row);
                     context.SaveChanges();
+                    ActualizarSaldos(idCuenta);
                     return true;
                 }
                 catch (Exception e)

@@ -2,6 +2,26 @@
 @{ 
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.tooltip.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.axislabels.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var d1 = [];
+            for (var i = 0; i < 14; i += 0.5)
+                d1.push([i, Math.sin(i)]);
+
+            var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
+
+            // a null signifies separate line segments
+            var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
+            $.plot($("#flot-chart"), [d1, d2, d3]);
+        });
+    </script>
+}
+
 <div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="app.settings.asideFolded=false;app.settings.asideDock=false;">
     <div class="col">
         <!-- main header -->
@@ -55,8 +75,10 @@
                             <a href="#" class="block panel padder-v item">
                                 <span class="font-thin h3 block">S/ @ViewBag.TotalSoles.ToString("N2", CultureInfo.InvariantCulture)</span>
                                 <span class="text-muted text-xs">SOLES</span>
+                                @{ var arrow1 = ViewBag.TotalSoles >= ViewBag.TotalSolesOld ? "up" : "down";
+                                    var color1 = arrow1 == "up" ? "success" : "danger";}
                                 <span class="bottom text-left">
-                                    <i class="fa fa-caret-up text-success m-l-sm"></i>
+                                    <i class="fa fa-caret-@arrow1 text-@color1 m-l-sm"></i>
                                 </span>
                             </a>
                         </div>
@@ -64,8 +86,10 @@
                             <a href="#" class="block panel padder-v item">
                                 <span class="font-thin h3 block">$ @ViewBag.TotalDolares.ToString("N2", CultureInfo.InvariantCulture)</span>
                                 <span class="text-muted text-xs">DÓLARES</span>
+                                @{ var arrow2 = ViewBag.TotalDolares >= ViewBag.TotalDolaresOld ? "up" : "down";
+                                    var color2 = arrow2 == "up" ? "success" : "danger"; }
                                 <span class="bottom text-left">
-                                    <i class="fa fa-caret-down text-danger m-l-sm"></i>
+                                    <i class="fa fa-caret-@arrow2 text-@color2 m-l-sm"></i>
                                 </span>
                             </a>
                         </div>
@@ -92,6 +116,7 @@
                 <div class="col-md-7">
                     <div class="panel wrapper">
                         <h4 class="font-thin m-t-none m-b text-muted">Liquidez de la Empresa</h4>
+                        <div id="flot-chart" style="height:246px"></div>
                     </div>
                 </div>
             </div>

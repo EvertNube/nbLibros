@@ -38,6 +38,8 @@ namespace NubeBooks.Data
         public int IdMoneda { get; set; }
         public Nullable<decimal> TotalSoles { get; set; }
         public Nullable<decimal> TotalDolares { get; set; }
+        public Nullable<decimal> TotalSolesOld { get; set; }
+        public Nullable<decimal> TotalDolaresOld { get; set; }
         public Nullable<System.DateTime> FechaConciliacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

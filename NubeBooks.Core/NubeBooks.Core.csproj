@@ -94,6 +94,7 @@
     <Compile Include="DTO\EstadoMovimientoDTO.cs" />
     <Compile Include="DTO\FormaMovimientoDTO.cs" />
     <Compile Include="DTO\HonorarioDTO.cs" />
+    <Compile Include="DTO\LiquidezDTO.cs" />
     <Compile Include="DTO\MonedaDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\PeriodoDTO.cs" />
