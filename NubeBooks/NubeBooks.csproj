@@ -689,7 +689,11 @@
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.min.js" />
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.orderBars.js" />
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.resize.js" />
+    <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.spline.js" />
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.tooltip.min.js" />
+    <Content Include="Content\themes\admin\js\nestable\demo.js" />
+    <Content Include="Content\themes\admin\js\nestable\jquery.nestable.js" />
+    <Content Include="Content\themes\admin\js\nestable\nestable.css" />
     <Content Include="Content\themes\angular\myApp.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

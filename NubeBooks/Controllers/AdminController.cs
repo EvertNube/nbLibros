@@ -213,10 +213,17 @@ namespace NubeBooks.Controllers
             ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
             ViewBag.TipoCambio = empresa.TipoCambio;
 
-            List<LiquidezDTO> listaLiquidez = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
+            //System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            ViewBag.lstLiquidezSoles =  objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
+            ViewBag.lstLiquidezDolares = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 2);
+
+            ViewBag.lstRentabilidad = objBL.getRentabilidadEnEmpresaSegunMoneda(user.IdEmpresa, empresa.IdMoneda);
+            ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault(), 1);
+            ViewBag.EjecucionEgresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault(), 2);
 
             return View();
         }
+
         public ActionResult Empresa(int? id = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }

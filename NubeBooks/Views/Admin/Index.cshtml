@@ -6,19 +6,66 @@
     @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.min.js")
     @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.tooltip.min.js")
     @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.axislabels.js")
+    @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot-spline/js/jquery.flot.spline.min.js")
 
     <script type="text/javascript">
         $(function () {
-            var d1 = [];
-            for (var i = 0; i < 14; i += 0.5)
-                d1.push([i, Math.sin(i)]);
-
-            var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
-
-            // a null signifies separate line segments
-            var d3 = [[0, 12], [7, 12], null, [7, 2.5], [12, 2.5]];
-            $.plot($("#flot-chart"), [d1, d2, d3]);
+            PintarGraficaLiquidez();
+            PintarGraficaRentabilidad();
         });
+
+        function PintarGraficaLiquidez() {
+            var listSoles = @Html.Raw(Json.Encode(ViewBag.lstLiquidezSoles));
+            var listDolares = @Html.Raw(Json.Encode(ViewBag.lstLiquidezDolares));
+
+            var lstchart1 = [];
+            var lstchart2 = [];
+
+            for (var i = 0; i < 12; i++) {
+                lstchart1.push([12 - i, listSoles[i].Monto]);
+                lstchart2.push([12 - i, listDolares[i].Monto])
+            }
+
+            $.plot($("#flot-chart"), [ {
+                data:lstchart1,
+                label:'Soles',
+                points: { show: true, radius: 1},
+                splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 }}, {
+                    data:lstchart2,
+                    label:'Dólares',
+                    points: { show: true, radius: 1},
+                    splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 }}], {
+                        colors: ['#23b7e5', '#7266ba'],
+                        series: { shadowSize: 3 },
+                        xaxis:{ font: { color: '#a1a7ac' } },
+                        yaxis:{ font: { color: '#a1a7ac' } },
+                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                        tooltip: true,
+                        tooltipOpts: { content: '%y.2',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+                    });
+        }
+
+        function PintarGraficaRentabilidad() {
+            var list = @Html.Raw(Json.Encode(ViewBag.lstRentabilidad));
+
+            var lstchart = [];
+            for (var i = 0; i < 12; i++) {
+                lstchart.push([12 - i, list[i].Monto]);
+            }
+
+            $.plot($("#flot-chart2"), [{ 
+                data:lstchart,
+                lines: { show: true, lineWidth: 1, fill:true, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
+            }], {
+                colors: ['#e8eff0'],
+                series: { shadowSize: 3 },
+                xaxis:{ font: { color: '#a1a7ac' } },
+                yaxis:{ font: { color: '#a1a7ac' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                tooltip: true,
+                tooltipOpts: { content: '%y',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+            });
+        }
     </script>
 }
 
@@ -126,6 +173,7 @@
                 <div class="col wrapper">
                     <h4 class="font-thin m-t-none m-b-none text-primary-lt">Rentabilidad</h4>
                     <span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>
+                    <div id="flot-chart2" style="height:240px"></div>
                 </div>
                 <div class="col wrapper-lg w-lg bg-light dk r-r">
                     <h4 class="font-thin m-t-none m-b">Ejecución de Presupuesto</h4>
