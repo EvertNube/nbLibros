@@ -212,14 +212,19 @@ namespace NubeBooks.Controllers
             ViewBag.TotalDolaresOld = empresa.TotalDolaresOld.GetValueOrDefault();
             ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
             ViewBag.TipoCambio = empresa.TipoCambio;
-
-            //System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            //Liquidez
             ViewBag.lstLiquidezSoles =  objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
             ViewBag.lstLiquidezDolares = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 2);
-
+            //Rentabilidad
             ViewBag.lstRentabilidad = objBL.getRentabilidadEnEmpresaSegunMoneda(user.IdEmpresa, empresa.IdMoneda);
-            ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault(), 1);
-            ViewBag.EjecucionEgresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault(), 2);
+            //Ejecucion de Presupuesto
+            ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda , empresa.IdPeriodo.GetValueOrDefault(), 1);
+            ViewBag.EjecucionEgresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 2);
+            //Principales clientes y proveedores
+            ViewBag.top5Clientes = objBL.getTop5Clientes(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
+            ViewBag.top5Proveedores = objBL.getTop5Proveedores(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
+            //Ingresos por Area
+            ViewBag.topIngAreas = objBL.getTopIngArea(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
 
             return View();
         }

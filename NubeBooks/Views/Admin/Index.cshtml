@@ -1,5 +1,6 @@
-﻿@using System.Globalization;
-@{ 
+﻿@using NubeBooks.Core.DTO
+@using System.Globalization;
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section scripts{
@@ -7,11 +8,12 @@
     @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.tooltip.min.js")
     @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.axislabels.js")
     @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot-spline/js/jquery.flot.spline.min.js")
-
+    @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot/jquery.flot.pie.js")
     <script type="text/javascript">
         $(function () {
             PintarGraficaLiquidez();
             PintarGraficaRentabilidad();
+            PintarPieIngresos();
         });
 
         function PintarGraficaLiquidez() {
@@ -53,7 +55,7 @@
                 lstchart.push([12 - i, list[i].Monto]);
             }
 
-            $.plot($("#flot-chart2"), [{ 
+            $.plot($("#flot-chart2"), [{
                 data:lstchart,
                 lines: { show: true, lineWidth: 1, fill:true, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
             }], {
@@ -66,6 +68,51 @@
                 tooltipOpts: { content: '%y',  defaultTheme: false, shifts: { x: 10, y: -25 } }
             });
         }
+
+        function PintarPieIngresos()
+        {
+            var list = @Html.Raw(Json.Encode(ViewBag.topIngAreas));
+
+            var lstchart = [];
+            var sPie = "";
+            /*var count = 0;
+            for(key in list) {
+                if(list.hasOwnProperty(key)) count++;
+            }*/
+            var maxAreas = Object.size(list);
+
+            for (var i = 0; i < maxAreas; i++) {
+                sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
+                var obj = {label:list[i].Nombre, data:(list[i].Porcentaje * 100).toFixed(2).toString()};
+                lstchart.push(obj);
+                if (i != maxAreas - 1) { sPie += ","; }
+            }
+
+            $.plot($("#pie-chart"), lstchart, 
+                { series:
+                          { pie:
+                            { show: true,
+                                innerRadius: 0.5,
+                                stroke: { width: 0 },
+                                label: { show: true, threshold: 0.05 }
+                            }
+                          },
+                colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
+                tooltip: true,
+                tooltipOpts: { content: '%s: %p.0%' }
+                });
+            debugger;
+        }
+
+        Object.size = function(obj){
+            var size = 0, key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) size++;
+            }
+            return size;
+        }
+
     </script>
 }
 
@@ -143,7 +190,7 @@
                         <div class="col-xs-12 m-b-md">
                             <div class="r bg-light dker item hbox no-border">
                                 <div class="col w-xs v-middle hidden-md">
-                                    @{ 
+                                    @{
                                         var pSoles = ViewBag.TotalConsolidado != 0 ? ViewBag.TotalSoles / ViewBag.TotalConsolidado : 0;
                                         var pDolares = ViewBag.TotalConsolidado != 0 ? (ViewBag.TotalConsolidado - ViewBag.TotalSoles) / ViewBag.TotalConsolidado : 0;
                                     }
@@ -179,18 +226,20 @@
                     <h4 class="font-thin m-t-none m-b">Ejecución de Presupuesto</h4>
                     <div class="">
                         <div class="">
-                            <span class="pull-right">60%</span>
+                            @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
+                                Decimal PreEgr = ViewBag.EjecucionEgresos * 100;}
+                            <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionIngresos)</span>
                             <span>Ingresos</span>
                         </div>
                         <div class="progress progress-xs m-t-sm bg-white">
-                            <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="60%" style="width: 60%"></div>
+                            <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="@(PreIng.ToString() + "%")" style="width: @(PreIng.ToString() + "%")"></div>
                         </div>
                         <div class="">
-                            <span class="pull-right">35%</span>
+                            <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionEgresos)</span>
                             <span>Egresos</span>
                         </div>
                         <div class="progress progress-xs m-t-sm bg-white">
-                            <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="35%" style="width: 35%"></div>
+                            <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="@(PreEgr.ToString() + "%")" style="width: @(PreEgr.ToString() + "%")"></div>
                         </div>
                     </div>
                     <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>
@@ -204,52 +253,30 @@
                         <a href="#" class="text-muted pull-right text-lg"><i class="icon-arrow-right"></i></a>
                         <h4 class="font-thin m-t-none m-b-md text-muted">Principales Clientes</h4>
                         <div class=" m-b">
-                            <div class="m-b">
-                                <span class="label text-base bg-success pos-rlt m-r"> 22.5%</span>
-                                <a href="#">Empresa Cliente 1</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-success pos-rlt m-r"> 13.0%</span>
-                                <a href="#">Empresa Cliente 2</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-light pos-rlt m-r"> 8.50%</span>
-                                <a href="#">Empresa Cliente 3</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-light pos-rlt m-r"> 6.00%</span>
-                                <a href="#">Empresa Cliente 4</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-light pos-rlt m-r"> 4.50%</span>
-                                <a href="#">Empresa Cliente 5</a>
-                            </div>
+                            @{ int contador1 = 0; }
+                            @foreach (var item in (List<EntidadResponsableR_DTO>)ViewBag.top5Clientes)
+                            {
+                                <div class="m-b">
+                                    <span class="label text-base bg-@(contador1 < 2 ? "success" : "light") pos-rlt m-r"> @String.Format("{0:P2}", item.Porcentaje)</span>
+                                    <a href="#">@item.Nombre</a>
+                                </div>
+                                contador1++;
+                            }
                         </div>
                     </div>
                     <div class="col-md-6 b-r b-light no-border-xs">
                         <a href="#" class="text-muted pull-right text-lg"><i class="icon-arrow-right"></i></a>
                         <h4 class="font-thin m-t-none m-b-md text-muted">Principales Proveedores</h4>
                         <div class=" m-b">
-                            <div class="m-b">
-                                <span class="label text-base bg-warning pos-rlt m-r"> 11.0%</span>
-                                <a href="#">Empresa Proveedora 1</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-warning pos-rlt m-r"> 10.5%</span>
-                                <a href="#">Empresa Proveedora 2</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-light pos-rlt m-r"> 5.50%</span>
-                                <a href="#">Empresa Proveedora 3</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-light pos-rlt m-r"> 4.00%</span>
-                                <a href="#">Empresa Proveedora 4</a>
-                            </div>
-                            <div class="m-b">
-                                <span class="label text-base bg-light pos-rlt m-r"> 3.50%</span>
-                                <a href="#">Empresa Proveedora 5</a>
-                            </div>
+                            @{ int contador2 = 0; }
+                            @foreach (var item in (List<EntidadResponsableR_DTO>)ViewBag.top5Proveedores)
+                            {
+                                <div class="m-b">
+                                    <span class="label text-base bg-@(contador2 < 2 ? "warning" : "light") pos-rlt m-r"> @String.Format("{0:P2}", item.Porcentaje)</span>
+                                    <a href="#">@item.Nombre</a>
+                                </div>
+                                contador2++;
+                            }
                         </div>
                     </div>
                 </div>
@@ -260,13 +287,20 @@
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading font-bold">Ingresos por Área</div>
+                        @{
+                            string sPie = "";
+                            int contAreas = 0;
+                            int maxAreas = ((List<AreaDTO>)ViewBag.topIngAreas).Count;
+                            foreach (var item in (List<AreaDTO>)ViewBag.topIngAreas)
+                            {
+                                sPie += "{'label':'" + item.Nombre + "','data':" + (item.Porcentaje * 100).ToString("#.##") + "}";
+                                if (contAreas != maxAreas - 1) { sPie += ","; }
+                                contAreas++;
+                            }
+                        }
                         <div class="panel-body">
                             <div ui-jq="plot" ui-options="[
-                        {'label':'Área 1','data':40},
-                        {'label':'Área 2','data':10},
-                        {'label':'Área 3','data':20},
-                        {'label':'Área 4','data':12},
-                        {'label':'Área 5','data':18}],
+                        @sPie],
                         { series:
                           { pie:
                             { show: true,
@@ -275,7 +309,7 @@
                               label: { show: true, threshold: 0.05 }
                             }
                           },
-                        colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050'],
+                        colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050', '#2f3342'],
                         grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
                         tooltip: true,
                         tooltipOpts: { content: '%s: %p.0%' }
@@ -285,6 +319,13 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading font-bold">Ingresos por Área</div>
+                        <div class="panel-body">
+                            <div id="pie-chart" style="height: 240px; padding: 0px; position: relative;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- / tasks -->

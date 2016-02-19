@@ -694,6 +694,15 @@
     <Content Include="Content\themes\admin\js\nestable\demo.js" />
     <Content Include="Content\themes\admin\js\nestable\jquery.nestable.js" />
     <Content Include="Content\themes\admin\js\nestable\nestable.css" />
+    <Content Include="Content\themes\admin\js\select2\select2-bootstrap.css" />
+    <Content Include="Content\themes\admin\js\select2\select2-spinner.gif" />
+    <Content Include="Content\themes\admin\js\select2\select2.css" />
+    <Content Include="Content\themes\admin\js\select2\select2.js" />
+    <Content Include="Content\themes\admin\js\select2\select2.min.js" />
+    <Content Include="Content\themes\admin\js\select2\select2.png" />
+    <Content Include="Content\themes\admin\js\select2\select2x2.png" />
+    <Content Include="Content\themes\admin\js\select2\select2_locale_es.js" />
+    <Content Include="Content\themes\admin\js\select2\theme.css" />
     <Content Include="Content\themes\angular\myApp.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

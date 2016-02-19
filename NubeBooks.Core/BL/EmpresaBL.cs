@@ -295,16 +295,163 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public Decimal getEjecucionDePresupuestoEnEmpresa(int idEmpresa, int idPeriodo, int tipo)
+        public Decimal getEjecucionDePresupuestoEnEmpresa(int idEmpresa, int idMoneda, int idPeriodo, int tipo)
+        {
+            using (var context = getContext())
+            {
+                var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
+                //INGRESOS Y EGRESOS
+                var cadena = tipo == 1 ? "INGRESOS" : "EGRESOS";
+                var prep = (from cat in context.Categoria
+                           join cp in context.CategoriaPorPeriodo on cat.IdCategoria equals cp.IdCategoria
+                           where cat.IdEmpresa == idEmpresa && cp.IdPeriodo == idPeriodo && cat.Nombre == cadena
+                           select new CategoriaPorPeriodoDTO
+                           {
+                               IdCategoria = cp.IdCategoria,
+                               IdPeriodo = cp.IdPeriodo,
+                               Monto = cp.Monto
+                           }).SingleOrDefault();
+
+                if (prep == null)
+                {
+                    return 0;
+                }
+
+                Decimal presupuesto = prep.Monto;
+
+                var lstCmp = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.Estado == true && (x.FechaEmision <= periodo.FechaFin && x.FechaEmision >= periodo.FechaInicio) && x.IdTipoComprobante == tipo).ToList();
+
+                Decimal Soles = 0, Dolares = 0;
+
+                switch (idMoneda)
+                {
+                    case 1:
+                        Soles = lstCmp.Where(x => x.IdMoneda == 1).Sum(x => x.Monto);
+                        Dolares = lstCmp.Where(x => x.IdMoneda == 2).Sum(x => x.Monto * x.TipoCambio);
+                        break;
+                    default:
+                        Soles = lstCmp.Where(x => x.IdMoneda == 1).Sum(x => x.Monto / (x.TipoCambio != 0 ? x.TipoCambio : 1));
+                        Dolares = lstCmp.Where(x => x.IdMoneda == 2).Sum(x => x.Monto);
+                        break;
+                }
+
+                presupuesto = (Soles + Dolares) / presupuesto;
+
+                return presupuesto;
+            }
+        }
+
+        public List<EntidadResponsableR_DTO> getTop5Clientes(int idEmpresa, int idPeriodo)
+        {
+            using (var context = getContext())
+            {
+                var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
+                var result = context.SP_Rep_FacturacionPorCliente(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new EntidadResponsableR_DTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto.GetValueOrDefault()
+                }).OrderByDescending(x => x.Monto).ToList();
+
+                Decimal montoTotal = result.Sum(x => x.Monto);
+
+                List<EntidadResponsableR_DTO> lista = result.Take(5).Select(x => new EntidadResponsableR_DTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto,
+                    Porcentaje = montoTotal != 0 ? (x.Monto / montoTotal) : 0
+                }).ToList();
+
+                return lista;
+            }
+        }
+        public List<EntidadResponsableR_DTO> getTop5Proveedores(int idEmpresa, int idPeriodo)
+        {
+            using (var context = getContext())
+            {
+                var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
+                var result = context.SP_Rep_GastosPorProveedor(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new EntidadResponsableR_DTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto.GetValueOrDefault()
+                }).OrderByDescending(x => x.Monto).ToList();
+
+                if (result == null)
+                {
+                    return new List<EntidadResponsableR_DTO>();
+                }
+                
+                Decimal montoTotal = result.Sum(x => x.Monto);
+
+                List<EntidadResponsableR_DTO> lista = result.Take(5).Select(x => new EntidadResponsableR_DTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    Monto = x.Monto,
+                    Porcentaje = montoTotal != 0 ? (x.Monto / montoTotal) : 0
+                }).ToList();
+
+                return lista;
+            }
+        }
+        public List<AreaDTO> getTopIngArea(int idEmpresa, int idPeriodo)
         {
             using (var context = getContext())
             {
                 var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
 
-                var lstCmp = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.Estado == true && (x.FechaEmision <= periodo.FechaFin && x.FechaEmision >= periodo.FechaInicio) && x.IdTipoComprobante == tipo).ToList();
-                
+                var result = context.SP_Rep_IngresosEgresosPorAreas(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    Ingresos = x.Ingreso.GetValueOrDefault(),
+                    Egresos = x.Egreso.GetValueOrDefault()
+                }).OrderByDescending(x => x.Ingresos).ToList();
 
-                return 0;
+                if (result == null)
+                {
+                    return new List<AreaDTO>();
+                }
+
+                Decimal montoTotal = result.Sum(x => x.Ingresos);
+
+                List<AreaDTO> lista = result.Take(5).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    Ingresos = x.Ingresos,
+                    Egresos = x.Egresos,
+                    Porcentaje = montoTotal != 0 ? (x.Ingresos / montoTotal) : 0
+                }).ToList();
+
+                AreaDTO Otros = new AreaDTO() { Nombre = "Otros", Estado = true, IdEmpresa = 1 };
+                Otros.Ingresos = result.Skip(5).Sum(x => x.Ingresos);
+                Otros.Egresos = result.Skip(5).Sum(x => x.Egresos);
+                Otros.Porcentaje = montoTotal != 0 ? (Otros.Ingresos / montoTotal) : 0;
+
+                lista.Add(Otros);
+
+                return lista;
             }
         }
     }

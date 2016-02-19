@@ -19,5 +19,7 @@ namespace NubeBooks.Core.DTO
         public Decimal SumaClientes { get; set; }
         public Decimal Ingresos { get; set; }
         public Decimal Egresos { get; set; }
+
+        public Decimal Porcentaje { get; set; }
     }
 }

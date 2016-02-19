@@ -15,6 +15,7 @@ namespace NubeBooks.Core.DTO
         public Decimal? Detraccion { get; set; }
         public Decimal Monto { get; set; }
         public string Tipo { get; set; }
-        public int? IdEmpresa { get; set; }
+        public int IdEmpresa { get; set; }
+        public Decimal Porcentaje { get; set; }
     }
 }
