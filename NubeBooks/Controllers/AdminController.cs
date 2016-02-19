@@ -225,6 +225,7 @@ namespace NubeBooks.Controllers
             ViewBag.top5Proveedores = objBL.getTop5Proveedores(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
             //Ingresos por Area
             ViewBag.topIngAreas = objBL.getTopIngArea(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
+            ViewBag.topEgrAreas = objBL.getTopEgrArea(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
 
             return View();
         }

@@ -14,6 +14,7 @@
             PintarGraficaLiquidez();
             PintarGraficaRentabilidad();
             PintarPieIngresos();
+            PintarPieEgresos();
         });
 
         function PintarGraficaLiquidez() {
@@ -75,17 +76,14 @@
 
             var lstchart = [];
             var sPie = "";
-            /*var count = 0;
-            for(key in list) {
-                if(list.hasOwnProperty(key)) count++;
-            }*/
+            
             var maxAreas = Object.size(list);
 
             for (var i = 0; i < maxAreas; i++) {
-                sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
+                //sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
                 var obj = {label:list[i].Nombre, data:(list[i].Porcentaje * 100).toFixed(2).toString()};
                 lstchart.push(obj);
-                if (i != maxAreas - 1) { sPie += ","; }
+                //if (i != maxAreas - 1) { sPie += ","; }
             }
 
             $.plot($("#pie-chart"), lstchart, 
@@ -101,8 +99,39 @@
                 grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
                 tooltip: true,
                 tooltipOpts: { content: '%s: %p.0%' }
+            });
+        }
+
+        function PintarPieEgresos()
+        {
+            var list = @Html.Raw(Json.Encode(ViewBag.topEgrAreas));
+
+            var lstchart = [];
+            var sPie = "";
+            
+            var maxAreas = Object.size(list);
+
+            for (var i = 0; i < maxAreas; i++) {
+                //sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
+                var obj = {label:list[i].Nombre, data:(list[i].Porcentaje * 100).toFixed(2).toString()};
+                lstchart.push(obj);
+                //if (i != maxAreas - 1) { sPie += ","; }
+            }
+
+            $.plot($("#pie-chart2"), lstchart, 
+                { series:
+                          { pie:
+                            { show: true,
+                                innerRadius: 0.5,
+                                stroke: { width: 0 },
+                                label: { show: true, threshold: 0.05 }
+                            }
+                          },
+                    colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
+                    tooltip: true,
+                    tooltipOpts: { content: '%s: %p.0%' }
                 });
-            debugger;
         }
 
         Object.size = function(obj){
@@ -287,42 +316,17 @@
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading font-bold">Ingresos por Área</div>
-                        @{
-                            string sPie = "";
-                            int contAreas = 0;
-                            int maxAreas = ((List<AreaDTO>)ViewBag.topIngAreas).Count;
-                            foreach (var item in (List<AreaDTO>)ViewBag.topIngAreas)
-                            {
-                                sPie += "{'label':'" + item.Nombre + "','data':" + (item.Porcentaje * 100).ToString("#.##") + "}";
-                                if (contAreas != maxAreas - 1) { sPie += ","; }
-                                contAreas++;
-                            }
-                        }
                         <div class="panel-body">
-                            <div ui-jq="plot" ui-options="[
-                        @sPie],
-                        { series:
-                          { pie:
-                            { show: true,
-                              innerRadius: 0.5,
-                              stroke: { width: 0 },
-                              label: { show: true, threshold: 0.05 }
-                            }
-                          },
-                        colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050', '#2f3342'],
-                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                        tooltip: true,
-                        tooltipOpts: { content: '%s: %p.0%' }
-                        }" style="height: 240px; padding: 0px; position: relative;">
+                            <div id="pie-chart" style="height: 240px; padding: 0px; position: relative;">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading font-bold">Ingresos por Área</div>
+                        <div class="panel-heading font-bold">Egresos por Área</div>
                         <div class="panel-body">
-                            <div id="pie-chart" style="height: 240px; padding: 0px; position: relative;">
+                            <div id="pie-chart2" style="height: 240px; padding: 0px; position: relative;">
                             </div>
                         </div>
                     </div>

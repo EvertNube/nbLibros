@@ -454,5 +454,51 @@ namespace NubeBooks.Core.BL
                 return lista;
             }
         }
+        public List<AreaDTO> getTopEgrArea(int idEmpresa, int idPeriodo)
+        {
+            using (var context = getContext())
+            {
+                var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
+
+                var result = context.SP_Rep_IngresosEgresosPorAreas(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    Ingresos = x.Ingreso.GetValueOrDefault(),
+                    Egresos = x.Egreso.GetValueOrDefault()
+                }).OrderBy(x => x.Egresos).ToList();
+
+                if (result == null)
+                {
+                    return new List<AreaDTO>();
+                }
+
+                Decimal montoTotal = result.Sum(x => x.Egresos);
+
+                List<AreaDTO> lista = result.Take(5).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa,
+                    Ingresos = x.Ingresos,
+                    Egresos = x.Egresos,
+                    Porcentaje = montoTotal != 0 ? (x.Egresos / montoTotal) : 0
+                }).ToList();
+
+                AreaDTO Otros = new AreaDTO() { Nombre = "Otros", Estado = true, IdEmpresa = 1 };
+                Otros.Ingresos = result.Skip(5).Sum(x => x.Ingresos);
+                Otros.Egresos = result.Skip(5).Sum(x => x.Egresos);
+                Otros.Porcentaje = montoTotal != 0 ? (Otros.Egresos / montoTotal) : 0;
+
+                lista.Add(Otros);
+
+                return lista;
+            }
+        }
     }
 }
