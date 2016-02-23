@@ -691,6 +691,9 @@
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.resize.js" />
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.spline.js" />
     <Content Include="Content\themes\admin\js\flot-chart\jquery.flot.tooltip.min.js" />
+    <Content Include="Content\themes\admin\js\fuelux\demo.datagrid.js" />
+    <Content Include="Content\themes\admin\js\fuelux\fuelux.css" />
+    <Content Include="Content\themes\admin\js\fuelux\fuelux.js" />
     <Content Include="Content\themes\admin\js\nestable\demo.js" />
     <Content Include="Content\themes\admin\js\nestable\jquery.nestable.js" />
     <Content Include="Content\themes\admin\js\nestable\nestable.css" />

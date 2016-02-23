@@ -428,7 +428,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado
-                }).ToList();
+                }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }
@@ -443,7 +443,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado
-                }).ToList();
+                }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }
@@ -492,7 +492,7 @@ namespace NubeBooks.Core.BL
                         IdResponsable = x.IdResponsable,
                         Nombre = x.Nombre,
                         Estado = x.Estado
-                    }).ToList();
+                    }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }
@@ -505,7 +505,7 @@ namespace NubeBooks.Core.BL
                     {
                         id = x.IdComprobante,
                         text = x.NroDocumento
-                    }).ToList();
+                    }).OrderBy(x => x.text).ToList();
                 return result;
             }
         }

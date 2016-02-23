@@ -15,6 +15,7 @@
             PintarGraficaRentabilidad();
             PintarPieIngresos();
             PintarPieEgresos();
+            //ObtenerTipoCambio();
         });
 
         function PintarGraficaLiquidez() {
@@ -78,6 +79,9 @@
             var sPie = "";
             
             var maxAreas = Object.size(list);
+            if (maxAreas <= 0) {
+                return 0;
+            }
 
             for (var i = 0; i < maxAreas; i++) {
                 //sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
@@ -95,12 +99,12 @@
                                 label: { show: true, threshold: 0.05 }
                             }
                           },
-                colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
-                tooltip: true,
-                tooltipOpts: { content: '%s: %p.0%' }
-            });
-        }
+                    colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
+                    tooltip: true,
+                    tooltipOpts: { content: '%s: %p.0%' }
+                });
+        };
 
         function PintarPieEgresos()
         {
@@ -110,6 +114,9 @@
             var sPie = "";
             
             var maxAreas = Object.size(list);
+            if (maxAreas <= 0) {
+                return 0;
+            }
 
             for (var i = 0; i < maxAreas; i++) {
                 //sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
@@ -142,6 +149,30 @@
             return size;
         }
 
+        function ObtenerTipoCambio()
+        {
+            var todayDate = new Date($.now());
+            var todayMonth = todayDate.getMonth() + 1;
+            var todayYear = todayDate.getFullYear();
+
+            var tcUrl = 'http://code.staffsystems.us/webservices/tipo-de-cambio/serverside.php?work=get_sunat&mes=' + (todayDate.getMonth() + 1) + '&anho=' + todayDate.getFullYear();
+            
+            jQuery.support.cors = true;
+            $.ajax({
+                url: tcUrl,
+                type: 'GET',
+                crossDomain: true,
+                dataType: 'json',
+                success: function (data) {                
+                    console.log(data);
+                },
+                error: function (message) {
+                    //alert(x + '\n' + y + '\n' + z);
+                    alert(message);
+                }
+            });        
+        }
+
     </script>
 }
 
@@ -156,19 +187,39 @@
                 </div>
                 <div class="col-sm-6 text-right hidden-xs">
                     <div class="inline m-r text-left">
-                        <div class="m-b-xs">1080 <span class="text-muted">movimientos</span></div>
-                        <div ng-init="d3_1=[ 106,108,110,105,110,109,105,104,107,109,105,100 ]"
+                        @{ 
+                            int totalMovs = ((List<int>)ViewBag.contMovimientos).Sum(x => x);
+                            int totalCmps = ((List<int>)ViewBag.contComprobantes).Sum(x => x);
+                            string vMovs = "[", vCmps = "[";
+                            int contTMC = 0;
+                            foreach (var item in (List<int>)ViewBag.contMovimientos)
+                            {
+                                if (contTMC != 11) { vMovs += item.ToString() + ","; }
+                                else { vMovs += item.ToString() + "]"; }
+                                contTMC++;
+                            }
+                            contTMC = 0;
+                            foreach (var item in (List<int>)ViewBag.contComprobantes)
+                            {
+                                if (contTMC != 11) { vCmps += item.ToString() + ","; }
+                                else { vCmps += item.ToString() + "]"; }
+                                contTMC++;
+                            }
+
+                        }
+                        <div class="m-b-xs">@totalMovs <span class="text-muted">movimientos</span></div>
+                        <div ng-init=@("d3_1="+vMovs)
                              ui-jq="sparkline"
-                             ui-options="[ 106,108,110,105,110,109,105,104,107,109,105,100 ], {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
+                             ui-options="@(vMovs), {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
                              class="sparkline inline">
                             cargando...
                         </div>
                     </div>
                     <div class="inline text-left">
-                        <div class="m-b-xs">1031 <span class="text-muted">comprobantes</span></div>
-                        <div ng-init="d3_2=[ 105,102,106,107,105,104,101,99,98,109,105,100 ]"
+                        <div class="m-b-xs">@totalCmps <span class="text-muted">comprobantes</span></div>
+                        <div ng-init=@("d3_2="+vCmps)
                              ui-jq="sparkline"
-                             ui-options="[ 105,102,106,107,105,104,101,99,98,109,105,100 ], {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
+                             ui-options="@(vCmps), {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
                              class="sparkline inline">
                             cargando...
                         </div>
@@ -190,7 +241,7 @@
                         </div>
                         <div class="col-xs-6">
                             <a href="#" class="block panel padder-v bg-primary item">
-                                <span class="text-white font-thin h1 block">@ViewBag.TipoCambio</span>
+                                <span class="text-white font-thin h1 block" id="tipoCambio">@ViewBag.TipoCambio</span>
                                 <span class="text-muted text-xs">Tipo de Cambio</span>
                             </a>
                         </div>

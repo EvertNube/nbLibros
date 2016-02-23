@@ -17,24 +17,26 @@ namespace NubeBooks.Models
         public Navbar()
         {
             lstOptions = new List<Option>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 10; i++)
             {
-                lstOptions.Add(new Option() { cadena = "" });
+                lstOptions.Add(new Option() { cadena = "", lstOptions = new List<Option>() });
             }
-            /*foreach (var item in lstOptions)
-            {
-                item.cadena = "";
-            }*/
-            //Ultima seccion del menu tiene Mini-menus
-            lstOptions.Last().lstOptions = new List<Option>();
-            for (int i = 0; i < 7; i++)
-            {
-                lstOptions.Last().lstOptions.Add(new Option() { cadena = "" });
-            }
-            /*foreach (var item in lstOptions.Last().lstOptions)
-            {
-                item.cadena = "";
-            }*/
+            
+            //2 - Libros
+            lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
+            //3 - Comprobantes
+            lstOptions[3].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[3].lstOptions.Add(new Option() { cadena = "" });
+            //6 - Entidades
+            lstOptions[6].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[6].lstOptions.Add(new Option() { cadena = "" });
+            //7 - Pagos
+            lstOptions[7].lstOptions.Add(new Option() { cadena = "" });
+            //8 - Presupuesto
+            lstOptions[8].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[8].lstOptions.Add(new Option() { cadena = "" });
         }
 
         public void clearAll()
@@ -42,10 +44,10 @@ namespace NubeBooks.Models
             foreach (var item in lstOptions)
             {
                 item.cadena = "";
-            }
-            foreach (var item in lstOptions.Last().lstOptions)
-            {
-                item.cadena = "";
+                foreach (var item2 in item.lstOptions)
+                {
+                    item.cadena = "";
+                }
             }
         }
 
@@ -54,10 +56,10 @@ namespace NubeBooks.Models
             foreach (var item in lstOptions)
             {
                 item.cadena = "active";
-            }
-            foreach (var item in lstOptions.Last().lstOptions)
-            {
-                item.cadena = "active";
+                foreach (var item2 in item.lstOptions)
+                {
+                    item.cadena = "active";
+                }
             }
         }
     }

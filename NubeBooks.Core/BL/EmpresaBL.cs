@@ -340,12 +340,14 @@ namespace NubeBooks.Core.BL
                 return presupuesto;
             }
         }
-
         public List<EntidadResponsableR_DTO> getTop5Clientes(int idEmpresa, int idPeriodo)
         {
             using (var context = getContext())
             {
                 var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
+
+                if (periodo == null) { return new List<EntidadResponsableR_DTO>(); }
+
                 var result = context.SP_Rep_FacturacionPorCliente(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new EntidadResponsableR_DTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
@@ -355,6 +357,8 @@ namespace NubeBooks.Core.BL
                     IdEmpresa = x.IdEmpresa,
                     Monto = x.Monto.GetValueOrDefault()
                 }).OrderByDescending(x => x.Monto).ToList();
+
+                if (result == null) { return new List<EntidadResponsableR_DTO>(); }
 
                 Decimal montoTotal = result.Sum(x => x.Monto);
 
@@ -377,6 +381,9 @@ namespace NubeBooks.Core.BL
             using (var context = getContext())
             {
                 var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
+
+                if (periodo == null) { return new List<EntidadResponsableR_DTO>(); }
+
                 var result = context.SP_Rep_GastosPorProveedor(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new EntidadResponsableR_DTO
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
@@ -387,10 +394,7 @@ namespace NubeBooks.Core.BL
                     Monto = x.Monto.GetValueOrDefault()
                 }).OrderByDescending(x => x.Monto).ToList();
 
-                if (result == null)
-                {
-                    return new List<EntidadResponsableR_DTO>();
-                }
+                if (result == null) { return new List<EntidadResponsableR_DTO>(); }
                 
                 Decimal montoTotal = result.Sum(x => x.Monto);
 
@@ -414,6 +418,8 @@ namespace NubeBooks.Core.BL
             {
                 var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
 
+                if (periodo == null) { return new List<AreaDTO>(); }
+
                 var result = context.SP_Rep_IngresosEgresosPorAreas(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new AreaDTO
                 {
                     IdArea = x.IdArea,
@@ -425,10 +431,7 @@ namespace NubeBooks.Core.BL
                     Egresos = x.Egreso.GetValueOrDefault()
                 }).OrderByDescending(x => x.Ingresos).ToList();
 
-                if (result == null)
-                {
-                    return new List<AreaDTO>();
-                }
+                if (result == null) { return new List<AreaDTO>(); }
 
                 Decimal montoTotal = result.Sum(x => x.Ingresos);
 
@@ -460,6 +463,8 @@ namespace NubeBooks.Core.BL
             {
                 var periodo = context.Periodo.Where(x => x.IdPeriodo == idPeriodo).SingleOrDefault();
 
+                if (periodo == null) { return new List<AreaDTO>(); }
+
                 var result = context.SP_Rep_IngresosEgresosPorAreas(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new AreaDTO
                 {
                     IdArea = x.IdArea,
@@ -471,10 +476,7 @@ namespace NubeBooks.Core.BL
                     Egresos = x.Egreso.GetValueOrDefault()
                 }).OrderBy(x => x.Egresos).ToList();
 
-                if (result == null)
-                {
-                    return new List<AreaDTO>();
-                }
+                if (result == null) { return new List<AreaDTO>(); }
 
                 Decimal montoTotal = result.Sum(x => x.Egresos);
 
@@ -498,6 +500,83 @@ namespace NubeBooks.Core.BL
                 lista.Add(Otros);
 
                 return lista;
+            }
+        }
+
+        public List<int> getContadorDeMovimientos(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                DateTime today = new DateTime();
+                today = DateTime.Now;
+                //Ultimo dia del mes y dia inicial del mes actual
+                DateTime firstDayMonth = new DateTime(today.Year, today.Month, 1);
+                DateTime lastDayMonth = firstDayMonth.AddMonths(1).AddDays(-1);
+                //Ultimo dia inicial de hace un año atras (YA - Year Ago)
+                DateTime firstDayMonthYA = new DateTime(today.Year - 1, today.Month + 1, 1);
+
+                var lista = from mov in context.Movimiento
+                            join lib in context.CuentaBancaria on mov.IdCuentaBancaria equals lib.IdCuentaBancaria
+                            where lib.IdEmpresa == idEmpresa && mov.Estado == true && (mov.FechaCreacion <= lastDayMonth && mov.FechaCreacion >= firstDayMonthYA)
+                            select new MovimientoDTO
+                            {
+                                IdMovimiento = mov.IdMovimiento,
+                                Fecha = mov.Fecha,
+                                FechaCreacion = mov.FechaCreacion,
+                                Monto = mov.Monto,
+                                MontoSinIGV = mov.MontoSinIGV,
+                                TipoCambio = mov.TipoCambio
+                            };
+
+                List<MovimientoDTO> listMovs = lista.OrderBy(x => x.FechaCreacion).ToList();
+
+                //Obtener Liquidez por cada mes segun la moneda que corresponda
+                List<int> lstCont = new List<int>();
+                int mes = today.Month;
+                for (int i = 0; i < 12; i++)
+                {
+                    mes = (today.Month - i) > 0 ? (today.Month - i) : (today.Month + 12 - i);
+                    lstCont.Add(listMovs.Where(x => x.FechaCreacion.Month == mes).Count());
+                }
+                return lstCont;
+            }
+        }
+
+        public List<int> getContadorDeComprobantes(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                DateTime today = new DateTime();
+                today = DateTime.Now;
+                //Ultimo dia del mes y dia inicial del mes actual
+                DateTime firstDayMonth = new DateTime(today.Year, today.Month, 1);
+                DateTime lastDayMonth = firstDayMonth.AddMonths(1).AddDays(-1);
+                //Ultimo dia inicial de hace un año atras (YA - Year Ago)
+                DateTime firstDayMonthYA = new DateTime(today.Year - 1, today.Month + 1, 1);
+
+                List<ComprobanteDTO> lista = (from cmp in context.Comprobante
+                                              where cmp.IdEmpresa == idEmpresa && cmp.Estado == true && (cmp.FechaEmision <= lastDayMonth && cmp.FechaEmision >= firstDayMonthYA)
+                                              select new ComprobanteDTO
+                                              {
+                                                  IdComprobante = cmp.IdComprobante,
+                                                  IdTipoComprobante = cmp.IdTipoComprobante,
+                                                  FechaEmision = cmp.FechaEmision,
+                                                  Monto = cmp.Monto,
+                                                  MontoSinIGV = cmp.MontoSinIGV,
+                                                  TipoCambio = cmp.TipoCambio,
+                                                  IdMoneda = cmp.IdMoneda
+                                              }).OrderBy(x => x.FechaEmision).ToList();
+
+                //Obtener Liquidez por cada mes segun la moneda que corresponda
+                List<int> lstCont = new List<int>();
+                int mes = today.Month;
+                for (int i = 0; i < 12; i++)
+                {
+                    mes = (today.Month - i) > 0 ? (today.Month - i) : (today.Month + 12 - i);
+                    lstCont.Add(lista.Where(x => x.FechaEmision.Month == mes).Count());
+                }
+
+                return lstCont;
             }
         }
     }

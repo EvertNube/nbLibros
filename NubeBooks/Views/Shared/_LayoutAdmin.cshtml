@@ -108,7 +108,7 @@
                             </li>
                             @if (!ViewBag.EsUsuarioInterno)
                             {
-                                <li class="@ViewBag.navbar.lstOptions[2].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[1].cadena">
                                     <a href="@Url.Action("ReporteCategorias", "Admin")">
                                         <i class="fa fa-download"></i>
                                         <span class="font-bold">Reportes</span>
@@ -120,7 +120,7 @@
                             <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                                 <span>Mantenimiento</span>
                             </li>
-                            <li class="@ViewBag.navbar.lstOptions[0].cadena">
+                            <li class="@ViewBag.navbar.lstOptions[2].cadena">
                                 <a href="@Url.Action("LibrosBancarios", "Admin")" class="auto">
                                     <span class="pull-right text-muted">
                                         <i class="fa fa-fw fa-angle-right text"></i>
@@ -135,17 +135,17 @@
                                             <span>Libros de Control</span>
                                         </a>
                                     </li>
-                                    <li class="@ViewBag.navbar.lstOptions[0].cadena">
+                                    <li class="@ViewBag.navbar.lstOptions[2].lstOptions[1].cadena">
                                         <a href="@Url.Action("LibrosAdministrativos", "Admin")">
                                             <span>Administrativos</span>
                                         </a>
                                     </li>
-                                    <li class="@ViewBag.navbar.lstOptions[0].cadena">
+                                    <li class="@ViewBag.navbar.lstOptions[2].lstOptions[0].cadena">
                                         <a href="@Url.Action("LibrosBancarios", "Admin")">
                                             <span>Bancarios</span>
                                         </a>
                                     </li>
-                                    <li class="@ViewBag.navbar.lstOptions[0].cadena">
+                                    <li class="@ViewBag.navbar.lstOptions[2].lstOptions[1].cadena">
                                         <a href="@Url.Action("LibrosBancarios", "Admin")">
                                             <b class="label bg-info pull-right">N</b>
                                             <span>Otros Controles</span>
@@ -153,7 +153,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="@ViewBag.navbar.lstOptions[1].cadena">
+                            <li class="@ViewBag.navbar.lstOptions[3].cadena">
                                 <a href="@Url.Action("ComprobantesIngreso", "Admin")" class="auto">
                                     <span class="pull-right text-muted">
                                         <i class="fa fa-fw fa-angle-right text"></i>
@@ -168,12 +168,12 @@
                                             <span>Comprobantes</span>
                                         </a>
                                     </li>
-                                    <li class="@ViewBag.navbar.lstOptions[1].cadena">
+                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena">
                                         <a href="@Url.Action("ComprobantesIngreso", "Admin")">
                                             <span>Ingresos</span>
                                         </a>
                                     </li>
-                                    <li class="@ViewBag.navbar.lstOptions[1].cadena">
+                                    <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena">
                                         <a href="@Url.Action("ComprobantesEgreso", "Admin")">
                                             <span>Egresos</span>
                                         </a>
@@ -188,19 +188,19 @@
                             </li>
                             @if (ViewBag.EsAdmin)
                             {
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[4].cadena">
                                     <a href="@Url.Action("Areas", "Admin")">
                                         <i class="fa fa-cog"></i>
                                         <span>Áreas</span>
                                     </a>
                                 </li>
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[5].cadena">
                                     <a href="@Url.Action("Responsables", "Admin")">
                                         <i class="fa fa-cog"></i>
                                         <span>Consultores</span>
                                     </a>
                                 </li>
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[6].cadena">
                                     <a href="@Url.Action("EntidadesClientes", "Admin")" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
@@ -216,19 +216,19 @@
                                                 <span>Entidades</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena">
+                                        <li class="@ViewBag.navbar.lstOptions[6].lstOptions[0].cadena">
                                             <a href="@Url.Action("EntidadesClientes", "Admin")">
                                                 <span>Clientes</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena">
+                                        <li class="@ViewBag.navbar.lstOptions[6].lstOptions[1].cadena">
                                             <a href="@Url.Action("EntidadesProveedores", "Admin")">
                                                 <span>Proveedores</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[7].cadena">
                                     <a href="@Url.Action("Honorarios", "Admin")" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
@@ -244,14 +244,14 @@
                                                 <span>Pagos</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[3].lstOptions[3].cadena">
+                                        <li class="@ViewBag.navbar.lstOptions[7].lstOptions[0].cadena">
                                             <a href="@Url.Action("Honorarios", "Admin")">
                                                 <span>Modalidades</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[8].cadena">
                                     <a href="@Url.Action("Categorias", "Admin")" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
@@ -267,19 +267,19 @@
                                                 <span>Presupuesto</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[3].lstOptions[4].cadena">
+                                        <li class="@ViewBag.navbar.lstOptions[8].lstOptions[0].cadena">
                                             <a href="@Url.Action("Categorias", "Admin")">
                                                 <span>Partidas</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[3].lstOptions[5].cadena">
+                                        <li class="@ViewBag.navbar.lstOptions[8].lstOptions[1].cadena">
                                             <a href="@Url.Action("Periodos", "Admin")">
                                                 <span>Periodos</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[6].cadena">
+                                <li class="@ViewBag.navbar.lstOptions[9].cadena">
                                     <a href="@Url.Action("Usuarios", "Admin")">
                                         <i class="fa fa-users"></i>
                                         <span>Usuarios</span>
@@ -288,11 +288,33 @@
                             }
                             else if (ViewBag.EsUsuarioInterno)
                             {
-                                <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena">
-                                    <a href="@Url.Action("Entidades", "Admin")">
+                                <li class="@ViewBag.navbar.lstOptions[6].cadena">
+                                    <a href="@Url.Action("EntidadesClientes", "Admin")" class="auto">
+                                        <span class="pull-right text-muted">
+                                            <i class="fa fa-fw fa-angle-right text"></i>
+                                            <i class="fa fa-fw fa-angle-down text-active"></i>
+                                        </span>
+                                        <b class="badge bg-info pull-right">2</b>
                                         <i class="fa fa-cog"></i>
                                         <span>Entidades</span>
                                     </a>
+                                    <ul class="nav nav-sub dk">
+                                        <li class="nav-sub-header">
+                                            <a href="@Url.Action("EntidadesClientes", "Admin")">
+                                                <span>Entidades</span>
+                                            </a>
+                                        </li>
+                                        <li class="@ViewBag.navbar.lstOptions[6].lstOptions[0].cadena">
+                                            <a href="@Url.Action("EntidadesClientes", "Admin")">
+                                                <span>Clientes</span>
+                                            </a>
+                                        </li>
+                                        <li class="@ViewBag.navbar.lstOptions[6].lstOptions[1].cadena">
+                                            <a href="@Url.Action("EntidadesProveedores", "Admin")">
+                                                <span>Proveedores</span>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             }
                             <li class="line dk hidden-folded"></li>
