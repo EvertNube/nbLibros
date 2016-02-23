@@ -185,7 +185,6 @@
     }
 }
 <div class="bg-light lter b-b wrapper-md">
-    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="icon-calendar"></i>Exportar</button>*@
     <div class="btn-group pull-right m-r">
         @{string vOption = "Periodos";}
         <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l">
@@ -230,30 +229,6 @@
                         Moneda (@(ViewBag.SimboloMoneda))
                     </label>
                 </div>
-                @*<div class="col-md-4">
-                        <div class="btn-group pull-right m-r">
-                            @{string vOption = "Periodos";}
-                            <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn btn-info btn-sm dropdown-toggle">
-                                @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
-                                {
-                                    if (item.IdPeriodo == ViewBag.IdPeriodo)
-                                    {
-                                        vOption = item.Nombre;
-                                    }
-                                }
-                                @vOption &nbsp;
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" id="grupoPeriodos">
-                                @{string pCadena = "";}
-                                @foreach (var item in (List<PeriodoDTO>)ViewBag.Periodos)
-                                {
-                                    pCadena = item.IdPeriodo == ViewBag.IdPeriodo ? "active" : "";
-                                    <li class="@pCadena"><a href="#" id="@item.IdPeriodo">@item.Nombre</a></li>
-                                }
-                            </ul>
-                        </div>
-                    </div>*@
             </div>
             <div class="col-md-12">
                 <div class="dd" id="nestable3">
