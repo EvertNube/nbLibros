@@ -11,7 +11,7 @@ namespace NubeBooks.Core.DTO
     public class AreaDTO
     {
         public int IdArea { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio.")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool Estado { get; set; }

@@ -162,7 +162,7 @@
                 url: tcUrl,
                 type: 'GET',
                 crossDomain: true,
-                dataType: 'json',
+                dataType: 'jsonp',
                 success: function (data) {                
                     console.log(data);
                 },
@@ -170,7 +170,7 @@
                     //alert(x + '\n' + y + '\n' + z);
                     alert(message);
                 }
-            });        
+            });
         }
 
     </script>

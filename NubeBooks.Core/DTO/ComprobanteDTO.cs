@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NubeBooks.Core.DTO
 {
@@ -15,19 +16,24 @@ namespace NubeBooks.Core.DTO
         public int IdEntidadResponsable { get; set; }
         public int IdMoneda { get; set; }
         public int IdEmpresa { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string NroDocumento { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal Monto { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal MontoSinIGV { get; set; }
         public int? IdArea { get; set; }
         public int? IdResponsable { get; set; }
         public int? IdCategoria { get; set; }
         public int? IdProyecto { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public DateTime FechaEmision { get; set; }
         public DateTime? FechaConclusion { get; set; }
         public string Comentario { get; set; }
         public bool Estado { get; set; }
         public bool Ejecutado { get; set; }
         public int? IdHonorario { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal TipoCambio { get; set; }
         public int UsuarioCreacion { get; set; }
 
