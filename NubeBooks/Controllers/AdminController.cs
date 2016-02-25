@@ -337,7 +337,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Bancarios";
-            MenuNavBarSelected(2,1);
+            MenuNavBarSelected(2,0);
 
             UsuarioDTO user = getCurrentUser();
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -353,7 +353,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Administrativos";
-            MenuNavBarSelected(2,0);
+            MenuNavBarSelected(2,1);
 
             UsuarioDTO user = getCurrentUser();
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -785,20 +785,16 @@ namespace NubeBooks.Controllers
                         TempData["Movimiento"] = dto;
                         return RedirectToAction("Movimiento", new { id = 0, idLibro = dto.IdCuentaBancaria });
                     }
-                    else if(dto.Monto == dto.cmpMontoPendiente)
-                    {
-                        ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true);
-                    }
-                    else
-                    {
-                        ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado);
-                    }
                 }
                 if (dto.IdMovimiento == 0)
                 {
                     if (objBL.add(dto))
                     {
-                        //objBL.ActualizarSaldos(dto.IdCuentaBancaria);
+                        if (dto.IdComprobante.GetValueOrDefault() != 0)
+                        {
+                            if (dto.Monto == dto.cmpMontoPendiente) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
+                            else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
+                        }
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
                     }
@@ -807,11 +803,14 @@ namespace NubeBooks.Controllers
                 {
                     if (objBL.update(dto))
                     {
+                        if (dto.IdComprobante.GetValueOrDefault() != 0)
+                        {
+                            if (dto.Monto == dto.cmpMontoPendiente) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
+                            else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
+                        }
                         //Si en la actualizacion se cambio el IdComprobante
                         if (dtoAnterior.IdComprobante != null && dtoAnterior.IdComprobante != dto.IdComprobante)
-                        {
-                            ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false);
-                        }
+                        {ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false);}
 
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
@@ -833,7 +832,7 @@ namespace NubeBooks.Controllers
                 else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
             }
             TempData["Movimiento"] = dto;
-            return RedirectToAction("Movimiento");
+            return RedirectToAction("Movimiento", "Admin", new { id = 0, idLibro = dto.IdCuentaBancaria });
         }
 
         [HttpPost]
@@ -3268,9 +3267,9 @@ namespace NubeBooks.Controllers
         public void MenuNavBarSelected(int num, int? subNum = null)
         {
             navbar.clearAll();
-            if (num != 0) { navbar.lstOptions[num].cadena = "active"; }
+            navbar.lstOptions[num].cadena = "active";
 
-            if (subNum != null && subNum != 0)
+            if (subNum != null)
             {
                 //Limpiar Activos del ultimo elemento
                 navbar.lstOptions[num].lstOptions[subNum.GetValueOrDefault()].cadena = "active";

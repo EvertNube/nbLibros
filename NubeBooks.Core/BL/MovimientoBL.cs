@@ -107,7 +107,7 @@ namespace NubeBooks.Core.BL
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
                     //Actualizar saldo Bancario en Movimiento
-                    ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
+                    ActualizarSaldoBancarioEnMovimiento(nuevo.IdMovimiento);
                     //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
                     ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
                     return true;
