@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NubeBooks.Helpers.Razor", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NubeBooks.Core", "NubeBooks.Core\NubeBooks.Core.csproj", "{B3DFC0A6-E4A2-473A-A672-B56B0FC06C40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NubeBooks.Core.Logistics", "NubeBooks.Core.Logistics\NubeBooks.Core.Logistics.csproj", "{51BC5F58-0CEC-48C1-A6E2-D2C51E7A3A19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,32 +47,12 @@ Global
 		{B3DFC0A6-E4A2-473A-A672-B56B0FC06C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3DFC0A6-E4A2-473A-A672-B56B0FC06C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3DFC0A6-E4A2-473A-A672-B56B0FC06C40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BC5F58-0CEC-48C1-A6E2-D2C51E7A3A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BC5F58-0CEC-48C1-A6E2-D2C51E7A3A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BC5F58-0CEC-48C1-A6E2-D2C51E7A3A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BC5F58-0CEC-48C1-A6E2-D2C51E7A3A19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://evert-anderson-hl.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = NubeBooks.Core\\NubeBooks.Core.csproj
-		SccProjectName1 = NubeBooks.Core
-		SccLocalPath1 = NubeBooks.Core
-		SccProjectUniqueName2 = NubeBooks.Data\\NubeBooks.Data.csproj
-		SccProjectName2 = NubeBooks.Data
-		SccLocalPath2 = NubeBooks.Data
-		SccProjectUniqueName3 = NubeBooks.Helpers.Razor\\NubeBooks.Helpers.Razor.csproj
-		SccProjectName3 = NubeBooks.Helpers.Razor
-		SccLocalPath3 = NubeBooks.Helpers.Razor
-		SccProjectUniqueName4 = NubeBooks.Helpers\\NubeBooks.Helpers.csproj
-		SccProjectName4 = NubeBooks.Helpers
-		SccLocalPath4 = NubeBooks.Helpers
-		SccProjectUniqueName5 = NubeBooks.Tests\\NubeBooks.Tests.csproj
-		SccProjectName5 = NubeBooks.Tests
-		SccLocalPath5 = NubeBooks.Tests
-		SccProjectUniqueName6 = NubeBooks\\NubeBooks.csproj
-		SccProjectName6 = NubeBooks
-		SccLocalPath6 = NubeBooks
 	EndGlobalSection
 EndGlobal

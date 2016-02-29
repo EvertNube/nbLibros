@@ -1,5 +1,7 @@
 ﻿using NubeBooks.Core.BL;
 using NubeBooks.Core.DTO;
+using NubeBooks.Core.Logistics.BL;
+using NubeBooks.Core.Logistics.DTO;
 using NubeBooks.Helpers;
 using NubeBooks.Helpers.Razor;
 using NubeBooks.Models;
@@ -918,12 +920,7 @@ namespace NubeBooks.Controllers
             try
             {
                 UsuariosBL usuariosBL = new UsuariosBL();
-                /*if (usuariosBL.validateUsuario(user))
-                {
-                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_DUPLICATE_USER);
-                    TempData["Usuario"] = user;
-                    return RedirectToAction("Usuario");
-                }*/
+                
                 if (user.IdUsuario == 0 && usuariosBL.validateUsuario(user))
                 {
                     if (!this.isSuperAdministrator()) { return RedirectToAction("Index"); }
@@ -1126,7 +1123,6 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
-
         public ActionResult ComprobantesIngreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -1147,7 +1143,6 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
-
         public ActionResult ComprobantesEgreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -1168,7 +1163,6 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
-
         private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!String.IsNullOrEmpty(searchString))
@@ -1425,6 +1419,46 @@ namespace NubeBooks.Controllers
                 throw;
             }
             return RedirectToAction("Comprobantes", "Admin");
+        }
+        public ActionResult InventariosIngreso()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Inventarios de Ingreso";
+
+            MenuNavBarSelected(9, 0);
+
+            UsuarioDTO user = getCurrentUser();
+
+            MovimientoInvBL objBL = new MovimientoInvBL();
+            int tipo = 1;
+            ViewBag.idTipoInventario = tipo;
+
+            if (user.IdEmpresa > 0)
+            {
+                List<MovimientoInvDTO> lista = objBL.getMovimientoInvsEnEmpresaPorTipo(user.IdEmpresa, tipo);
+                return View(lista);
+            }
+            return View();
+        }
+        public ActionResult InventariosEgresos()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Inventarios de Egresos";
+
+            MenuNavBarSelected(9, 1);
+
+            UsuarioDTO user = getCurrentUser();
+
+            MovimientoInvBL objBL = new MovimientoInvBL();
+            int tipo = 2;
+            ViewBag.idTipoInventario = tipo;
+
+            if (user.IdEmpresa > 0)
+            {
+                List<MovimientoInvDTO> lista = objBL.getMovimientoInvsEnEmpresaPorTipo(user.IdEmpresa, tipo);
+                return View(lista);
+            }
+            return View();
         }
         public ActionResult Areas()
         {

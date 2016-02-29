@@ -30,10 +30,10 @@ namespace NubeBooks.Data
         public int IdEmpresa { get; set; }
         public Nullable<int> IdTipoCuenta { get; set; }
     
+        public virtual Empresa Empresa { get; set; }
         public virtual Moneda Moneda { get; set; }
         public virtual TipoCuenta TipoCuenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
-        public virtual Empresa Empresa { get; set; }
     }
 }

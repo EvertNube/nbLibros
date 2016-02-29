@@ -27,3 +27,13 @@ C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramew
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.csprojResolveAssemblyReference.cache
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.dll
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.pdb
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\NubeBooks.Data.dll.config
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\NubeBooks.Data.dll
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\NubeBooks.Data.pdb
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramework.dll
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramework.xml
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.csprojResolveAssemblyReference.cache
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.dll
+C:\Archivos\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.pdb

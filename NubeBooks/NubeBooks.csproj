@@ -984,6 +984,7 @@
     <Content Include="Views\Admin\EntidadesProveedores.cshtml" />
     <Content Include="Views\Admin\LibrosBancarios.cshtml" />
     <Content Include="Views\Admin\LibrosAdministrativos.cshtml" />
+    <Content Include="Views\Admin\InventariosIngreso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -995,6 +996,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NubeBooks.Core.Logistics\NubeBooks.Core.Logistics.csproj">
+      <Project>{51bc5f58-0cec-48c1-a6e2-d2c51e7a3a19}</Project>
+      <Name>NubeBooks.Core.Logistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NubeBooks.Core\NubeBooks.Core.csproj">
       <Project>{b3dfc0a6-e4a2-473a-a672-b56b0fc06c40}</Project>
       <Name>NubeBooks.Core</Name>
