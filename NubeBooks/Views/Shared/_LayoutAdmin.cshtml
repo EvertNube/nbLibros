@@ -178,7 +178,33 @@
                                             <span>Egresos</span>
                                         </a>
                                     </li>
-
+                                </ul>
+                            </li>
+                            <li class="@ViewBag.navbar.lstOptions[9].cadena">
+                                <a href="@Url.Action("InventariosIngreso", "Admin")" class="auto">
+                                    <span class="pull-right text-muted">
+                                        <i class="fa fa-fw fa-angle-right text"></i>
+                                        <i class="fa fa-fw fa-angle-down text-active"></i>
+                                    </span>
+                                    <i class="fa fa-book"></i>
+                                    <span class="font-bold">Inventarios</span>
+                                </a>
+                                <ul class="nav nav-sub dk">
+                                    <li class="nav-sub-header">
+                                        <a href="@Url.Action("InventariosIngreso", "Admin")">
+                                            <span>Inventarios</span>
+                                        </a>
+                                    </li>
+                                    <li class="@ViewBag.navbar.lstOptions[9].lstOptions[0].cadena">
+                                        <a href="@Url.Action("InventariosIngreso", "Admin")">
+                                            <span>Ingresos</span>
+                                        </a>
+                                    </li>
+                                    <li class="@ViewBag.navbar.lstOptions[9].lstOptions[1].cadena">
+                                        <a href="@Url.Action("InventariosEgresos", "Admin")">
+                                            <span>Egresos</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="line dk"></li>
@@ -224,6 +250,39 @@
                                         <li class="@ViewBag.navbar.lstOptions[6].lstOptions[1].cadena">
                                             <a href="@Url.Action("EntidadesProveedores", "Admin")">
                                                 <span>Proveedores</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="@ViewBag.navbar.lstOptions[10].cadena">
+                                    <a href="@Url.Action("Items", "Admin")" class="auto">
+                                        <span class="pull-right text-muted">
+                                            <i class="fa fa-fw fa-angle-right text"></i>
+                                            <i class="fa fa-fw fa-angle-down text-active"></i>
+                                        </span>
+                                        <b class="badge bg-info pull-right">3</b>
+                                        <i class="fa fa-cog"></i>
+                                        <span>Items</span>
+                                    </a>
+                                    <ul class="nav nav-sub dk">
+                                        <li class="nav-sub-header">
+                                            <a href="@Url.Action("Items", "Admin")">
+                                                <span>Items</span>
+                                            </a>
+                                        </li>
+                                        <li class="@ViewBag.navbar.lstOptions[10].lstOptions[0].cadena">
+                                            <a href="@Url.Action("Items", "Admin")">
+                                                <span>Items</span>
+                                            </a>
+                                        </li>
+                                        <li class="@ViewBag.navbar.lstOptions[10].lstOptions[1].cadena">
+                                            <a href="@Url.Action("CategoriaItms", "Admin")">
+                                                <span>Categorias</span>
+                                            </a>
+                                        </li>
+                                        <li class="@ViewBag.navbar.lstOptions[10].lstOptions[2].cadena">
+                                            <a href="@Url.Action("Ubicaciones", "Admin")">
+                                                <span>Ubicaciones</span>
                                             </a>
                                         </li>
                                     </ul>

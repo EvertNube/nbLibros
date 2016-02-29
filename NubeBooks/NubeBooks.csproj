@@ -985,6 +985,13 @@
     <Content Include="Views\Admin\LibrosBancarios.cshtml" />
     <Content Include="Views\Admin\LibrosAdministrativos.cshtml" />
     <Content Include="Views\Admin\InventariosIngreso.cshtml" />
+    <Content Include="Views\Admin\InventariosEgresos.cshtml" />
+    <Content Include="Views\Admin\Items.cshtml" />
+    <Content Include="Views\Admin\CategoriaItms.cshtml" />
+    <Content Include="Views\Admin\Ubicaciones.cshtml" />
+    <Content Include="Views\Admin\Ubicacion.cshtml" />
+    <Content Include="Views\Admin\CategoriaItm.cshtml" />
+    <Content Include="Views\Admin\Item.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

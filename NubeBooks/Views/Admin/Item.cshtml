@@ -1,0 +1,45 @@
+﻿@using NubeBooks.Core.Logistics.DTO
+@model ItemDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@{var cadena = "";}
+@if (Model == null || Model.IdItem == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Item</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddItem", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Nombre</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la Categoría", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre)
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                <div class="form-group">
+                    @{var btnName = (Model != null && Model.IdItem > 0) ? "Guardar Cambios" : "Crear";}
+                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                    <a class="btn btn-default" href="@Url.Action("Items", "Admin")">Cancelar</a>
+                </div>
+                        }
+        </div>
+    </div>
+</div>

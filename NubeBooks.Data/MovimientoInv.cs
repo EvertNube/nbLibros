@@ -36,5 +36,6 @@ namespace NubeBooks.Data
         public virtual FormaMovimientoInv FormaMovimientoInv { get; set; }
         public virtual Item Item { get; set; }
         public virtual Ubicacion Ubicacion { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

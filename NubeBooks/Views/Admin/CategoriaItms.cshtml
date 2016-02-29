@@ -1,15 +1,13 @@
 ﻿@using NubeBooks.Core.Logistics.DTO
 @using System.Globalization;
-@model List<MovimientoInvDTO>
+@model List<CategoriaItmDTO>
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
-@section scripts{
 }
 
 <div class="bg-light lter b-b wrapper-md">
     <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
-    <a href="@Url.Action("MovimientoInv", "Admin", new { id = 0, idTipo = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <a href="@Url.Action("CategoriaItm", "Admin", new { id = 0 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 @Html.Partial("_showAlertMessages")
@@ -35,15 +33,8 @@
 }" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width:7%">Fecha</th>
-                        <th class="text-center" style="width:9%">Movimiento</th>
-                        <th class="text-center">Documento</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">U. Medida</th>
-                        <th class="text-center" style="width:6%">Lote</th>
-                        <th class="text-center" style="width:11%">Stock Lote</th>
-                        <th class="text-center" style="width:7%">Venc.</th>
-                        <th class="text-center" style="width:10%">Usuario</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Estado</th>
                         <th class="text-center" style="width:7%">Opc.</th>
                     </tr>
                 </thead>
@@ -53,19 +44,13 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-center">@item.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                <td class="text-center">@(item.nTipo + " - " + item.nForma)</td>
-                                <td class="text-center">@item.NroDocumento</td>
-                                <td class="text-center">@item.Cantidad</td>
-                                <td class="text-center">@item.UnidadMedida</td>
-                                <td class="text-center">@item.SerieLote</td>
-                                <td class="text-center">@(item.FechaFin != null ? item.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-")</td>
-                                <td class="text-center">@item.nUsuario</td>
+                                <td class="text-center">@item.Nombre</td>
+                                <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
-                                    <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                    <a href="@Url.Action("CategoriaItm", "Admin", new { id = item.IdCategoriaItm })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdMovimientoInv" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdCategoriaItm"><i class="fa fa-times" title="Eliminar"></i></a>}
                                 </td>
                             </tr>
                                         }
@@ -75,3 +60,6 @@
         </div>
     </div>
 </div>
+
+
+

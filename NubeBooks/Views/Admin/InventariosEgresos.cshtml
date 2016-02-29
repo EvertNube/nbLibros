@@ -9,7 +9,7 @@
 
 <div class="bg-light lter b-b wrapper-md">
     <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
-    <a href="@Url.Action("MovimientoInv", "Admin", new { id = 0, idTipo = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <a href="@Url.Action("MovimientoInv", "Admin", new { id = 0, idTipo = 2 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 @Html.Partial("_showAlertMessages")
@@ -75,3 +75,4 @@
         </div>
     </div>
 </div>
+

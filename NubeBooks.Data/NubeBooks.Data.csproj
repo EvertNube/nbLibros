@@ -152,12 +152,6 @@
     <Compile Include="SP_Get_MontoIncompletoEnComprobante_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="SP_Rep_AvanceDePresupuesto_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -186,9 +180,6 @@
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Rep_IngresosEgresosPorAreas_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoComprobante.cs">

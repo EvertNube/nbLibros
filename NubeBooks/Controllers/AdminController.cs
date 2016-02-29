@@ -1460,6 +1460,267 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
+        public ActionResult Items()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Items";
+            MenuNavBarSelected(10, 0);
+            UsuarioDTO user = getCurrentUser();
+
+            ItemBL objBL = new ItemBL();
+            List<ItemDTO> listaItems = new List<ItemDTO>();
+
+            if (user.IdEmpresa > 0)
+            {
+                listaItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
+            }
+            return View(listaItems);
+        }
+        public ActionResult Item(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Item";
+            MenuNavBarSelected(10, 0);
+
+            UsuarioDTO user = getCurrentUser();
+
+            ItemBL objBL = new ItemBL();
+
+            var objSent = TempData["Item"];
+            if (objSent != null) { TempData["Item"] = null; return View(objSent); }
+
+            ItemDTO obj;
+            if (id != null && id != 0)
+            {
+                obj = objBL.getItemEnEmpresa((int)user.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Items");
+                if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("Items");
+                return View(obj);
+            }
+            obj = new ItemDTO();
+            obj.IdEmpresa = user.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddItem(ItemDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            try
+            {
+                ItemBL objBL = new ItemBL();
+                if (dto.IdItem == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Items");
+                    }
+                }
+                else if (dto.IdItem != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Items");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdItem != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Item"] = dto;
+            return RedirectToAction("Item");
+        }
+        public ActionResult CategoriaItms()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Categorias de Items";
+            MenuNavBarSelected(10, 1);
+            UsuarioDTO user = getCurrentUser();
+
+            CategoriaItmBL objBL = new CategoriaItmBL();
+            List<CategoriaItmDTO> listaCategoriaItms = new List<CategoriaItmDTO>();
+
+            if (user.IdEmpresa > 0)
+            {
+                listaCategoriaItms = objBL.getCategoriaItmsEnEmpresa(user.IdEmpresa);
+            }
+            return View(listaCategoriaItms);
+        }
+        public ActionResult CategoriaItm(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Categoría de Items";
+            MenuNavBarSelected(10, 1);
+
+            UsuarioDTO user = getCurrentUser();
+
+            CategoriaItmBL objBL = new CategoriaItmBL();
+
+            var objSent = TempData["CategoriaItm"];
+            if (objSent != null) { TempData["CategoriaItm"] = null; return View(objSent); }
+
+            CategoriaItmDTO obj;
+            if (id != null && id != 0)
+            {
+                obj = objBL.getCategoriaItmEnEmpresa((int)user.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("CategoriaItms");
+                if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("CategoriaItms");
+                return View(obj);
+            }
+            obj = new CategoriaItmDTO();
+            obj.IdEmpresa = user.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddCategoriaItm(CategoriaItmDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            try
+            {
+                CategoriaItmBL objBL = new CategoriaItmBL();
+                if (dto.IdCategoriaItm == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("CategoriaItms");
+                    }
+                }
+                else if (dto.IdCategoriaItm != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("CategoriaItms");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdCategoriaItm != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["CategoriaItm"] = dto;
+            return RedirectToAction("CategoriaItm");
+        }
+        public ActionResult Ubicaciones()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Ubicaciones";
+            MenuNavBarSelected(10, 2);
+            UsuarioDTO user = getCurrentUser();
+
+            UbicacionBL objBL = new UbicacionBL();
+            List<UbicacionDTO> listaUbicacions = new List<UbicacionDTO>();
+
+            if (user.IdEmpresa > 0)
+            {
+                listaUbicacions = objBL.getUbicacionsEnEmpresa(user.IdEmpresa);
+            }
+            return View(listaUbicacions);
+        }
+        public ActionResult Ubicacion(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Ubicacion";
+            MenuNavBarSelected(10, 2);
+
+            UsuarioDTO currentUser = getCurrentUser();
+
+            UbicacionBL objBL = new UbicacionBL();
+
+            var objSent = TempData["Ubicacion"];
+            if (objSent != null) { TempData["Ubicacion"] = null; return View(objSent); }
+
+            UbicacionDTO obj;
+            if (id != null && id != 0)
+            {
+                obj = objBL.getUbicacionEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Ubicaciones");
+                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Ubicaciones");
+                return View(obj);
+            }
+            obj = new UbicacionDTO();
+            obj.IdEmpresa = currentUser.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddUbicacion(UbicacionDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            try
+            {
+                UbicacionBL objBL = new UbicacionBL();
+                if (dto.IdUbicacion == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Ubicaciones");
+                    }
+                }
+                else if (dto.IdUbicacion != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Ubicaciones");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdUbicacion != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Ubicacion"] = dto;
+            return RedirectToAction("Ubicacion");
+        }
         public ActionResult Areas()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -1481,7 +1742,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Area";
+            ViewBag.Title += " - Área";
             MenuNavBarSelected(4, 0);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -1565,6 +1826,8 @@ namespace NubeBooks.Controllers
             }
             return View(listaResponsables);
         }
+
+
         public ActionResult Responsable(int? id = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }

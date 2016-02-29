@@ -17,7 +17,7 @@ namespace NubeBooks.Models
         public Navbar()
         {
             lstOptions = new List<Option>();
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 11; i++)
             {
                 lstOptions.Add(new Option() { cadena = "", lstOptions = new List<Option>() });
             }
@@ -41,8 +41,10 @@ namespace NubeBooks.Models
             lstOptions[9].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[9].lstOptions.Add(new Option() { cadena = "" });
             //10- Items
-            //11- Ubicacion Items
-            //12- Categoria Items 
+            lstOptions[10].lstOptions.Add(new Option() { cadena = "" }); //10.0- Items
+            lstOptions[10].lstOptions.Add(new Option() { cadena = "" }); //10.1- Ubicacion Items
+            lstOptions[10].lstOptions.Add(new Option() { cadena = "" }); //10.2- Categoria Items 
+
         }
 
         public void clearAll()

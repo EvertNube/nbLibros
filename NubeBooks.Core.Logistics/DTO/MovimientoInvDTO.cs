@@ -29,5 +29,6 @@ namespace NubeBooks.Core.Logistics.DTO
         public string nItem { get; set; }
         public string nTipo { get; set; }
         public string nForma { get; set; }
+        public string nUsuario { get; set; }
     }
 }
