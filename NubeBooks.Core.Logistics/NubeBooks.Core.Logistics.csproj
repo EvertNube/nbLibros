@@ -67,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NubeBooks.Core\NubeBooks.Core.csproj">
+      <Project>{b3dfc0a6-e4a2-473a-a672-b56b0fc06c40}</Project>
+      <Name>NubeBooks.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NubeBooks.Data\NubeBooks.Data.csproj">
       <Project>{5e093bab-a055-4bf2-a59c-d7fa80f036d5}</Project>
       <Name>NubeBooks.Data</Name>

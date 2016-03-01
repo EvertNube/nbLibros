@@ -13,5 +13,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public int IdTipoMovimientoInv { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
+
+        public string nTipoMovimientoInv { get; set; }
     }
 }

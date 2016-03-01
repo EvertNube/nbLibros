@@ -1460,6 +1460,88 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
+        public ActionResult MovimientoInv(int? id = null, int? idTipo = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Comprobante";
+
+            int tipo = 1;
+            if (idTipo != null) { tipo = idTipo.GetValueOrDefault(); }
+            MenuNavBarSelected(9, tipo - 1);
+
+            UsuarioDTO user = getCurrentUser();
+
+            MovimientoInvBL objBL = new MovimientoInvBL();
+            
+            ViewBag.lstFormaMovimiento = objBL.getFormaMovimientoInvPorTipo(tipo);
+            ViewBag.lstProveedores = objBL.getProveedoresEnEmpresa(user.IdEmpresa);
+            ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
+            
+            var objSent = TempData["MovimientoInv"];
+            if (objSent != null) { TempData["MovimientoInv"] = null; return View(objSent); }
+
+            MovimientoInvDTO obj;
+            if (id != null && id != 0)
+            {
+                obj = objBL.getMovimientoInvEnEmpresa((int)user.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("MovimientoInvs");
+                if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("MovimientoInvs");
+                obj.UsuarioCreacion = user.IdUsuario;
+
+                return View(obj);
+            }
+            obj = new MovimientoInvDTO();
+            obj.IdEmpresa = user.IdEmpresa;
+            obj.UsuarioCreacion = user.IdUsuario;
+            obj.FechaInicial = DateTime.Now;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddMovimientoInv(MovimientoInvDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("MovimientoInvs", "Admin"); }
+            try
+            {
+                string sTipoMovimientoInv = dto.IdTipoMovimientoInv == 1 ? "Ingreso" : "Egreso";
+
+                MovimientoInvBL objBL = new MovimientoInvBL();
+                if (dto.IdMovimientoInv == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("MovimientoInvs" + sTipoMovimientoInv, "Admin");
+                    }
+                }
+                else if (dto.IdMovimientoInv != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("MovimientoInvs" + sTipoMovimientoInv, "Admin");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdMovimientoInv != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["MovimientoInv"] = dto;
+            return RedirectToAction("MovimientoInv");
+        }
         public ActionResult Items()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -1487,6 +1569,7 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
 
             ItemBL objBL = new ItemBL();
+            ViewBag.lstCategoriaItm = objBL.getCategoriasEnEmpresa(user.IdEmpresa);
 
             var objSent = TempData["Item"];
             if (objSent != null) { TempData["Item"] = null; return View(objSent); }

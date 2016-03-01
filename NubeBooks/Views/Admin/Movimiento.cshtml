@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Tipo de Movimiento</label>
-                                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != null ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
                                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
                                         </div>
                                         <div class="form-group col-md-4">
@@ -242,7 +242,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label>Estado de Movimiento</label>
-                                            @Html.DropDownListFor(u => u.IdEstadoMovimiento, new SelectList(ViewBag.EstadosMovimientos, "IdEstadoMovimiento", "Nombre", Model != null ? (Model.IdEstadoMovimiento != null ? Model.IdEstadoMovimiento : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
+                                            @Html.DropDownListFor(u => u.IdEstadoMovimiento, new SelectList(ViewBag.EstadosMovimientos, "IdEstadoMovimiento", "Nombre", Model != null ? (Model.IdEstadoMovimiento != 0 ? Model.IdEstadoMovimiento : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
                                             @Html.ValidationMessageFor(u => u.IdEstadoMovimiento)
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Entidad</label>
-                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
+                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
                                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
                                         </div>
                                         <div class="form-group col-md-6">

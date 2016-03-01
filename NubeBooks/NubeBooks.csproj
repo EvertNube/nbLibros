@@ -917,6 +917,7 @@
     <Content Include="Content\themes\admin-nb\libs\._angular" />
     <Content Include="Content\themes\admin-nb\libs\._assets" />
     <Content Include="Content\themes\admin-nb\libs\._jquery" />
+    <None Include="Properties\PublishProfiles\NubeBooks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

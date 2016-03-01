@@ -36,3 +36,4 @@ C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramew
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\EntityFramework.SqlServer.xml
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.dll
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.pdb
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Debug\NubeBooks.Data.csprojResolveAssemblyReference.cache

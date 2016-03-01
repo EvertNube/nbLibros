@@ -22,7 +22,6 @@ else { cadena = "Actualizar"; }
                     @Html.ValidationMessageFor(u => u.Nombre)
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
-                @Html.TextBoxFor(u => u.IdCategoriaItm, new { @value = Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm.ToString() : "", @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 <div class="form-group">
                     @{var btnName = (Model != null && Model.IdCategoriaItm > 0) ? "Guardar Cambios" : "Crear";}

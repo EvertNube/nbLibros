@@ -3,6 +3,24 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
+        $(function () {
+            $('.miselect2').select2();
+
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            });
+        });
+    </script>
+}
+
 @{var cadena = "";}
 @if (Model == null || Model.IdItem == 0) { cadena = "Nuevo"; }
 else { cadena = "Actualizar"; }
@@ -18,28 +36,56 @@ else { cadena = "Actualizar"; }
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label>Nombre</label>
-                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la Categoría", @type = "text" })
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Nombre)
                         </div>
-                        <div class="col-md-4">
-
-                        </div>
-                        <div class="col-md-4">
-
+                        <div class="col-md-6">
+                            <label>Código</label>
+                            @Html.TextBoxFor(u => u.Codigo, new { @class = "form-control", @placeholder = "Código", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre)
                         </div>
                     </div>
-                    
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Descripción</label>
+                            @Html.TextBoxFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Descripción", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Descripcion)
+                        </div>
+                        <div class="col-md-6">
+                            <label>Categoría</label>
+                            @Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})
+                            @Html.ValidationMessageFor(u => u.IdCategoriaItm)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Unidad de Medida</label>
+                            @Html.TextBoxFor(u => u.UnidadMedida, new { @class = "form-control", @placeholder = "U. Medida", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Descripcion)
+                        </div>
+                    </div>
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
-                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 <div class="form-group">
-                    @{var btnName = (Model != null && Model.IdItem > 0) ? "Guardar Cambios" : "Crear";}
-                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
-                    <a class="btn btn-default" href="@Url.Action("Items", "Admin")">Cancelar</a>
+                    @Html.TextBoxFor(u => u.IdItem, new { @value = Model.IdItem != 0 ? Model.IdItem.ToString() : "", @type = "hidden" })
+                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 </div>
-                        }
+                <div class="form-group">
+                    <div class="row">
+                        @{var btnName = (Model != null && Model.IdItem > 0) ? "Guardar Cambios" : "Crear";}
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                            <a class="btn btn-default" href="@Url.Action("Items", "Admin")">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+                            }
         </div>
     </div>
 </div>

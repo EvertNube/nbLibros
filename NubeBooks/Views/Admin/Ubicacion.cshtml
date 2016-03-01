@@ -18,11 +18,12 @@ else { cadena = "Actualizar"; }
                 @Html.Partial("_showAlertMessages")
                 @Html.ValidationSummary(true)
                 <div class="form-group">
-                    <label>Nombre del Ubicacion</label>
+                    <label>Nombre de la Ubicación</label>
                     @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la ubicación", @type = "text" })
                     @Html.ValidationMessageFor(u => u.Nombre)
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdUbicacion, new { @value = Model.IdUbicacion != 0 ? Model.IdUbicacion.ToString() : "", @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 <div class="form-group">
                     @{var btnName = (Model != null && Model.IdUbicacion > 0) ? "Guardar Cambios" : "Crear";}

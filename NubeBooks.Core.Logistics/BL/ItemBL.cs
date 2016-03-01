@@ -112,5 +112,18 @@ namespace NubeBooks.Core.Logistics.BL
                 }
             }
         }
+        public List<CategoriaItmDTO> getCategoriasEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CategoriaItm.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new CategoriaItmDTO
+                {
+                    IdCategoriaItm = x.IdCategoriaItm,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
     }
 }

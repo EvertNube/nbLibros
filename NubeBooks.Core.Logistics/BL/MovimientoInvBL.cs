@@ -1,4 +1,5 @@
 ﻿using NubeBooks.Core.Logistics.DTO;
+using NubeBooks.Core.DTO;
 using NubeBooks.Data;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdMovimientoInv = x.IdMovimientoInv,
                     IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                    IdTipoMovimientoInv = x.FormaMovimientoInv.IdTipoMovimientoInv,
                     IdItem = x.IdItem,
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdUbicacion = x.IdUbicacion,
@@ -44,6 +46,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdMovimientoInv = x.IdMovimientoInv,
                     IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                    IdTipoMovimientoInv = x.FormaMovimientoInv.IdTipoMovimientoInv,
                     IdItem = x.IdItem,
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdUbicacion = x.IdUbicacion,
@@ -70,6 +73,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdMovimientoInv = x.IdMovimientoInv,
                     IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                    IdTipoMovimientoInv = x.FormaMovimientoInv.IdTipoMovimientoInv,
                     IdItem = x.IdItem,
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdUbicacion = x.IdUbicacion,
@@ -97,6 +101,7 @@ namespace NubeBooks.Core.Logistics.BL
                     {
                         IdMovimientoInv = x.IdMovimientoInv,
                         IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                        IdTipoMovimientoInv = x.FormaMovimientoInv.IdTipoMovimientoInv,
                         IdItem = x.IdItem,
                         IdEntidadResponsable = x.IdEntidadResponsable,
                         IdUbicacion = x.IdUbicacion,
@@ -176,6 +181,45 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     throw e;
                 }
+            }
+        }
+        public List<FormaMovimientoInvDTO> getFormaMovimientoInvPorTipo(int tipo)
+        {
+            using (var context = getContext())
+            {
+                var result = context.FormaMovimientoInv.Where(x => x.IdTipoMovimientoInv == tipo).Select(x => new FormaMovimientoInvDTO
+                {
+                    IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                    nTipoMovimientoInv = x.TipoMovimientoInv.Nombre,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+        public List<EntidadResponsableDTO> getProveedoresEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.EntidadResponsable.Where(x => x.IdTipoEntidad == 2 && x.IdEmpresa == idEmpresa && x.Estado).Select(x => new EntidadResponsableDTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+        public List<UbicacionDTO> getUbicacionesEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Ubicacion.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new UbicacionDTO
+                {
+                    IdUbicacion = x.IdUbicacion,
+                    Nombre = x.Nombre
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
             }
         }
     }

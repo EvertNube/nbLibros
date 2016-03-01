@@ -26,6 +26,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public int UsuarioCreacion { get; set; }
         public int IdEmpresa { get; set; }
 
+        public int IdTipoMovimientoInv { get; set; }
         public string nItem { get; set; }
         public string nTipo { get; set; }
         public string nForma { get; set; }
