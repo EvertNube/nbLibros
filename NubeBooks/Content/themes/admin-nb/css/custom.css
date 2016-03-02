@@ -1,3 +1,13 @@
+#lstMontos {
+    -webkit-appearance: menulist-button;
+    height: 132px;	
+}
+
+
+#hint {
+	font-size: 12px;
+}
+
 span.font-thin.h3.block {
 	padding-top: 7px;
 	padding-bottom: 6px;

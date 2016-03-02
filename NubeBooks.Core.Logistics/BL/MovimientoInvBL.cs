@@ -60,7 +60,11 @@ namespace NubeBooks.Core.Logistics.BL
                     Comentario = x.Comentario,
                     Estado = x.Estado,
                     UsuarioCreacion = x.UsuarioCreacion,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    nForma = x.FormaMovimientoInv.Nombre,
+                    nItem = x.Item.Nombre,
+                    nTipo = x.FormaMovimientoInv.TipoMovimientoInv.Nombre,
+                    nUsuario = x.Usuario.Nombre
                 }).ToList();
                 return result;
             }
@@ -219,6 +223,19 @@ namespace NubeBooks.Core.Logistics.BL
                     IdUbicacion = x.IdUbicacion,
                     Nombre = x.Nombre
                 }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+
+        public List<ItemDTO> getItemsEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Item.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ItemDTO
+                {
+                    IdItem = x.IdItem,
+                    Codigo = x.Codigo + " - " + x.Nombre
+                }).OrderBy(x => x.Codigo).ToList();
                 return result;
             }
         }

@@ -1440,10 +1440,10 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
-        public ActionResult InventariosEgresos()
+        public ActionResult InventariosEgreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Inventarios de Egresos";
+            ViewBag.Title += " - Inventarios de Egreso";
 
             MenuNavBarSelected(9, 1);
 
@@ -1463,7 +1463,7 @@ namespace NubeBooks.Controllers
         public ActionResult MovimientoInv(int? id = null, int? idTipo = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobante";
+            ViewBag.Title += " - Movimiento de Inventario";
 
             int tipo = 1;
             if (idTipo != null) { tipo = idTipo.GetValueOrDefault(); }
@@ -1474,6 +1474,7 @@ namespace NubeBooks.Controllers
             MovimientoInvBL objBL = new MovimientoInvBL();
             
             ViewBag.lstFormaMovimiento = objBL.getFormaMovimientoInvPorTipo(tipo);
+            ViewBag.lstItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
             ViewBag.lstProveedores = objBL.getProveedoresEnEmpresa(user.IdEmpresa);
             ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
             
@@ -1491,6 +1492,7 @@ namespace NubeBooks.Controllers
                 return View(obj);
             }
             obj = new MovimientoInvDTO();
+            obj.IdTipoMovimientoInv = tipo;
             obj.IdEmpresa = user.IdEmpresa;
             obj.UsuarioCreacion = user.IdUsuario;
             obj.FechaInicial = DateTime.Now;
@@ -1512,7 +1514,7 @@ namespace NubeBooks.Controllers
                     if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("MovimientoInvs" + sTipoMovimientoInv, "Admin");
+                        return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
                     }
                 }
                 else if (dto.IdMovimientoInv != 0)
@@ -1520,7 +1522,7 @@ namespace NubeBooks.Controllers
                     if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
-                        return RedirectToAction("MovimientoInvs" + sTipoMovimientoInv, "Admin");
+                        return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
                     }
                     else
                     {
@@ -2401,6 +2403,17 @@ namespace NubeBooks.Controllers
                 return "true";
             }
             return "false";
+        }
+
+        [HttpPost]
+        public string GetUnidadDeMedidaEnItem(int idItem)
+        {
+            if (!this.currentUser() || !isAdministrator()) { return "-"; }
+
+            ItemBL objBL = new ItemBL();
+            ItemDTO obj = objBL.getItemEnEmpresa(getCurrentUser().IdEmpresa, idItem);
+            if (obj != null) { return obj.UnidadMedida; }
+            return "-";
         }
 
         [HttpPost]

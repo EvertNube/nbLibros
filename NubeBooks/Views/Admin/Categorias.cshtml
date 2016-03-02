@@ -33,9 +33,7 @@
         function endEdit(e) {
             var input = $(e.target),
                 label = input && input.prev();
-
             //label.text(input.val() === '' ? defaultText : input.val();
-
             var jValor = parseFloat(input.val()).toFixed(2);
             label.text(input.val() === '' ? defaultText : jValor.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             input.hide();

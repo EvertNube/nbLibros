@@ -694,6 +694,7 @@
     <Content Include="Content\themes\admin\js\fuelux\demo.datagrid.js" />
     <Content Include="Content\themes\admin\js\fuelux\fuelux.css" />
     <Content Include="Content\themes\admin\js\fuelux\fuelux.js" />
+    <Content Include="Content\themes\admin\js\main.js" />
     <Content Include="Content\themes\admin\js\nestable\demo.js" />
     <Content Include="Content\themes\admin\js\nestable\jquery.nestable.js" />
     <Content Include="Content\themes\admin\js\nestable\nestable.css" />
@@ -986,13 +987,14 @@
     <Content Include="Views\Admin\LibrosBancarios.cshtml" />
     <Content Include="Views\Admin\LibrosAdministrativos.cshtml" />
     <Content Include="Views\Admin\InventariosIngreso.cshtml" />
-    <Content Include="Views\Admin\InventariosEgresos.cshtml" />
+    <Content Include="Views\Admin\InventariosEgreso.cshtml" />
     <Content Include="Views\Admin\Items.cshtml" />
     <Content Include="Views\Admin\CategoriaItms.cshtml" />
     <Content Include="Views\Admin\Ubicaciones.cshtml" />
     <Content Include="Views\Admin\Ubicacion.cshtml" />
     <Content Include="Views\Admin\CategoriaItm.cshtml" />
     <Content Include="Views\Admin\Item.cshtml" />
+    <Content Include="Views\Admin\MovimientoInv.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
