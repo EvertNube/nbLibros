@@ -1058,6 +1058,9 @@
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
   </Function>
+  <Function Name="SP_Get_StockLotes_En_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_GetReporteDetalleMovimientos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCuentaB" Type="int" Mode="In" />
     <Parameter Name="FechaInicio" Type="datetime" Mode="In" />

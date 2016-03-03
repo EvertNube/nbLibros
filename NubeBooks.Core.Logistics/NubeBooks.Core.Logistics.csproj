@@ -58,6 +58,7 @@
     <Compile Include="DTO\FormaMovimientoInvDTO.cs" />
     <Compile Include="DTO\ItemDTO.cs" />
     <Compile Include="DTO\MovimientoInvDTO.cs" />
+    <Compile Include="DTO\StockLoteDTO.cs" />
     <Compile Include="DTO\TipoMovimientoInvDTO.cs" />
     <Compile Include="DTO\UbicacionDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

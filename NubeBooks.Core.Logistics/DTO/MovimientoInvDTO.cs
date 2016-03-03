@@ -31,5 +31,6 @@ namespace NubeBooks.Core.Logistics.DTO
         public string nTipo { get; set; }
         public string nForma { get; set; }
         public string nUsuario { get; set; }
+        public int StockLote { get; set; }
     }
 }

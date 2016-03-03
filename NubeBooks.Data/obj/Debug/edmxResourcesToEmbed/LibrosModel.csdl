@@ -1362,6 +1362,9 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Get_StockLotes_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1522,5 +1525,9 @@
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="SP_Get_StockLotes_En_Empresa_Result">
+    <Property Type="String" Name="SerieLote" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="StockLote" Nullable="true" />
   </ComplexType>
 </Schema>

@@ -352,5 +352,14 @@ namespace NubeBooks.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
+    
+        public virtual ObjectResult<SP_Get_StockLotes_En_Empresa_Result> SP_Get_StockLotes_En_Empresa(Nullable<int> idEmpresa)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_StockLotes_En_Empresa_Result>("SP_Get_StockLotes_En_Empresa", idEmpresaParameter);
+        }
     }
 }

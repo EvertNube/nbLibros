@@ -160,6 +160,7 @@ else { cadena = "Actualizar"; }
                 }
                 <div class="line line-dashed b-b line-lg pull-in"></div>
                     <div class="form-group">
+                        @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
                         @Html.TextBoxFor(u => u.IdMovimientoInv, new { @value = Model.IdMovimientoInv != 0 ? Model.IdMovimientoInv.ToString() : "", @type = "hidden" })
                         @Html.TextBoxFor(u => u.IdTipoMovimientoInv, new { @value = Model.IdTipoMovimientoInv != 0 ? Model.IdTipoMovimientoInv.ToString() : "1", @type = "hidden" })
                         @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })

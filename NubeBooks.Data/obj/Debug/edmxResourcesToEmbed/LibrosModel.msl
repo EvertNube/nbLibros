@@ -614,5 +614,13 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_StockLotes_En_Empresa" FunctionName="LibrosDBModel.Store.SP_Get_StockLotes_En_Empresa">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result">
+          <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+          <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

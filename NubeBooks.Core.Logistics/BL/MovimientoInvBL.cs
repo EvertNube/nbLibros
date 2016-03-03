@@ -42,6 +42,8 @@ namespace NubeBooks.Core.Logistics.BL
         {
             using (var context = getContext())
             {
+                var lstStockLotes = context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList();
+
                 var result = context.MovimientoInv.Where(x => x.IdEmpresa == idEmpresa && x.FormaMovimientoInv.IdTipoMovimientoInv == tipo).Select(x => new MovimientoInvDTO
                 {
                     IdMovimientoInv = x.IdMovimientoInv,
@@ -66,6 +68,12 @@ namespace NubeBooks.Core.Logistics.BL
                     nTipo = x.FormaMovimientoInv.TipoMovimientoInv.Nombre,
                     nUsuario = x.Usuario.Nombre
                 }).ToList();
+
+                foreach (var item in result)
+                {
+                    item.StockLote = lstStockLotes.Where(x => x.SerieLote == item.SerieLote).SingleOrDefault().StockLote.GetValueOrDefault();
+                }
+
                 return result;
             }
         }
