@@ -33,11 +33,13 @@
 
             $("#add-monto").click(function () {
                 var existe = false;
-                var AreaSel = $('#IdArea :selected');
-                var valorArea = $('#IdArea :selected').val();
+                debugger;
+                //var AreaSel = $('#IdAreaX :selected');
+                var valorArea = $('#IdAreaX :selected').val();
                 if (valorArea > 0) {
-                    var txtArea = $('#IdArea :selected').text();
-                    var txtMonto = parseFloat($('#MontoSinIGV').val()).toFixed(2);
+                    var txtArea = $('#IdAreaX :selected').text();
+                    //var txtMonto = parseFloat($('#MontoSinIGVX').val()).toFixed(2);
+                    var txtMonto = parseFloat($('#MontoX').val());
                     $('#lstMontos option').each(function () {
                         if ($(this).val() == valorArea) existe = true;
                     });
@@ -47,7 +49,9 @@
                             text: txtArea + ' - ' + txtMonto
                         }).attr('data-monto', txtMonto));
 
-                        $('#IdArea').select2("val", 0);
+                        $('#IdAreaX').select2("val", 0);
+                        $('#MontoX').val("");
+                        $('#MontoSinIGVX').val("");
                         ActualizarMontos();
                     } else {
                         alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
@@ -61,6 +65,8 @@
                 var text = $('#lstMontos :selected').text();
 
                 $('#lstMontos :selected').remove();
+                $('#MontoSinIGVX').val("");
+                $('#MontoX').val("");
                 ActualizarMontos();
             });
 
@@ -95,9 +101,9 @@
 
             //var chkIGV = ;
             if($('#chkIGV').is(':checked'))
-            {montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2);}
+            {montoSinIGV = ($('#Monto').val() / 1.18);}
             else
-            { montoSinIGV = ($('#Monto').val() / 1).toFixed(2); }
+            { montoSinIGV = ($('#Monto').val() / 1); }
 
             $('#MontoSinIGV').val(montoSinIGV);
         }
@@ -110,11 +116,27 @@
             else
             { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }*/
             if($('#chkIGV').is(':checked'))
-            { montoConIGV = ($('#MontoSinIGV').val() * 1.18).toFixed(2); }
+            { montoConIGV = ($('#MontoSinIGV').val() * 1.18); }
             else
-            { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }
+            { montoConIGV = ($('#MontoSinIGV').val() / 1); }
 
             $('#Monto').val(montoConIGV);
+        }
+
+        function ActualizarMontoSinIGV_X() {
+            var montoSinIGV = 0;
+
+            montoSinIGV = ($('#MontoX').val() / 1.18);
+
+            $('#MontoSinIGVX').val(montoSinIGV);
+        }
+
+        function ActualizarMontoConIGV_X() {
+            var montoConIGV = 0;
+            
+            montoConIGV = ($('#MontoSinIGVX').val() * 1.18);
+
+            $('#MontoX').val(montoConIGV);
         }
 
         function BloquearTDocumentos()
@@ -139,8 +161,8 @@
             $('#lstMontos option').each(function(){
                 suma += parseFloat($(this).data("monto"));
             })
-            $('#MontoSinIGV').val(suma);
-            ActualizarMontoConIGV();
+            $('#Monto').val(suma);
+            ActualizarMontoSinIGV();
         }
 
         function ListaMontosAreas()
@@ -234,6 +256,7 @@
         <div class="panel-body">
             @using (Html.BeginForm("AddComprobante", "Admin", FormMethod.Post))
             {
+                @Html.Partial("_showAlertMessages")
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
@@ -284,9 +307,6 @@
                                 @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
                                 @Html.ValidationMessageFor(u => u.IdProyecto)
                             </div>
-                        }
-                        @if (Model.IdTipoComprobante == 1)
-                        {
                             <div class="col-md-3">
                                 <label>Consultor</label>
                                 @Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
@@ -298,22 +318,35 @@
                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
                             @Html.ValidationMessageFor(u => u.IdCategoria)
                         </div>
+                        @if (Model.IdTipoComprobante == 2)
+                        {
+                            <div class="col-md-3">
+                                <label class="control-label">Moneda</label>
+                                @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @Html.ValidationMessageFor(u => u.IdMoneda)
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Tipo de Cambio</label>
+                                @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                @Html.ValidationMessageFor(u => u.TipoCambio)
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
-                            <label class="control-label">Moneda</label>
-                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdMoneda)
-                        </div>
-                        <div class="col-md-3">
-                            <label class="control-label">Tipo de Cambio</label>
-                            @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                            @Html.ValidationMessageFor(u => u.TipoCambio)
-                        </div>
                         @if (Model.IdTipoComprobante == 1)
                         {
+                            <div class="col-md-3">
+                                <label class="control-label">Moneda</label>
+                                @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @Html.ValidationMessageFor(u => u.IdMoneda)
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">Tipo de Cambio</label>
+                                @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                @Html.ValidationMessageFor(u => u.TipoCambio)
+                            </div>
                             <div class="col-md-3">
                                 <label class="control-label">Modalidad de Pago</label>
                                 @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
@@ -325,7 +358,7 @@
                             @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
                             @Html.ValidationMessageFor(u => u.IdArea)
                             <div class="text-left">
-                                <a id="hint" class="text-info">¿Desea ingresar más de un área?</a>
+                                <a class="text-info" onclick="$('#Area_X_Monto').show();$('#IdArea').select2('val', 0);$('#IdArea').prop('disabled', true);">¿Desea ingresar más de un área?</a>
                             </div>
                         </div>
                     </div>
@@ -355,182 +388,114 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="Area_X_Monto" hidden>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Área</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        @*@Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @id = "IdAreaX", @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                                        @Html.DropDownList("IdAreaX", new SelectList(ViewBag.lstAreas, "IdArea", "Nombre"), new { @id = "IdAreaX", @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Monto (sin IGV)</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        @*@Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @id = "MontoSinIGVX", @class = "form-control rol-accs", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV_X()" })*@
+                                        <input id="MontoSinIGVX" type="text" class="form-control rol-accs" placeholder="0.00" onkeypress="return CheckNumericValue(event)" onkeyup="ActualizarMontoConIGV_X()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Monto Total</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        @*@Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @id = "MontoX", @class = "form-control rol-accs", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV_X()" })*@
+                                        <input id="MontoX" type="text" class="form-control rol-accs" placeholder="0.00" onkeypress="return CheckNumericValue(event)" onkeyup="ActualizarMontoSinIGV_X()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="text-right">
+                                        <button type="button" class="btn m-b-xs btn-sm btn-default btn-addon rol-accs" id="add-monto">
+                                            <i class="fa fa-plus"></i>Agregar
+                                        </button>
+                                        @*<button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Área por Monto">
+                                            <i class="fa fa-plus"></i>
+                                        </button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <select name="@Html.NameFor(u => u.lstMontos)" id="@Html.IdFor(u => u.lstMontos)" name="@Html.NameFor(u => u.lstMontos)" multiple="multiple" class="form-control rol-accs">
+                                    @{List<AreaPorComprobanteDTO> listaMontos = ViewBag.Montos ?? new List<AreaPorComprobanteDTO>(); }
+                                    @foreach (var item in listaMontos)
+                                    {
+                                        <option value="@item.IdArea" data-monto="@item.Monto">@(item.NombreArea + " - " + item.Monto.ToString("#.00"))</option>
+                                    }
+                                </select>
+
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn m-b-xs btn-sm btn-default btn-addon rol-accs" id="remove-monto">
+                                    <i class="fa fa-minus"></i>Remover
+                                </button>
+                                @*<button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Área por Monto">
+                                    <i class="fa fa-minus-circle"></i>
+                                </button>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <a class="text-info" onclick="$('#Area_X_Monto').hide();$('#IdArea').select2('val', 0);$('#IdArea').prop('disabled', false);">¿Desea ingresar sólo un área?</a>
+                    </div>
+                </div>
+
                 <div class="line line-dashed b-b line-lg pull-in"></div>
-                            }
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Comentarios Adicionales</label>
+                            @*<textarea class="form-control" cols="20" id="comentario" name="comentario" rows="3" style="resize: none;" type="text"></textarea>*@
+                            @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Comentario", @type = "text", @rows = "3", @style = "resize: none;" })
+                            @Html.ValidationMessageFor(u => u.Comentario)
+                        </div>
+                    </div>
+                </div>
+                @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
+                            @if (!ViewBag.EsUsuarioExterno)
+                            {<button type="submit" class="btn btn-success" onclick="return ListaMontosAreas();">@btnName</button>}
+                            @{string tipo = (Model.IdTipoComprobante == 1) ? "Ingreso" : "Egreso"; }
+                            <a class="btn btn-default" href="@Url.Action("Comprobantes" + tipo, "Admin")">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+                                                        }
         </div>
     </div>
 </div>
-
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12">
-                @if (Model == null || Model.IdComprobante == 0)
-                {
-                    <h2>Nuevo Comprobante @strTitulo</h2>
-                }
-                else
-                {
-                    <h2>Actualizar Comprobante @strTitulo</h2>
-                }
-
-                @using (Html.BeginForm("AddComprobante", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-12">
-                            @Html.Partial("_showAlertMessages")
-
-                            <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Formulario de Registro</header>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>@strFechaIni</label>
-                                            @Html.TextBoxFor(u => u.FechaEmision, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                                            @Html.ValidationMessageFor(u => u.FechaEmision)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Tipo de Documento</label>
-                                            @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ActualizarMontoConIGV()" })
-                                            @Html.ValidationMessageFor(u => u.IdTipoDocumento)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Nro de Documento</label>
-                                            @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control rol-accs", @placeholder = "Ingrese el numero de documento", @type = "text" })
-                                            @Html.ValidationMessageFor(u => u.NroDocumento)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @{var columnas = 2; if (Model.IdTipoComprobante != 1) { columnas = 4; }}
-                                        <div class="form-group col-md-@columnas">
-                                            <label>@strEntidad</label>
-                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != null ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
-                                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
-                                        </div>
-                                        @if (Model.IdTipoComprobante == 1)
-                                        {
-                                            <div class="form-group col-md-2">
-                                                <label>Proyecto</label>
-                                                @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                                                @Html.ValidationMessageFor(u => u.IdProyecto)
-                                            </div>
-                                        }
-                                        <div class="form-group col-md-4">
-                                            <label>Partida de Presupuesto</label>
-                                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                                            @Html.ValidationMessageFor(u => u.IdCategoria)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>@strFechaFin</label>
-                                            @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese una fecha de cancelación", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                                            @Html.ValidationMessageFor(u => u.FechaConclusion)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-2">
-                                            <label>Moneda</label>
-                                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                            @Html.ValidationMessageFor(u => u.IdMoneda)
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <label>Tipo de Cambio</label>
-                                            @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                            @Html.ValidationMessageFor(u => u.TipoCambio)
-                                        </div>
-                                        @if (Model.IdTipoComprobante == 1)
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label>Modalidad de Pago</label>
-                                                @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                                @Html.ValidationMessageFor(u => u.IdHonorario)
-                                            </div>
-                                        }
-                                        @if (Model.IdTipoComprobante == 1)
-                                        {
-                                            <div class="form-group col-md-4">
-                                                <label>Consultor</label>
-                                                @Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                                @Html.ValidationMessageFor(u => u.IdResponsable)
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class="line line-dashed line-md pull-in"></div>
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <div class="col-md-7">
-                                                <div class="form-group">
-                                                    <div class="col-md-4">
-                                                        <label>Área</label>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                                        @Html.ValidationMessageFor(u => u.IdArea)
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-4">
-                                                        <label>Monto Sin IGV</label>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV()" })
-                                                        @Html.ValidationMessageFor(u => u.MontoSinIGV)
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-4">
-                                                        <label>Monto Total</label>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV()" })
-                                                        @Html.ValidationMessageFor(u => u.Monto)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1 no-padder text-center">
-                                                <div class="form-group">
-                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Área por Monto">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                    &nbsp;
-                                                    <button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Área por Monto">
-                                                        <i class="fa fa-minus-circle"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <select name="@Html.NameFor(u => u.lstMontos)" id="@Html.IdFor(u => u.lstMontos)" name="@Html.NameFor(u => u.lstMontos)" multiple="multiple" class="form-control rol-accs" size="6">
-                                                    @{List<AreaPorComprobanteDTO> listaMontos = ViewBag.Montos ?? new List<AreaPorComprobanteDTO>(); }
-                                                    @foreach (var item in listaMontos)
-                                                    {
-                                                        <option value="@item.IdArea" data-monto="@item.Monto">@(item.NombreArea + " - " + item.Monto.ToString("#.00"))</option>
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Comentario</label>
-                                        @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese un comentario", @type = "text", @rows = "3", @style = "resize: none;" })
-                                        @Html.ValidationMessageFor(u => u.Comentario)
-                                    </div>
-                                    <div class="line line-dashed line-md pull-in"></div>
-                                    @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdComprobante, new { @value = Model.IdComprobante != 0 ? Model.IdComprobante.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
-                                    @if (!ViewBag.EsUsuarioExterno)
-                                    {<button type="submit" class="btn btn-sm btn-success" onclick="return ListaMontosAreas();">@btnName</button>}
-                                    @{string tipo = (Model.IdTipoComprobante == 1) ? "Ingreso" : "Egreso"; }
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Comprobantes" + tipo, "Admin")">Salir</a>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                                        }
-            </div>
-        </div>
-    </section>
-</section>

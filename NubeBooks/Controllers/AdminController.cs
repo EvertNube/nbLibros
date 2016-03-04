@@ -1393,7 +1393,7 @@ namespace NubeBooks.Controllers
                 else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
             }
             TempData["Comprobante"] = dto;
-            return RedirectToAction("Comprobante");
+            return RedirectToAction("Comprobante", "Admin", new { id = dto.IdComprobante, idTipoComprobante = dto.IdTipoComprobante });
         }
         [HttpPost]
         public ActionResult DeleteComprobante(int id)
