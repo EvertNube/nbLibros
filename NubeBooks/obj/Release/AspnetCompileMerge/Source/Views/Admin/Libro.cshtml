@@ -1,0 +1,375 @@
+﻿@using NubeBooks.Core.DTO
+@using PagedList;
+@using PagedList.Mvc;
+@using System.Globalization;
+@model CuentaBancariaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+
+    <style type="text/css">
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: #8EC100;
+        }
+    </style>
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    <script type="text/javascript">
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
+        $(function () {
+            $('.dataTable').DataTable();
+
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            });
+
+            $('#idreporte').click(function () {
+                var idCuenta = $('#IdCuentaBancaria').val();
+                var miURL = "/Admin/Libro/" + idCuenta;
+                miURL = exportarDetalle(idCuenta);
+                this.href = miURL;
+            });
+
+            $('.mactivo').click(function () {
+                ActualizarEstadoEnMovimiento(this);
+            });
+
+            $('#modal-form').on('show.bs.modal', function (e) {
+                //if (!data) return e.preventDefault()
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var idCuentaBancaria = button.data('cuenta');
+                var modal = $(this);
+                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+                modal.find('.modal-body input#id-element').val(idElement);
+                modal.find('.modal-body input#id-cuenta').val(idCuentaBancaria);
+            });
+
+            $("input#delete").click(function () {
+                //var idelement = $('form.element').serialize();
+                //var idCuenta = $('form.element > input[name=idCuentaBancaria]').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteMovimiento",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        //$("#thanks").html(msg)
+                        $("#modal-form").modal('hide');
+                        window.location.href = '@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria })';
+
+                        //window.location.reload();
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
+            });
+        });
+
+        function ActualizarEstadoEnMovimiento(e) {
+            var jId = $(e).data('id');
+            $.ajax({
+                type: "POST",
+                url: "/Admin/ActualizarEstadoEnMovimiento",
+                cache: false,
+                data: { idMovimiento: jId },
+                dataType: "text",
+                success: function (response) {
+                    if (response == "true")
+                    { $("i", e).toggleClass("fa-square-o fa-check-square-o").toggleClass("red green"); }
+                }
+            });
+        }
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar un numero decimal");
+                return false;
+            }
+        }
+
+        function exportarDetalle(idCuenta) {
+            var FechaInicio = $("#FechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return "/Admin/ExportarMovimientos/?idLibro=" + idCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+    </script>
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-12">
+                @{
+                    var rDisabled = ViewBag.EsUsuarioExterno ? "disabled" : "";
+                }
+                @if (Model == null || Model.IdCuentaBancaria == 0)
+                {
+                    <h2>Nueva Cuenta</h2>
+                }
+                else
+                {
+                    <h2>Actualizar Cuenta</h2>
+                }
+                <div class="row m-b">
+                    <div class="col-xs-12 col-md-12">
+
+                        @using (Html.BeginForm("AddLibro", "Admin", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
+
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="form-group col-md-6">
+                                        <label>Nombre de Cuenta</label>
+                                        @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del libro", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.NombreCuenta)
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Fecha de conciliación</label>
+                                        @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha de conciliación", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Moneda</label>
+                                        @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
+                                        @Html.ValidationMessageFor(u => u.IdMoneda)
+                                    </div>
+                                    @if (Model != null && Model.IdCuentaBancaria != 0)
+                                    {
+                                        <div class="form-group col-md-6">
+                                            <div class="row m-l-none m-r-none bg-light lter">
+                                                <div class="padder-v b-light text-right">
+                                                    <span class="fa-stack fa-2x pull-in m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-success"></i>
+                                                        <i class="fa fa-money fa-stack-1x text-white"></i>
+                                                    </span>
+                                                    <small class="h4 text-muted text m-r-sm"><strong>Saldo Disponible:</strong></small>
+                                                    <span class="h4">
+                                                        @Model.SimboloMoneda @Model.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <div class="row m-l-none m-r-none bg-light lter">
+                                                <div class="padder-v b-light text-left">
+                                                    <span class="fa-stack fa-2x pull-in m-r-sm">
+                                                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                                        <i class="fa fa-info-circle fa-stack-1x text-white"></i>
+                                                    </span>
+                                                    <small class="h4 text-muted text m-r-sm"><strong>Saldo Bancario:</strong></small>
+                                                    <span class="h4">
+                                                        @Model.SimboloMoneda @Model.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCuentaBancaria > 0)
+                                    {
+                                        <div class="form-group">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                            </label>
+                                            Activo
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdTipoCuenta, new { @value = Model.IdTipoCuenta != 0 ? Model.IdTipoCuenta.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.SaldoDisponible, new { @value = Model != null ? Model.SaldoDisponible : 0, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.SaldoBancario, new { @value = Model != null ? Model.SaldoBancario : 0, @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdCuentaBancaria > 0) ? "Guardar Cambios" : "Crear";}
+                                    @if (!ViewBag.EsUsuarioExterno)
+                                    {<button type="submit" class="btn btn-sm btn-success">@btnName</button>}
+                                    @{var sTipoCuenta = Model.IdTipoCuenta == 1 ? "Bancarios" : "Administrativos"; }
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Libros" + sTipoCuenta, "Admin")">Salir</a>
+                                </div>
+                            </section>
+                        }
+
+                        @if (Model != null && Model.IdCuentaBancaria != 0)
+                        {
+                            <h4>Movimientos</h4>
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">
+                                    <div class="row text-sm">
+                                        <div class="col-sm-6 col-xs-6">
+                                            @using (Html.BeginForm("Libro", "Admin", FormMethod.Get, new { @class = "pull-right" }))
+                                            {
+                                                <div class="input-group search datagrid-search">
+                                                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
+                                                    @Html.TextBox("idTipoCuenta", Model.IdTipoCuenta, new { @value = Model.IdTipoCuenta != 0 ? Model.IdTipoCuenta.ToString() : "", @type = "hidden" })
+                                                    @Html.TextBox("id", Model.IdCuentaBancaria, new { @value = Model.IdCuentaBancaria != 0 ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                                                    @Html.TextBox("sortOrder", "", new { @type = "hidden" })
+                                                    @Html.TextBox("currentFilter", "", new { @type = "hidden" })
+                                                    <div class="input-group-btn">
+                                                        <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                        @if (!ViewBag.EsUsuarioExterno)
+                                        {
+                                            @*<div class="col-sm-3 col-xs-3 text-center">
+                                                    <div class="btn-group">
+                                                        <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                    </div>
+                                                </div>*@
+                                            <div class="col-sm-6 col-xs-6">
+                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-plus"></i> Crear nuevo Movimiento</a>
+                                            </div>
+
+                                        }
+                                    </div>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" width="7%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter })">Fecha</a></th>
+                                                <th class="text-center" width="12%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbTipo, currentFilter = ViewBag.CurrentFilter })">Movimiento</a></th>
+                                                <th class="text-center" width="11%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbDetalle, currentFilter = ViewBag.CurrentFilter })">Detalle</a></th>
+
+                                                <th class="text-center" width="13%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbMonto, currentFilter = ViewBag.CurrentFilter })">Monto</a></th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbCategoria, currentFilter = ViewBag.CurrentFilter })">Partida<br>Presupuesto&nbsp;</a></th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbEntidad, currentFilter = ViewBag.CurrentFilter })">Entidad</a></th>
+
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbDocumento, currentFilter = ViewBag.CurrentFilter })">Docum.&nbsp;</a></th>
+                                                <th class="text-center"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbEstado, currentFilter = ViewBag.CurrentFilter })">E</a></th>
+                                                <th class="text-center" width="10%"><a href="@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, sortOrder = ViewBag.vbUsuario, currentFilter = ViewBag.CurrentFilter })">Usuario</a></th>
+
+                                                <th class="text-center" width="7%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.listaMovimiento != null)
+                                            {
+                                                foreach (var obj in Model.listaMovimientoPL)
+                                                {
+                                                    //var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                                    @*<tr @Html.Raw(classInactive)>*@
+                                                    <tr>
+                                                        <td class="text-center" width="7%">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                        @if (obj.IdTipoMovimiento == 1)
+                                                        {
+                                                            <td class="text-center" width="12%" style="color:#8EC100;">Entrada</td>}
+                                                        else
+                                                        {
+                                                            <td class="text-center" width="12%" style="color:red">Salida</td> }
+                                                        <td class="text-center" width="11%">@obj.NroOperacion</td>
+                                                        <td class="text-right" width="13%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                        @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
+                                                        <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
+                                                        <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
+                                                        @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
+                                                        <td class="text-center" width="10%">@rNumDoc</td>
+                                                        @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
+                                                        var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
+                                                        <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
+                                                        <td class="text-center" width="10%">@obj.NombreUsuario</td>
+                                                        @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                                        <td class="text-center" width="7%">
+                                                            <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                                            @if (!ViewBag.EsUsuarioExterno)
+                                                            {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="10">
+                                                    <div class="row">
+                                                        <div class="col-sm-4"></div>
+                                                        <div class="col-sm-4 text-center">
+                                                            <small class="text-muted inline m-t-sm m-b-sm">Página @(Model.listaMovimientoPL.PageCount < Model.listaMovimientoPL.PageNumber ? 0 : Model.listaMovimientoPL.PageNumber) de @Model.listaMovimientoPL.PageCount</small>
+                                                        </div>
+                                                        <div class="col-sm-4 text-right text-center-xs">
+                                                            @Html.PagedListPager(Model.listaMovimientoPL, page => Url.Action("Libro", new { id = Model.IdCuentaBancaria, idTipoCuenta = Model.IdTipoCuenta, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <footer class="panel-footer">
+                                    <div class="row col-md-offset-6">
+                                        <div class="col-xs-4 col-md-4">
+                                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                        </div>
+                                        <div class="col-xs-4 col-md-4">
+                                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                                        </div>
+                                        <div class="col-xs-4 col-md-4">
+                                            <a class="btn btn-s-md btn-success" id="idreporte">
+                                                Exportar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </section>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de eliminar este elemento. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element">
+                    @*<label for="id-element" class="control-label">Elemento</label>*@
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                    <input type="hidden" class="form-control" name="idCuentaBancaria" id="id-cuenta" />
+                </form>
+                @*@Html.TextBox("id", obj.IdComprobante, new { @type = "hidden" })*@
+
+                @*<button type="submit" class="fa fa-times"></button>*@
+
+            </div>
+            <div class="modal-footer">
+                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
+            </div>
+        </div>
+    </div>
+</div>

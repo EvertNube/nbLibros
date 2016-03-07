@@ -1,0 +1,70 @@
+﻿@using NubeBooks.Core.DTO
+@model AreaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                @{var cadena = "";}
+                @if (Model == null || Model.IdArea == 0)
+                {
+                    cadena = "Nueva";
+                }
+                else
+                {
+                    cadena = "Actualizar";
+                }
+                <h2>@cadena Área</h2>
+
+                @using (Html.BeginForm("AddArea", "Admin", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="row m-b">
+                        <div class="col-xs-12 col-md-6">
+                            @Html.Partial("_showAlertMessages")
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label>Nombre del Area</label>
+                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del área", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.Nombre)
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        @Html.TextAreaFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Ingrese la descripción", @type = "text", @rows = "6", @style = "resize: none;" })
+                                        @Html.ValidationMessageFor(u => u.Descripcion)
+                                    </div>
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdArea > 0)
+                                    {
+                                        <div class="line line-dashed line-lg pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdArea, new { @value = Model.IdArea != 0 ? Model.IdArea.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdArea > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Areas")">Salir</a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                }
+                @*@Html.Partial("_showAlertMessages")*@
+            </div>
+        </div>
+    </section>
+</section>

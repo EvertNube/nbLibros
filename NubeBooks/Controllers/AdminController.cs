@@ -368,7 +368,8 @@ namespace NubeBooks.Controllers
             return View(lista);
         }
 
-        public ActionResult Libro(int? id = null, int? idTipoCuenta = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
+        //public ActionResult Libro(int? id = null, int? idTipoCuenta = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
+        public ActionResult Libro(int? id = null, int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Libro";
@@ -394,7 +395,7 @@ namespace NubeBooks.Controllers
                 if (obj == null) return RedirectToAction("Index");
                 if (obj.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index");
 
-                obj.listaMovimientoPL = BusquedaYPaginado_Movimiento(obj.listaMovimiento, sortOrder, currentFilter, searchString, page);
+                //obj.listaMovimientoPL = BusquedaYPaginado_Movimiento(obj.listaMovimiento, sortOrder, currentFilter, searchString, page);
                 return View(obj);
             }
 
@@ -794,7 +795,7 @@ namespace NubeBooks.Controllers
                     {
                         if (dto.IdComprobante.GetValueOrDefault() != 0)
                         {
-                            if (dto.Monto == dto.cmpMontoPendiente) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
+                            if (dto.cmpMontoPendiente == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
                             else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
                         }
                         createResponseMessage(CONSTANTES.SUCCESS);
@@ -807,7 +808,7 @@ namespace NubeBooks.Controllers
                     {
                         if (dto.IdComprobante.GetValueOrDefault() != 0)
                         {
-                            if (dto.Monto == dto.cmpMontoPendiente) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
+                            if (dto.cmpMontoPendiente == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
                             else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
                         }
                         //Si en la actualizacion se cambio el IdComprobante
@@ -1828,7 +1829,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Área";
-            MenuNavBarSelected(4, 0);
+            MenuNavBarSelected(4);
 
             UsuarioDTO currentUser = getCurrentUser();
 

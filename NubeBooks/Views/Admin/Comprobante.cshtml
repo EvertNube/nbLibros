@@ -487,7 +487,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-12">
-                            @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
+                            @{var btnName = (Model != null && Model.IdComprobante > 0) ? "Guardar Cambios" : "Crear";}
                             @if (!ViewBag.EsUsuarioExterno)
                             {<button type="submit" class="btn btn-success" onclick="return ListaMontosAreas();">@btnName</button>}
                             @{string tipo = (Model.IdTipoComprobante == 1) ? "Ingreso" : "Egreso"; }

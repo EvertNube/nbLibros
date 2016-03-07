@@ -4,13 +4,13 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
-    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
+    @*@Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")*@
     @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
     @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
 }
 
 @section Scripts{
-    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
+    @*@Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")*@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         @{
@@ -45,10 +45,6 @@
 
             jIdComprobante = $('#IdComprobante').val();
             montoMov = montoActual = parseFloat($('#Monto').val());
-            //$('#IdEntidadResponsable').on('change', ListarComprobantesEntidadXTipoDoc(1))
-            //$('#IdTipoDocumento').on('change', ListarComprobantesEntidadXTipoDoc(1))
-            //$('#IdComprobante').on('change', BuscarCategoria)
-            //$('#Monto').on('change', ActualizarMontoSinIGV);
         });
 
         function format(res) {
@@ -95,7 +91,6 @@
 
         function ListarComprobantesEntidadXTipoDoc(cambio) {
             if ($('#IdEntidadResponsable').val() != '' && $('#IdTipoDocumento').val() != '') {
-                //if ('#IdTipoDocumento')
 
                 var identidad = parseInt($('#IdEntidadResponsable').val());
                 var idtdoc = parseInt($('#IdTipoDocumento').val());
@@ -182,160 +177,145 @@
                     dataType: 'text'
                 });
             }
-            //return true;
         }
 
 
     </script>
 }
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                @if (Model == null || Model.IdMovimiento == 0)
-                {
-                    <h2>Nuevo Movimiento</h2>
-                }
-                else
-                {
-                    <h2>Actualizar Movimiento</h2>
-                }
-
-                @using (Html.BeginForm("AddMovimiento", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-12">
-                            @Html.Partial("_showAlertMessages")
-
-                            <section class="panel panel-default">
-                                @*<header class="panel-heading font-bold">Formulario de Registro</header>*@
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>Fecha</label>
-                                            @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                                            @Html.ValidationMessageFor(u => u.Fecha)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Tipo de Movimiento</label>
-                                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                            @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            @*@{var rCadenaOp = ViewBag.IdTipoCuenta != 2 ? "Número de movimiento" : "Descripción"; }*@
-                                            <label>Detalle</label>
-                                            @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
-                                            @Html.ValidationMessageFor(u => u.NroOperacion)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>Monto</label>
-                                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoPendiente()" })
-                                            @Html.ValidationMessageFor(u => u.Monto)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Tipo de Cambio</label>
-                                            @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                            @Html.ValidationMessageFor(u => u.TipoCambio)
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Estado de Movimiento</label>
-                                            @Html.DropDownListFor(u => u.IdEstadoMovimiento, new SelectList(ViewBag.EstadosMovimientos, "IdEstadoMovimiento", "Nombre", Model != null ? (Model.IdEstadoMovimiento != 0 ? Model.IdEstadoMovimiento : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
-                                            @Html.ValidationMessageFor(u => u.IdEstadoMovimiento)
-                                        </div>
-                                    </div>
-                                    <div class="line line-dashed line-md pull-in"></div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label>Entidad</label>
-                                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
-                                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            @if (ViewBag.IdTipoCuenta != 2)
-                                            {
-                                                <label>Tipo de Documento</label>
-                                                @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTiposDeDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "form-control parsley-validated rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
-                                                @Html.ValidationMessageFor(u => u.IdTipoDocumento)
-                                            }
-                                            else
-                                            {
-                                                <label>Documento</label>
-                                                @Html.TextBoxFor(u => u.NumeroDocumento, new { @class = "form-control rol-accs", @placeholder = "Número del comprobante", @type = "text" })
-                                                @Html.ValidationMessageFor(u => u.NumeroDocumento)
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        @{var col_cmp = ViewBag.IdTipoCuenta != 1 ? 6 : 3;}
-                                        @if (ViewBag.IdTipoCuenta != 2)
-                                        {
-                                            <div class="form-group col-md-3">
-                                                <label>Número de Documento</label>
-                                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value, true)" })
-                                                @Html.ValidationMessageFor(u => u.IdComprobante)
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label>Monto Pendiente</label>
-                                                @Html.TextBoxFor(u => u.cmpMontoPendiente, new { @id = "cmpMonto", @class = "form-control rol-accs", @readonly = "readonly" })
-                                                @Html.ValidationMessageFor(u => u.cmpMontoPendiente)
-                                                @*<input id="cmpMonto" type="text" class="form-control" placeholder="Monto del Comprobante" readonly />*@
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label>Estado del comprobante</label>
-                                                <div class="checkbox">
-                                                    @Html.CheckBoxFor(u => u.cmpCancelado)
-                                                    @Html.ValidationMessageFor(u => u.cmpCancelado)
-                                                    @*<label><input id="cmpCancelado" type="checkbox"> Cancelado</label>*@
-                                                </div>
-                                            </div>
-                                        }
-                                        <div class="form-group col-md-@col_cmp">
-                                            <label>Partida de Presupuesto</label>
-                                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                                            @Html.ValidationMessageFor(u => u.IdCategoria)
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Comentario</label>
-                                        @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Ingrese el comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
-                                        @Html.ValidationMessageFor(u => u.Comentario)
-                                    </div>
-                                    @*@if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdMovimiento > 0)
-                                    {
-                                        <div class="line line-dashed line-lg pull-in"></div>
-                                        <div class="checkbox">
-                                            <label>
-                                                @Html.CheckBoxFor(u => u.Estado)
-                                                Activo
-                                            </label>
-                                            @Html.ValidationMessageFor(u => u.Estado)
-                                        </div>}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                    }*@
-                                    <div class="line line-dashed line-md pull-in"></div>
-                                    @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdMovimiento, new { @value = Model != null ? Model.IdMovimiento.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
-                                    @if (!ViewBag.EsUsuarioExterno)
-                                    {
-                                        //onclick="return ActualizarEjecucionDeComprobante()"
-                                        <button type="submit" class="btn btn-sm btn-success">@btnName </button>
-                                    }
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Salir</a>
-                                </div>
-                            </section>
+@{var cadena = "";}
+@if (Model == null || Model.IdMovimiento == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Movimiento</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddMovimiento", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Fecha</label>
+                            @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                            @Html.ValidationMessageFor(u => u.Fecha)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Tipo de Movimiento</label>
+                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Detalle</label>
+                            @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
+                            @Html.ValidationMessageFor(u => u.NroOperacion)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Estado de Movimiento</label>
+                            @Html.DropDownListFor(u => u.IdEstadoMovimiento, new SelectList(ViewBag.EstadosMovimientos, "IdEstadoMovimiento", "Nombre", Model != null ? (Model.IdEstadoMovimiento != 0 ? Model.IdEstadoMovimiento : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdEstadoMovimiento)
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Monto</label>
+                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoPendiente()" })
+                            @Html.ValidationMessageFor(u => u.Monto)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Tipo de Cambio</label>
+                            @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                            @Html.ValidationMessageFor(u => u.TipoCambio)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Entidad</label>
+                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
+                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
+                        </div>
+                        <div class="col-md-3">
+                            @if (ViewBag.IdTipoCuenta != 2)
+                            {
+                                <label>Tipo de Documento</label>
+                                @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTiposDeDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "form-control parsley-validated rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
+                                @Html.ValidationMessageFor(u => u.IdTipoDocumento)
+                            }
+                            else
+                            {
+                                <label>Documento</label>
+                                @Html.TextBoxFor(u => u.NumeroDocumento, new { @class = "form-control rol-accs", @placeholder = "Número del comprobante", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.NumeroDocumento)
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        @if (ViewBag.IdTipoCuenta != 2)
+                        {
+                            <div class="col-md-3">
+                                <label>Número de Documento</label>
+                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value, true)" })
+                                @Html.ValidationMessageFor(u => u.IdComprobante)
+                            </div>
+                            <div class="col-md-3">
+                                <label>Monto Pendiente</label>
+                                @Html.TextBoxFor(u => u.cmpMontoPendiente, new { @id = "cmpMonto", @class = "form-control rol-accs", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(u => u.cmpMontoPendiente)
+                            </div>
+                            <div class="col-md-3">
+                                <label>Estado del comprobante</label>
+                                @*<div class="checkbox">
+                                    @Html.CheckBoxFor(u => u.cmpCancelado)
+                                    @Html.ValidationMessageFor(u => u.cmpCancelado)
+                                </div>*@
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="cmpCancelado" name="cmpCancelado" type="checkbox" checked="@Model.cmpCancelado">
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-3">
+                            <label>Partida de Presupuesto</label>
+                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdCategoria)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Comentario</label>
+                            @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
+                            @Html.ValidationMessageFor(u => u.Comentario)
+                        </div>
+                    </div>
+                </div>
+                @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdMovimiento, new { @value = Model != null ? Model.IdMovimiento.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
+                            @if (!ViewBag.EsUsuarioExterno)
+                            {
+                                //onclick = "ActualizarEjecucionDeComprobante()"
+                                <button type="submit" class="btn btn-success">@btnName</button>}
+                            @{string tipo = (Model.IdMovimiento == 1) ? "Ingreso" : "Egreso"; }
+                            <a class="btn btn-default" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-    </section>
-</section>
+    </div>
+</div>
