@@ -1,0 +1,270 @@
+﻿@using NubeBooks.Core.DTO
+@model EntidadResponsableDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.miselect2').select2();
+
+            $('.dataTable').DataTable();
+        });
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar un numero decimal");
+                return false;
+            }
+        }
+    </script>
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                @if (Model == null || Model.IdEntidadResponsable == 0)
+                {
+                    <h2>Nueva Entidad</h2>
+                }
+                else
+                {
+                    <h2>Actualizar Entidad</h2>
+                }
+                <div class="row m-b">
+                    <div class="col-xs-12 col-md-10">
+                        @using (Html.BeginForm("AddEntidad", "Admin", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true)
+
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-5">
+                                            <label>Razón Social</label>
+                                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la razón social", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.Nombre)
+                                        </div>
+                                        <div class="form-group col-md-7">
+                                            <label>Nombre Comercial</label>
+                                            @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Ingrese el nombre comercial", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.NombreComercial)
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-5">
+                                            <label>Tipo de Identificación</label>
+                                            @Html.DropDownListFor(u => u.IdTipoIdentificacion, new SelectList(ViewBag.TipoIdentificacion, "IdTipoIdentificacion", "Nombre", Model != null ? (Model.IdTipoIdentificacion != null ? Model.IdTipoIdentificacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                                            @Html.ValidationMessageFor(u => u.IdTipoIdentificacion)
+                                        </div>
+                                        <div class="form-group col-md-7">
+                                            <label>Nro. de Identificación</label>
+                                            @Html.TextBoxFor(u => u.NroIdentificacion, new { @class = "form-control", @placeholder = "Ingrese el numero de identificación", @type = "text" })
+                                            @Html.ValidationMessageFor(u => u.NroIdentificacion)
+                                        </div>
+                                    </div>
+                                    @if (Model != null && Model.IdTipoEntidad == 1)
+                                    {
+                                        <div class="line line-dashed line-md pull-in"></div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label class="col-md-2 text-center" style="transform:translateY(30%)">Dirección</label>
+                                                <div class="col-md-10">
+                                                    @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.Direccion)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (Model != null && Model.IdTipoEntidad == 2)
+                                    {
+                                        <div class="line line-dashed line-md pull-in"></div>
+                                        <div class="row">
+                                            <div class="form-group col-md-5">
+                                                <label>Detracción</label>
+                                                @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Ing. la detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                                @Html.ValidationMessageFor(u => u.Detraccion)
+                                            </div>
+                                            <div class="form-group col-md-7">
+                                                <label>Tipo de bien o servicio</label>
+                                                @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Ingrese el tipo de bien o servicio", @type = "text" })
+                                                @Html.ValidationMessageFor(u => u.Tipo)
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (Model != null && Model.IdTipoEntidad == 2)
+                                    {
+                                        <div class="row">
+                                            <div class="form-group col-md-5">
+                                                <label>Banco</label>
+                                                @Html.TextBoxFor(u => u.Banco, new { @class = "form-control", @placeholder = "Ingrese el nombre del banco", @type = "text" })
+                                                @Html.ValidationMessageFor(u => u.Banco)
+                                            </div>
+                                            <div class="form-group col-md-7 m-b-n">
+                                                <div class="form-group">
+                                                    <label>Cuenta en Soles</label>
+                                                    @Html.TextBoxFor(u => u.CuentaSoles, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en soles", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.NombreComercial)
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Cuenta en Dólares</label>
+                                                    @Html.TextBoxFor(u => u.CuentaDolares, new { @class = "form-control", @placeholder = "Ingrese el número de la cuenta en dólares", @type = "text" })
+                                                    @Html.ValidationMessageFor(u => u.NombreComercial)
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno && Model != null && Model.IdEntidadResponsable > 0)
+                                    {
+                                        <div class="line line-dashed line-md pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="line line-dashed line-md pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdTipoEntidad, new { @value = Model.IdTipoEntidad != 0 ? Model.IdTipoEntidad.ToString() : "", @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    @{var sTipoEntidad = Model.IdTipoEntidad == 1 ? "Clientes" : "Proveedores"; }
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Entidades" + sTipoEntidad, "Admin")">Salir</a>
+                                </div>
+                            </section>
+                        }
+                        @if (Model != null && Model.IdEntidadResponsable != 0)
+                        {
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Contactos</div>
+                                        @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
+                                        {
+                                            <div class="col-md-4 col-sm-6 text-sm">
+                                                <div class="btn-group">
+                                                    <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-6">
+                                                <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Contacto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Contacto</a>
+                                            </div>
+                                        }
+                                    </div>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Nombre</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Teléfono</th>
+                                                <th class="text-center">Celular</th>
+                                                <th class="text-center" width="10%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.lstContactos != null)
+                                            {
+                                                foreach (var obj in Model.lstContactos)
+                                                {
+                                                    var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                                    <tr @Html.Raw(classInactive)>
+                                                        <td>@obj.Nombre</td>
+                                                        <td class="text-center">@obj.Email</td>
+                                                        <td class="text-center">@obj.Telefono</td>
+                                                        <td class="text-center">@obj.Celular</td>
+                                                        @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
+                                                        {
+                                                            <td class="text-center" width="10%"><a href="@Url.Action("Contacto", new { id = obj.IdContacto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        }
+
+                        @if (Model != null && Model.IdEntidadResponsable != 0 && Model.IdTipoEntidad == 1)
+                        {
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-12" style="transform: translateY(35%)">Proyectos</div>
+                                        @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
+                                        {
+                                        <div class="col-md-4 col-sm-6 text-sm">
+                                            <div class="btn-group">
+                                                <label><input type="checkbox" id="btn-showInactive" /> Mostrar Inactivos</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            <a class="btn btn-sm btn-success pull-right" href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-plus"></i> Crear nuevo Proyecto</a>
+                                        </div>
+                                        }
+                                    </div>
+                                </header>
+                                <div class="table-responsive">
+                                    <table class="table table-striped m-b-none dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Nombre</th>
+                                                <th class="text-center">Descripción</th>
+                                                <th class="text-center" width="10%">Opc.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.lstProyectos != null)
+                                            {
+                                                foreach (var obj in Model.lstProyectos)
+                                                {
+                                                    var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                            <tr @Html.Raw(classInactive)>
+                                                <td width="20%">@obj.Nombre</td>
+                                                <td>@obj.Descripcion</td>
+                                                @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
+                                                        {
+                                                        <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                        }
+                                            </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

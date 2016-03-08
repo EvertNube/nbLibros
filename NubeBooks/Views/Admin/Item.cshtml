@@ -55,19 +55,15 @@ else { cadena = "Actualizar"; }
                             @Html.TextBoxFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Descripción", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Descripcion)
                         </div>
-                        <div class="col-md-6">
-                            <label>Categoría</label>
-                            @Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})
-                            @Html.ValidationMessageFor(u => u.IdCategoriaItm)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label>Unidad de Medida</label>
                             @Html.TextBoxFor(u => u.UnidadMedida, new { @class = "form-control", @placeholder = "U. Medida", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Descripcion)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Categoría</label>
+                            @Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})
+                            @Html.ValidationMessageFor(u => u.IdCategoriaItm)
                         </div>
                     </div>
                 </div>

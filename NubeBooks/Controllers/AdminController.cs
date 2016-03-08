@@ -2084,7 +2084,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Proyecto";
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(6);
             UsuarioDTO miUsuario = getCurrentUser();
 
             ProyectoBL objBL = new ProyectoBL();
@@ -2174,7 +2174,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Contacto";
-            MenuNavBarSelected(4, 4);
+            MenuNavBarSelected(6);
             UsuarioDTO miUsuario = getCurrentUser();
 
             ContactoBL objBL = new ContactoBL();

@@ -1,0 +1,68 @@
+﻿@using NubeBooks.Core.DTO
+@model HonorarioDTO
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                @{var cadena = "";}
+                @if (Model == null || Model.IdHonorario == 0)
+                {
+                    cadena = "Nueva";
+                }
+                else
+                {
+                    cadena = "Actualizar";
+                }
+                <h2>@cadena Modalidad</h2>
+
+                @using (Html.BeginForm("AddHonorario", "Admin", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true)
+                    <div class="row m-b">
+                        <div class="col-xs-12 col-md-6">
+                            @Html.Partial("_showAlertMessages")
+
+                            <section class="panel panel-default">
+                                <header class="panel-heading font-bold">Formulario de Registro</header>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label>Nombre de la Modalidad</label>
+                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la Modalidad", @type = "text" })
+                                        @Html.ValidationMessageFor(u => u.Nombre)
+                                    </div>
+                                    @if (ViewBag.EsAdmin && Model != null && Model.IdHonorario > 0)
+                                    {
+                                        <div class="line line-dashed line-lg pull-in"></div>
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBoxFor(u => u.Estado)
+                                                Activo
+                                            </label>
+                                            @Html.ValidationMessageFor(u => u.Estado)
+                                        </div>}
+                                    else
+                                    {
+                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                                    }
+                                    <div class="line line-dashed line-lg pull-in"></div>
+                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                                    @Html.TextBoxFor(u => u.IdHonorario, new { @value = Model.IdHonorario != 0 ? Model.IdHonorario.ToString() : "", @type = "hidden" })
+                                    @{var btnName = (Model != null && Model.IdHonorario > 0) ? "Guardar Cambios" : "Crear";}
+                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Honorarios")">Salir</a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</section>
+
+
+

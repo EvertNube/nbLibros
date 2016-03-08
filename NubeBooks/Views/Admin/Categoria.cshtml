@@ -1,6 +1,6 @@
 ﻿@using NubeBooks.Core.DTO
 @model CategoriaDTO
-@{ 
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
@@ -22,29 +22,6 @@
                 data: mydata,
                 allowClear: true
             })
-
-            //Select2 con ajax
-            /*$('#comboCategoria').select2({
-                placeholder: "Seleccione una categoría",
-                allowClear: true,
-                //minimumInputLength: 2,  // minimumInputLength for sending ajax request to server
-                minimumResultsForSearch: -1,
-                width: 'resolve',   // to adjust proper width of select2 wrapped elements
-                ajax: {
-                    url: "/Admin/CategoriasJson", // Controller - Select2Demo and Action -AccessRemoteData
-                    type: "POST",
-                    dataType: 'json',
-                    //quietMillis: 250,
-                    data: function () {
-                        return JSON.stringify();
-                    },
-                    results: function (data, page) {
-                        return { results: data.listaCat }; // data.CountryList returning json data from Controlle
-                    },
-                },
-                formatResult: format,
-                formatSelection: format
-            })*/
         });
 
         function format(res) {
@@ -58,13 +35,13 @@
 
         function validarCategoria() {
             var myIdSelect2 = document.getElementById('IdCategoriaPadre').value;
-            //var myIdSelect2 = $('#comboCategoria').select2.('data').id;
+
             var myId = $('#IdCategoria').val();
             if (myId == 0)
                 return true;
-            if(myIdSelect2 == myId)
-            {alert("El padre de la categoría no puede ser él mismo");
-            return false;
+            if (myIdSelect2 == myId) {
+                alert("El padre de la categoría no puede ser él mismo");
+                return false;
             }
         }
 
@@ -84,73 +61,69 @@
     </script>
 }
 
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                @if (Model == null || Model.IdCategoria == 0)
+@{var cadena = "";}
+@if (Model == null || Model.IdCategoria == 0) { cadena = "Nueva"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Partida de Presupuesto</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddCategoria", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre de Categoria</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la categoría", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre)
+                        </div>
+                        <div class="col-md-6">
+                            @if (Model != null && Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
+                            {
+                                <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
+                                @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @value = Model != null ? Model.IdCategoriaPadre : 0, @type = "hidden" })
+                            }
+                            else
+                            {
+                                <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
+                                @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
+                            }
+                        </div>
+                    </div>
+                </div>
+                if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
                 {
-                    <h2>Nueva Partida de Presupuesto</h2>
-                }
-                else
-                {
-                    <h2>Actualizar Partida de Presupuesto</h2>
-                }
-
-                @using (Html.BeginForm("AddCategoria", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-6">
-                            @Html.Partial("_showAlertMessages")
-
-                            <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Formulario de Registro</header>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label>Nombre de Categoria</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la categoría", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Nombre)
-                                    </div>
-                                    @if (Model != null && Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
-                                    {
-                                        <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                        @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @value = Model != null ? Model.IdCategoriaPadre : 0, @type = "hidden" })
-                                    }
-                                    else
-                                    {
-                                        <div class="form-group">
-                                            <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
-                                            @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                            @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
-                                        </div>
-                                    }
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
-                                    {
-                                        <div class="line line-dashed line-lg pull-in"></div>
-                                        <div class="checkbox">
-                                            <label>
-                                                @Html.CheckBoxFor(u => u.Estado)
-                                                Activo
-                                            </label>
-                                            @Html.ValidationMessageFor(u => u.Estado)
-                                        </div>}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                    }
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model.IdCategoria != 0 ? Model.IdCategoria.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success" onclick="return validarCategoria()">@btnName</button>
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Categorias")">Salir</a>
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Estado</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="Estado" name="Estado" type="checkbox" value="@Model.Estado" checked="@Model.Estado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
                                 </div>
-                            </section>
+                            </div>
                         </div>
                     </div>
                 }
-            </div>
+                else
+                {
+                    @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                }
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model.IdCategoria != 0 ? Model.IdCategoria.ToString() : "", @type = "hidden" })
+                var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";
+                <button type="submit" class="btn btn-sm btn-success" onclick="return validarCategoria()">@btnName</button>
+                <a class="btn btn-default" href="@Url.Action("Categorias", "Admin")">Cancelar</a>
+            }
         </div>
-    </section>
-</section>
+    </div>
+</div>

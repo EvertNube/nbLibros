@@ -179,16 +179,16 @@ else { cadena = "Actualizar"; }
                                 }
         </div>
     </div>
-@if (Model != null && Model.IdCuentaBancaria != 0)
-{
-    <div class="bg-light lter b-b wrapper-md">
-        <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
-        <a href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
-        <h1 class="m-n font-thin h4">Movimientos</h1>
-    </div>
-    <div class="panel panel-default">
-        <div class="table-responsive">
-            <table ui-jq="dataTable" ui-options="{
+    @if (Model != null && Model.IdCuentaBancaria != 0)
+    {
+        <div class="bg-light lter b-b wrapper-md">
+            <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+            <a href="@Url.Action("Movimiento", new { id = 0, idLibro = Model.IdCuentaBancaria })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+            <h1 class="m-n font-thin h4">Movimientos</h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="table-responsive">
+                <table ui-jq="dataTable" ui-options="{
     oLanguage: {
         sLengthMenu: 'Mostrar _MENU_ registros',
         sSearch: 'Buscar:',
@@ -205,58 +205,58 @@ else { cadena = "Actualizar"; }
         }
     }
 }" class="table table-striped b-t b-b dataTable">
-                <thead>
-                    <tr>
-                        <th class="text-center">Fecha</th>
-                        <th class="text-center">Movimiento</th>
-                        <th class="text-center">Detalle</th>
-                        <th class="text-center">Monto</th>
-                        <th class="text-center">Partida<br>Presupuesto&nbsp;</th>
-                        <th class="text-center">Entidad</th>
-                        <th class="text-center">Docum.&nbsp;</th>
-                        <th class="text-center">E</th>
-                        <th class="text-center">Usuario</th>
-                        <th class="text-center" style="width:7%">Opc.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.listaMovimiento != null)
-                    {
-                        foreach (var obj in Model.listaMovimiento)
+                    <thead>
+                        <tr>
+                            <th class="text-center">Fecha</th>
+                            <th class="text-center">Movimiento</th>
+                            <th class="text-center">Detalle</th>
+                            <th class="text-center">Monto</th>
+                            <th class="text-center">Partida<br>Presupuesto&nbsp;</th>
+                            <th class="text-center">Entidad</th>
+                            <th class="text-center">Docum.&nbsp;</th>
+                            <th class="text-center">E</th>
+                            <th class="text-center">Usuario</th>
+                            <th class="text-center" style="width:7%">Opc.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.listaMovimiento != null)
                         {
-                            <tr>
-                                <td class="text-center" width="7%">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                @if (obj.IdTipoMovimiento == 1)
-                                {
-                                    <td class="text-center" width="12%" style="color:#8EC100;">Entrada</td>}
-                                else
-                                {
-                                    <td class="text-center" width="12%" style="color:red">Salida</td> }
-                                <td class="text-center" width="11%">@obj.NroOperacion</td>
-                                <td class="text-right" width="13%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
-                                <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
-                                <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
-                                @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
-                                <td class="text-center" width="10%">@rNumDoc</td>
-                                @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
-                                    var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
-                                <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
-                                <td class="text-center" width="10%">@obj.NombreUsuario</td>
-                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
-                                <td class="text-center" width="7%">
-                                    <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
-                                    @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-times" title="Eliminar"></i></a>}
-                                </td>
-                            </tr>
+                            foreach (var obj in Model.listaMovimiento)
+                            {
+                                <tr>
+                                    <td class="text-center" width="7%">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                    @if (obj.IdTipoMovimiento == 1)
+                                    {
+                                        <td class="text-center" width="12%" style="color:#8EC100;">Entrada</td>}
+                                    else
+                                    {
+                                        <td class="text-center" width="12%" style="color:red">Salida</td> }
+                                    <td class="text-center" width="11%">@obj.NroOperacion</td>
+                                    <td class="text-right" width="13%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                    @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
+                                    <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
+                                    <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
+                                    @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
+                                    <td class="text-center" width="10%">@rNumDoc</td>
+                                    @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
+                                        var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
+                                    <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
+                                    <td class="text-center" width="10%">@obj.NombreUsuario</td>
+                                    @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                    <td class="text-center" width="7%">
+                                        <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                        @if (!ViewBag.EsUsuarioExterno)
+                                        {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    </td>
+                                </tr>
+                                            }
                                         }
-                                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-                                    }
+                                        }
 </div>
 
 <div class="modal fade modal-task" id="modal-form">
