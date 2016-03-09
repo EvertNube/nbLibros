@@ -360,7 +360,7 @@ namespace NubeBooks.Core.BL
                             NombreCategoria = x.Categoria.Nombre,
                             NombreUsuario = x.Usuario.Cuenta,
                             NumeroDocumento2 = x.NumeroDocumento
-                        }).OrderByDescending(x => x.Fecha).ToList()
+                        }).OrderBy(x => x.Fecha).ToList()
                     }).SingleOrDefault();
                 return result;
             }
@@ -401,7 +401,7 @@ namespace NubeBooks.Core.BL
                     NombreCategoria = x.Categoria.Nombre,
                     NombreProyecto = x.Proyecto.Nombre,
                     Ejecutado = x.Ejecutado
-                }).OrderBy(x => x.NroDocumento).ToList();
+                }).OrderBy(x => x.FechaEmision).ToList();
                 return result;
             }
         }

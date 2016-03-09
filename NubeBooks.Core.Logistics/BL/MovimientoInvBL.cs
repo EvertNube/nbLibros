@@ -195,6 +195,24 @@ namespace NubeBooks.Core.Logistics.BL
                 }
             }
         }
+        public bool delete(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.MovimientoInv.Where(x => x.IdMovimientoInv == id).SingleOrDefault();
+                    context.MovimientoInv.Remove(row);
+                    context.SaveChanges();
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
         public List<FormaMovimientoInvDTO> getFormaMovimientoInvPorTipo(int tipo)
         {
             using (var context = getContext())

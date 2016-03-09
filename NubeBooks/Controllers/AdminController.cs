@@ -1545,6 +1545,31 @@ namespace NubeBooks.Controllers
             TempData["MovimientoInv"] = dto;
             return RedirectToAction("MovimientoInv");
         }
+        [HttpPost]
+        public ActionResult DeleteMovimientoInv(int id)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("MovimientoInvs", "Admin"); }
+
+            try
+            {
+                MovimientoInvBL objBL = new MovimientoInvBL();
+                if (objBL.delete(id))
+                {
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_DELETE);
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DELETE);
+                }
+            }
+            catch (Exception e)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_DELETE);
+                throw;
+            }
+            return RedirectToAction("InventariosIngreso", "Admin");
+        }
         public ActionResult Items()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -3300,7 +3325,7 @@ namespace NubeBooks.Controllers
                 row["Movimiento"] = obj.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
                 row["Detalle"] = obj.NroOperacion;
                 row["Moneda"] = CuentaBancaria.SimboloMoneda;
-                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto"] = obj.IdTipoMovimiento == 1 ? obj.Monto.ToString("N2", CultureInfo.InvariantCulture) : (-1 * obj.Monto).ToString("N2", CultureInfo.InvariantCulture);
                 row["Partida de Presupuesto"] = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;
                 row["Entidad"] = obj.NombreEntidadR;
                 row["Numero de documento"] = obj.NumeroDocumento != null ? obj.NumeroDocumento : obj.NumeroDocumento2 != null ? obj.NumeroDocumento2 : "N/A";
@@ -3325,7 +3350,6 @@ namespace NubeBooks.Controllers
                 return RedirectToAction("Libros", "Admin");
             }
 
-            string tipo = idTipoComprobante == 1 ? "Ingreso" : "Egreso";
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
@@ -3334,7 +3358,7 @@ namespace NubeBooks.Controllers
             if (lstComprobantes == null || lstComprobantes.Count == 0)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
-                return RedirectToAction("Comprobantes"+tipo, "Admin");
+                return RedirectToAction("Comprobantes", "Admin");
             }
 
             System.Data.DataTable dt = new System.Data.DataTable();
@@ -3351,6 +3375,9 @@ namespace NubeBooks.Controllers
             { dt.Columns.Add("Proyecto"); }
             dt.Columns.Add("Moneda");
             dt.Columns.Add("Monto Sin IGV");
+            dt.Columns.Add("Monto Total (MN)");
+            dt.Columns.Add("Monto Total (ME)");
+            dt.Columns.Add("Tipo Cambio");
             dt.Columns.Add("Partida de Presupuesto");
             dt.Columns.Add(rFechaFin);
             dt.Columns.Add("Usuario");
@@ -3368,8 +3395,11 @@ namespace NubeBooks.Controllers
                 if (idTipoComprobante == 1) { row["Proyecto"] = obj.NombreProyecto; }
                 row["Moneda"] = obj.SimboloMoneda;
                 row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Total (MN)"] = obj.IdMoneda == 1 ? obj.Monto.ToString("N2", CultureInfo.InvariantCulture) : "";
+                row["Monto Total (ME)"] = obj.IdMoneda != 1 ? obj.Monto.ToString("N2", CultureInfo.InvariantCulture) : "";
+                row["Tipo Cambio"] = obj.TipoCambio.ToString("N2", CultureInfo.InvariantCulture);
                 row["Partida de Presupuesto"] = obj.NombreCategoria;
-                row[rFechaFin] = (obj.FechaConclusion == null) ? "N/A" : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row[rFechaFin] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
                 row["Usuario"] = obj.NombreUsuario;
                 row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
                 row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
@@ -3380,11 +3410,10 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Detalle de Comprobantes", "DetalleComprobantes", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("Comprobantes"+tipo, "Admin");
+            return RedirectToAction("Comprobantes", "Admin");
         }
 
         #endregion
-        
         private static void AddSuperHeader(GridView gridView, string text = null)
         {
             var myTable = (Table)gridView.Controls[0];
