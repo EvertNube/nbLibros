@@ -1,154 +1,159 @@
 ﻿@using System.Web.Mvc;
 @using NubeBooks.Core.DTO;
 @model UsuarioDTO
-@{ 
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
 @section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         $(function () {
+            $('.miselect2').select2()
+
             $("#btnChangePassword").click(function () {
                 $("#passUser").removeClass("hide").focus();
                 $("#passChange").removeClass("hide");
-            });
+            })
+
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            })
         });
     </script>
 }
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                @if (Model == null || Model.IdUsuario == 0)
-                {
-                    <h2>Nuevo Usuario</h2>
-                }
-                else
-                {<h2>Actualizar Usuario</h2>}
+@{var cadena = "";}
+@if (Model == null || Model.IdUsuario == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Área</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddUser", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Nombre</label>
+                            @if (Model.IdUsuario == 0)
+                            {
+                                @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.Nombre)
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text", @disabled = "disabled" })
+                            }
+                        </div>
+                        <div class="col-md-3">
+                            <label>Nombre Corto</label>
+                            @Html.TextBoxFor(u => u.InicialesNombre, new { @class = "form-control", @placeholder = "Ingrese iniciales del nombre.", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.InicialesNombre)
+                        </div>
+                        <div class="col-md-3">
+                            <label>Correo Electrónico</label>
+                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese su correo", @type = "email" })
+                            @Html.ValidationMessageFor(u => u.Email)
+                        </div>
+                        <div class="col-md-3">
+                            @if (ViewBag.EsAdmin)
+                            {
+                                var rol = "Sin Rol";
+                                if (Model != null)
+                                {
+                                    rol = Model.NombreRol;
+                                }
 
-                @using (Html.BeginForm("AddUser", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-6">
-                            @Html.Partial("_showAlertMessages")
-
-                            <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Formulario de Registro</header>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label>Nombre</label>
-                                        @if(Model.IdUsuario == 0)
-                                        {
-                                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text" })
-                                            @Html.ValidationMessageFor(u => u.Nombre)
+                                <label>Rol</label>
+                                <select class="form-control parsley-validated" data-val="true" data-val-number="The field IdRol must be a number." data-val-required="The IdRol field is required." id="IdRol" name="IdRol">
+                                    @{var rRol = Model != null ? Model.IdRol : 0; }
+                                    @foreach (var item in (List<RolDTO>)ViewBag.vbRls)
+                                    {
+                                        <option value="@item.IdRol" @(item.IdRol == rRol ? "selected=selected" : "")>@item.Nombre</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(u => u.IdRol)
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text", @disabled = "disabled" })
-                                        }
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nombre Corto</label>
-                                        @Html.TextBoxFor(u => u.InicialesNombre, new { @class = "form-control", @placeholder = "Ingrese iniciales del nombre.", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.InicialesNombre)
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Correo Electrónico</label>
-                                        @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese su correo", @type = "email" })
-                                        @Html.ValidationMessageFor(u => u.Email)
-                                    </div>
-                                    @if (ViewBag.EsAdmin)
-                                    {
-                                        var rol = "Sin Rol";
-                                        if(Model != null)
-                                        {
-                                            rol = Model.NombreRol;
-                                        }
-                                        <div class="form-group">
-                                            @*<label>Rol Actual : <font color="#3498db">@rol</font></label>*@
-                                            <label>Rol</label>
-                                            @*@Html.DropDownListFor(u => u.IdRol, new SelectList(ViewBag.vbRls, "IdRol", "Nombre", Model != null ? (Model.IdRol != null ? Model.IdRol : 0) : 0), new { @class = "form-control parsley-validated" })*@
-                                            <select class="form-control parsley-validated" data-val="true" data-val-number="The field IdRol must be a number." data-val-required="The IdRol field is required." id="IdRol" name="IdRol">
-                                                @{var rRol = Model != null ? Model.IdRol : 0; }
-                                                @foreach (var item in (List<RolDTO>)ViewBag.vbRls)
-                                                {
-                                                    <option value="@item.IdRol" @(item.IdRol == rRol ? "selected=selected" : "")>@item.Nombre</option>
-                                                }
-                                            </select>
-                                            @Html.ValidationMessageFor(u => u.IdRol)
-                                        </div>
-                                        
-                                    }
-                                    else
-                                    {
-                                        <div class="form-group">
                                             <label>Rol</label><br />
                                             @Html.Label(@Model.NombreRol, new { @class = "form-control", @type = "text" })
-                                                
                                             @Html.TextBoxFor(u => u.IdRol, new { @value = Model != null ? Model.IdRol.ToString() : "", @type = "hidden" })
                                             @Html.TextBoxFor(u => u.NombreRol, new { @value = Model != null ? Model.NombreRol : "", @type = "hidden" })
-                                        </div>
-                                    }
-
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group">
-                                        <label>Cuenta</label>
-                                        @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Cuenta)
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Password</label><br>
-                                        @if (Model != null && Model.IdUsuario > 0)
-                                        {
-                                            var user = (NubeBooks.Core.DTO.UsuarioDTO)HttpContext.Current.Session["User"];
-                                            if (ViewBag.EsAdmin || Model.IdUsuario == user.IdUsuario)
-                                            {
-                                                <button type="button" class="btn btn-sm btn-info" id="btnChangePassword">Cambiar contraseña</button><br /><br />
-                                                <input type="password" class="form-control hide" name="passUser" id="passUser" placeholder="Contraseña actual" /><br />
-                                                <input type="password" class="form-control hide" name="passChange" id="passChange" placeholder="Nueva contraseña" />
-                                                @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "hidden" })
-                                            }
                                         }
-                                        else
-                                        {
-                                            @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "password" })
-                                            @Html.ValidationMessageFor(u => u.Pass)
-                                        }
-                                    </div>
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdUsuario > 0)
-                                    {
-                                        <div class="line line-dashed line-lg pull-in"></div>
-                                        <div class="checkbox">
-                                            <label>
-                                                @Html.CheckBoxFor(u => u.Active)
-                                                Activo
-                                            </label>
-                                            @Html.ValidationMessageFor(u => u.Active)
-                                        </div>}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(u => u.Active, new { @value = Model != null ? Model.Active : false, @type = "hidden" })
-                                    }
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
-                                    @Html.TextBoxFor(u => u.IdUsuario, new { @value = Model.IdUsuario != 0 ? Model.IdUsuario.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdUsuario > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
-                                    @if (ViewBag.EsAdmin)
-                                    {
-                                        <a class="btn btn-sm btn-danger" href="@Url.Action("Usuarios")">Salir</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-sm btn-danger" href="@Url.Action("Index")">Salir</a>
-                                    }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Cuenta</label>
+                            @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Cuenta)
+                        </div>
+                        <div class="col-md-6">
+                            <label>Password</label><br>
+                            @if (Model != null && Model.IdUsuario > 0)
+                            {
+                                var user = (NubeBooks.Core.DTO.UsuarioDTO)HttpContext.Current.Session["User"];
+                                if (ViewBag.EsAdmin || Model.IdUsuario == user.IdUsuario)
+                                {
+                                    <button type="button" class="btn btn-sm btn-info" id="btnChangePassword">Cambiar contraseña</button><br /><br />
+                                    <input type="password" class="form-control hide" name="passUser" id="passUser" placeholder="Contraseña actual" /><br />
+                                    <input type="password" class="form-control hide" name="passChange" id="passChange" placeholder="Nueva contraseña" />
+                                    @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "hidden" })
+                                }
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "password" })
+                                @Html.ValidationMessageFor(u => u.Pass)
+                            }
+                        </div>
+                    </div>
+                </div>
+                if (ViewBag.EsAdmin && Model != null && Model.IdUsuario > 0)
+                {
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Active</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="Active" name="Active" type="checkbox" value="@Model.Active" checked="@Model.Active" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
                                 </div>
-                            </section>
+                            </div>
                         </div>
                     </div>
                 }
-            </div>
+                else
+                {
+                    @Html.TextBoxFor(u => u.Active, new { @value = Model != null ? Model.Active : false, @type = "hidden" })
+                }
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdUsuario, new { @value = Model.IdUsuario != 0 ? Model.IdUsuario.ToString() : "", @type = "hidden" })
+                var btnName = (Model != null && Model.IdUsuario > 0) ? "Guardar Cambios" : "Crear";
+                <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                if (ViewBag.EsAdmin)
+                {
+                    <a class="btn btn-default" href="@Url.Action("Usuarios", "Admin")">Cancelar</a>
+                }
+                else
+                {
+                    <a class="btn btn-default" href="@Url.Action("Index", "Admin")">Cancelar</a>
+                    }
+                }
         </div>
-
-    </section>
-</section>
+    </div>
+</div>
