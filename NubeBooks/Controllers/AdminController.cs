@@ -764,7 +764,6 @@ namespace NubeBooks.Controllers
                     if (objLibroMov.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index", "Admin");
 
                     obj.UsuarioCreacion = miUsuario.IdUsuario;
-                    obj.Fecha = DateTime.Now;
                     ViewBag.NombreCategoria = objBL.getNombreCategoria(obj.IdCategoria.GetValueOrDefault());
                     return View(obj);
                 }
@@ -784,7 +783,9 @@ namespace NubeBooks.Controllers
                     if(dto.cmpMontoPendiente < 0)
                     {
                         createResponseMessage(CONSTANTES.ERROR, "<strong>Error.</strong> No se puede pagar un monto mayor al monto pendiente");
-                        dto.Monto = dto.IdMovimiento != 0 ? dtoAnterior.Monto : 0;
+                        if (dto.IdComprobante == dtoAnterior.IdComprobante)
+                        { dto.Monto = dto.IdMovimiento != 0 ? dtoAnterior.Monto : 0; }
+                        else { dto.Monto = 0; }
                         TempData["Movimiento"] = dto;
                         return RedirectToAction("Movimiento", new { id = 0, idLibro = dto.IdCuentaBancaria });
                     }
@@ -1402,9 +1403,11 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (getCurrentUser().IdRol == 4) { return RedirectToAction("Comprobantes", "Admin"); }
 
+            ComprobanteDTO dto;
             try
             {
                 ComprobanteBL objBL = new ComprobanteBL();
+                dto = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, id);
                 if (objBL.delete(id))
                 {
                     createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_DELETE);
@@ -1419,7 +1422,9 @@ namespace NubeBooks.Controllers
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_DELETE);
                 throw;
             }
-            return RedirectToAction("Comprobantes", "Admin");
+            string cadena = "Ingreso";
+            if (dto != null) { cadena = dto.IdTipoComprobante == 1 ? "Ingreso" : "Egreso"; }
+            return RedirectToAction("Comprobantes" + cadena, "Admin");
         }
         public ActionResult InventariosIngreso()
         {
@@ -1551,9 +1556,11 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (getCurrentUser().IdRol == 4) { return RedirectToAction("MovimientoInvs", "Admin"); }
 
+            MovimientoInvDTO dto;
             try
             {
                 MovimientoInvBL objBL = new MovimientoInvBL();
+                dto = objBL.getMovimientoInvEnEmpresa(getCurrentUser().IdEmpresa, id);
                 if (objBL.delete(id))
                 {
                     createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_DELETE);
@@ -1568,7 +1575,9 @@ namespace NubeBooks.Controllers
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_DELETE);
                 throw;
             }
-            return RedirectToAction("InventariosIngreso", "Admin");
+            string cadena = "Ingreso";
+            if (dto != null) { cadena = dto.IdTipoMovimientoInv == 1 ? "Ingreso" : "Egreso"; }
+            return RedirectToAction("Inventarios" + cadena, "Admin");
         }
         public ActionResult Items()
         {

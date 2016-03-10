@@ -25,14 +25,9 @@
             $('.reporte').click(function () {
                 this.href = GenerarReporte($(this).data("idreporte"));
             })
-            /*$('#reporte1').click(function () {
-                this.href = GenerarReporte(1);
-            });*/
         });
 
         function GenerarReporte(nrep) {
-            //var IdCuentaB = $("#IdCuentaB").val();
-
             var FechaInicio = $("#FechaInicio").val().split("/");
 
             FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
@@ -76,114 +71,116 @@
                 case 11:
                     return "/Admin/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
-                    /*case 3:
-                        return "/Admin/GenerarReporteDetalleMovimientos/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
-                        break;
-                    case 4:
-                        return "/Admin/GenerarReporteResumenEntidadesR/?IdCuentaB=" + IdCuentaB + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
-                        break;*/
             }
         }
-
     </script>
 }
-
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                <h2>Reporte</h2>
-                <div class="row m-b">
-                    <div class="col-xs-12 col-md-12">
-                        @Html.ValidationSummary(true)
-
-                        @Html.Partial("_showAlertMessages")
-                        <section class="panel panel-default">
-                            <header class="panel-heading font-bold">Generar Reportes</header>   
-                            <div class="panel-body">
-                                @*<div class="form-group col-lg-4">
-                                        <label>Tipo de Movimiento</label>
-                                        @Html.DropDownList("IdCuentaB", new SelectList(ViewBag.Libros, "IdCuentaBancaria", "NombreCuenta", 0), new { @class = "form-control parsley-validated" })
-                                    </div>*@
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-md-2 text-right" for="FechaInicio" style="transform:translateY(30%)">Fecha Inicio:</label>
-                                        <div class="col-md-4">
-                                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
-                                        </div>
-                                        <label class="col-md-2 text-right" for="FechaFin" style="transform:translateY(30%)">Fecha Fin:</label>
-                                        <div class="col-md-4">
-                                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
-                                        </div>
-                                    </div>
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 text-center">Avance de Presupuesto </label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
-                                        </div>
-                                        <!--Line break-->
-                                        <label class="col-md-2 text-center">Partida de Presupuesto</label>
-                                        @Html.TextBox("IdCategoria", "", new { @class = "col-md-4" })
-                                        @*<label class="col-md-3 text-center">Detalle de gastos por Partida de Presupuesto</label>*@
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="9">Generar Reporte</a>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 text-center">Ingresos y Egresos por Áreas </label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
-                                        </div>
-                                        <label class="col-md-2 text-center">Ingresos por Áreas - Clientes</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
-                                        </div>
-                                        <label class="col-md-2 text-center">Egresos por Áreas - Proveedores</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="10">Generar Reporte</a>
-                                        </div>
-                                    </div>
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 text-center">Ingresos por clientes</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="4">Generar Reporte</a>
-                                        </div>
-                                        <label class="col-md-2 text-center">Gastos por proveedores</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="5">Generar Reporte</a>
-                                        </div>
-                                        <label class="col-md-2 text-center">Ingresos por consultores</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="6">Generar Reporte</a>
-                                        </div>
-                                    </div>
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 text-center">Facturación por Modalidad de Pago</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="11">Generar Reporte</a>
-                                        </div>
-                                        <label class="col-md-2 text-center">Status de Pago de Doc. de Ingresos</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="7">Generar Reporte</a>
-                                        </div>
-                                        <label class="col-md-2 text-center">Status de Pago de Doc. de Egresos</label>
-                                        <div class="col-md-2 text-center">
-                                            <a class="btn btn-sm btn-success reporte" data-idreporte="8">Generar Reporte</a>
-                                        </div>
-                                    </div>
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    <div class="form-group">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Reporte</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaInicio" style="transform:translateY(30%)">Fecha Inicio:</label>
+                        <div class="col-md-8">
+                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaFin" style="transform:translateY(30%)">Fecha Fin:</label>
+                        <div class="col-md-8">
+                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Avance de Presupuesto </label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="col-md-3 text-center">Partida de Presupuesto</label>
+                        @Html.TextBox("IdCategoria", "", new { @class = "col-xs-6 col-sm-6 col-md-6 no-padder" })
+                        <div class="col-md-3 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="9">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ingresos y Egresos por Áreas </label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ingresos por Áreas - Clientes</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Egresos por Áreas - Proveedores</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="10">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ingresos por clientes</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="4">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Gastos por proveedores</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="5">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ingresos por consultores</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="6">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Facturación por Modalidad de Pago</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="11">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Status de Pago de Doc. de Ingresos</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="7">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Status de Pago de Doc. de Egresos</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="8">Generar Reporte</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</section>
+    </div>
+</div>

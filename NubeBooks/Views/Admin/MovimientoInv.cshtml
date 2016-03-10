@@ -87,7 +87,7 @@ else { cadena = "Actualizar"; }
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4">
-                            <label>Código</label>
+                            <label>Código - Item</label>
                             @Html.DropDownListFor(u => u.IdItem, new SelectList(ViewBag.lstItems, "IdItem", "Codigo", Model != null ? (Model.IdItem != 0 ? Model.IdItem : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2" })
                             @Html.ValidationMessageFor(u => u.IdItem)
                         </div>

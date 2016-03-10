@@ -89,7 +89,11 @@ namespace NubeBooks.Core.BL
                     nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     nuevo.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     nuevo.NroOperacion = Movimiento.NroOperacion;
-                    //nuevo.Fecha = Movimiento.Fecha;
+                    //Hora Actual
+                    DateTime Hora = DateTime.Now;
+                    Movimiento.FechaCreacion = Movimiento.FechaCreacion + new TimeSpan(Hora.Hour, Hora.Minute, Hora.Second);
+                    Movimiento.Fecha = Movimiento.Fecha + new TimeSpan(Hora.Hour, Hora.Minute, Hora.Second);
+                    //--------
                     nuevo.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     nuevo.Monto = Movimiento.Monto;
                     nuevo.TipoCambio = Movimiento.TipoCambio;
@@ -133,7 +137,10 @@ namespace NubeBooks.Core.BL
                     datoRow.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
                     datoRow.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     datoRow.NroOperacion = Movimiento.NroOperacion;
-                    //datoRow.Fecha = Movimiento.Fecha;
+                    //Hora Actual
+                    DateTime Hora = DateTime.Now;
+                    Movimiento.Fecha = Movimiento.Fecha + new TimeSpan(Hora.Hour, Hora.Minute, Hora.Second);
+                    //--------
                     datoRow.Fecha = Convert.ToDateTime(Movimiento.Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.Monto = Movimiento.Monto;
                     datoRow.TipoCambio = Movimiento.TipoCambio;

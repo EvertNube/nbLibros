@@ -5,10 +5,41 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#modal-form').on('show.bs.modal', function (e) {
+                //if (!data) return e.preventDefault()
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var modal = $(this);
+                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+                modal.find('.modal-body input').val(idElement);
+            });
+
+            $("input#delete").click(function () {
+                var idelement = $('form.element').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteMovimientoInv",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        //$("#thanks").html(msg)
+                        $("#modal-form").modal('hide');
+                        window.location.href = "/Admin/InventariosEgreso";
+                        //window.location.reload();
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
+            });
+        })
+    </script>
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>*@
     <a href="@Url.Action("MovimientoInv", "Admin", new { id = 0, idTipo = 2 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
@@ -37,11 +68,12 @@
                     <tr>
                         <th class="text-center" style="width:7%">Fecha</th>
                         <th class="text-center">Movimiento</th>
-                        <th class="text-center" style="width:7%">Documento</th>
+                        <th class="text-center">Cod - Item</th>
+                        <th class="text-center">Documento</th>
                         <th class="text-center">Cantidad</th>
-                        <th class="text-center">U. Medida</th>
+                        <th class="text-center">U. Med</th>
                         <th class="text-center" style="width:7%">Lote</th>
-                        <th class="text-center" style="width:10%">Stock Lote</th>
+                        <th class="text-center">Stock<br />Lote</th>
                         <th class="text-center" style="width:7%">Usuario</th>
                         <th class="text-center" style="width:7%">Opc.</th>
                     </tr>
@@ -53,7 +85,8 @@
                         {
                             <tr>
                                 <td class="text-center">@item.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                <td class="text-center">@(item.nTipo + " - " + item.nForma)</td>
+                                <td class="text-center">@item.nForma</td>
+                                <td class="text-center">@item.nItem</td>
                                 <td class="text-center">@item.NroDocumento</td>
                                 <td class="text-center">@item.Cantidad</td>
                                 <td class="text-center">@item.UnidadMedida</td>
@@ -74,4 +107,23 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de eliminar este elemento?</p>
+                <form class="element" name="element">
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+            </div>
+        </div>
+    </div>
+</div>
