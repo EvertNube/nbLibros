@@ -137,7 +137,7 @@ namespace NubeBooks.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string rt, string emp)
         {
-            if(rt == null || emp == null)
+            if (rt == null || emp == null)
             {
                 return RedirectToAction("Ingresar", "Admin");
             }
@@ -153,19 +153,19 @@ namespace NubeBooks.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(ResetPasswordDTO obj)
         {
-            if(obj.rt == null || obj.emp == null || obj.Password == null || obj.Password == "")
+            if (obj.rt == null || obj.emp == null || obj.Password == null || obj.Password == "")
             {
                 return RedirectToAction("Ingresar", "Admin");
             }
-            if(obj.Password != obj.ConfirmPassword)
+            if (obj.Password != obj.ConfirmPassword)
             {
                 createResponseMessage(CONSTANTES.ERROR, "<strong>Las contraseñas ingresadas tienen que coincidir.</strong>");
                 return View();
             }
             UsuariosBL objBL = new UsuariosBL();
             UsuarioDTO usuario = new UsuarioDTO() { Token = obj.rt, codigoEmpresa = obj.emp, Pass = obj.Password };
-            
-            if(objBL.resetPasswordByTokenAndEmp(usuario))
+
+            if (objBL.resetPasswordByTokenAndEmp(usuario))
             {
                 createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_PASSWORD_CHANGE);
                 return RedirectToAction("Ingresar", "Admin");
@@ -187,7 +187,7 @@ namespace NubeBooks.Controllers
             createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_LOGIN);
             return RedirectToAction("Ingresar");
         }
-        public ActionResult Logout() 
+        public ActionResult Logout()
         {
             Session.Clear();
             return RedirectToAction("Ingresar");
@@ -202,9 +202,9 @@ namespace NubeBooks.Controllers
             MenuNavBarSelected(0);
 
             UsuarioDTO user = getCurrentUser();
-            
+
             EmpresaBL objBL = new EmpresaBL();
-            
+
             EmpresaDTO empresaOld = objBL.getEmpresa(user.IdEmpresa);
             EmpresaDTO empresa = objBL.getEmpresa(user.IdEmpresa);
             ViewBag.FechaConciliacion = empresa.FechaConciliacion.GetValueOrDefault().ToString("dd/MM/yy", CultureInfo.CreateSpecificCulture("es-PE"));
@@ -215,12 +215,12 @@ namespace NubeBooks.Controllers
             ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
             ViewBag.TipoCambio = empresa.TipoCambio;
             //Liquidez
-            ViewBag.lstLiquidezSoles =  objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
+            ViewBag.lstLiquidezSoles = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
             ViewBag.lstLiquidezDolares = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 2);
             //Rentabilidad
             ViewBag.lstRentabilidad = objBL.getRentabilidadEnEmpresaSegunMoneda(user.IdEmpresa, empresa.IdMoneda);
             //Ejecucion de Presupuesto
-            ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda , empresa.IdPeriodo.GetValueOrDefault(), 1);
+            ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 1);
             ViewBag.EjecucionEgresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 2);
             //Principales clientes y proveedores
             ViewBag.top5Clientes = objBL.getTop5Clientes(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
@@ -339,7 +339,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Bancarios";
-            MenuNavBarSelected(2,0);
+            MenuNavBarSelected(2, 0);
 
             UsuarioDTO user = getCurrentUser();
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -355,13 +355,13 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Administrativos";
-            MenuNavBarSelected(2,1);
+            MenuNavBarSelected(2, 1);
 
             UsuarioDTO user = getCurrentUser();
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> lista = new List<CuentaBancariaDTO>();
 
-            if(user.IdEmpresa != 0)
+            if (user.IdEmpresa != 0)
             {
                 lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 2);
             }
@@ -375,7 +375,7 @@ namespace NubeBooks.Controllers
             ViewBag.Title += " - Libro";
 
             int tipoCuenta = 2;
-            if(idTipoCuenta != null) { tipoCuenta = idTipoCuenta.GetValueOrDefault(); }
+            if (idTipoCuenta != null) { tipoCuenta = idTipoCuenta.GetValueOrDefault(); }
             MenuNavBarSelected(2, tipoCuenta - 1);
 
             UsuarioDTO miUsuario = getCurrentUser();
@@ -406,7 +406,7 @@ namespace NubeBooks.Controllers
 
             return View(obj);
         }
-        
+
         private IPagedList<MovimientoDTO> BusquedaYPaginado_Movimiento(IList<MovimientoDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!String.IsNullOrEmpty(searchString))
@@ -758,7 +758,7 @@ namespace NubeBooks.Controllers
                     MovimientoDTO obj = objBL.getMovimiento((int)id);
                     if (obj == null) return RedirectToAction("Libro", "Admin", new { id = objLibro.IdCuentaBancaria });
                     if (obj.IdCuentaBancaria != objLibro.IdCuentaBancaria) return RedirectToAction("Libro", "Admin", new { id = objLibro.IdCuentaBancaria });
-                    
+
                     CuentaBancariaDTO objLibroMov = objCuentaBL.getCuentaBancariaEnEmpresa(miUsuario.IdEmpresa, obj.IdCuentaBancaria);
                     if (objLibroMov == null) return RedirectToAction("Index", "Admin");
                     if (objLibroMov.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Index", "Admin");
@@ -778,9 +778,9 @@ namespace NubeBooks.Controllers
             {
                 MovimientoBL objBL = new MovimientoBL();
                 MovimientoDTO dtoAnterior = objBL.getMovimiento(dto.IdMovimiento);
-                if(dto.IdComprobante != null && dto.cmpMontoPendiente != null)
+                if (dto.IdComprobante != null && dto.cmpMontoPendiente != null)
                 {
-                    if(dto.cmpMontoPendiente < 0)
+                    if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) < 0)
                     {
                         createResponseMessage(CONSTANTES.ERROR, "<strong>Error.</strong> No se puede pagar un monto mayor al monto pendiente");
                         if (dto.IdComprobante == dtoAnterior.IdComprobante)
@@ -796,7 +796,7 @@ namespace NubeBooks.Controllers
                     {
                         if (dto.IdComprobante.GetValueOrDefault() != 0)
                         {
-                            if (dto.cmpMontoPendiente == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
+                            if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
                             else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
                         }
                         createResponseMessage(CONSTANTES.SUCCESS);
@@ -809,12 +809,12 @@ namespace NubeBooks.Controllers
                     {
                         if (dto.IdComprobante.GetValueOrDefault() != 0)
                         {
-                            if (dto.cmpMontoPendiente == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
+                            if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
                             else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
                         }
                         //Si en la actualizacion se cambio el IdComprobante
                         if (dtoAnterior.IdComprobante != null && dtoAnterior.IdComprobante != dto.IdComprobante)
-                        {ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false);}
+                        { ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false); }
 
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
@@ -922,7 +922,7 @@ namespace NubeBooks.Controllers
             try
             {
                 UsuariosBL usuariosBL = new UsuariosBL();
-                
+
                 if (user.IdUsuario == 0 && usuariosBL.validateUsuario(user))
                 {
                     if (!this.isSuperAdministrator()) { return RedirectToAction("Index"); }
@@ -1000,7 +1000,7 @@ namespace NubeBooks.Controllers
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             List<EntidadResponsableDTO> lista = new List<EntidadResponsableDTO>();
 
-            if(user.IdEmpresa > 0)
+            if (user.IdEmpresa > 0)
             { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 1); }
 
             return View(lista);
@@ -1158,7 +1158,7 @@ namespace NubeBooks.Controllers
             int tipo = 2; //Egresos
             ViewBag.idTipoComprobante = tipo;
 
-            if(user.IdEmpresa > 0)
+            if (user.IdEmpresa > 0)
             {
                 List<ComprobanteDTO> lista = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, tipo);
                 return View(lista);
@@ -1478,12 +1478,12 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
 
             MovimientoInvBL objBL = new MovimientoInvBL();
-            
+
             ViewBag.lstFormaMovimiento = objBL.getFormaMovimientoInvPorTipo(tipo);
             ViewBag.lstItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
             ViewBag.lstProveedores = objBL.getProveedoresEnEmpresa(user.IdEmpresa);
             ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
-            
+
             var objSent = TempData["MovimientoInv"];
             if (objSent != null) { TempData["MovimientoInv"] = null; return View(objSent); }
 
@@ -2529,7 +2529,7 @@ namespace NubeBooks.Controllers
 
             return View();
         }
-        
+
         #region Reportes
         public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
@@ -2637,7 +2637,8 @@ namespace NubeBooks.Controllers
 
             foreach (var obj in lstAreasMontos)
             {
-                PintarAreas(obj, SumaTotal, dt);
+                if (obj.SumaClientes != 0)
+                { PintarAreas(obj, SumaTotal, dt); }
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
@@ -2708,7 +2709,8 @@ namespace NubeBooks.Controllers
 
             foreach (var obj in lstAreasMontos)
             {
-                PintarAreas(obj, SumaTotal, dt);
+                if (obj.SumaClientes != 0)
+                { PintarAreas(obj, SumaTotal, dt); }
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
@@ -2776,7 +2778,8 @@ namespace NubeBooks.Controllers
 
             foreach (var obj in lstAreasIE)
             {
-                PintarAreasIE(obj, dt);
+                if (obj.Ingresos != 0 && obj.Egresos != 0)
+                { PintarAreasIE(obj, dt); }
             }
 
             GenerarPdf(dt, "Ingresos y Egresos por &Aacute;reas", "IngresosYEgresosPorAreas", objEmpresa, FechaInicio, FechaFin, Response);
@@ -2809,12 +2812,15 @@ namespace NubeBooks.Controllers
 
             foreach (var obj in lstClientes)
             {
-                System.Data.DataRow row = dt.NewRow();
-                row["Clientes"] = obj.Nombre;
-                row["Monto"] = obj.Monto;
-                Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
-                row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
-                dt.Rows.Add(row);
+                if (obj.Monto != 0)
+                {
+                    System.Data.DataRow row = dt.NewRow();
+                    row["Clientes"] = obj.Nombre;
+                    row["Monto"] = obj.Monto;
+                    Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                    row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+                    dt.Rows.Add(row);
+                }
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
@@ -2852,12 +2858,15 @@ namespace NubeBooks.Controllers
 
             foreach (var obj in lstProveedores)
             {
-                System.Data.DataRow row = dt.NewRow();
-                row["Proveedores"] = obj.Nombre;
-                row["Monto"] = obj.Monto;
-                Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
-                row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
-                dt.Rows.Add(row);
+                if (obj.Monto != 0)
+                {
+                    System.Data.DataRow row = dt.NewRow();
+                    row["Proveedores"] = obj.Nombre;
+                    row["Monto"] = obj.Monto;
+                    Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                    row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
+                    dt.Rows.Add(row);
+                }
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
@@ -3087,7 +3096,7 @@ namespace NubeBooks.Controllers
             dt.Rows.Add(rowFinal);
 
             GenerarPdf(dt, "Facturaci&oacute;n por Modalidad de Pago", "FacturacionPorModalidadDePago", objEmpresa, FechaInicio, FechaFin, Response);
-            
+
             return RedirectToAction("ReporteCategorias", new { message = 2 });
         }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
@@ -3260,7 +3269,7 @@ namespace NubeBooks.Controllers
             if (lstCuentas == null || lstCuentas.Count == 0)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
-                return RedirectToAction("Libros"+tipo, "Admin");
+                return RedirectToAction("Libros" + tipo, "Admin");
             }
 
             System.Data.DataTable dt = new System.Data.DataTable();
@@ -3289,7 +3298,7 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Detalle de Libros", "DetalleLibros", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("Libros"+tipo, "Admin");
+            return RedirectToAction("Libros" + tipo, "Admin");
         }
 
         public ActionResult ExportarMovimientos(int idLibro, DateTime? FechaInicio, DateTime? FechaFin)
