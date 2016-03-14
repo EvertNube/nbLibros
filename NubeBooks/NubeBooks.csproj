@@ -995,6 +995,7 @@
     <Content Include="Views\Admin\CategoriaItm.cshtml" />
     <Content Include="Views\Admin\Item.cshtml" />
     <Content Include="Views\Admin\MovimientoInv.cshtml" />
+    <Content Include="Views\Admin\ComprobantesAnulados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

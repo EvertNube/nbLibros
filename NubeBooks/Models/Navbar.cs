@@ -29,6 +29,7 @@ namespace NubeBooks.Models
             //3 - Comprobantes
             lstOptions[3].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[3].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[3].lstOptions.Add(new Option() { cadena = "" });
             //6 - Entidades
             lstOptions[6].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[6].lstOptions.Add(new Option() { cadena = "" });

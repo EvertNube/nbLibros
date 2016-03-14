@@ -335,9 +335,10 @@ namespace NubeBooks.Core.BL
                         break;
                 }
 
-                presupuesto = (Soles + Dolares) / presupuesto;
-
-                return presupuesto;
+                if(presupuesto != 0)
+                    return (Soles + Dolares) / presupuesto;
+                else
+                    return 0;
             }
         }
         public List<EntidadResponsableR_DTO> getTop5Clientes(int idEmpresa, int idPeriodo)

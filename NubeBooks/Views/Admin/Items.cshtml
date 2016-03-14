@@ -53,7 +53,8 @@
                                 <td class="text-center">@item.Codigo</td>
                                 <td class="text-center">@item.Descripcion</td>
                                 <td class="text-center">@item.UnidadMedida</td>
-                                <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
+                                @{ var eColor = item.Estado ? "#27c24c" : "red"; }
+                                <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
                                     <a href="@Url.Action("Item", "Admin", new { id = item.IdItem })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;

@@ -30,10 +30,10 @@
 }" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
-                        <th style="width:10%">Nombre</th>
-                        <th style="width:10%">Descripción</th>
-                        <th class="text-center" style="width:10%">Estado</th>
-                        <th class="text-center" style="width:20%">Opc.</th>
+                        <th >Nombre</th>
+                        <th >Descripción</th>
+                        <th class="text-center" >Estado</th>
+                        <th class="text-center" style="width:10%">Opc.</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,8 @@
                             <tr>
                                 <td>@item.Nombre</td>
                                 <td>@item.Descripcion</td>
-                                <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
+                                @{ var eColor = item.Estado ? "#27c24c" : "red"; }
+                                <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 <td class="text-center">
                                     <a href="@Url.Action("Area", new { id = item.IdArea })"><i class="fa fa-pencil"></i></a>
                                 </td>

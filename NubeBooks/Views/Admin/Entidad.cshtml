@@ -12,8 +12,6 @@
     <script type="text/javascript">
         $(function () {
             $('.miselect2').select2();
-
-            //$('.dataTable').DataTable();
         });
 
         function CheckNumericValue(e) {
@@ -174,6 +172,7 @@ else { cadena = "Actualizar"; }
                             <th class="text-center">Email</th>
                             <th class="text-center">Teléfono</th>
                             <th class="text-center">Celular</th>
+                            <th class="text-center">Estado</th>
                             <th class="text-center" width="10%">Opc.</th>
                         </tr>
                     </thead>
@@ -188,6 +187,8 @@ else { cadena = "Actualizar"; }
                                     <td class="text-center">@obj.Email</td>
                                     <td class="text-center">@obj.Telefono</td>
                                     <td class="text-center">@obj.Celular</td>
+                                    @{ var eColor = obj.Estado ? "#27c24c" : "red"; }
+                                    <td class="text-center" style="color:@(eColor)">@(obj.Estado ? "Activo" : "Inactivo" )</td>
                                     @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
                                     {
                                         <td class="text-center" width="10%"><a href="@Url.Action("Contacto", new { id = obj.IdContacto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
@@ -230,6 +231,7 @@ else { cadena = "Actualizar"; }
                                 <tr>
                                     <th width="20%">Nombre</th>
                                     <th class="text-center">Descripción</th>
+                                    <th class="text-center">Estado</th>
                                     <th class="text-center" width="10%">Opc.</th>
                                 </tr>
                             </thead>
@@ -242,6 +244,8 @@ else { cadena = "Actualizar"; }
                                         <tr @Html.Raw(classInactive)>
                                             <td width="20%">@obj.Nombre</td>
                                             <td>@obj.Descripcion</td>
+                                            @{ var eColor = obj.Estado ? "#27c24c" : "red"; }
+                                            <td class="text-center" style="color:@(eColor)">@(obj.Estado ? "Activo" : "Inactivo" )</td>
                                             @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
                                             {
                                                 <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>

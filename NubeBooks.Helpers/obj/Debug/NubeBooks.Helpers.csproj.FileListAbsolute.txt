@@ -80,3 +80,4 @@ C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\System.We
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Helpers\obj\Debug\NubeBooks.Helpers.dll
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Helpers\obj\Debug\NubeBooks.Helpers.pdb
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Helpers\obj\Debug\NubeBooks.Helpers.csprojResolveAssemblyReference.cache

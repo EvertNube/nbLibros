@@ -344,6 +344,32 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public bool ban(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Comprobante.Where(x => x.IdComprobante == id).SingleOrDefault();
+                    //Si el comprobante esta ligado a Movimientos primero se eliminan todos los Movimientos
+                    var allmovimientos = context.Movimiento.Where(x => x.IdComprobante == row.IdComprobante).ToList();
+                    MovimientoBL movBL = new MovimientoBL();
+                    foreach (var item in allmovimientos)
+                    {
+                        movBL.delete(item.IdMovimiento);
+                    }
+                    //Anulando el Comprobante
+                    row.IdTipoComprobante = 3;
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         public bool actualizarEjecutado(int idComprobante, bool ejecutado, int idEmpresa)
         {
             using (var context = getContext())

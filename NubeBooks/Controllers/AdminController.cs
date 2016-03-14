@@ -1165,6 +1165,26 @@ namespace NubeBooks.Controllers
             }
             return View();
         }
+        public ActionResult ComprobantesAnulados()
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            ViewBag.Title += " - Comprobantes Anulados";
+
+            MenuNavBarSelected(3, 2);
+
+            UsuarioDTO user = getCurrentUser();
+
+            ComprobanteBL objBL = new ComprobanteBL();
+            int tipo = 3; //Anulados
+            ViewBag.idTipoComprobante = tipo;
+
+            if (user.IdEmpresa > 0)
+            {
+                List<ComprobanteDTO> lista = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, tipo);
+                return View(lista);
+            }
+            return View();
+        }
         private IPagedList<ComprobanteDTO> BusquedaYPaginado_Comprobantes(IList<ComprobanteDTO> lista, string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!String.IsNullOrEmpty(searchString))
@@ -1420,6 +1440,35 @@ namespace NubeBooks.Controllers
             catch (Exception e)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_DELETE);
+                throw;
+            }
+            string cadena = "Ingreso";
+            if (dto != null) { cadena = dto.IdTipoComprobante == 1 ? "Ingreso" : "Egreso"; }
+            return RedirectToAction("Comprobantes" + cadena, "Admin");
+        }
+        [HttpPost]
+        public ActionResult AnularComprobante(int id)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Comprobantes", "Admin"); }
+
+            ComprobanteDTO dto;
+            try
+            {
+                ComprobanteBL objBL = new ComprobanteBL();
+                dto = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, id);
+                if (objBL.ban(id))
+                {
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_BAN);
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_BAN);
+                }
+            }
+            catch (Exception e)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_BAN);
                 throw;
             }
             string cadena = "Ingreso";

@@ -184,6 +184,15 @@
 }
 <div class="bg-light lter b-b wrapper-md">
     <div class="btn-group pull-right m-r">
+        <button class="btn m-b-xs btn-sm btn-default m-r" ui-toggle-class="btn-danger" id="btn-showInactive">
+            <i class="text"></i>
+            <span class="text">Mostrar Inactivos</span>
+            <i class="fa icon-ban text-active"></i>
+            <span class="text-active">&nbsp;Mostrar Inactivos</span>
+        </button>
+
+        <a href="@Url.Action("Categoria")" class="btn m-b-xs btn-sm btn-success btn-addon m-r"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+
         @{string vOption = "Periodos";}
         <button id="idPeriodo" data-periodo="@ViewBag.IdPeriodo" data-toggle="dropdown" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l">
             <i class="icon-calendar"></i>
@@ -207,7 +216,6 @@
         </ul>
     </div>
 
-    <a href="@Url.Action("Categoria")" class="btn m-b-xs btn-sm btn-success btn-addon pull-right m-r"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
 

@@ -11,8 +11,9 @@
                 var button = $(e.relatedTarget);
                 var idElement = button.data('id');
                 var nroDocumento = button.data('nro');
+                var nombreDocumento = button.data('doc');
                 var modal = $(this);
-                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+                modal.find('.modal-title').text('Eliminar Elemento: ' + nombreDocumento + " " + nroDocumento);
                 modal.find('.modal-body input').val(idElement);
             });
             $("input#delete").click(function () {
@@ -103,7 +104,7 @@
                                 <td class="text-center">
                                     <a href="@Url.Action("Comprobante", "Admin", new { id = item.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
                                 </td>
                             </tr>
                                         }

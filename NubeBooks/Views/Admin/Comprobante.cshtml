@@ -237,11 +237,17 @@
                 strEntidad = "Cliente";
                 strFechaFin = "Cobranza";
                 break;
-            default:
+            case 2:
                 strTitulo = "Egreso";
                 strFechaIni = "Fecha Documento";
                 strEntidad = "Proveedor";
                 strFechaFin = "Pago";
+                break;
+            default:
+                strTitulo = "Anulado";
+                strFechaIni = "Fecha";
+                strEntidad = "Entidad";
+                strFechaFin = "Vencimiento";
                 break;
         }
     }
