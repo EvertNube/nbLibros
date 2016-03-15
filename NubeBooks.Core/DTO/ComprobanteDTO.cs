@@ -36,6 +36,7 @@ namespace NubeBooks.Core.DTO
         [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal TipoCambio { get; set; }
         public int UsuarioCreacion { get; set; }
+        public DateTime? FechaPago { get; set; }
 
         //Nombres
         public string NombreTipoComprobante { get; set; }

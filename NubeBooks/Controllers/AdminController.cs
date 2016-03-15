@@ -3021,6 +3021,7 @@ namespace NubeBooks.Controllers
 
             string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Entidad";
             string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Cobro" : "Fecha Pago";
+            int neleCols = 12;
 
             dt.Columns.Add("Numero");
             dt.Columns.Add("Documento");
@@ -3028,14 +3029,15 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Status");
             dt.Columns.Add(Entidad);
             if (IdTipoComprobante == 1)
-            { dt.Columns.Add("Proyecto"); }
+            { dt.Columns.Add("Proyecto"); neleCols = 13; }
             dt.Columns.Add("Moneda");
             dt.Columns.Add("Monto Sin IGV");
             dt.Columns.Add("Monto Total");
             dt.Columns.Add("Partida de Presupuesto");
             dt.Columns.Add("Monto Pendiente");
             dt.Columns.Add(FechaEjecucion);
-            dt.Columns.Add("Dias Vencidos");
+            dt.Columns.Add("Fecha Cancelación");
+            dt.Columns.Add("Dias transcurridos Emisión - Cancelación");
             dt.Columns.Add("Comentarios");
 
             List<bool> Ejecutados = new List<bool>() { true, false };
@@ -3062,7 +3064,9 @@ namespace NubeBooks.Controllers
                     row["Partida de Presupuesto"] = obj.NombreCategoria;
                     row["Monto Pendiente"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
                     row[FechaEjecucion] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-";
-                    row["Dias Vencidos"] = obj.Ejecutado ? "0" : obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
+                    row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-";
+                    //Dias transcurridos Emisión - Cancelación
+                    row[neleCols] = obj.FechaPago != null ? (obj.Ejecutado ? obj.FechaPago.GetValueOrDefault().Subtract(obj.FechaEmision).Days.ToString() : "-") : "-";
                     row["Comentarios"] = obj.Comentario;
                     dt.Rows.Add(row);
                 }

@@ -17,14 +17,13 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Usuario()
         {
-            this.Comprobante = new HashSet<Comprobante>();
             this.Movimiento = new HashSet<Movimiento>();
             this.MovimientoInv = new HashSet<MovimientoInv>();
+            this.Comprobante = new HashSet<Comprobante>();
         }
     
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
-        public string InicialesNombre { get; set; }
         public string Email { get; set; }
         public string Cuenta { get; set; }
         public string Pass { get; set; }
@@ -35,13 +34,13 @@ namespace NubeBooks.Data
         public int IdEmpresa { get; set; }
         public string Token { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
         public virtual Rol Rol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
     }
 }

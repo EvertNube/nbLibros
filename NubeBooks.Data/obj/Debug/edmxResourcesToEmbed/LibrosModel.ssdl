@@ -73,6 +73,7 @@
     <Property Name="Ejecutado" Type="bit" Nullable="false" />
     <Property Name="IdHonorario" Type="int" />
     <Property Name="UsuarioCreacion" Type="int" Nullable="false" />
+    <Property Name="FechaPago" Type="datetime" />
   </EntityType>
   <EntityType Name="Contacto">
     <Key>
@@ -350,7 +351,6 @@
     </Key>
     <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="InicialesNombre" Type="nvarchar" MaxLength="10" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
     <Property Name="Cuenta" Type="nvarchar" MaxLength="40" Nullable="false" />
     <Property Name="Pass" Type="nvarchar" MaxLength="64" Nullable="false" />

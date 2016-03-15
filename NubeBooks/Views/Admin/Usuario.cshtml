@@ -15,8 +15,11 @@
             $('.miselect2').select2()
 
             $("#btnChangePassword").click(function () {
-                $("#passUser").removeClass("hide").focus();
-                $("#passChange").removeClass("hide");
+                $("#boxPassword").removeClass("hide");
+                $("#boxPasswordConfirm").removeClass("hide");
+                $("#passUser").focus();
+                //$("#passChange").removeClass("hide");
+                $("#boxPassButton").addClass("hide");
             })
 
             $('.rol-accs').each(function () {
@@ -40,7 +43,7 @@ else { cadena = "Actualizar"; }
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Nombre</label>
                             @if (Model.IdUsuario == 0)
                             {
@@ -52,17 +55,12 @@ else { cadena = "Actualizar"; }
                                 @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text", @disabled = "disabled" })
                             }
                         </div>
-                        <div class="col-md-3">
-                            <label>Nombre Corto</label>
-                            @Html.TextBoxFor(u => u.InicialesNombre, new { @class = "form-control", @placeholder = "Ingrese iniciales del nombre.", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.InicialesNombre)
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Correo Electrónico</label>
                             @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese su correo", @type = "email" })
                             @Html.ValidationMessageFor(u => u.Email)
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             @if (ViewBag.EsAdmin)
                             {
                                 var rol = "Sin Rol";
@@ -93,7 +91,7 @@ else { cadena = "Actualizar"; }
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Cuenta</label>
                             @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Cuenta)
@@ -103,23 +101,25 @@ else { cadena = "Actualizar"; }
                             var user = (NubeBooks.Core.DTO.UsuarioDTO)HttpContext.Current.Session["User"];
                             if (ViewBag.EsAdmin || Model.IdUsuario == user.IdUsuario)
                             {
-                                <div class="col-md-3">
-                                    <label>Password</label><br />
+                                <div class="col-md-4" id="boxPassButton">
+                                    <label>Cambiar Clave</label><br />
                                     <button type="button" class="btn btn-sm btn-info" id="btnChangePassword">Cambiar contraseña</button><br /><br />
                                 </div>
-                                <div class="col-md-3">
-                                    <br /><input type="password" class="form-control hide" name="passUser" id="passUser" placeholder="Contraseña actual" /><br />
+                                <div class="col-md-4 hide" id="boxPassword">
+                                    <label>Contraseña</label>
+                                    <input type="password" class="form-control" name="passUser" id="passUser" placeholder="Contraseña actual" /><br />
                                 </div>
-                                <div class="col-md-3">
-                                    <br /><input type="password" class="form-control hide" name="passChange" id="passChange" placeholder="Nueva contraseña" />
+                                <div class="col-md-4 hide" id="boxPasswordConfirm">
+                                    <label>Nueva Contraseña</label>
+                                    <input type="password" class="form-control" name="passChange" id="passChange" placeholder="Nueva contraseña" />
                                     @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "hidden" })
                                 </div>
                             }
                         }
                         else
                         {
-                            <div class="col-md-3">
-                                <label>Password</label>
+                            <div class="col-md-4">
+                                <label>Contraseña</label>
                                 @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "password" })
                                 @Html.ValidationMessageFor(u => u.Pass)
                             </div>

@@ -20,7 +20,6 @@ namespace NubeBooks.Data
             this.Area = new HashSet<Area>();
             this.Categoria = new HashSet<Categoria>();
             this.CategoriaItm = new HashSet<CategoriaItm>();
-            this.Comprobante = new HashSet<Comprobante>();
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
             this.EntidadResponsable = new HashSet<EntidadResponsable>();
             this.Honorario = new HashSet<Honorario>();
@@ -29,6 +28,7 @@ namespace NubeBooks.Data
             this.Responsable = new HashSet<Responsable>();
             this.Ubicacion = new HashSet<Ubicacion>();
             this.Usuario = new HashSet<Usuario>();
+            this.Comprobante = new HashSet<Comprobante>();
         }
     
         public int IdEmpresa { get; set; }
@@ -53,8 +53,6 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoriaItm> CategoriaItm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
         public virtual Moneda Moneda { get; set; }
         public virtual Periodo Periodo { get; set; }
@@ -72,5 +70,7 @@ namespace NubeBooks.Data
         public virtual ICollection<Ubicacion> Ubicacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Usuario> Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
     }
 }

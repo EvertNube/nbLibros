@@ -236,7 +236,7 @@ namespace NubeBooks.Core.BL
                         MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
                     }).ToList<ComprobanteDTO>();
 
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && (x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin) && x.Estado).Select(x => new ComprobanteDTO
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && (x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin) && x.Estado && x.IdTipoDocumento < 9).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
                     IdTipoComprobante = x.IdTipoComprobante,
@@ -263,6 +263,7 @@ namespace NubeBooks.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
+                    FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre,
                     NombreProyecto = x.Proyecto.Nombre,

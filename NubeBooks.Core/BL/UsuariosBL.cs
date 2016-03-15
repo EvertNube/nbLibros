@@ -142,7 +142,6 @@ namespace NubeBooks.Core.BL
                 {
                     Usuario usuario = new Usuario();
                     usuario.Nombre = user.Nombre;
-                    usuario.InicialesNombre = user.InicialesNombre;
                     usuario.Email = user.Email;
                     usuario.Cuenta = user.Cuenta;
                     usuario.Pass = Encrypt.GetCrypt(user.Pass);
@@ -207,7 +206,6 @@ namespace NubeBooks.Core.BL
                     {
                         IdUsuario = x.IdUsuario,
                         Nombre = x.Nombre,
-                        InicialesNombre = x.InicialesNombre,
                         Email = x.Email,
                         Cuenta = x.Cuenta,
                         Token = x.Token,
@@ -381,7 +379,6 @@ namespace NubeBooks.Core.BL
                 {
                     IdUsuario = r.IdUsuario,
                     Nombre = r.Nombre,
-                    InicialesNombre = r.InicialesNombre,
                     Email = r.Email,
                     Cuenta = r.Cuenta,
                     Pass = r.Pass,
@@ -404,7 +401,6 @@ namespace NubeBooks.Core.BL
                     {
                         IdUsuario = r.IdUsuario,
                         Nombre = r.Nombre,
-                        InicialesNombre = r.InicialesNombre,
                         Email = r.Email,
                         Cuenta = r.Cuenta,
                         Pass = r.Pass,
@@ -431,7 +427,6 @@ namespace NubeBooks.Core.BL
                     {
                         //No se podra actualizar el nombre
                         //usuario.Nombre = user.Nombre;
-                        usuario.InicialesNombre = user.InicialesNombre;
                         usuario.Email = user.Email;
                         usuario.IdRol = user.IdRol;// >= 2 ? user.IdRol : 3;
                         usuario.Cuenta = user.Cuenta;
@@ -615,7 +610,6 @@ namespace NubeBooks.Core.BL
                         {
                             IdUsuario = r.IdUsuario,
                             Nombre = r.Nombre,
-                            InicialesNombre = r.InicialesNombre,
                             Email = r.Email
                         }).ToList();
             }

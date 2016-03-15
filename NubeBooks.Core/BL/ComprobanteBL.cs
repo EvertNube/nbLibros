@@ -44,6 +44,7 @@ namespace NubeBooks.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
+                    FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
                     NombreProyecto = x.Proyecto.Nombre ?? ""
@@ -83,6 +84,7 @@ namespace NubeBooks.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
+                    FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
                     NombreProyecto = x.Proyecto.Nombre ?? ""
@@ -122,6 +124,7 @@ namespace NubeBooks.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     TipoCambio = x.TipoCambio,
                     UsuarioCreacion = x.UsuarioCreacion,
+                    FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
                     NombreProyecto = x.Proyecto.Nombre
@@ -162,6 +165,7 @@ namespace NubeBooks.Core.BL
                         MontoSinIGV = r.MontoSinIGV,
                         TipoCambio = r.TipoCambio,
                         UsuarioCreacion = r.UsuarioCreacion,
+                        FechaPago = r.FechaPago,
                         NombreUsuario = r.Usuario.Cuenta,
                         NombreCategoria = r.Categoria.Nombre ?? "",
                         NombreProyecto = r.Proyecto.Nombre,
@@ -362,6 +366,7 @@ namespace NubeBooks.Core.BL
                         }
                         //Anulando el Comprobante
                         row.IdTipoComprobante = row.IdTipoComprobante == 1 ? 3 : 4;
+                        row.Ejecutado = false;
                         context.SaveChanges();
                         return true;
                     }
@@ -405,7 +410,9 @@ namespace NubeBooks.Core.BL
                 {
                     var row = context.Comprobante.Where(x => x.IdComprobante == idComprobante && x.IdEmpresa == idEmpresa).SingleOrDefault();
                     row.Ejecutado = ejecutado;
-                    if (ejecutado) row.FechaConclusion = DateTime.Now;
+                    if (ejecutado) { row.FechaPago = DateTime.Now; }
+                    else { row.FechaPago = null; }
+
                     context.SaveChanges();
                     return true;
                 }
@@ -554,7 +561,7 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && x.Estado).Select(x => new Select2DTO_B
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && x.Estado && x.IdTipoComprobante < 3).Select(x => new Select2DTO_B
                 {
                     id = x.IdComprobante,
                     text = x.NroDocumento

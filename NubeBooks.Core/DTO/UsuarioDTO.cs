@@ -12,7 +12,6 @@ namespace NubeBooks.Core.DTO
     {
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
-        public string InicialesNombre { get; set; }
         public string Email { get; set; }
         
         public string Cuenta { get; set; }
