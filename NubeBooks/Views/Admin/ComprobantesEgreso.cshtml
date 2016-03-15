@@ -7,6 +7,30 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
+            $('#modal-form2').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var nombreDocumento = button.data('doc');
+                var modal = $(this);
+                modal.find('.modal-title').text('Anular Elemento: ' + nombreDocumento + " " + nroDocumento);
+                modal.find('.modal-body input').val(idElement);
+            });
+            $("input#anular").click(function () {
+                var idelement = $('form.element').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/AnularComprobante",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        $("#modal-form").modal('hide');
+                        window.location.href = "/Admin/ComprobantesEgreso";
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
+            });
             $('#modal-form').on('show.bs.modal', function (e) {
                 var button = $(e.relatedTarget);
                 var idElement = button.data('id');
@@ -104,13 +128,37 @@
                                 <td class="text-center">
                                     <a href="@Url.Action("Comprobante", "Admin", new { id = item.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    {
+                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form2" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa icon-ban" title="Anular"></i>&nbsp;</a>
+                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Eliminar"></i></a>
+                                    }
                                 </td>
                             </tr>
                                         }
                                     }
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Anular Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de anular este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element">
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-info" type="submit" value="Anular" id="anular">
+            </div>
         </div>
     </div>
 </div>

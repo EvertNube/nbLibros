@@ -243,8 +243,14 @@
                 strEntidad = "Proveedor";
                 strFechaFin = "Pago";
                 break;
-            default:
-                strTitulo = "Anulado";
+            case 3:
+                strTitulo = "Ingreso Anulado";
+                strFechaIni = "Fecha";
+                strEntidad = "Entidad";
+                strFechaFin = "Vencimiento";
+                break;
+            case 4:
+                strTitulo = "Egreso Anulado";
                 strFechaIni = "Fecha";
                 strEntidad = "Entidad";
                 strFechaFin = "Vencimiento";
@@ -300,13 +306,13 @@
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        @{var columnas = 3; if (Model.IdTipoComprobante != 1) { columnas = 3; }}
+                        @{var columnas = 3; if (Model.IdTipoComprobante != 1 && Model.IdTipoComprobante != 3) { columnas = 3; }}
                         <div class="col-md-@columnas">
                             <label class="control-label">@strEntidad</label>
                             @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
                         </div>
-                        @if (Model.IdTipoComprobante == 1)
+                        @if (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3)
                         {
                             <div class="col-md-3">
                                 <label class="control-label">Proyecto</label>
@@ -324,7 +330,7 @@
                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
                             @Html.ValidationMessageFor(u => u.IdCategoria)
                         </div>
-                        @if (Model.IdTipoComprobante == 2)
+                        @if (Model.IdTipoComprobante == 2 || Model.IdTipoComprobante == 4)
                         {
                             <div class="col-md-3">
                                 <label class="control-label">Moneda</label>
@@ -341,7 +347,7 @@
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        @if (Model.IdTipoComprobante == 1)
+                        @if (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3)
                         {
                             <div class="col-md-3">
                                 <label class="control-label">Moneda</label>
@@ -494,9 +500,9 @@
                     <div class="row">
                         <div class="col-sm-12">
                             @{var btnName = (Model != null && Model.IdComprobante > 0) ? "Guardar Cambios" : "Crear";}
-                            @if (!ViewBag.EsUsuarioExterno)
+                            @if (!ViewBag.EsUsuarioExterno && Model.IdTipoComprobante < 3)
                             {<button type="submit" class="btn btn-success" onclick="return ListaMontosAreas();">@btnName</button>}
-                            @{string tipo = (Model.IdTipoComprobante == 1) ? "Ingreso" : "Egreso"; }
+                            @{string tipo = (Model.IdTipoComprobante == 1) ? "Ingreso" : (Model.IdTipoComprobante == 2) ? "Egreso" : "Anulados"; }
                             <a class="btn btn-default" href="@Url.Action("Comprobantes" + tipo, "Admin")">Cancelar</a>
                         </div>
                     </div>

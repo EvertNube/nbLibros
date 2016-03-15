@@ -1175,12 +1175,14 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
 
             ComprobanteBL objBL = new ComprobanteBL();
-            int tipo = 3; //Anulados
-            ViewBag.idTipoComprobante = tipo;
+            //int tipo = 3; //Anulados
+            //ViewBag.idTipoComprobante = tipo;
 
             if (user.IdEmpresa > 0)
             {
-                List<ComprobanteDTO> lista = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, tipo);
+                List<ComprobanteDTO> lista = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 3);
+                List<ComprobanteDTO> lista2 = objBL.getComprobantesEnEmpresaPorTipo(user.IdEmpresa, 4);
+                lista.AddRange(lista2);
                 return View(lista);
             }
             return View();
@@ -1474,6 +1476,33 @@ namespace NubeBooks.Controllers
             string cadena = "Ingreso";
             if (dto != null) { cadena = dto.IdTipoComprobante == 1 ? "Ingreso" : "Egreso"; }
             return RedirectToAction("Comprobantes" + cadena, "Admin");
+        }
+        [HttpPost]
+        public ActionResult RestablecerComprobante(int id)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Comprobantes", "Admin"); }
+
+            ComprobanteDTO dto;
+            try
+            {
+                ComprobanteBL objBL = new ComprobanteBL();
+                dto = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, id);
+                if (objBL.unban(id))
+                {
+                    createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_UNBAN);
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UNBAN);
+                }
+            }
+            catch (Exception e)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_NO_UNBAN);
+                throw;
+            }
+            return RedirectToAction("ComprobantesAnulados", "Admin");
         }
         public ActionResult InventariosIngreso()
         {

@@ -165,7 +165,7 @@ namespace NubeBooks.Core.BL
                         NombreUsuario = r.Usuario.Cuenta,
                         NombreCategoria = r.Categoria.Nombre ?? "",
                         NombreProyecto = r.Proyecto.Nombre,
-                        lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO 
+                        lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO
                         {
                             IdArea = x.IdArea,
                             IdComprobante = x.IdComprobante,
@@ -290,9 +290,9 @@ namespace NubeBooks.Core.BL
                                     select m;
 
                     foreach (var item in allmontos)
-	                {
+                    {
                         row.AreaPorComprobante.Remove(item);
-	                }
+                    }
 
                     foreach (var item in Comprobante.lstMontos)
                     {
@@ -323,13 +323,13 @@ namespace NubeBooks.Core.BL
                     //Si el comprobante esta ligado a Movimientos primero se eliminan todos los Movimientos
                     var allmovimientos = context.Movimiento.Where(x => x.IdComprobante == row.IdComprobante).ToList();
                     MovimientoBL movBL = new MovimientoBL();
-                    foreach(var item in allmovimientos)
+                    foreach (var item in allmovimientos)
                     {
                         movBL.delete(item.IdMovimiento);
                     }
                     //Si el comprobante esta ligado a pagos por areas primero se eliminan todos sus montos AreasPorComprobantes
                     var allmontos = context.AreaPorComprobante.Where(x => x.IdComprobante == row.IdComprobante).ToList();
-                    foreach(var item in allmontos)
+                    foreach (var item in allmontos)
                     {
                         row.AreaPorComprobante.Remove(item);
                     }
@@ -351,17 +351,44 @@ namespace NubeBooks.Core.BL
                 try
                 {
                     var row = context.Comprobante.Where(x => x.IdComprobante == id).SingleOrDefault();
-                    //Si el comprobante esta ligado a Movimientos primero se eliminan todos los Movimientos
-                    var allmovimientos = context.Movimiento.Where(x => x.IdComprobante == row.IdComprobante).ToList();
-                    MovimientoBL movBL = new MovimientoBL();
-                    foreach (var item in allmovimientos)
+                    if (row.IdTipoComprobante < 3)
                     {
-                        movBL.delete(item.IdMovimiento);
+                        //Si el comprobante esta ligado a Movimientos primero se eliminan todos los Movimientos
+                        var allmovimientos = context.Movimiento.Where(x => x.IdComprobante == row.IdComprobante).ToList();
+                        MovimientoBL movBL = new MovimientoBL();
+                        foreach (var item in allmovimientos)
+                        {
+                            movBL.delete(item.IdMovimiento);
+                        }
+                        //Anulando el Comprobante
+                        row.IdTipoComprobante = row.IdTipoComprobante == 1 ? 3 : 4;
+                        context.SaveChanges();
+                        return true;
                     }
-                    //Anulando el Comprobante
-                    row.IdTipoComprobante = 3;
-                    context.SaveChanges();
-                    return true;
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public bool unban(int id)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Comprobante.Where(x => x.IdComprobante == id).SingleOrDefault();
+                    //Restableciendo el Comprobante
+                    if (row.IdTipoComprobante > 2)
+                    {
+                        row.IdTipoComprobante = row.IdTipoComprobante == 3 ? 1 : 2;
+                        context.SaveChanges();
+                        return true;
+                    }
+                    return false;
                 }
                 catch (Exception e)
                 {
@@ -385,7 +412,7 @@ namespace NubeBooks.Core.BL
                 catch (Exception e)
                 {
                     throw e;
-                }   
+                }
             }
         }
 
@@ -500,7 +527,7 @@ namespace NubeBooks.Core.BL
                     Estado = x.Estado
                 }).OrderBy(x => x.Nombre).ToList();
 
-                if(esNull != null)
+                if (esNull != null)
                 {
                     result.Insert(0, new AreaNDTO() { IdArea = null, Nombre = "Seleccione un área" });
                 }
@@ -514,11 +541,11 @@ namespace NubeBooks.Core.BL
             using (var context = getContext())
             {
                 var result = context.Responsable.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ResponsableDTO
-                    {
-                        IdResponsable = x.IdResponsable,
-                        Nombre = x.Nombre,
-                        Estado = x.Estado
-                    }).OrderBy(x => x.Nombre).ToList();
+                {
+                    IdResponsable = x.IdResponsable,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }
@@ -528,10 +555,10 @@ namespace NubeBooks.Core.BL
             using (var context = getContext())
             {
                 var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && x.Estado).Select(x => new Select2DTO_B
-                    {
-                        id = x.IdComprobante,
-                        text = x.NroDocumento
-                    }).OrderBy(x => x.text).ToList();
+                {
+                    id = x.IdComprobante,
+                    text = x.NroDocumento
+                }).OrderBy(x => x.text).ToList();
                 return result;
             }
         }

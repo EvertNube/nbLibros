@@ -22,6 +22,7 @@ namespace NubeBooks.Helpers
         public static string SUCCESS_FILE = "<strong>Success.</strong> Archivo generado exitosamente";
         public static string SUCCESS_DELETE = "<strong>Success.</strong> El elemento se ha eliminado exitosamente.";
         public static string SUCCESS_BAN = "<strong>Success.</strong> El elemento se ha anulado exitosamente.";
+        public static string SUCCESS_UNBAN = "<strong>Success.</strong> El elemento se ha reestablecido exitosamente.";
         public static string ERROR = "error";
         public static string ERROR_UPDATE_MESSAGE = "<strong>Hubo un error al actualizar.</strong> Por favor, verifique la información a actualizar.";
         public static string ERROR_INSERT_MESSAGE = "<strong>Hubo un error al insertar.</strong> Por favor, verifique que la información ingresada.";
@@ -33,8 +34,10 @@ namespace NubeBooks.Helpers
         public static string ERROR_EMPTY = "<strong>Error.</strong> No existe datos para exportar.";
         public static string ERROR_DELETE = "<strong>Error.</strong> No se pudo eliminar el elemento.";
         public static string ERROR_BAN = "<strong>Error.</strong> No se pudo anular el elemento.";
+        public static string ERROR_UNBAN = "<strong>Error.</strong> No se pudo restablecer el elemento.";
         public static string ERROR_NO_DELETE = "<strong>Error.</strong> Se produjo un error mientras se intentaba eliminar el elemento.";
         public static string ERROR_NO_BAN = "<strong>Error.</strong> Se produjo un error mientras se intentaba anular el elemento.";
+        public static string ERROR_NO_UNBAN = "<strong>Error.</strong> Se produjo un error mientras se intentaba restablecer el elemento.";
 
         public static string SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD = "<strong>Se ha enviado un mensaje a su correo electrónico.</strong>";
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";

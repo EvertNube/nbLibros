@@ -7,6 +7,30 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
+            $('#modal-form2').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget);
+                var idElement = button.data('id');
+                var nroDocumento = button.data('nro');
+                var nombreDocumento = button.data('doc');
+                var modal = $(this);
+                modal.find('.modal-title').text('Restablecer Elemento: ' + nombreDocumento + " " + nroDocumento);
+                modal.find('.modal-body input').val(idElement);
+            });
+            $("input#restablecer").click(function () {
+                var idelement = $('form.element').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/RestablecerComprobante",
+                    data: $('form.element').serialize(),
+                    success: function (msg) {
+                        $("#modal-form").modal('hide');
+                        window.location.href = "/Admin/ComprobantesAnulados";
+                    },
+                    error: function () {
+                        alert("failure");
+                    }
+                });
+            });
             $('#modal-form').on('show.bs.modal', function (e) {
                 var button = $(e.relatedTarget);
                 var idElement = button.data('id');
@@ -50,7 +74,7 @@
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>*@
     @*<a href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = 3 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>*@
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
@@ -100,17 +124,41 @@
                                 <td class="text-right">@item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                 <td class="text-center">@item.NombreCategoria</td>
                                 <td class="text-center" style=@(item.Ejecutado ? "color:#8EC100;" : "color:red;")>@(item.Ejecutado ? "R" : "P" )</td>
-                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "eye"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Detalle"; }
                                 <td class="text-center">
                                     <a href="@Url.Action("Comprobante", "Admin", new { id = item.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    {
+                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form2" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa icon-check" title="Restablecer"></i>&nbsp;</a>
+                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Eliminar"></i></a>
+                                    }
                                 </td>
                             </tr>
                                         }
                                     }
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Restablecer Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de restablecer este comprobante?</p>
+                <form class="element" name="element">
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-info" type="submit" value="Restablecer" id="restablecer">
+            </div>
         </div>
     </div>
 </div>
