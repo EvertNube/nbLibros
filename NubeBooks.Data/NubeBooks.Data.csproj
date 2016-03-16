@@ -182,6 +182,9 @@
     <Compile Include="SP_Rep_GastosPorProveedor_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Rep_IngresosEgresosPorAreaNull_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Rep_IngresosEgresosPorAreas_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

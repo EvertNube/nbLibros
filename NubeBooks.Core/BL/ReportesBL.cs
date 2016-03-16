@@ -163,6 +163,22 @@ namespace NubeBooks.Core.BL
                         Egresos = x.Egreso.GetValueOrDefault()
                     }).OrderBy(x => x.Nombre).ToList();
                 
+                var resultNull = context.SP_Rep_IngresosEgresosPorAreaNull(idEmpresa, fechaInicio, fechaFin).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descipcion,
+                    Estado = Convert.ToBoolean(x.Estado),
+                    IdEmpresa = x.IdEmpresa.GetValueOrDefault(),
+                    Ingresos = x.Ingreso.GetValueOrDefault(),
+                    Egresos = x.Egreso.GetValueOrDefault()
+                }).ToList();
+
+                foreach (var item in resultNull)
+                {
+                    result.Add(item);
+                }
+
                 return result;
             }
         }

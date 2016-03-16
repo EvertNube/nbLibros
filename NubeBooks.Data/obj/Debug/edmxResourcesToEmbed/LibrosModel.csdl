@@ -1126,6 +1126,11 @@
       <End Role="Comprobante" EntitySet="Comprobante" />
       <End Role="Movimiento" EntitySet="Movimiento" />
     </AssociationSet>
+    <FunctionImport Name="SP_Rep_IngresosEgresosPorAreaNull" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreaNull_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1530,4 +1535,13 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="SP_Rep_IngresosEgresosPorAreaNull_Result">
+    <Property Type="Int32" Name="IdArea" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="8" />
+    <Property Type="String" Name="Descipcion" Nullable="false" MaxLength="1" />
+    <Property Type="Int32" Name="Estado" Nullable="false" />
+    <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
+    <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+  </ComplexType>
 </Schema>

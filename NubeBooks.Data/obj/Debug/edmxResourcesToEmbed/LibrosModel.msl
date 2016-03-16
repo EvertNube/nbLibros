@@ -622,5 +622,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresosPorAreaNull" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresosPorAreaNull">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresosPorAreaNull_Result">
+          <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Descipcion" ColumnName="Descipcion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+          <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

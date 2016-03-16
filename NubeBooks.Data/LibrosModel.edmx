@@ -1025,6 +1025,12 @@
           <Parameter Name="FechaIni" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="FN_IngresosEgresos_AreaNullEnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="FN_MontoAreaXEntidadEnComp_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdArea" Type="int" Mode="In" />
           <Parameter Name="IdEntidad" Type="int" Mode="In" />
@@ -1126,6 +1132,11 @@
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Rep_GastosPorProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_Rep_IngresosEgresosPorAreaNull" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
@@ -2494,6 +2505,11 @@
             <End Role="Comprobante" EntitySet="Comprobante" />
             <End Role="Movimiento" EntitySet="Movimiento" />
           </AssociationSet>
+          <FunctionImport Name="SP_Rep_IngresosEgresosPorAreaNull" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreaNull_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
           <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -2898,6 +2914,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SP_Rep_IngresosEgresosPorAreaNull_Result">
+          <Property Type="Int32" Name="IdArea" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Descipcion" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Estado" Nullable="false" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
+          <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3525,6 +3550,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresosPorAreaNull" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresosPorAreaNull">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresosPorAreaNull_Result">
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descipcion" ColumnName="Descipcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
