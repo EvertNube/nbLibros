@@ -4,13 +4,11 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Styles{
-    @*@Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")*@
     @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
     @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
 }
 
 @section Scripts{
-    @*@Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")*@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         @{
@@ -27,6 +25,7 @@
         var montoPen = 0;
 
         $(function () {
+            $('.input-group.date').datepicker();
             $('.miselect2').select2();
 
             $('#IdCategoria').select2({
@@ -199,8 +198,12 @@ else { cadena = "Actualizar"; }
                     <div class="row">
                         <div class="col-md-3">
                             <label>Fecha</label>
-                            @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                            @Html.ValidationMessageFor(u => u.Fecha)
+                            <div class="input-group date">
+                                @*@Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })*@
+                                @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @readonly = "true" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                @Html.ValidationMessageFor(u => u.Fecha)
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <label>Tipo de Movimiento</label>

@@ -16,6 +16,7 @@
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
 
         $(function () {
+            $('.input-group.date').datepicker();
             $('#IdCategoria').select2({
                 placeholder: "Seleccione una categoría",
                 data: mydata,
@@ -85,14 +86,16 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label class="col-md-4 text-right" for="FechaInicio" style="transform:translateY(30%)">Fecha Inicio:</label>
-                        <div class="col-md-8">
-                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="col-md-4 text-right" for="FechaFin" style="transform:translateY(30%)">Fecha Fin:</label>
-                        <div class="col-md-8">
-                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
                 </div>

@@ -21,6 +21,7 @@
     <script type="text/javascript">
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         $(function () {
+            $('.input-group.date').datepicker();
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
             });
@@ -132,8 +133,11 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label>Fecha de conciliación</label>
-                            @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Fecha de conciliación", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de conciliación", @type = "text", @readonly = "readonly" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <label>Moneda</label>
@@ -294,16 +298,18 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-6">
                             <label for="fechaInicio">Fecha Inicio:</label>
                             <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                <div class="input-group date">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="fechaFin">Fecha Fin:</label>
                             <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                <div class="input-group date">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                 </div>
                             </div>
                         </div>

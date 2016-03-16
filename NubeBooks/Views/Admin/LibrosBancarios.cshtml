@@ -7,6 +7,7 @@
 @section scripts{
     <script type="text/javascript">
         $(function () {
+            $('.input-group.date').datepicker();
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
 
@@ -98,16 +99,18 @@
                         <div class="col-md-6">
                             <label for="fechaInicio">Fecha Inicio:</label>
                             <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                <div class="input-group date">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="fechaFin">Fecha Fin:</label>
                             <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                <div class="input-group date">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                 </div>
                             </div>
                         </div>

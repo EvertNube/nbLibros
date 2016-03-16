@@ -12,6 +12,7 @@
     <script type="text/javascript">
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         $(function () {
+            $('.input-group.date').datepicker();
             $('.miselect2').select2();
             GetUnidadMedida($('#IdItem').val());
             $('.rol-accs').each(function () {
@@ -69,8 +70,11 @@ else { cadena = "Actualizar"; }
                     <div class="row">
                         <div class="col-md-4">
                             <label>Fecha</label>
-                            @Html.TextBoxFor(u => u.FechaInicial, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Fecha", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                            @Html.ValidationMessageFor(u => u.FechaInicial)
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaInicial, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                @Html.ValidationMessageFor(u => u.FechaInicial)
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label>Movimiento - Tipo</label>
@@ -130,8 +134,11 @@ else { cadena = "Actualizar"; }
                         {
                             <div class="col-md-4">
                                 <label>Fecha de Vencimiento</label>
-                                @Html.TextBoxFor(u => u.FechaFin, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control rol-accs", @placeholder = "Vencimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                                @Html.ValidationMessageFor(u => u.FechaFin)
+                                <div class="input-group date">
+                                    @Html.TextBoxFor(u => u.FechaFin, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Vencimiento", @type = "text", @readonly = "true" })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    @Html.ValidationMessageFor(u => u.FechaFin)
+                                </div>
                             </div>
                         }
                     </div>
