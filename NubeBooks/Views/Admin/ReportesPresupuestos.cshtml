@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        @{
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var userInfoJson = jss.Serialize(ViewBag.Categorias);
+        }
+        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+
+        $(function () {
+            $('.input-group.date').datepicker();
+            $('#IdCategoria').select2({
+                placeholder: "Seleccione una categoría",
+                data: mydata,
+                allowClear: true
+            })
+
+            $('.reporte').click(function () {
+                this.href = GenerarReporte($(this).data("idreporte"));
+            })
+        });
+
+        function GenerarReporte(nrep) {
+            var FechaInicio = $("#FechaInicio").val().split("/");
+
+            FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+
+            var FechaFin = $("#FechaFin").val().split("/");
+            FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            var jIdCategoria = $('#IdCategoria').select2("val");
+
+            switch (nrep) {
+                case 1:
+                    return "/Admin/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 9:
+                    return "/Admin/GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto/?IdCategoria=" + jIdCategoria + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+            }
+        }
+    </script>
+}
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Reporte de Presupuestos</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaInicio" style="transform:translateY(30%)">Fecha Inicio:</label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaFin" style="transform:translateY(30%)">Fecha Fin:</label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Avance de Presupuesto </label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="col-md-3 text-center">Partida de Presupuesto</label>
+                        @Html.TextBox("IdCategoria", "", new { @class = "col-xs-6 col-sm-6 col-md-6 no-padder" })
+                        <div class="col-md-3 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="9">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

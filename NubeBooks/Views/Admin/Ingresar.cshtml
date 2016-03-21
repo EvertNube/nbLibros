@@ -39,7 +39,7 @@
                     @Html.ValidationSummary(true)
                     <div class="list-group list-group-sm">
                         <div class="list-group-item">
-                            @Html.TextBoxFor(u => u.codigoEmpresa, new { @class = "form-control no-border", @placeholder = "Empresa", @type = "text", @required = "required" })
+                            @Html.TextBoxFor(u => u.codigoEmpresa, new { @class = "form-control no-border", @placeholder = "Empresa", @type = "text", @required = "required", autofocus = "" })
                         </div>
                         <div class="list-group-item">
                             @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control no-border", @placeholder = "Usuario", @type = "text", @required = "required" })

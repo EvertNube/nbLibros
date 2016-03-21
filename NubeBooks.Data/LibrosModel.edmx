@@ -235,7 +235,7 @@
           <Property Name="IdUbicacion" Type="int" />
           <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="GuiaRemision" Type="nvarchar" MaxLength="50" />
-          <Property Name="SerieLote" Type="nvarchar" MaxLength="50" />
+          <Property Name="SerieLote" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="UnidadMedida" Type="nvarchar" MaxLength="50" />
           <Property Name="FechaInicial" Type="datetime" Nullable="false" />
@@ -1069,6 +1069,12 @@
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_Get_Rep_De_Movimientos_De_Inventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdItem" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="SP_Get_StockLotes_En_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
         </Function>
@@ -1497,11 +1503,11 @@
           <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="Empresa" ToRole="EntidadResponsable" />
           <NavigationProperty Name="Honorario" Relationship="Self.FK_Honorario_Empresa" FromRole="Empresa" ToRole="Honorario" />
           <NavigationProperty Name="Item" Relationship="Self.FK_Item_Empresa" FromRole="Empresa" ToRole="Item" />
-          <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Empresa" FromRole="Empresa" ToRole="MovimientoInv" />
           <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
           <NavigationProperty Name="Ubicacion" Relationship="Self.FK_Ubicacion_Empresa" FromRole="Empresa" ToRole="Ubicacion" />
           <NavigationProperty Name="Usuario" Relationship="LibrosDBModel.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
           <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_Empresa" FromRole="Empresa" ToRole="Comprobante" />
+          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_Empresa" FromRole="Empresa" ToRole="MovimientoInv" />
         </EntityType>
         <EntityType Name="EntidadResponsable">
           <Key>
@@ -1526,9 +1532,9 @@
           <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
           <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
-          <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_EntidadResponsable" FromRole="EntidadResponsable" ToRole="MovimientoInv" />
           <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Proyecto" />
           <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
+          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_EntidadResponsable" FromRole="EntidadResponsable" ToRole="MovimientoInv" />
         </EntityType>
         <EntityType Name="EstadoMovimiento">
           <Key>
@@ -1559,7 +1565,7 @@
           <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="TipoMovimientoInv" Relationship="Self.FK_FormaMovimientoInv_TipoMovimientoInv" FromRole="FormaMovimientoInv" ToRole="TipoMovimientoInv" />
-          <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_FormaMovimientoInv" FromRole="FormaMovimientoInv" ToRole="MovimientoInv" />
+          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_FormaMovimientoInv" FromRole="FormaMovimientoInv" ToRole="MovimientoInv" />
         </EntityType>
         <EntityType Name="Honorario">
           <Key>
@@ -1586,7 +1592,7 @@
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CategoriaItm" Relationship="Self.FK_Item_CategoriaItm" FromRole="Item" ToRole="CategoriaItm" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Item_Empresa" FromRole="Item" ToRole="Empresa" />
-          <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Item" FromRole="Item" ToRole="MovimientoInv" />
+          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_Item" FromRole="Item" ToRole="MovimientoInv" />
         </EntityType>
         <EntityType Name="Moneda">
           <Key>
@@ -1630,33 +1636,6 @@
           <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Movimiento_TipoDocumento" FromRole="Movimiento" ToRole="TipoDocumento" />
           <NavigationProperty Name="Usuario" Relationship="LibrosDBModel.FK_Movimiento_Usuario" FromRole="Movimiento" ToRole="Usuario" />
           <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Movimiento_Comprobante" FromRole="Movimiento" ToRole="Comprobante" />
-        </EntityType>
-        <EntityType Name="MovimientoInv">
-          <Key>
-            <PropertyRef Name="IdMovimientoInv" />
-          </Key>
-          <Property Name="IdMovimientoInv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdFormaMovimientoInv" Type="Int32" Nullable="false" />
-          <Property Name="IdItem" Type="Int32" Nullable="false" />
-          <Property Name="IdEntidadResponsable" Type="Int32" />
-          <Property Name="IdUbicacion" Type="Int32" />
-          <Property Name="NroDocumento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="GuiaRemision" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SerieLote" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="UnidadMedida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FechaInicial" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FechaFin" Type="DateTime" Precision="3" />
-          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
-          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Empresa" Relationship="Self.FK_MovimientoInv_Empresa" FromRole="MovimientoInv" ToRole="Empresa" />
-          <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_MovimientoInv_EntidadResponsable" FromRole="MovimientoInv" ToRole="EntidadResponsable" />
-          <NavigationProperty Name="FormaMovimientoInv" Relationship="Self.FK_MovimientoInv_FormaMovimientoInv" FromRole="MovimientoInv" ToRole="FormaMovimientoInv" />
-          <NavigationProperty Name="Item" Relationship="Self.FK_MovimientoInv_Item" FromRole="MovimientoInv" ToRole="Item" />
-          <NavigationProperty Name="Ubicacion" Relationship="Self.FK_MovimientoInv_Ubicacion" FromRole="MovimientoInv" ToRole="Ubicacion" />
-          <NavigationProperty Name="Usuario" Relationship="LibrosDBModel.FK_MovimientoInv_Usuario" FromRole="MovimientoInv" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Periodo">
           <Key>
@@ -1777,7 +1756,7 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Ubicacion_Empresa" FromRole="Ubicacion" ToRole="Empresa" />
-          <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Ubicacion" FromRole="Ubicacion" ToRole="MovimientoInv" />
+          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_Ubicacion" FromRole="Ubicacion" ToRole="MovimientoInv" />
         </EntityType>
         <Association Name="FK_Area_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
@@ -1995,18 +1974,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MovimientoInv_Empresa">
-          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
-          <End Role="MovimientoInv" Type="Self.MovimientoInv" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="IdEmpresa" />
-            </Principal>
-            <Dependent Role="MovimientoInv">
-              <PropertyRef Name="IdEmpresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Responsable_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
           <End Role="Responsable" Type="Self.Responsable" Multiplicity="*" />
@@ -2063,18 +2030,6 @@
               <PropertyRef Name="IdEntidadResponsable" />
             </Principal>
             <Dependent Role="Movimiento">
-              <PropertyRef Name="IdEntidadResponsable" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MovimientoInv_EntidadResponsable">
-          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="0..1" />
-          <End Role="MovimientoInv" Type="Self.MovimientoInv" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntidadResponsable">
-              <PropertyRef Name="IdEntidadResponsable" />
-            </Principal>
-            <Dependent Role="MovimientoInv">
               <PropertyRef Name="IdEntidadResponsable" />
             </Dependent>
           </ReferentialConstraint>
@@ -2139,30 +2094,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MovimientoInv_FormaMovimientoInv">
-          <End Role="FormaMovimientoInv" Type="Self.FormaMovimientoInv" Multiplicity="1" />
-          <End Role="MovimientoInv" Type="Self.MovimientoInv" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormaMovimientoInv">
-              <PropertyRef Name="IdFormaMovimientoInv" />
-            </Principal>
-            <Dependent Role="MovimientoInv">
-              <PropertyRef Name="IdFormaMovimientoInv" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MovimientoInv_Item">
-          <End Role="Item" Type="Self.Item" Multiplicity="1" />
-          <End Role="MovimientoInv" Type="Self.MovimientoInv" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="IdItem" />
-            </Principal>
-            <Dependent Role="MovimientoInv">
-              <PropertyRef Name="IdItem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Movimiento_TipoDocumento">
           <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="0..1" />
           <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
@@ -2172,18 +2103,6 @@
             </Principal>
             <Dependent Role="Movimiento">
               <PropertyRef Name="IdTipoDocumento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MovimientoInv_Ubicacion">
-          <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="0..1" />
-          <End Role="MovimientoInv" Type="Self.MovimientoInv" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ubicacion">
-              <PropertyRef Name="IdUbicacion" />
-            </Principal>
-            <Dependent Role="MovimientoInv">
-              <PropertyRef Name="IdUbicacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2204,7 +2123,6 @@
           <EntitySet Name="Item" EntityType="Self.Item" />
           <EntitySet Name="Moneda" EntityType="Self.Moneda" />
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" />
-          <EntitySet Name="MovimientoInv" EntityType="Self.MovimientoInv" />
           <EntitySet Name="Periodo" EntityType="Self.Periodo" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
           <EntitySet Name="Responsable" EntityType="Self.Responsable" />
@@ -2289,10 +2207,6 @@
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Item" EntitySet="Item" />
           </AssociationSet>
-          <AssociationSet Name="FK_MovimientoInv_Empresa" Association="Self.FK_MovimientoInv_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
-          </AssociationSet>
           <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Responsable" EntitySet="Responsable" />
@@ -2312,10 +2226,6 @@
           <AssociationSet Name="FK_Movimiento_EntidadResponsable" Association="Self.FK_Movimiento_EntidadResponsable">
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
             <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MovimientoInv_EntidadResponsable" Association="Self.FK_MovimientoInv_EntidadResponsable">
-            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyecto_EntidadResponsable" Association="Self.FK_Proyecto_EntidadResponsable">
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
@@ -2337,21 +2247,9 @@
             <End Role="TipoMovimientoInv" EntitySet="TipoMovimientoInv" />
             <End Role="FormaMovimientoInv" EntitySet="FormaMovimientoInv" />
           </AssociationSet>
-          <AssociationSet Name="FK_MovimientoInv_FormaMovimientoInv" Association="Self.FK_MovimientoInv_FormaMovimientoInv">
-            <End Role="FormaMovimientoInv" EntitySet="FormaMovimientoInv" />
-            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MovimientoInv_Item" Association="Self.FK_MovimientoInv_Item">
-            <End Role="Item" EntitySet="Item" />
-            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
-          </AssociationSet>
           <AssociationSet Name="FK_Movimiento_TipoDocumento" Association="Self.FK_Movimiento_TipoDocumento">
             <End Role="TipoDocumento" EntitySet="TipoDocumento" />
             <End Role="Movimiento" EntitySet="Movimiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MovimientoInv_Ubicacion" Association="Self.FK_MovimientoInv_Ubicacion">
-            <End Role="Ubicacion" EntitySet="Ubicacion" />
-            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
           <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
@@ -2452,10 +2350,6 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Movimiento" EntitySet="Movimiento" />
           </AssociationSet>
-          <AssociationSet Name="FK_MovimientoInv_Usuario" Association="LibrosDBModel.FK_MovimientoInv_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Rol" Association="LibrosDBModel.FK_Usuario_Rol">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
@@ -2510,6 +2404,37 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Get_Rep_De_Movimientos_De_Inventarios" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result)">
+            <Parameter Name="IdItem" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="MovimientoInv" EntityType="LibrosDBModel.MovimientoInv" />
+          <AssociationSet Name="FK_MovimientoInv_Empresa" Association="LibrosDBModel.FK_MovimientoInv_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientoInv_EntidadResponsable" Association="LibrosDBModel.FK_MovimientoInv_EntidadResponsable">
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientoInv_FormaMovimientoInv" Association="LibrosDBModel.FK_MovimientoInv_FormaMovimientoInv">
+            <End Role="FormaMovimientoInv" EntitySet="FormaMovimientoInv" />
+            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientoInv_Item" Association="LibrosDBModel.FK_MovimientoInv_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientoInv_Ubicacion" Association="LibrosDBModel.FK_MovimientoInv_Ubicacion">
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovimientoInv_Usuario" Association="LibrosDBModel.FK_MovimientoInv_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
           <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -2692,9 +2617,9 @@
           <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Empresa" Relationship="LibrosDBModel.FK_Usuario_Empresa" FromRole="Usuario" ToRole="Empresa" />
           <NavigationProperty Name="Movimiento" Relationship="LibrosDBModel.FK_Movimiento_Usuario" FromRole="Usuario" ToRole="Movimiento" />
-          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_Usuario" FromRole="Usuario" ToRole="MovimientoInv" />
           <NavigationProperty Name="Rol" Relationship="LibrosDBModel.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
           <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_Usuario" FromRole="Usuario" ToRole="Comprobante" />
+          <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_Usuario" FromRole="Usuario" ToRole="MovimientoInv" />
         </EntityType>
         <Association Name="FK_Usuario_Empresa">
           <End Type="LibrosDBModel.Empresa" Role="Empresa" Multiplicity="1" />
@@ -2716,18 +2641,6 @@
               <PropertyRef Name="IdUsuario" />
             </Principal>
             <Dependent Role="Movimiento">
-              <PropertyRef Name="UsuarioCreacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MovimientoInv_Usuario">
-          <End Type="LibrosDBModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="IdUsuario" />
-            </Principal>
-            <Dependent Role="MovimientoInv">
               <PropertyRef Name="UsuarioCreacion" />
             </Dependent>
           </ReferentialConstraint>
@@ -2923,6 +2836,130 @@
           <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
+        <ComplexType Name="SP_Get_Rep_De_Movimientos_De_Inventarios_Result">
+          <Property Type="Int32" Name="IdMovimientoInv" Nullable="false" />
+          <Property Type="Int32" Name="IdFormaMovimientoInv" Nullable="false" />
+          <Property Type="Int32" Name="IdTipoMovimientoInv" Nullable="false" />
+          <Property Type="Int32" Name="IdItem" Nullable="false" />
+          <Property Type="Int32" Name="IdEntidadResponsable" Nullable="true" />
+          <Property Type="Int32" Name="IdUbicacion" Nullable="true" />
+          <Property Type="String" Name="NroDocumento" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="GuiaRemision" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SerieLote" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaInicial" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="Int32" Name="UsuarioCreacion" Nullable="false" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
+          <Property Type="String" Name="nForma" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="nTipo" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="nUsuario" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="StockLote" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="MovimientoInv">
+          <Key>
+            <PropertyRef Name="IdMovimientoInv" />
+          </Key>
+          <Property Name="IdMovimientoInv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFormaMovimientoInv" Type="Int32" Nullable="false" />
+          <Property Name="IdItem" Type="Int32" Nullable="false" />
+          <Property Name="IdEntidadResponsable" Type="Int32" />
+          <Property Name="IdUbicacion" Type="Int32" />
+          <Property Name="NroDocumento" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GuiaRemision" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SerieLote" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="UnidadMedida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaInicial" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Precision="3" />
+          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="UsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empresa" Relationship="LibrosDBModel.FK_MovimientoInv_Empresa" FromRole="MovimientoInv" ToRole="Empresa" />
+          <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_MovimientoInv_EntidadResponsable" FromRole="MovimientoInv" ToRole="EntidadResponsable" />
+          <NavigationProperty Name="FormaMovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_FormaMovimientoInv" FromRole="MovimientoInv" ToRole="FormaMovimientoInv" />
+          <NavigationProperty Name="Item" Relationship="LibrosDBModel.FK_MovimientoInv_Item" FromRole="MovimientoInv" ToRole="Item" />
+          <NavigationProperty Name="Ubicacion" Relationship="LibrosDBModel.FK_MovimientoInv_Ubicacion" FromRole="MovimientoInv" ToRole="Ubicacion" />
+          <NavigationProperty Name="Usuario" Relationship="LibrosDBModel.FK_MovimientoInv_Usuario" FromRole="MovimientoInv" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="FK_MovimientoInv_Empresa">
+          <End Type="LibrosDBModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="MovimientoInv">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientoInv_EntidadResponsable">
+          <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="0..1" />
+          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntidadResponsable">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Principal>
+            <Dependent Role="MovimientoInv">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientoInv_FormaMovimientoInv">
+          <End Type="LibrosDBModel.FormaMovimientoInv" Role="FormaMovimientoInv" Multiplicity="1" />
+          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormaMovimientoInv">
+              <PropertyRef Name="IdFormaMovimientoInv" />
+            </Principal>
+            <Dependent Role="MovimientoInv">
+              <PropertyRef Name="IdFormaMovimientoInv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientoInv_Item">
+          <End Type="LibrosDBModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
+            </Principal>
+            <Dependent Role="MovimientoInv">
+              <PropertyRef Name="IdItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientoInv_Ubicacion">
+          <End Type="LibrosDBModel.Ubicacion" Role="Ubicacion" Multiplicity="0..1" />
+          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicacion">
+              <PropertyRef Name="IdUbicacion" />
+            </Principal>
+            <Dependent Role="MovimientoInv">
+              <PropertyRef Name="IdUbicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovimientoInv_Usuario">
+          <End Type="LibrosDBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="LibrosDBModel.MovimientoInv" Role="MovimientoInv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="MovimientoInv">
+              <PropertyRef Name="UsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3132,28 +3169,6 @@
                 <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
                 <ScalarProperty Name="SaldoBancario" ColumnName="SaldoBancario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MovimientoInv">
-            <EntityTypeMapping TypeName="LibrosDBModel.MovimientoInv">
-              <MappingFragment StoreEntitySet="MovimientoInv">
-                <ScalarProperty Name="IdMovimientoInv" ColumnName="IdMovimientoInv" />
-                <ScalarProperty Name="IdFormaMovimientoInv" ColumnName="IdFormaMovimientoInv" />
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-                <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
-                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
-                <ScalarProperty Name="GuiaRemision" ColumnName="GuiaRemision" />
-                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
-                <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3563,6 +3578,57 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Movimientos_De_Inventarios" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Movimientos_De_Inventarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result">
+                <ScalarProperty Name="IdMovimientoInv" ColumnName="IdMovimientoInv" />
+                <ScalarProperty Name="IdFormaMovimientoInv" ColumnName="IdFormaMovimientoInv" />
+                <ScalarProperty Name="IdTipoMovimientoInv" ColumnName="IdTipoMovimientoInv" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
+                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+                <ScalarProperty Name="GuiaRemision" ColumnName="GuiaRemision" />
+                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
+                <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="nForma" ColumnName="nForma" />
+                <ScalarProperty Name="nItem" ColumnName="nItem" />
+                <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
+                <ScalarProperty Name="nTipo" ColumnName="nTipo" />
+                <ScalarProperty Name="nUsuario" ColumnName="nUsuario" />
+                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MovimientoInv">
+            <EntityTypeMapping TypeName="LibrosDBModel.MovimientoInv">
+              <MappingFragment StoreEntitySet="MovimientoInv">
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
+                <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+                <ScalarProperty Name="GuiaRemision" ColumnName="GuiaRemision" />
+                <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+                <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="IdFormaMovimientoInv" ColumnName="IdFormaMovimientoInv" />
+                <ScalarProperty Name="IdMovimientoInv" ColumnName="IdMovimientoInv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

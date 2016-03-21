@@ -24,11 +24,11 @@ namespace NubeBooks.Data
             this.EntidadResponsable = new HashSet<EntidadResponsable>();
             this.Honorario = new HashSet<Honorario>();
             this.Item = new HashSet<Item>();
-            this.MovimientoInv = new HashSet<MovimientoInv>();
             this.Responsable = new HashSet<Responsable>();
             this.Ubicacion = new HashSet<Ubicacion>();
             this.Usuario = new HashSet<Usuario>();
             this.Comprobante = new HashSet<Comprobante>();
+            this.MovimientoInv = new HashSet<MovimientoInv>();
         }
     
         public int IdEmpresa { get; set; }
@@ -63,8 +63,6 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Item { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Responsable> Responsable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ubicacion> Ubicacion { get; set; }
@@ -72,5 +70,7 @@ namespace NubeBooks.Data
         public virtual ICollection<Usuario> Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
     }
 }

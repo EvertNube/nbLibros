@@ -21,7 +21,11 @@ namespace NubeBooks.Models
             {
                 lstOptions.Add(new Option() { cadena = "", lstOptions = new List<Option>() });
             }
-            
+
+            //1 - Reportes
+            lstOptions[1].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[1].lstOptions.Add(new Option() { cadena = "" });
+            lstOptions[1].lstOptions.Add(new Option() { cadena = "" });
             //2 - Libros
             lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[2].lstOptions.Add(new Option() { cadena = "" });

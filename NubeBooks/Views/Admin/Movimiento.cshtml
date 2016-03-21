@@ -277,7 +277,7 @@ else { cadena = "Actualizar"; }
                                 </div>*@
                                 <div>
                                     <label class="i-switch m-t-xs m-r">
-                                        <input id="cmpCancelado" name="cmpCancelado" type="checkbox" checked="@Model.cmpCancelado">
+                                        <input id="cmpCancelado" name="cmpCancelado" type="checkbox" value="@Model.cmpCancelado" checked="@Model.cmpCancelado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
                                         <i></i>
                                     </label>
                                 </div>

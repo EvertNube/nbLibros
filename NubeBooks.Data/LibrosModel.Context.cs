@@ -43,7 +43,6 @@ namespace NubeBooks.Data
         public virtual DbSet<Item> Item { get; set; }
         public virtual DbSet<Moneda> Moneda { get; set; }
         public virtual DbSet<Movimiento> Movimiento { get; set; }
-        public virtual DbSet<MovimientoInv> MovimientoInv { get; set; }
         public virtual DbSet<Periodo> Periodo { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Responsable> Responsable { get; set; }
@@ -58,6 +57,7 @@ namespace NubeBooks.Data
         public virtual DbSet<Ubicacion> Ubicacion { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Comprobante> Comprobante { get; set; }
+        public virtual DbSet<MovimientoInv> MovimientoInv { get; set; }
     
         public virtual int SP_ActualizarMontos(Nullable<int> idCuentaB)
         {
@@ -377,6 +377,27 @@ namespace NubeBooks.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreaNull_Result>("SP_Rep_IngresosEgresosPorAreaNull", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_Get_Rep_De_Movimientos_De_Inventarios_Result> SP_Get_Rep_De_Movimientos_De_Inventarios(Nullable<int> idItem, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idItemParameter = idItem.HasValue ?
+                new ObjectParameter("IdItem", idItem) :
+                new ObjectParameter("IdItem", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_De_Movimientos_De_Inventarios_Result>("SP_Get_Rep_De_Movimientos_De_Inventarios", idItemParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     }
 }

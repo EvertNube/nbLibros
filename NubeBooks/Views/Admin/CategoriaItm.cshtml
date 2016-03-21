@@ -18,7 +18,7 @@ else { cadena = "Actualizar"; }
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <label>Nombre de la Categoría</label>
-                    @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la Categoría", @type = "text" })
+                    @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la Categoría", @type = "text", autofocus = "" })
                     @Html.ValidationMessageFor(u => u.Nombre)
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>

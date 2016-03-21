@@ -78,7 +78,7 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-4">
                             <label>Movimiento - Tipo</label>
-                            @Html.DropDownListFor(u => u.IdFormaMovimientoInv, new SelectList(ViewBag.lstFormaMovimiento, "IdFormaMovimientoInv", "Nombre", "nTipoMovimientoInv", Model != null ? (Model.IdFormaMovimientoInv != 0 ? Model.IdFormaMovimientoInv : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                            @Html.DropDownListFor(u => u.IdFormaMovimientoInv, new SelectList(ViewBag.lstFormaMovimiento, "IdFormaMovimientoInv", "Nombre", "nTipoMovimientoInv", Model != null ? (Model.IdFormaMovimientoInv != 0 ? Model.IdFormaMovimientoInv : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", autofocus = "" })
                             @Html.ValidationMessageFor(u => u.IdFormaMovimientoInv)
                         </div>
                         <div class="col-md-4">

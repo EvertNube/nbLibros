@@ -53,6 +53,7 @@
     <Compile Include="BL\CategoriaItmBL.cs" />
     <Compile Include="BL\ItemBL.cs" />
     <Compile Include="BL\MovimientoInvBL.cs" />
+    <Compile Include="BL\Reportes_InventariosBL.cs" />
     <Compile Include="BL\UbicacionBL.cs" />
     <Compile Include="DTO\CategoriaItmDTO.cs" />
     <Compile Include="DTO\FormaMovimientoInvDTO.cs" />

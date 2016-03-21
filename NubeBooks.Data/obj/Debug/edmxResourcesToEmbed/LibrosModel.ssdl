@@ -230,7 +230,7 @@
     <Property Name="IdUbicacion" Type="int" />
     <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="GuiaRemision" Type="nvarchar" MaxLength="50" />
-    <Property Name="SerieLote" Type="nvarchar" MaxLength="50" />
+    <Property Name="SerieLote" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Cantidad" Type="int" Nullable="false" />
     <Property Name="UnidadMedida" Type="nvarchar" MaxLength="50" />
     <Property Name="FechaInicial" Type="datetime" Nullable="false" />
@@ -1063,6 +1063,12 @@
     <Parameter Name="IdComprobante" Type="int" Mode="In" />
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_Rep_De_Movimientos_De_Inventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdItem" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
   <Function Name="SP_Get_StockLotes_En_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />

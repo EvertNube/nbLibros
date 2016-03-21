@@ -207,28 +207,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="MovimientoInv">
-      <EntityTypeMapping TypeName="LibrosDBModel.MovimientoInv">
-        <MappingFragment StoreEntitySet="MovimientoInv">
-          <ScalarProperty Name="IdMovimientoInv" ColumnName="IdMovimientoInv" />
-          <ScalarProperty Name="IdFormaMovimientoInv" ColumnName="IdFormaMovimientoInv" />
-          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
-          <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
-          <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
-          <ScalarProperty Name="GuiaRemision" ColumnName="GuiaRemision" />
-          <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
-          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-          <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
-          <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
-          <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Periodo">
       <EntityTypeMapping TypeName="LibrosDBModel.Periodo">
         <MappingFragment StoreEntitySet="Periodo">
@@ -635,5 +613,56 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Movimientos_De_Inventarios" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Movimientos_De_Inventarios">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result">
+          <ScalarProperty Name="IdMovimientoInv" ColumnName="IdMovimientoInv" />
+          <ScalarProperty Name="IdFormaMovimientoInv" ColumnName="IdFormaMovimientoInv" />
+          <ScalarProperty Name="IdTipoMovimientoInv" ColumnName="IdTipoMovimientoInv" />
+          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
+          <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+          <ScalarProperty Name="GuiaRemision" ColumnName="GuiaRemision" />
+          <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
+          <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
+          <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="nForma" ColumnName="nForma" />
+          <ScalarProperty Name="nItem" ColumnName="nItem" />
+          <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
+          <ScalarProperty Name="nTipo" ColumnName="nTipo" />
+          <ScalarProperty Name="nUsuario" ColumnName="nUsuario" />
+          <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="MovimientoInv">
+      <EntityTypeMapping TypeName="LibrosDBModel.MovimientoInv">
+        <MappingFragment StoreEntitySet="MovimientoInv">
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+          <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+          <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
+          <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+          <ScalarProperty Name="GuiaRemision" ColumnName="GuiaRemision" />
+          <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
+          <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+          <ScalarProperty Name="IdFormaMovimientoInv" ColumnName="IdFormaMovimientoInv" />
+          <ScalarProperty Name="IdMovimientoInv" ColumnName="IdMovimientoInv" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

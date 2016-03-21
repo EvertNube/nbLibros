@@ -2608,12 +2608,93 @@ namespace NubeBooks.Controllers
             return View();
         }
 
+        public ActionResult ReportesPresupuestos(int? message = null)
+        {
+            if(!this.currentUser()) { return RedirectToAction("Ingresar"); }
+
+            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
+
+            ViewBag.Title += " - Reportes de Presupuestos";
+            MenuNavBarSelected(1, 0);
+
+            CuentaBancariaBL objBL = new CuentaBancariaBL();
+            ViewBag.Categorias = CategoriasBucle(null, null);
+
+            if (message != null)
+            {
+                switch (message)
+                {
+                    case 1:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
+                        break;
+                }
+            }
+
+            return View();
+        }
+
+        public ActionResult ReportesGestion(int? message = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+
+            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
+
+            ViewBag.Title += " - Reportes de Gestión";
+            MenuNavBarSelected(1, 1);
+
+            if (message != null)
+            {
+                switch (message)
+                {
+                    case 1:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
+                        break;
+                }
+            }
+
+            return View();
+        }
+
+        public ActionResult ReportesInventarios(int? message = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+
+            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
+
+            ViewBag.Title += " - Reportes de Inventarios";
+            MenuNavBarSelected(1, 2);
+
+            ItemBL objBL = new ItemBL();
+            ViewBag.lstItems = objBL.getItemsEnEmpresa(getCurrentUser().IdEmpresa);
+
+            if (message != null)
+            {
+                switch (message)
+                {
+                    case 1:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
+                        break;
+                }
+            }
+
+            return View();
+        }
+
         #region Reportes
         public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesPresupuestos", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2628,7 +2709,7 @@ namespace NubeBooks.Controllers
             List<CategoriaDTO> arbolPresupuestos = repBL.getCategoriasPresupuestosTreeEnEmpresa(objEmpresa.IdEmpresa, 0);
 
             if (lstCats == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesPresupuestos", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2686,13 +2767,13 @@ namespace NubeBooks.Controllers
                 htw.Close();
                 sw.Close();
             }
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesPresupuestos", new { message = 2 });
         }
         public ActionResult GenerarRep_EgresosPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2701,7 +2782,7 @@ namespace NubeBooks.Controllers
             List<AreaDTO> lstAreasMontos = repBL.getEgresosAreasEnEmpresa(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstAreasMontos == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2758,13 +2839,13 @@ namespace NubeBooks.Controllers
                 htw.Close();
                 sw.Close();
             }
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_FacturacionPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2773,7 +2854,7 @@ namespace NubeBooks.Controllers
             List<AreaDTO> lstAreasMontos = repBL.getAreasEnEmpresa(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstAreasMontos == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2830,13 +2911,13 @@ namespace NubeBooks.Controllers
                 htw.Close();
                 sw.Close();
             }
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_IngresosEgresosPorAreas(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2845,7 +2926,7 @@ namespace NubeBooks.Controllers
             List<AreaDTO> lstAreasIE = repBL.getIngresosEgresosAreas(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstAreasIE == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2856,19 +2937,19 @@ namespace NubeBooks.Controllers
 
             foreach (var obj in lstAreasIE)
             {
-                if (obj.Ingresos != 0 && obj.Egresos != 0)
+                if (!(obj.Ingresos == 0 && obj.Egresos == 0))
                 { PintarAreasIE(obj, dt); }
             }
 
             GenerarPdf(dt, "Ingresos y Egresos por &Aacute;reas", "IngresosYEgresosPorAreas", objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_FacturacionPorCliente(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2877,7 +2958,7 @@ namespace NubeBooks.Controllers
             List<EntidadResponsableR_DTO> lstClientes = repBL.getFacturacionPorClientes(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstClientes == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2908,13 +2989,13 @@ namespace NubeBooks.Controllers
 
             GenerarPdf(dt, "Ingresos por Clientes", "IngresosPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_GastosPorProveedor(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2923,7 +3004,7 @@ namespace NubeBooks.Controllers
             List<EntidadResponsableR_DTO> lstProveedores = repBL.getGastosPorProveedores(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstProveedores == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2954,13 +3035,13 @@ namespace NubeBooks.Controllers
 
             GenerarPdf(dt, "Gastos por Proveedores", "GastosPorProveedores", objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_FacturacionPorVendedor(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -2969,7 +3050,7 @@ namespace NubeBooks.Controllers
             List<ResponsableDTO> lstVendedores = repBL.getFacturacionPorVendedores(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstVendedores == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -2997,13 +3078,13 @@ namespace NubeBooks.Controllers
 
             GenerarPdf(dt, "Ingresos por Consultores", "IngresosPorConsultores", objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar(int IdTipoComprobante, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -3014,7 +3095,7 @@ namespace NubeBooks.Controllers
             //List<ComprobanteDTO> lstPagados = lstComprobantes.Where(x => x.Ejecutado).OrderBy(x => x.FechaEmision).ToList();
             //List<ComprobanteDTO> lstPorCobrar = lstComprobantes.Where(x => !x.Ejecutado).OrderBy(x => x.FechaEmision).ToList();
             if (lstComprobantes == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -3082,13 +3163,13 @@ namespace NubeBooks.Controllers
 
             GenerarPdf2(dt, titulo, nombreFile, objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
         }
         public ActionResult GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto(int IdCategoria, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesPresupuestos", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -3098,7 +3179,7 @@ namespace NubeBooks.Controllers
             CategoriaR_DTO catArbol = repBL.getDetalleIngresosYGastos_PorPartidaDePresupuesto(IdCategoria, objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
 
             if (catArbol == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesPresupuestos", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -3136,13 +3217,13 @@ namespace NubeBooks.Controllers
 
             GenerarPdf2(dt, "Detalle de Ingresos y Gastos por Partida de Presupuesto", "DetalleIngresosYGastos_PartidaDePresupuestos", objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesPresupuestos", new { message = 2 });
         }
         public ActionResult GenerarRep_FacturacionPorHonorarios(DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
-                return RedirectToAction("ReporteCategorias", new { message = 1 });
+                return RedirectToAction("ReportesGestion", new { message = 1 });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -3151,7 +3232,7 @@ namespace NubeBooks.Controllers
             List<HonorarioDTO> lstHonorariosMontos = repBL.getHonorariosEnEmpresa(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
 
             if (lstHonorariosMontos == null)
-                return RedirectToAction("ReporteCategorias", new { message = 2 });
+                return RedirectToAction("ReportesGestion", new { message = 2 });
 
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
@@ -3179,7 +3260,60 @@ namespace NubeBooks.Controllers
 
             GenerarPdf(dt, "Facturaci&oacute;n por Modalidad de Pago", "FacturacionPorModalidadDePago", objEmpresa, FechaInicio, FechaFin, Response);
 
-            return RedirectToAction("ReporteCategorias", new { message = 2 });
+            return RedirectToAction("ReportesGestion", new { message = 2 });
+        }
+        public ActionResult GenerarRep_Movimiento_De_Inventarios(int? idItem, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReportesInventarios", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+            
+            Reportes_InventariosBL repBL = new Reportes_InventariosBL();
+            ItemBL itemBL = new ItemBL();
+            ItemDTO item = itemBL.getItemEnEmpresa(objEmpresa.IdEmpresa, idItem.GetValueOrDefault());
+            List<MovimientoInvDTO> lstMovs = repBL.Get_Reporte_De_Movimientos_De_Inventarios(idItem.GetValueOrDefault(), objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+
+            if (lstMovs == null)
+                return RedirectToAction("ReportesInventarios", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Movimiento");
+            dt.Columns.Add("Tipo");
+            dt.Columns.Add("Cantidad");
+            dt.Columns.Add("Unid Med");
+            dt.Columns.Add("Lote");
+            dt.Columns.Add("Stock por Lote");
+            dt.Columns.Add("Vencimiento");
+            dt.Columns.Add("Usuario");
+
+            foreach (var obj in lstMovs)
+            {
+                DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
+                row["Movimiento"] = obj.nTipo;
+                row["Tipo"] = obj.nForma;
+                row["Cantidad"] = obj.Cantidad;
+                row["Unid Med"] = obj.UnidadMedida;
+                row["Lote"] = obj.SerieLote;
+                row["Stock por Lote"] = obj.StockLote;
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-";
+                row["Usuario"] = obj.nUsuario;
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf3(dt, "Movimientos de Inventarios", "MovimientosDeInventarios", item.Codigo, item.Nombre, objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReportesInventarios", new { message = 2 });
+        }
+        public ActionResult GenerarRep_Inventarios(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            return View();
         }
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
@@ -3235,6 +3369,44 @@ namespace NubeBooks.Controllers
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+        }
+        private static void GenerarPdf3(DataTable dt, string titulo, string nombreDoc, string codigo, string item, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 3, "CODIGO: " + codigo);
+                AddWhiteHeader(gv, 4, "ITEM: " + item);
 
                 //PintarCategorias(gv);
 

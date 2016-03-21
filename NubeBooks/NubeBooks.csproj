@@ -996,6 +996,9 @@
     <Content Include="Views\Admin\Item.cshtml" />
     <Content Include="Views\Admin\MovimientoInv.cshtml" />
     <Content Include="Views\Admin\ComprobantesAnulados.cshtml" />
+    <Content Include="Views\Admin\ReportesPresupuestos.cshtml" />
+    <Content Include="Views\Admin\ReportesGestion.cshtml" />
+    <Content Include="Views\Admin\ReportesInventarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
