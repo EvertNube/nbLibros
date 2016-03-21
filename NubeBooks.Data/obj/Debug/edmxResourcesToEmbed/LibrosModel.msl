@@ -664,5 +664,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Inventarios" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Inventarios">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Inventarios_Result">
+          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+          <ScalarProperty Name="nItem" ColumnName="nItem" />
+          <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
+          <ScalarProperty Name="nCategoria" ColumnName="nCategoria" />
+          <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+          <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+          <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+          <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
+          <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -44,6 +44,27 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
+
+        public List<MovimientoInvDTO> Get_Reporte_De_Inventarios(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Get_Rep_De_Inventarios(idEmpresa, fechaInicio, fechaFin).Select(x => new MovimientoInvDTO
+                {
+                    IdItem = x.IdItem,
+                    nItem = x.nItem,
+                    nItemCodigo = x.nItemCodigo,
+                    nCategoria = x.nCategoria,
+                    SerieLote = x.SerieLote,
+                    FechaFin = x.FechaFin,
+                    StockLote = x.StockLote,
+                    SaldoItem = x.SaldoItem,
+                    nUbicacion = x.nUbicacion
+                }).OrderBy(x => x.FechaInicial).ToList();
+
+                return result;
+            }
+        }
         #endregion
     }
 }

@@ -28,9 +28,13 @@ namespace NubeBooks.Core.Logistics.DTO
 
         public int IdTipoMovimientoInv { get; set; }
         public string nItem { get; set; }
+        public string nItemCodigo { get; set; }
+        public string nCategoria { get; set; }
         public string nTipo { get; set; }
         public string nForma { get; set; }
         public string nUsuario { get; set; }
+        public string nUbicacion { get; set; }
         public int StockLote { get; set; }
+        public int SaldoItem { get; set; }
     }
 }
