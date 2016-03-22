@@ -3662,7 +3662,7 @@ namespace NubeBooks.Controllers
             if (FechaInicio == null || FechaFin == null)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
-                return RedirectToAction("Libros", "Admin");
+                return RedirectToAction("Index", "Admin");
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -3728,6 +3728,63 @@ namespace NubeBooks.Controllers
             return RedirectToAction("Comprobantes", "Admin");
         }
 
+        public ActionResult ExportarMovimientosInv(int idTipo, DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            MovimientoInvBL objBL = new MovimientoInvBL();
+            List<MovimientoInvDTO> lstMovsInv = objBL.getMovimientoInvsEnEmpresaPorTipo(objEmpresa.IdEmpresa, idTipo);
+            string sTipo = idTipo == 1 ? "Ingreso" : "Egreso";
+
+            if (lstMovsInv == null || lstMovsInv.Count == 0)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
+                return RedirectToAction("Inventarios" + sTipo, "Admin");
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Movimiento");
+            dt.Columns.Add("Cod-Item");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Cantidad");
+            dt.Columns.Add("U. Med");
+            dt.Columns.Add("Lote");
+            dt.Columns.Add("Stock Lote");
+            if (idTipo == 1)
+            { dt.Columns.Add("Vencimiento"); }
+            dt.Columns.Add("Usuario");
+            
+            foreach (var obj in lstMovsInv)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row["Movimiento"] = obj.nForma;
+                row["Cod-Item"] = obj.nItem;
+                row["Documento"] = obj.NroDocumento;
+                row["Cantidad"] = obj.Cantidad;
+                row["U. Med"] = obj.UnidadMedida;
+                row["Lote"] = obj.SerieLote;
+                row["Stock Lote"] = obj.StockLote;
+                if (idTipo == 1)
+                { row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-"; }
+                row["Usuario"] = obj.nUsuario;
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf(dt, "Detalle de Inventarios", "DetalleInventarios", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Inventarios" + sTipo, "Admin");
+        }
         #endregion
         private static void AddSuperHeader(GridView gridView, string text = null)
         {
