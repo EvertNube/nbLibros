@@ -3738,8 +3738,8 @@ namespace NubeBooks.Controllers
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
-            MovimientoInvBL objBL = new MovimientoInvBL();
-            List<MovimientoInvDTO> lstMovsInv = objBL.getMovimientoInvsEnEmpresaPorTipo(objEmpresa.IdEmpresa, idTipo);
+            Reportes_InventariosBL objBL = new Reportes_InventariosBL();
+            List<MovimientoInvDTO> lstMovsInv = objBL.getMovimientoInvsEnEmpresaPorTipo(objEmpresa.IdEmpresa, idTipo, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
             string sTipo = idTipo == 1 ? "Ingreso" : "Egreso";
 
             if (lstMovsInv == null || lstMovsInv.Count == 0)
@@ -3780,7 +3780,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf(dt, "Detalle de Inventarios", "DetalleInventarios", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Detalle de Inventarios de " + sTipo, "DetalleInventarios" + sTipo, objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Inventarios" + sTipo, "Admin");

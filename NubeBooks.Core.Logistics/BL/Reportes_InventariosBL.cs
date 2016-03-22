@@ -66,5 +66,47 @@ namespace NubeBooks.Core.Logistics.BL
             }
         }
         #endregion
+
+        #region Detalles
+        public List<MovimientoInvDTO> getMovimientoInvsEnEmpresaPorTipo(int idEmpresa, int tipo, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var lstStockLotes = context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList();
+
+                var result = context.MovimientoInv.Where(x => x.IdEmpresa == idEmpresa && x.FormaMovimientoInv.IdTipoMovimientoInv == tipo && x.FechaInicial >= fechaInicio && x.FechaInicial <= fechaFin).Select(x => new MovimientoInvDTO
+                {
+                    IdMovimientoInv = x.IdMovimientoInv,
+                    IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                    IdTipoMovimientoInv = x.FormaMovimientoInv.IdTipoMovimientoInv,
+                    IdItem = x.IdItem,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdUbicacion = x.IdUbicacion,
+                    NroDocumento = x.NroDocumento,
+                    GuiaRemision = x.GuiaRemision,
+                    SerieLote = x.SerieLote,
+                    Cantidad = x.Cantidad,
+                    UnidadMedida = x.UnidadMedida,
+                    FechaInicial = x.FechaInicial,
+                    FechaFin = x.FechaFin,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    IdEmpresa = x.IdEmpresa,
+                    nForma = x.FormaMovimientoInv.Nombre,
+                    nItem = x.Item.Codigo + " - " + x.Item.Nombre,
+                    nTipo = x.FormaMovimientoInv.TipoMovimientoInv.Nombre,
+                    nUsuario = x.Usuario.Nombre
+                }).ToList();
+
+                foreach (var item in result)
+                {
+                    item.StockLote = lstStockLotes.Where(x => x.SerieLote == item.SerieLote).SingleOrDefault().StockLote.GetValueOrDefault();
+                }
+
+                return result;
+            }
+        }
+        #endregion
     }
 }
