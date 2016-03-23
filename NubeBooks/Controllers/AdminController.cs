@@ -745,7 +745,7 @@ namespace NubeBooks.Controllers
                 nuevo.Fecha = DateTime.Now;
                 nuevo.TipoCambio = (new EmpresaBL()).getEmpresa(miUsuario.IdEmpresa).TipoCambio;
                 nuevo.NumeroDocumento = null;
-                nuevo.Comentario = "No existe comentario";
+                //nuevo.Comentario = "No existe comentario";
                 nuevo.Estado = true;
                 nuevo.UsuarioCreacion = miUsuario.IdUsuario;
                 nuevo.FechaCreacion = DateTime.Now;
@@ -1384,9 +1384,15 @@ namespace NubeBooks.Controllers
                 }
 
                 ComprobanteBL objBL = new ComprobanteBL();
+                
                 if (dto.IdComprobante == 0)
                 {
-                    if (objBL.add(dto))
+                    //Si el numero de documento se repite en los ingresos no permitir el registro
+                    if (objBL.repeatedNroDocumento(dto.IdEmpresa, dto.IdComprobante, dto.NroDocumento) && dto.IdTipoComprobante == 1)
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO);
+                    }
+                    else if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Comprobantes" + sTipoComprobante, "Admin");
@@ -1394,7 +1400,12 @@ namespace NubeBooks.Controllers
                 }
                 else if (dto.IdComprobante != 0)
                 {
-                    if (objBL.update(dto))
+                    //Si el numero de documento se repite en los ingresos no permitir el registro
+                    if (objBL.repeatedNroDocumento(dto.IdEmpresa, dto.IdComprobante, dto.NroDocumento) && dto.IdTipoComprobante == 1)
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO);
+                    }
+                    else if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Comprobantes" + sTipoComprobante, "Admin");
@@ -3521,10 +3532,13 @@ namespace NubeBooks.Controllers
 
             foreach (var item in obj.lstClientes)
             {
-                System.Data.DataRow row2 = dt.NewRow();
-                row2[1] = item.Nombre;
-                row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
-                dt.Rows.Add(row2);
+                if (item.Monto != 0)
+                {
+                    System.Data.DataRow row2 = dt.NewRow();
+                    row2[1] = item.Nombre;
+                    row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                    dt.Rows.Add(row2);
+                }
             }
         }
         private static void PintarAreasIE(AreaDTO obj, System.Data.DataTable dt)

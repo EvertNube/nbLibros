@@ -348,6 +348,25 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public bool repeatedNroDocumento(int idEmpresa, int idComprobante, string NroDocumento)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var row = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == 1 && x.NroDocumento == NroDocumento && x.IdComprobante != idComprobante).SingleOrDefault();
+                    if (row != null)
+                    { return true; }
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+        }
+
         public bool ban(int id)
         {
             using (var context = getContext())
