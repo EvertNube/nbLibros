@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NubeBooks.Core.DTO
 {
@@ -12,6 +13,7 @@ namespace NubeBooks.Core.DTO
         public int IdEntidadResponsable { get; set; }
         public int? IdTipoIdentificacion { get; set; }
         public int? IdTipoEntidad { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public Decimal? Detraccion { get; set; }

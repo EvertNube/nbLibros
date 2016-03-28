@@ -79,7 +79,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-6">
                             <label>Nombre de Categoria</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la categoría", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Nombre)
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-6">
                             @if (Model != null && Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
@@ -91,7 +91,7 @@ else { cadena = "Actualizar"; }
                             {
                                 <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
                                 @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
-                                @Html.ValidationMessageFor(u => u.IdCategoriaPadre)
+                                @Html.ValidationMessageFor(u => u.IdCategoriaPadre, "", new { @style = "color:red;" })
                             }
                         </div>
                     </div>

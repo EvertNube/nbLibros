@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NubeBooks.Core.DTO
 {
@@ -19,7 +20,9 @@ namespace NubeBooks.Core.DTO
         public int IdEstadoMovimiento { get; set; }
         public string NroOperacion { get; set; }
         public DateTime Fecha { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal Monto { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal TipoCambio { get; set; }
         public string NumeroDocumento { get; set; }
         public string Comentario { get; set; }

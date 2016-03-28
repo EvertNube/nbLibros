@@ -129,20 +129,20 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-6">
                             <label>Nombre de Cuenta</label>
                             @Html.TextBoxFor(u => u.NombreCuenta, new { @class = "form-control rol-accs", @placeholder = "Nombre", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.NombreCuenta)
+                            @Html.ValidationMessageFor(u => u.NombreCuenta, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Fecha de conciliación</label>
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de conciliación", @type = "text", @readonly = "readonly" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @Html.ValidationMessageFor(u => u.FechaConciliacion)
+                                @Html.ValidationMessageFor(u => u.FechaConciliacion, "", new { @style = "color:red;" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label>Moneda</label>
                             @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.Monedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != null ? Model.IdMoneda : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdMoneda)
+                            @Html.ValidationMessageFor(u => u.IdMoneda, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>

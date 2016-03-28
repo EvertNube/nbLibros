@@ -73,18 +73,18 @@ else { cadena = "Actualizar"; }
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaInicial, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @Html.ValidationMessageFor(u => u.FechaInicial)
+                                @Html.ValidationMessageFor(u => u.FechaInicial, "", new { @style = "color:red;" })
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label>Movimiento - Tipo</label>
                             @Html.DropDownListFor(u => u.IdFormaMovimientoInv, new SelectList(ViewBag.lstFormaMovimiento, "IdFormaMovimientoInv", "Nombre", "nTipoMovimientoInv", Model != null ? (Model.IdFormaMovimientoInv != 0 ? Model.IdFormaMovimientoInv : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", autofocus = "" })
-                            @Html.ValidationMessageFor(u => u.IdFormaMovimientoInv)
+                            @Html.ValidationMessageFor(u => u.IdFormaMovimientoInv, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-4">
                             <label># Documento</label>
                             @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control", @placeholder = "Documento", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.NroDocumento)
+                            @Html.ValidationMessageFor(u => u.NroDocumento, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
@@ -93,27 +93,27 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-4">
                             <label>Código - Item</label>
                             @Html.DropDownListFor(u => u.IdItem, new SelectList(ViewBag.lstItems, "IdItem", "Codigo", Model != null ? (Model.IdItem != 0 ? Model.IdItem : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2" })
-                            @Html.ValidationMessageFor(u => u.IdItem)
+                            @Html.ValidationMessageFor(u => u.IdItem, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoMovimientoInv == 1)
                         {
                             <div class="col-md-4">
                                 <label>Guía de Remisión</label>
                                 @Html.TextBoxFor(u => u.GuiaRemision, new { @class = "form-control", @placeholder = "Guía de Remisión", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.GuiaRemision)
+                                @Html.ValidationMessageFor(u => u.GuiaRemision, "", new { @style = "color:red;" })
                             </div>
                         }
                         <div class="col-md-4">
                             <label>Serie - Lote</label>
                             @Html.TextBoxFor(u => u.SerieLote, new { @class = "form-control", @placeholder = "Serie / Lote", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.SerieLote)
+                            @Html.ValidationMessageFor(u => u.SerieLote, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoMovimientoInv != 1)
                         {
                             <div class="col-md-4">
                                 <label>Ubicación</label>
                                 @Html.DropDownListFor(u => u.IdUbicacion, new SelectList(ViewBag.lstUbicaciones, "IdUbicacion", "Nombre", Model != null ? (Model.IdUbicacion != 0 ? Model.IdUbicacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdUbicacion)
+                                @Html.ValidationMessageFor(u => u.IdUbicacion, "", new { @style = "color:red;" })
                             </div>
                         }
                     </div>
@@ -123,12 +123,12 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-4">
                             <label>Cantidad</label>
                             @Html.TextBoxFor(u => u.Cantidad, new { @class = "form-control", @placeholder = "Cantidad", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                            @Html.ValidationMessageFor(u => u.Cantidad)
+                            @Html.ValidationMessageFor(u => u.Cantidad, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-4">
                             <label>Unidad de Medida</label>
                             @Html.TextBoxFor(u => u.UnidadMedida, new { @class = "form-control", @placeholder = "Unidad de Medida", @type = "text", @readonly = "true" })
-                            @Html.ValidationMessageFor(u => u.UnidadMedida)
+                            @Html.ValidationMessageFor(u => u.UnidadMedida, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoMovimientoInv == 1)
                         {
@@ -137,7 +137,7 @@ else { cadena = "Actualizar"; }
                                 <div class="input-group date">
                                     @Html.TextBoxFor(u => u.FechaFin, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Vencimiento", @type = "text", @readonly = "true" })
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    @Html.ValidationMessageFor(u => u.FechaFin)
+                                    @Html.ValidationMessageFor(u => u.FechaFin, "", new { @style = "color:red;" })
                                 </div>
                             </div>
                         }
@@ -150,17 +150,17 @@ else { cadena = "Actualizar"; }
                             <div class="col-md-4">
                                 <label>Proveedor</label>
                                 @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
+                                @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-4">
                                 <label>Ubicación</label>
                                 @Html.DropDownListFor(u => u.IdUbicacion, new SelectList(ViewBag.lstUbicaciones, "IdUbicacion", "Nombre", Model != null ? (Model.IdUbicacion != 0 ? Model.IdUbicacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdUbicacion)
+                                @Html.ValidationMessageFor(u => u.IdUbicacion, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-4">
                                 <label>Comentario</label>
                                 @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Comentario", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.Comentario)
+                                @Html.ValidationMessageFor(u => u.Comentario, "", new { @style = "color:red;" })
                             </div>
                         </div>
                     </div>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NubeBooks.Core.DTO
 {
@@ -11,12 +11,16 @@ namespace NubeBooks.Core.DTO
     public class UsuarioDTO
     {
         public int IdUsuario { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string Nombre { get; set; }
         public string Email { get; set; }
-        
+
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string Cuenta { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string Pass { get; set; }
         public bool Active { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public int IdRol { get; set; }
         public int? IdCargo { get; set; }
         public int IdEmpresa { get; set; }

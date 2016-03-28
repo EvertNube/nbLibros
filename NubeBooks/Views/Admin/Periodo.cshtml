@@ -22,17 +22,17 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Nombre del Periodo</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del Periodo", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Nombre)
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Fecha de Inicio</label>
                             @Html.TextBoxFor(u => u.FechaInicio, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                            @Html.ValidationMessageFor(u => u.FechaInicio)
+                            @Html.ValidationMessageFor(u => u.FechaInicio, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Fecha de Fin</label>
                             @Html.TextBoxFor(u => u.FechaFin, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "true" })
-                            @Html.ValidationMessageFor(u => u.FechaFin)
+                            @Html.ValidationMessageFor(u => u.FechaFin, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             @if (ViewBag.EsAdmin && Model != null && Model.IdPeriodo > 0)

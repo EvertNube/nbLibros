@@ -48,7 +48,7 @@ else { cadena = "Actualizar"; }
                             @if (Model.IdUsuario == 0)
                             {
                                 @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.Nombre)
+                                @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                             }
                             else
                             {
@@ -58,7 +58,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-4">
                             <label>Correo Electrónico</label>
                             @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese su correo", @type = "email" })
-                            @Html.ValidationMessageFor(u => u.Email)
+                            @Html.ValidationMessageFor(u => u.Email, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-4">
                             @if (ViewBag.EsAdmin)
@@ -77,7 +77,7 @@ else { cadena = "Actualizar"; }
                                         <option value="@item.IdRol" @(item.IdRol == rRol ? "selected=selected" : "")>@item.Nombre</option>
                                     }
                                 </select>
-                                @Html.ValidationMessageFor(u => u.IdRol)
+                                @Html.ValidationMessageFor(u => u.IdRol, "", new { @style = "color:red;" })
                             }
                             else
                             {
@@ -94,7 +94,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-4">
                             <label>Cuenta</label>
                             @Html.TextBoxFor(u => u.Cuenta, new { @class = "form-control", @placeholder = "Ingrese el nombre de la cuenta", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Cuenta)
+                            @Html.ValidationMessageFor(u => u.Cuenta, "", new { @style = "color:red;" })
                         </div>
                         @if (Model != null && Model.IdUsuario > 0)
                         {
@@ -121,7 +121,7 @@ else { cadena = "Actualizar"; }
                             <div class="col-md-4">
                                 <label>Contraseña</label>
                                 @Html.TextBoxFor(u => u.Pass, new { @class = "form-control", @placeholder = "Ingrese su contraseña", @type = "password" })
-                                @Html.ValidationMessageFor(u => u.Pass)
+                                @Html.ValidationMessageFor(u => u.Pass, "", new { @style = "color:red;" })
                             </div>
                         }
                     </div>

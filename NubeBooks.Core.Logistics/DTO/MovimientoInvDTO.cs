@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace NubeBooks.Core.Logistics.DTO
 {
@@ -14,11 +15,15 @@ namespace NubeBooks.Core.Logistics.DTO
         public int IdItem { get; set; }
         public int? IdEntidadResponsable { get; set; }
         public int? IdUbicacion { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string NroDocumento { get; set; }
         public string GuiaRemision { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string SerieLote { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public int Cantidad { get; set; }
         public string UnidadMedida { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public System.DateTime FechaInicial { get; set; }
         public DateTime? FechaFin { get; set; }
         public string Comentario { get; set; }

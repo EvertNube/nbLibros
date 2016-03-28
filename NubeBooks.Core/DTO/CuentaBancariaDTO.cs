@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PagedList;
 using PagedList.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace NubeBooks.Core.DTO
 {
@@ -12,9 +13,12 @@ namespace NubeBooks.Core.DTO
     public class CuentaBancariaDTO
     {
         public int IdCuentaBancaria { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string NombreCuenta { get; set; }
         public DateTime FechaConciliacion { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal SaldoDisponible { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal SaldoBancario { get; set; }
         public bool Estado { get; set; }
         public int? IdMoneda { get; set; }

@@ -3480,6 +3480,42 @@ namespace NubeBooks.Controllers
                 sw.Close();
             }
         }
+        private static void GenerarPdf4(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+        }
         private static void PintarGastoPorPartidaPresupuesto(List<CategoriaR_DTO> lista, DataTable dt)
         {
             foreach (var obj in lista)
@@ -3794,7 +3830,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf(dt, "Detalle de Inventarios de " + sTipo, "DetalleInventarios" + sTipo, objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf4(dt, "Detalle de Inventarios de " + sTipo, "DetalleInventarios" + sTipo, objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Inventarios" + sTipo, "Admin");
@@ -3908,7 +3944,6 @@ namespace NubeBooks.Controllers
                 contPadre++;
             }
         }
-
         private static void PintarColumnaNegrita(GridView gridView, int columna, bool intercalado)
         {
             var myTable = (Table)gridView.Controls[0];
@@ -3936,7 +3971,6 @@ namespace NubeBooks.Controllers
                 }
             }
         }
-
         private static void PintarCategorias(GridView gridView)
         {
             var myTable = (Table)gridView.Controls[0];
@@ -3974,12 +4008,10 @@ namespace NubeBooks.Controllers
                 }
             }
         }
-
         private static TableHeaderCell MakeCell(string text = null, int span = 1)
         {
             return new TableHeaderCell() { ColumnSpan = span, Text = text ?? string.Empty, CssClass = "table-header" };
         }
-
         private static Decimal DameTotalSoles(List<CuentaBancariaDTO> listaLibros)
         {
             Decimal Total = 0;

@@ -22,7 +22,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-12">
                             <label>Nombre de la Modalidad</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la Modalidad", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Nombre)
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>

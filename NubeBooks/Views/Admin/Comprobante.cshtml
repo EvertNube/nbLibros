@@ -278,25 +278,25 @@
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaEmision, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @Html.ValidationMessageFor(u => u.FechaEmision)
+                                @Html.ValidationMessageFor(u => u.FechaEmision, "", new { @style = "color:red;" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Tipo de Documento</label>
                             @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != 0 ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ActualizarMontoConIGV()" })
-                            @Html.ValidationMessageFor(u => u.IdTipoDocumento)
+                            @Html.ValidationMessageFor(u => u.IdTipoDocumento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Número de Documento</label>
                             @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control rol-accs", @placeholder = "Documento", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.NroDocumento)
+                            @Html.ValidationMessageFor(u => u.NroDocumento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Fecha de @strFechaFin</label>
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de cancelación", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @Html.ValidationMessageFor(u => u.FechaConclusion)
+                                @Html.ValidationMessageFor(u => u.FechaConclusion, "", new { @style = "color:red;" })
                             </div>
                         </div>
                     </div>
@@ -307,37 +307,37 @@
                         <div class="col-md-@columnas">
                             <label class="control-label">@strEntidad</label>
                             @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
-                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
+                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3)
                         {
                             <div class="col-md-3">
                                 <label class="control-label">Proyecto</label>
                                 @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdProyecto)
+                                @Html.ValidationMessageFor(u => u.IdProyecto, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-3">
                                 <label>Consultor</label>
                                 @Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdResponsable)
+                                @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
                             </div>
                         }
                         <div class="col-md-3">
                             <label class="control-label">Partida de Presupuesto</label>
                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdCategoria)
+                            @Html.ValidationMessageFor(u => u.IdCategoria, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoComprobante == 2 || Model.IdTipoComprobante == 4)
                         {
                             <div class="col-md-3">
                                 <label class="control-label">Moneda</label>
                                 @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdMoneda)
+                                @Html.ValidationMessageFor(u => u.IdMoneda, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-3">
                                 <label class="control-label">Tipo de Cambio</label>
                                 @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                @Html.ValidationMessageFor(u => u.TipoCambio)
+                                @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
                             </div>
                         }
                     </div>
@@ -349,23 +349,23 @@
                             <div class="col-md-3">
                                 <label class="control-label">Moneda</label>
                                 @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdMoneda)
+                                @Html.ValidationMessageFor(u => u.IdMoneda, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-3">
                                 <label class="control-label">Tipo de Cambio</label>
                                 @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                @Html.ValidationMessageFor(u => u.TipoCambio)
+                                @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-3">
                                 <label class="control-label">Modalidad de Pago</label>
                                 @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdHonorario)
+                                @Html.ValidationMessageFor(u => u.IdHonorario, "", new { @style = "color:red;" })
                             </div>
                         }
                         <div class="col-md-3">
                             <label class="control-label">Área</label>
                             @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdArea)
+                            @Html.ValidationMessageFor(u => u.IdArea, "", new { @style = "color:red;" })
                             <div class="text-left">
                                 <a class="text-info" onclick="$('#Area_X_Monto').show();$('#IdArea').select2('val', 0);$('#IdArea').prop('disabled', true);">¿Desea ingresar más de un área?</a>
                             </div>

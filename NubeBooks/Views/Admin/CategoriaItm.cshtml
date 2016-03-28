@@ -19,7 +19,7 @@ else { cadena = "Actualizar"; }
                 <div class="form-group">
                     <label>Nombre de la Categoría</label>
                     @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese la Categoría", @type = "text", autofocus = "" })
-                    @Html.ValidationMessageFor(u => u.Nombre)
+                    @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
                 @Html.TextBoxFor(u => u.IdCategoriaItm, new { @value = Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm.ToString() : "", @type = "hidden" })

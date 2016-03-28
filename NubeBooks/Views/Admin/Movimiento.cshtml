@@ -199,26 +199,25 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Fecha</label>
                             <div class="input-group date">
-                                @*@Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "datepicker-input form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @data_provide = "datepicker", @readonly = "true" })*@
                                 @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @Html.ValidationMessageFor(u => u.Fecha)
+                                @Html.ValidationMessageFor(u => u.Fecha, "", new { @style = "color:red;" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label>Tipo de Movimiento</label>
                             @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdFormaMovimiento)
+                            @Html.ValidationMessageFor(u => u.IdFormaMovimiento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Detalle</label>
                             @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
-                            @Html.ValidationMessageFor(u => u.NroOperacion)
+                            @Html.ValidationMessageFor(u => u.NroOperacion, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Estado de Movimiento</label>
                             @Html.DropDownListFor(u => u.IdEstadoMovimiento, new SelectList(ViewBag.EstadosMovimientos, "IdEstadoMovimiento", "Nombre", Model != null ? (Model.IdEstadoMovimiento != 0 ? Model.IdEstadoMovimiento : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdEstadoMovimiento)
+                            @Html.ValidationMessageFor(u => u.IdEstadoMovimiento, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
@@ -227,30 +226,30 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Monto</label>
                             @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoPendiente()" })
-                            @Html.ValidationMessageFor(u => u.Monto)
+                            @Html.ValidationMessageFor(u => u.Monto, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Tipo de Cambio</label>
                             @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                            @Html.ValidationMessageFor(u => u.TipoCambio)
+                            @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Entidad</label>
                             @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
-                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable)
+                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             @if (ViewBag.IdTipoCuenta != 2)
                             {
                                 <label>Tipo de Documento</label>
                                 @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTiposDeDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "form-control parsley-validated rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
-                                @Html.ValidationMessageFor(u => u.IdTipoDocumento)
+                                @Html.ValidationMessageFor(u => u.IdTipoDocumento, "", new { @style = "color:red;" })
                             }
                             else
                             {
                                 <label>Documento</label>
                                 @Html.TextBoxFor(u => u.NumeroDocumento, new { @class = "form-control rol-accs", @placeholder = "Número del comprobante", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.NumeroDocumento)
+                                @Html.ValidationMessageFor(u => u.NumeroDocumento, "", new { @style = "color:red;" })
                             }
                         </div>
                     </div>
@@ -262,19 +261,15 @@ else { cadena = "Actualizar"; }
                             <div class="col-md-3">
                                 <label>Número de Documento</label>
                                 @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value, true)" })
-                                @Html.ValidationMessageFor(u => u.IdComprobante)
+                                @Html.ValidationMessageFor(u => u.IdComprobante, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-3">
                                 <label>Monto Pendiente</label>
                                 @Html.TextBoxFor(u => u.cmpMontoPendiente, new { @id = "cmpMonto", @class = "form-control rol-accs", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(u => u.cmpMontoPendiente)
+                                @Html.ValidationMessageFor(u => u.cmpMontoPendiente, "", new { @style = "color:red;" })
                             </div>
                             <div class="col-md-3">
                                 <label>Estado del comprobante</label>
-                                @*<div class="checkbox">
-                                    @Html.CheckBoxFor(u => u.cmpCancelado)
-                                    @Html.ValidationMessageFor(u => u.cmpCancelado)
-                                </div>*@
                                 <div>
                                     <label class="i-switch m-t-xs m-r">
                                         <input id="cmpCancelado" name="cmpCancelado" type="checkbox" value="@Model.cmpCancelado" checked="@Model.cmpCancelado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
@@ -286,7 +281,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Partida de Presupuesto</label>
                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdCategoria)
+                            @Html.ValidationMessageFor(u => u.IdCategoria, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
@@ -295,7 +290,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-12">
                             <label>Comentario</label>
                             @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
-                            @Html.ValidationMessageFor(u => u.Comentario)
+                            @Html.ValidationMessageFor(u => u.Comentario, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>

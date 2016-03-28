@@ -22,7 +22,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-12">
                             <label>Nombre del Consultor</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del área", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Nombre)
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-12">
                             <label>Descripción</label>
                             @Html.TextAreaFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Ingrese la descripción", @type = "text", @rows = "6", @style = "resize: none;" })
-                            @Html.ValidationMessageFor(u => u.Descripcion)
+                            @Html.ValidationMessageFor(u => u.Descripcion, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>

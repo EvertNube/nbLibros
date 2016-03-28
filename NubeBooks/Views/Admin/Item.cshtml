@@ -39,12 +39,12 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-6">
                             <label>Nombre</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre", @type = "text", autofocus = "" })
-                            @Html.ValidationMessageFor(u => u.Nombre)
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-6">
                             <label>Código</label>
                             @Html.TextBoxFor(u => u.Codigo, new { @class = "form-control", @placeholder = "Código", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Nombre)
+                            @Html.ValidationMessageFor(u => u.Codigo, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
@@ -53,17 +53,17 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-6">
                             <label>Descripción</label>
                             @Html.TextBoxFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Descripción", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Descripcion)
+                            @Html.ValidationMessageFor(u => u.Descripcion, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Unidad de Medida</label>
                             @Html.TextBoxFor(u => u.UnidadMedida, new { @class = "form-control", @placeholder = "U. Medida", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.Descripcion)
+                            @Html.ValidationMessageFor(u => u.UnidadMedida, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Categoría</label>
                             @Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})
-                            @Html.ValidationMessageFor(u => u.IdCategoriaItm)
+                            @Html.ValidationMessageFor(u => u.IdCategoriaItm, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
