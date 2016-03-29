@@ -88,7 +88,7 @@ namespace NubeBooks.Core.BL
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
                     NombreProyecto = x.Proyecto.Nombre ?? ""
-                }).OrderBy(x => x.NroDocumento).ToList();
+                }).OrderBy(x => x.FechaEmision).ToList();
                 return result;
             }
         }

@@ -439,7 +439,7 @@ namespace NubeBooks.Core.BL
                 List<AreaDTO> lista = result.Take(5).Select(x => new AreaDTO
                 {
                     IdArea = x.IdArea,
-                    Nombre = x.Nombre,
+                    Nombre = x.Nombre.Length > 27 ? x.Nombre.Substring(0, 27) + "." : x.Nombre,
                     Descripcion = x.Descripcion,
                     Estado = x.Estado,
                     IdEmpresa = x.IdEmpresa,
@@ -469,7 +469,7 @@ namespace NubeBooks.Core.BL
                 var result = context.SP_Rep_IngresosEgresosPorAreas(idEmpresa, periodo.FechaInicio, periodo.FechaFin).Select(x => new AreaDTO
                 {
                     IdArea = x.IdArea,
-                    Nombre = x.Nombre,
+                    Nombre = x.Nombre.Length > 27 ? x.Nombre.Substring(0, 27) + "." : x.Nombre,
                     Descripcion = x.Descripcion,
                     Estado = x.Estado,
                     IdEmpresa = x.IdEmpresa,

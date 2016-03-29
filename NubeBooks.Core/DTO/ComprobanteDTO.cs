@@ -26,7 +26,6 @@ namespace NubeBooks.Core.DTO
         public int? IdResponsable { get; set; }
         public int? IdCategoria { get; set; }
         public int? IdProyecto { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")]
         public DateTime FechaEmision { get; set; }
         public DateTime? FechaConclusion { get; set; }
         public string Comentario { get; set; }
