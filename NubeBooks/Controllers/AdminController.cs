@@ -3365,7 +3365,52 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf(dt, "Reporte de Inventarios", "ReporteDeInventarios", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf4(dt, "Reporte de Inventarios", "ReporteDeInventarios", objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReportesInventarios", new { message = 2 });
+        }
+        public ActionResult GenerarRep_Items_Por_Vencimiento(DateTime? FechaInicio, DateTime? FechaFin, DateTime? rFechaFin)
+        {
+            if (FechaFin == null)
+            {
+                return RedirectToAction("ReportesInventarios", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            Reportes_InventariosBL repBL = new Reportes_InventariosBL();
+            List<MovimientoInvDTO> lstInventarios = repBL.Get_Reporte_Items_Por_Vencimiento(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault(), rFechaFin.GetValueOrDefault());
+
+            if (lstInventarios == null)
+                return RedirectToAction("ReportesInventarios", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Código");
+            dt.Columns.Add("Item");
+            dt.Columns.Add("Categoría");
+            dt.Columns.Add("Lote");
+            dt.Columns.Add("Vencimiento");
+            dt.Columns.Add("Saldo Por Lote");
+            dt.Columns.Add("Saldo Por Item");
+            dt.Columns.Add("Ubicación");
+
+            foreach (var obj in lstInventarios)
+            {
+                DataRow row = dt.NewRow();
+                row["Código"] = obj.nItemCodigo;
+                row["Item"] = obj.nItem;
+                row["Categoría"] = obj.nCategoria;
+                row["Lote"] = obj.SerieLote;
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Saldo Por Lote"] = obj.StockLote;
+                row["Saldo Por Item"] = obj.SaldoItem;
+                row["Ubicación"] = obj.nUbicacion;
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf4(dt, "Reporte de Items por Fecha de Vencimiento", "ReporteDeItemsPorVencimiento", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }

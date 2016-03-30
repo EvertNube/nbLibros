@@ -1055,6 +1055,12 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Get_Rep_De_Items_Por_Vencimiento" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+      <Parameter Name="rFechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1581,6 +1587,17 @@
     </ReferentialConstraint>
   </Association>
   <ComplexType Name="SP_Get_Rep_De_Inventarios_Result">
+    <Property Type="Int32" Name="IdItem" Nullable="false" />
+    <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="nCategoria" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="StockLote" Nullable="false" />
+    <Property Type="Int32" Name="SaldoItem" Nullable="false" />
+    <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
+  </ComplexType>
+  <ComplexType Name="SP_Get_Rep_De_Items_Por_Vencimiento_Result">
     <Property Type="Int32" Name="IdItem" Nullable="false" />
     <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />

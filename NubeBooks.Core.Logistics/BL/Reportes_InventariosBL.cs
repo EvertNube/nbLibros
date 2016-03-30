@@ -9,7 +9,7 @@ namespace NubeBooks.Core.Logistics.BL
 {
     public class Reportes_InventariosBL : Base
     {
-        #region Movimientos de Inventarios
+        #region Reportes
         public List<MovimientoInvDTO> Get_Reporte_De_Movimientos_De_Inventarios(int IdItem, int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
         {
             using (var context = getContext())
@@ -50,6 +50,26 @@ namespace NubeBooks.Core.Logistics.BL
             using (var context = getContext())
             {
                 var result = context.SP_Get_Rep_De_Inventarios(idEmpresa, fechaInicio, fechaFin).Select(x => new MovimientoInvDTO
+                {
+                    IdItem = x.IdItem,
+                    nItem = x.nItem,
+                    nItemCodigo = x.nItemCodigo,
+                    nCategoria = x.nCategoria,
+                    SerieLote = x.SerieLote,
+                    FechaFin = x.FechaFin,
+                    StockLote = x.StockLote,
+                    SaldoItem = x.SaldoItem,
+                    nUbicacion = x.nUbicacion
+                }).OrderBy(x => x.FechaInicial).ToList();
+
+                return result;
+            }
+        }
+        public List<MovimientoInvDTO> Get_Reporte_Items_Por_Vencimiento(int idEmpresa, DateTime fechaInicio, DateTime fechaFin, DateTime rFechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Get_Rep_De_Items_Por_Vencimiento(idEmpresa, fechaInicio, fechaFin, rFechaFin).Select(x => new MovimientoInvDTO
                 {
                     IdItem = x.IdItem,
                     nItem = x.nItem,

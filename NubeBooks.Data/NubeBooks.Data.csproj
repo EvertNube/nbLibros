@@ -155,6 +155,9 @@
     <Compile Include="SP_Get_Rep_De_Inventarios_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Get_Rep_De_Items_Por_Vencimiento_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Get_Rep_De_Movimientos_De_Inventarios_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

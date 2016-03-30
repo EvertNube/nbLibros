@@ -25,6 +25,9 @@
             var FechaFin = $("#FechaFin").val().split("/");
             FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
+            var rFechaFin = $("#rFechaFin").val().split("/");
+            rFechaFin = rFechaFin[2] + "/" + rFechaFin[1] + "/" + rFechaFin[0];
+
             var jIdItem = $('#IdItem').select2("val");
             debugger;
             switch (nrep) {
@@ -33,6 +36,9 @@
                     break;
                 case 2:
                     return "/Admin/GenerarRep_Inventarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 3:
+                    return "/Admin/GenerarRep_Items_Por_Vencimiento/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin) + "&" + "rFechaFin=" + encodeURIComponent(rFechaFin);
                     break;
             }
         }
@@ -67,17 +73,29 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="col-md-4 text-center">Reporte de movimientos de inventarios</label>
-                        @*@Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                        <label class="col-md-4 text-center">Movimientos de inventarios</label>
                         @Html.DropDownList("IdItem", new SelectList(ViewBag.lstItems, "IdItem", "Nombre", 0), new { @class = "col-md-4 no-padder miselect2" })
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-md-6 text-center">Reporte de inventarios</label>
+                        <label class="col-md-6 text-center">Inventarios</label>
                         <div class="col-md-6 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-center">Items Por Fecha de Vencimiento</label>
+                        <div class="col-md-4 text-center no-padder">
+                            @Html.TextBox("rFechaFin", DateTime.Now, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
                         </div>
                     </div>
                 </div>

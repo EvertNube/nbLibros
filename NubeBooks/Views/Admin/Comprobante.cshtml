@@ -406,7 +406,7 @@
                                     <div class="col-md-3">
                                         <label>Área</label>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         @*@Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @id = "IdAreaX", @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
                                         @Html.DropDownList("IdAreaX", new SelectList(ViewBag.lstAreas, "IdArea", "Nombre"), new { @id = "IdAreaX", @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
                                     </div>
@@ -417,7 +417,7 @@
                                     <div class="col-md-3">
                                         <label>Monto (sin IGV)</label>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         @*@Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @id = "MontoSinIGVX", @class = "form-control rol-accs", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV_X()" })*@
                                         <input id="MontoSinIGVX" type="text" class="form-control rol-accs" placeholder="0.00" onkeypress="return CheckNumericValue(event)" onkeyup="ActualizarMontoConIGV_X()">
                                     </div>
@@ -428,7 +428,7 @@
                                     <div class="col-md-3">
                                         <label>Monto Total</label>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         @*@Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @id = "MontoX", @class = "form-control rol-accs", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV_X()" })*@
                                         <input id="MontoX" type="text" class="form-control rol-accs" placeholder="0.00" onkeypress="return CheckNumericValue(event)" onkeyup="ActualizarMontoSinIGV_X()">
                                     </div>
@@ -436,13 +436,12 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="text-right">
-                                        <button type="button" class="btn m-b-xs btn-sm btn-default btn-addon rol-accs" id="add-monto">
-                                            <i class="fa fa-plus"></i>Agregar
-                                        </button>
-                                        @*<button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="add-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Agregar Área por Monto">
-                                            <i class="fa fa-plus"></i>
-                                        </button>*@
+                                    <div class="col-md-12">
+                                        <div class="text-right">
+                                            <button type="button" class="btn m-b-xs btn-sm btn-default btn-addon rol-accs" id="add-monto">
+                                                <i class="fa fa-plus"></i>Agregar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -463,9 +462,6 @@
                                 <button type="button" class="btn m-b-xs btn-sm btn-default btn-addon rol-accs" id="remove-monto">
                                     <i class="fa fa-minus"></i>Remover
                                 </button>
-                                @*<button type="button" class="btn btn-dark btn-sm btn-icon btn-rounded rol-accs" id="remove-monto" data-toggle="tooltip" data-placement="right" title="" data-original-title="Quitar Área por Monto">
-                                    <i class="fa fa-minus-circle"></i>
-                                </button>*@
                             </div>
                         </div>
                     </div>
