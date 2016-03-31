@@ -29,7 +29,6 @@ namespace NubeBooks.Models
             //2 - Libros
             lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
-            lstOptions[2].lstOptions.Add(new Option() { cadena = "" });
             //3 - Comprobantes
             lstOptions[3].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[3].lstOptions.Add(new Option() { cadena = "" });

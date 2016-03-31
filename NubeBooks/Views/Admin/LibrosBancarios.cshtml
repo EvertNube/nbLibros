@@ -70,8 +70,8 @@
                             <tr>
                                 <td >@item.NombreCuenta</td>
                                 <td class="text-center">@item.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                <td class="text-right">@item.SimboloMoneda @item.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                <td class="text-right">@item.SimboloMoneda @item.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                <td class="text-center">@item.SimboloMoneda @item.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                <td class="text-center">@item.SimboloMoneda @item.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
                                 <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">

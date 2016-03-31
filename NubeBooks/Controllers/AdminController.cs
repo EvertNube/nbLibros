@@ -3414,6 +3414,45 @@ namespace NubeBooks.Controllers
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
+        public ActionResult GenerarRep_Stock_De_Items(DateTime? FechaInicio, DateTime? FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                return RedirectToAction("ReportesInventarios", new { message = 1 });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            Reportes_InventariosBL repBL = new Reportes_InventariosBL();
+            List<ItemDTO> lista = repBL.Get_Reporte_Stock_De_Items(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+
+
+            if (lista == null)
+                return RedirectToAction("ReportesInventarios", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Código");
+            dt.Columns.Add("Item");
+            dt.Columns.Add("Categoría");
+            dt.Columns.Add("Saldo Por Item");
+
+            foreach (var obj in lista)
+            {
+                DataRow row = dt.NewRow();
+                row["Código"] = obj.Codigo;
+                row["Item"] = obj.Nombre;
+                row["Categoría"] = obj.nCategoriaItem;
+                row["Saldo Por Item"] = obj.SaldoItem;
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf4(dt, "Reporte Stock de Items", "ReporteStockDeItems", objEmpresa, FechaInicio, FechaFin, Response);
+
+            return RedirectToAction("ReportesInventarios", new { message = 2 });
+        }
+
         private static void GenerarPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaInicio, DateTime? FechaFin, HttpResponseBase Response)
         {
             GridView gv = new GridView();

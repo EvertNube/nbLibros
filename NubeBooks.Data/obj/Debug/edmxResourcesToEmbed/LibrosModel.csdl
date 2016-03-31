@@ -1061,6 +1061,11 @@
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
       <Parameter Name="rFechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="SP_Get_Rep_Stock_De_Items" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+      <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1607,5 +1612,12 @@
     <Property Type="Int32" Name="StockLote" Nullable="false" />
     <Property Type="Int32" Name="SaldoItem" Nullable="false" />
     <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
+  </ComplexType>
+  <ComplexType Name="SP_Get_Rep_Stock_De_Items_Result">
+    <Property Type="Int32" Name="IdItem" Nullable="false" />
+    <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
+    <Property Type="Int32" Name="SaldoItem" Nullable="true" />
   </ComplexType>
 </Schema>

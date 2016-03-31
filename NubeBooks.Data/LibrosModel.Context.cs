@@ -437,5 +437,22 @@ namespace NubeBooks.Data
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_De_Items_Por_Vencimiento_Result>("SP_Get_Rep_De_Items_Por_Vencimiento", idEmpresaParameter, fechaInicioParameter, fechaFinParameter, rFechaFinParameter);
         }
+    
+        public virtual ObjectResult<SP_Get_Rep_Stock_De_Items_Result> SP_Get_Rep_Stock_De_Items(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_Stock_De_Items_Result>("SP_Get_Rep_Stock_De_Items", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
     }
 }

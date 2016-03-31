@@ -22,5 +22,6 @@ namespace NubeBooks.Core.Logistics.DTO
         public int IdEmpresa { get; set; }
 
         public string nCategoriaItem { get; set; }
+        public int SaldoItem { get; set; }
     }
 }

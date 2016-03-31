@@ -40,6 +40,9 @@
                 case 3:
                     return "/Admin/GenerarRep_Items_Por_Vencimiento/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin) + "&" + "rFechaFin=" + encodeURIComponent(rFechaFin);
                     break;
+                case 4:
+                    return "/Admin/GenerarRep_Stock_De_Items/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
             }
         }
     </script>
@@ -96,6 +99,12 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-6 text-center">Stock Por Items</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="4">Generar Reporte</a>
                         </div>
                     </div>
                 </div>

@@ -161,6 +161,9 @@
     <Compile Include="SP_Get_Rep_De_Movimientos_De_Inventarios_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Get_Rep_Stock_De_Items_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Get_StockLotes_En_Empresa_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
