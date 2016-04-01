@@ -729,6 +729,7 @@ namespace NubeBooks.Controllers
 
             ViewBag.IdTipoCuenta = objLibro.IdTipoCuenta;
             ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
+            //ViewBag.lstFormaMovs = objBL.Select2_lstFormaDeMovimientos();
 
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true);
@@ -2651,7 +2652,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
+            //if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
             ViewBag.Title += " - Reportes de Gestión";
             MenuNavBarSelected(1, 1);
@@ -2676,7 +2677,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
+            //if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
             ViewBag.Title += " - Reportes de Inventarios";
             MenuNavBarSelected(1, 2);
@@ -3600,6 +3601,40 @@ namespace NubeBooks.Controllers
                 sw.Close();
             }
         }
+        private static void GenerarPdf5(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+        }
         private static void PintarGastoPorPartidaPresupuesto(List<CategoriaR_DTO> lista, DataTable dt)
         {
             foreach (var obj in lista)
@@ -3860,6 +3895,44 @@ namespace NubeBooks.Controllers
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Comprobantes", "Admin");
+        }
+
+        public ActionResult ExportarClientesOProveedores(int tipo)
+        {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+            List<EntidadResponsableDTO> lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(objEmpresa.IdEmpresa, tipo);
+
+            if (lista == null || lista.Count == 0)
+            {
+                //createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
+                return RedirectToAction("Comprobantes", "Admin");
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Tipo de Documento");
+            dt.Columns.Add("Estado");
+
+            foreach (var obj in lista)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Nombre"] = obj.Nombre;
+                row["Tipo de Documento"] = obj.NombreIdentificacion;
+                row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            string sCadena = tipo == 1 ? "Clientes" : "Proveedores";
+
+            GenerarPdf5(dt, "Detalle de " + sCadena, "DetalleDe" + sCadena, objEmpresa, Response);
+
+            //createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Entidades" + sCadena, "Admin");
+
         }
 
         public ActionResult ExportarMovimientosInv(int idTipo, DateTime? FechaInicio, DateTime? FechaFin)

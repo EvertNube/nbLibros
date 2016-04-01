@@ -15,9 +15,13 @@
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
             var userInfoJson2 = jss.Serialize(ViewBag.Comprobantes);
+
+            //var lstFormaMovs = jss.Serialize(ViewBag.lstFormaMovs);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
         var lstComps = JSON.parse('@Html.Raw(userInfoJson2)');
+
+        @*var lstFormaMovs = JSON.parse('@Html.Raw(lstFormaMovs)');*@
 
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         var montoActual = 0, jIdComprobante = 0;
@@ -35,6 +39,8 @@
             })
 
             $('#IdComprobante').select2({ data: lstComps })
+
+            //$('#IdFormaMovimiento').select2({ data: lstFormaMovs })
 
             ListarComprobantesEntidadXTipoDoc(0);
 
@@ -128,7 +134,7 @@
             if (reset == true) {
                 $('#Monto').val(0);
             }
-            
+
             var jIdCuentaBancaria = $('#IdCuentaBancaria').val();
             var miIdComprobante = sel;
 
@@ -207,6 +213,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Tipo de Movimiento</label>
                             @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                            @*@Html.TextBoxFor(u => u.IdFormaMovimiento, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })*@
                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">

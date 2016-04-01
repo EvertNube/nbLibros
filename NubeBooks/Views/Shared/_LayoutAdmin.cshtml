@@ -52,7 +52,7 @@
                 </div>
                 <!-- / buttons -->
                 <!-- search form -->
-                <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+                <!--<form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Buscar...">
@@ -61,7 +61,7 @@
                             </span>
                         </div>
                     </div>
-                </form>
+                </form>-->
                 <!-- / search form -->
                 <!-- nabar right -->
                 <ul class="nav navbar-nav navbar-right">
@@ -106,50 +106,49 @@
                                     <span class="font-bold">Dashboard</span>
                                 </a>
                             </li>
-                            @if (!ViewBag.EsUsuarioInterno)
-                            {
-                                @*<li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                                    <span>Reportes</span>
-                                </li>*@
-                                <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                    <a href="@Url.Action("ReportesPresupuestos", "Admin")" class="auto">
-                                        <span class="pull-right text-muted">
-                                            <i class="fa fa-fw fa-angle-right text"></i>
-                                            <i class="fa fa-fw fa-angle-down text-active"></i>
-                                        </span>
-                                        <i class="fa fa-download"></i>
-                                        <span class="font-bold">Reportes</span>
-                                    </a>
-                                    <ul class="nav nav-sub dk">
-                                        <li class="nav-sub-header">
-                                            <a href="@Url.Action("ReportesPresupuestos", "Admin")">
-                                                <span>Presupuestos</span>
-                                            </a>
-                                        </li>
+
+                            <li class="@ViewBag.navbar.lstOptions[1].cadena">
+                                <a href="@Url.Action("ReportesGestion", "Admin")" class="auto">
+                                    <span class="pull-right text-muted">
+                                        <i class="fa fa-fw fa-angle-right text"></i>
+                                        <i class="fa fa-fw fa-angle-down text-active"></i>
+                                    </span>
+                                    <i class="fa fa-download"></i>
+                                    <span class="font-bold">Reportes</span>
+                                </a>
+                                <ul class="nav nav-sub dk">
+                                    <li class="nav-sub-header">
+                                        <a href="@Url.Action("ReportesGestion", "Admin")">
+                                            <span>Presupuestos</span>
+                                        </a>
+                                    </li>
+                                    @if (!ViewBag.EsUsuarioInterno)
+                                    {
                                         <li class="@ViewBag.navbar.lstOptions[1].lstOptions[0].cadena">
                                             <a href="@Url.Action("ReportesPresupuestos", "Admin")">
                                                 <span>Presupuestos</span>
                                             </a>
                                         </li>
-                                        <li class="@ViewBag.navbar.lstOptions[1].lstOptions[1].cadena">
-                                            <a href="@Url.Action("ReportesGestion", "Admin")">
-                                                <span>Gestión </span>
-                                            </a>
-                                        </li>
-                                        <li class="@ViewBag.navbar.lstOptions[1].lstOptions[2].cadena">
-                                            <a href="@Url.Action("ReportesInventarios", "Admin")">
-                                                <span>Inventarios</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                @*<li class="@ViewBag.navbar.lstOptions[1].cadena">
+                                    }
+                                    <li class="@ViewBag.navbar.lstOptions[1].lstOptions[1].cadena">
+                                        <a href="@Url.Action("ReportesGestion", "Admin")">
+                                            <span>Gestión </span>
+                                        </a>
+                                    </li>
+                                    <li class="@ViewBag.navbar.lstOptions[1].lstOptions[2].cadena">
+                                        <a href="@Url.Action("ReportesInventarios", "Admin")">
+                                            <span>Inventarios</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @*<li class="@ViewBag.navbar.lstOptions[1].cadena">
                                     <a href="@Url.Action("ReporteCategorias", "Admin")">
                                         <i class="fa fa-download"></i>
                                         <span class="font-bold">Reportes</span>
                                     </a>
                                 </li>*@
-                            }
+
                             <li class="line dk"></li>
 
                             <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
@@ -439,7 +438,7 @@
     <script src="~/Content/themes/angular/myApp.js"></script>
     <!-- Validation -->
     @*<script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
     <!-- App -->
     <script src="~/Content/themes/admin-nb/js/ui-load.js"></script>
     <script src="~/Content/themes/admin-nb/js/ui-jp.config.js"></script>

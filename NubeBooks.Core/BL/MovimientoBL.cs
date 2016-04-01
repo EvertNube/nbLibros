@@ -381,6 +381,25 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public List<Select2DTO> Select2_lstFormaDeMovimientos()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoMovimiento.Select(x => new Select2DTO
+                {
+                    id = x.IdTipoMovimiento,
+                    text = x.Nombre,
+                    children = x.FormaMovimiento.Select(z => new Select2DTO
+                    {
+                        id = z.IdFormaMovimiento,
+                        text = z.Nombre
+                    }).ToList()
+                }).ToList();
+                
+                return result;
+            }
+        }
+
         public List<FormaMovimientoDTO> getListaFormaDeMovimientosBasic()
         {
             List<FormaMovimientoDTO> lista = new List<FormaMovimientoDTO>();

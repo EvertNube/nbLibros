@@ -99,7 +99,8 @@
             sNext: 'Siguiente'
         }
     },
-    aaSorting: [[0,'desc']]
+    aaSorting: [[0,'desc']],
+    pageLength: 50,
 }" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
@@ -123,7 +124,7 @@
                                 <td class="text-center">@item.NombreTipoDocumento</td>
                                 <td class="text-center">@item.NroDocumento</td>
                                 <td class="text-center">@item.NombreEntidad</td>
-                                <td class="text-right">@item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                <td class="text-right">@item.SimboloMoneda @item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                 <td class="text-center">@item.NombreCategoria</td>
                                 <td class="text-center" style=@(item.Ejecutado ? "color:#8EC100;" : "color:red;")>@(item.Ejecutado ? "R" : "P" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }

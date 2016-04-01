@@ -3,11 +3,25 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#exportar').click(function () {
+                window.location.href = "/Admin/ExportarClientesOProveedores/?tipo=" + 2
+                $('.alert.alert-success').removeClass('hidden');
+            });
+        });
+    </script>
+}
 
 <div class="bg-light lter b-b wrapper-md">
-    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>*@
+    <button id="exportar" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
     <a href="@Url.Action("Entidad", "Admin", new { id = 0, idTipoEntidad = 2 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+<div class="alert alert-success hidden">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <i class="fa fa-ok-sign"></i> <strong>Success.</strong> Archivo generado exitosamente
 </div>
 @Html.Partial("_showAlertMessages")
 <div class="wrapper-md">
@@ -27,8 +41,9 @@
         oPaginate: {
             sPrevious: 'Anterior',
             sNext: 'Siguiente'
-        }
-    }
+        },
+    },
+    pageLength: 50,
 }" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>

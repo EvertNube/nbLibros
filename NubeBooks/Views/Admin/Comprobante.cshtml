@@ -102,9 +102,9 @@
 
             //var chkIGV = ;
             if($('#chkIGV').is(':checked'))
-            {montoSinIGV = ($('#Monto').val() / 1.18);}
+            { montoSinIGV = Math.round(($('#Monto').val() / 1.18) * 100) / 100;}
             else
-            { montoSinIGV = ($('#Monto').val() / 1); }
+            { montoSinIGV = Math.round(($('#Monto').val() / 1) * 100) / 100; }
 
             $('#MontoSinIGV').val(montoSinIGV);
         }
@@ -117,9 +117,9 @@
             else
             { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }*/
             if($('#chkIGV').is(':checked'))
-            { montoConIGV = ($('#MontoSinIGV').val() * 1.18); }
+            { montoConIGV = Math.round(($('#MontoSinIGV').val() * 1.18) * 100) / 100; }
             else
-            { montoConIGV = ($('#MontoSinIGV').val() / 1); }
+            { montoConIGV = Math.round(($('#MontoSinIGV').val() / 1) * 100) / 100; }
 
             $('#Monto').val(montoConIGV);
         }
@@ -127,7 +127,7 @@
         function ActualizarMontoSinIGV_X() {
             var montoSinIGV = 0;
 
-            montoSinIGV = ($('#MontoX').val() / 1.18);
+            montoSinIGV = Math.round(($('#MontoX').val() / 1.18) * 100) / 100;
 
             $('#MontoSinIGVX').val(montoSinIGV);
         }
@@ -135,7 +135,7 @@
         function ActualizarMontoConIGV_X() {
             var montoConIGV = 0;
             
-            montoConIGV = ($('#MontoSinIGVX').val() * 1.18);
+            montoConIGV = Math.round(($('#MontoSinIGVX').val() * 1.18) * 100) / 100;
 
             $('#MontoX').val(montoConIGV);
         }
