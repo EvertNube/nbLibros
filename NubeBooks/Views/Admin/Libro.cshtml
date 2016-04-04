@@ -221,7 +221,6 @@ else { cadena = "Actualizar"; }
                             <th class="text-center">Entidad</th>
                             <th class="text-center">Docum.&nbsp;</th>
                             <th class="text-center">E</th>
-                            <th class="text-center">Usuario</th>
                             <th class="text-center" style="width:7%">Opc.</th>
                         </tr>
                     </thead>
@@ -242,13 +241,12 @@ else { cadena = "Actualizar"; }
                                     <td class="text-right" width="13%">@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                     @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
                                     <td class="text-center" width="10%" style="color:#428bca;">@nCategoria</td>
-                                    <td class="text-center" width="10%"><strong>@obj.NombreEntidadR</strong></td>
+                                    <td class="text-center"><strong>@obj.NombreEntidadR</strong></td>
                                     @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
                                     <td class="text-center" width="10%">@rNumDoc</td>
                                     @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
                                         var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
                                     <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
-                                    <td class="text-center" width="10%">@obj.NombreUsuario</td>
                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                     <td class="text-center" width="7%">
                                         <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
