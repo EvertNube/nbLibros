@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="LibrosDBModel.Categoria" Width="1.5" PointX="11.25" PointY="20.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.CategoriaItm" Width="1.5" PointX="11.25" PointY="24.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.CategoriaPorPeriodo" Width="1.5" PointX="13.5" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="LibrosDBModel.Contacto" Width="1.5" PointX="16.5" PointY="29.375" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.CuentaBancaria" Width="1.5" PointX="6" PointY="24.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Empresa" Width="1.5" PointX="9" PointY="23" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.EntidadResponsable" Width="1.5" PointX="14.25" PointY="29.625" IsExpanded="true" />
@@ -41,7 +40,6 @@
         <AssociationConnector Association="LibrosDBModel.FK_CategoriaItm_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Item_CategoriaItm" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_CategoriaPorPeriodo_Periodo" ManuallyRouted="false" />
-        <AssociationConnector Association="LibrosDBModel.FK_Contacto_EntidadResponsable1" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Empresa" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_Moneda" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_CuentaBancaria_TipoCuenta" ManuallyRouted="false" />
@@ -85,6 +83,8 @@
         <AssociationConnector Association="LibrosDBModel.FK_MovimientoInv_Item" />
         <AssociationConnector Association="LibrosDBModel.FK_MovimientoInv_Ubicacion" />
         <AssociationConnector Association="LibrosDBModel.FK_MovimientoInv_Usuario" />
+        <EntityTypeShape EntityType="LibrosDBModel.Contacto" Width="1.5" PointX="16.5" PointY="39.875" />
+        <AssociationConnector Association="LibrosDBModel.FK_Contacto_EntidadResponsable1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

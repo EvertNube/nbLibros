@@ -235,25 +235,22 @@ namespace NubeBooks.Controllers
             return View();
         }
 
-        public ActionResult Empresa(int? id = null)
+        public ActionResult Empresa()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            if (!this.isSuperAdministrator()) { return RedirectToAction("Index"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             MenuNavBarSelected(0);
             UsuarioDTO currentUser = getCurrentUser();
 
             EmpresaBL objBL = new EmpresaBL();
-            ViewBag.IdEmpresa = id;
+            //ViewBag.IdEmpresa = id;
 
             var objSent = TempData["Empresa"];
             if (objSent != null) { TempData["Empresa"] = null; return View(objSent); }
-            if (id != null)
-            {
-                EmpresaDTO obj = objBL.getEmpresa((int)id);
-                if (obj == null) return RedirectToAction("Index");
-                return View(obj);
-            }
-            return View();
+            
+            EmpresaDTO obj = objBL.getEmpresaBasic(getCurrentUser().IdEmpresa);
+            if (obj == null) return RedirectToAction("Index");
+            return View(obj);
         }
 
         [HttpPost]
@@ -728,6 +725,7 @@ namespace NubeBooks.Controllers
             if (objLibro == null) { return RedirectToAction("Index", "Admin"); }
 
             ViewBag.IdTipoCuenta = objLibro.IdTipoCuenta;
+            ViewBag.lstTipoMovs = objBL.getTiposMovimientos();
             ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
             //ViewBag.lstFormaMovs = objBL.Select2_lstFormaDeMovimientos();
 

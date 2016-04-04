@@ -86,6 +86,7 @@
     <Property Name="Telefono" Type="nvarchar" MaxLength="20" />
     <Property Name="Celular" Type="nvarchar" MaxLength="20" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Cargo" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>

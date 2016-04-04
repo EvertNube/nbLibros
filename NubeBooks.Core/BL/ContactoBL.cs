@@ -22,6 +22,7 @@ namespace NubeBooks.Core.BL
                     Telefono = x.Telefono,
                     Celular = x.Celular,
                     Email = x.Email,
+                    Cargo = x.Cargo,
                     Estado = x.Estado
                 }).ToList();
                 return result;
@@ -40,6 +41,7 @@ namespace NubeBooks.Core.BL
                         Telefono = x.Telefono,
                         Celular = x.Celular,
                         Email = x.Email,
+                        Cargo = x.Cargo,
                         Estado = x.Estado,
                     }).SingleOrDefault();
                 return result;
@@ -58,6 +60,7 @@ namespace NubeBooks.Core.BL
                     nuevo.Telefono = Contacto.Telefono;
                     nuevo.Celular = Contacto.Celular;
                     nuevo.Email = Contacto.Email;
+                    nuevo.Cargo = Contacto.Cargo;
                     context.Contacto.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -81,6 +84,7 @@ namespace NubeBooks.Core.BL
                     row.Celular = Contacto.Celular;
                     row.Email = Contacto.Email;
                     row.Estado = Contacto.Estado;
+                    row.Cargo = Contacto.Cargo;
                     context.SaveChanges();
                     return true;
                 }

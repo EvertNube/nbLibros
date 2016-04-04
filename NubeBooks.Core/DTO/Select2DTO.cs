@@ -11,6 +11,7 @@ namespace NubeBooks.Core.DTO
     {
         public int id { get; set; }
         public string text { get; set; }
+        public string disabled { get; set; }
         public IList<Select2DTO> children { get; set; }
     }
 }

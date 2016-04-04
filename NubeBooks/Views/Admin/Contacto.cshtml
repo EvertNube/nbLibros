@@ -19,24 +19,33 @@ else { cadena = "Actualizar"; }
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label>Nombre del Contacto</label>
-                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del Contacto", @type = "text" })
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre del Contacto", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label>Email</label>
-                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese el email", @type = "email" })
+                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Email", @type = "email" })
                             @Html.ValidationMessageFor(u => u.Email, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Cargo</label>
+                            @Html.TextBoxFor(u => u.Cargo, new { @class = "form-control", @placeholder = "Cargo", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Cargo, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
                             <label>Teléfono</label>
-                            @Html.TextBoxFor(u => u.Telefono, new { @class = "form-control", @placeholder = "Ingrese el teléfono", @type = "text" })
+                            @Html.TextBoxFor(u => u.Telefono, new { @class = "form-control", @placeholder = "Teléfono", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Telefono, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label>Celular</label>
-                            @Html.TextBoxFor(u => u.Celular, new { @class = "form-control", @placeholder = "Ingrese el celular", @type = "text" })
+                            @Html.TextBoxFor(u => u.Celular, new { @class = "form-control", @placeholder = "Celular", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Celular, "", new { @style = "color:red;" })
                         </div>
                     </div>

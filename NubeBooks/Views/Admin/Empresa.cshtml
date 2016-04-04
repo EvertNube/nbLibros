@@ -1,7 +1,6 @@
 ﻿@using NubeBooks.Core.DTO
 @model EmpresaDTO
-@{ 
-    ViewBag.Title = "NubeLabs SCI - Empresa";
+@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section Scripts{
@@ -19,66 +18,35 @@
         }
     </script>
 }
-
-<section class="vbox">
-    <section class="scrollable padder">
-        <div class="row m-b">
-            <div class="col-xs-12 col-md-10 col-md-offset-1">
-                @if (Model == null || Model.IdEmpresa == 0)
-                {
-                    <h2>Nueva Empresa</h2>
-                }
-                else
-                {
-                    <h2>Actualizar Empresa</h2>
-                }
-
-                @using (Html.BeginForm("AddEmpresa", "Admin", FormMethod.Post))
-                {
-                    @Html.ValidationSummary(true)
-                    <div class="row m-b">
-                        <div class="col-xs-12 col-md-8">
-                            @Html.Partial("_showAlertMessages")
-
-                            <section class="panel panel-default">
-                                <header class="panel-heading font-bold">Formulario de Registro</header>
-                                <div class="panel-body">
-                                    <div class="form-group">
-                                        <label>Nombre de la Empresa</label>
-                                        @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre de la entidad", @type = "text" })
-                                        @Html.ValidationMessageFor(u => u.Nombre)
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Descripción</label>
-                                        @Html.TextAreaFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Ingrese la detracción de la entidad", @type = "text", @rows = "7", style = "resize: none;" })
-                                        @Html.ValidationMessageFor(u => u.Descripcion)
-                                    </div>
-                                    @if (ViewBag.EsAdmin && Model != null && Model.IdEmpresa > 0)
-                                    {
-                                        <div class="line line-dashed line-lg pull-in"></div>
-                                        <div class="checkbox">
-                                            <label>
-                                                @Html.CheckBoxFor(u => u.Estado)
-                                                Activo
-                                            </label>
-                                            @Html.ValidationMessageFor(u => u.Estado)
-                                        </div>}
-                                    else
-                                    {
-                                        @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
-                                    }
-                                    <div class="line line-dashed line-lg pull-in"></div>
-                                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model != null ? Model.IdEmpresa.ToString() : "", @type = "hidden" })
-                                    @{var btnName = (Model != null && Model.IdEmpresa > 0) ? "Guardar Cambios" : "Crear";}
-                                    <button type="submit" class="btn btn-sm btn-success">@btnName</button>
-                                    <a class="btn btn-sm btn-danger" href="@Url.Action("Index")">Salir</a>
-                                </div>
-                            </section>
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Actualizar Empresa</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddEmpresa", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la Empresa", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-6">
+                            <label>Tipo de Cambio</label>
+                            @Html.TextBoxFor(u => u.TipoCambio, new { @class = "form-control", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                            @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa != 0 ? Model.IdEmpresa.ToString() : "", @type = "hidden" })
+                <button type="submit" class="btn btn-sm btn-success">Guardar Cambios</button>
+                <a class="btn btn-default" href="@Url.Action("Index", "Admin")">Cancelar</a>
+            }
         </div>
-    </section>
-</section>
-
+    </div>
+</div>

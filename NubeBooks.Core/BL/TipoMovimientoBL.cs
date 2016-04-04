@@ -23,7 +23,7 @@ namespace NubeBooks.Core.BL
                     IdTipoMovimiento = x.IdTipoMovimiento,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
-                }).ToList();
+                }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
         }

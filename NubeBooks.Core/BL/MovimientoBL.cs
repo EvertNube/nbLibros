@@ -219,7 +219,7 @@ namespace NubeBooks.Core.BL
             if (!AsSelectList)
             {
                 //return oBL.getTiposMovimientos();
-                var lista = oBL.getTiposMovimientos().OrderByDescending(x => x.IdTipoMovimiento).ToList();
+                var lista = oBL.getTiposMovimientos().ToList();
                 return lista;
             }
             else
@@ -385,10 +385,11 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                var result = context.TipoMovimiento.Select(x => new Select2DTO
+                var result = context.TipoMovimiento.AsEnumerable().Select(x => new Select2DTO
                 {
                     id = x.IdTipoMovimiento,
                     text = x.Nombre,
+                    disabled = "true",
                     children = x.FormaMovimiento.Select(z => new Select2DTO
                     {
                         id = z.IdFormaMovimiento,

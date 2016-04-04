@@ -17,6 +17,7 @@ namespace NubeBooks.Core.DTO
         public string Email { get; set; }
         public string Telefono { get; set; }
         public string Celular { get; set; }
+        public string Cargo { get; set; }
         public bool Estado { get; set; }
     }
 }

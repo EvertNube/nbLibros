@@ -21,6 +21,7 @@ namespace NubeBooks.Data
         public string Telefono { get; set; }
         public string Celular { get; set; }
         public bool Estado { get; set; }
+        public string Cargo { get; set; }
     
         public virtual EntidadResponsable EntidadResponsable { get; set; }
     }

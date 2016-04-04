@@ -176,6 +176,7 @@ namespace NubeBooks.Core.BL
                             Telefono = x.Telefono,
                             Celular = x.Celular,
                             Email = x.Email,
+                            Cargo = x.Cargo,
                             Estado = x.Estado
                         }).ToList()
                     }).SingleOrDefault();

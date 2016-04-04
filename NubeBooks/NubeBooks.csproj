@@ -338,6 +338,7 @@
     <Content Include="Content\themes\admin-nb\img\logo.png" />
     <Content Include="Content\themes\admin-nb\img\p0.jpg" />
     <Content Include="Content\themes\admin-nb\img\rodrigo-sarria.jpg" />
+    <Content Include="Content\themes\admin-nb\img\user.png" />
     <Content Include="Content\themes\admin-nb\js\._app.min.js" />
     <Content Include="Content\themes\admin-nb\js\._app.src.js" />
     <Content Include="Content\themes\admin-nb\js\._ui-client.js" />

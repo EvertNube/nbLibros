@@ -60,19 +60,6 @@
     <NavigationProperty Name="Categoria" Relationship="Self.FK_CategoriaPorPeriodo_Categoria" FromRole="CategoriaPorPeriodo" ToRole="Categoria" />
     <NavigationProperty Name="Periodo" Relationship="Self.FK_CategoriaPorPeriodo_Periodo" FromRole="CategoriaPorPeriodo" ToRole="Periodo" />
   </EntityType>
-  <EntityType Name="Contacto">
-    <Key>
-      <PropertyRef Name="IdContacto" />
-    </Key>
-    <Property Name="IdContacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
-    <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Celular" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="Contacto" ToRole="EntidadResponsable" />
-  </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
       <PropertyRef Name="IdCuentaBancaria" />
@@ -142,7 +129,6 @@
     <Property Name="Banco" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="CuentaSoles" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CuentaDolares" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
     <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
     <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
@@ -150,6 +136,7 @@
     <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Proyecto" />
     <NavigationProperty Name="Comprobante" Relationship="LibrosDBModel.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="MovimientoInv" Relationship="LibrosDBModel.FK_MovimientoInv_EntidadResponsable" FromRole="EntidadResponsable" ToRole="MovimientoInv" />
+    <NavigationProperty Name="Contacto" Relationship="LibrosDBModel.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
   </EntityType>
   <EntityType Name="EstadoMovimiento">
     <Key>
@@ -469,18 +456,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Contacto_EntidadResponsable1">
-    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
-    <End Role="Contacto" Type="Self.Contacto" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="EntidadResponsable">
-        <PropertyRef Name="IdEntidadResponsable" />
-      </Principal>
-      <Dependent Role="Contacto">
-        <PropertyRef Name="IdEntidadResponsable" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_CuentaBancaria_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
@@ -727,7 +702,6 @@
     <EntitySet Name="Categoria" EntityType="Self.Categoria" />
     <EntitySet Name="CategoriaItm" EntityType="Self.CategoriaItm" />
     <EntitySet Name="CategoriaPorPeriodo" EntityType="Self.CategoriaPorPeriodo" />
-    <EntitySet Name="Contacto" EntityType="Self.Contacto" />
     <EntitySet Name="CuentaBancaria" EntityType="Self.CuentaBancaria" />
     <EntitySet Name="Empresa" EntityType="Self.Empresa" />
     <EntitySet Name="EntidadResponsable" EntityType="Self.EntidadResponsable" />
@@ -781,10 +755,6 @@
     <AssociationSet Name="FK_CategoriaPorPeriodo_Periodo" Association="Self.FK_CategoriaPorPeriodo_Periodo">
       <End Role="Periodo" EntitySet="Periodo" />
       <End Role="CategoriaPorPeriodo" EntitySet="CategoriaPorPeriodo" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Contacto_EntidadResponsable1" Association="Self.FK_Contacto_EntidadResponsable1">
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-      <End Role="Contacto" EntitySet="Contacto" />
     </AssociationSet>
     <AssociationSet Name="FK_CuentaBancaria_Empresa" Association="Self.FK_CuentaBancaria_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
@@ -1066,6 +1036,11 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <EntitySet Name="Contacto" EntityType="LibrosDBModel.Contacto" />
+    <AssociationSet Name="FK_Contacto_EntidadResponsable1" Association="LibrosDBModel.FK_Contacto_EntidadResponsable1">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Contacto" EntitySet="Contacto" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1620,4 +1595,30 @@
     <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
     <Property Type="Int32" Name="SaldoItem" Nullable="true" />
   </ComplexType>
+  <EntityType Name="Contacto">
+    <Key>
+      <PropertyRef Name="IdContacto" />
+    </Key>
+    <Property Name="IdContacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Celular" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_Contacto_EntidadResponsable1" FromRole="Contacto" ToRole="EntidadResponsable" />
+  </EntityType>
+  <Association Name="FK_Contacto_EntidadResponsable1">
+    <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="1" />
+    <End Type="LibrosDBModel.Contacto" Role="Contacto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Contacto">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -78,6 +78,22 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+
+        public EmpresaDTO getEmpresaBasic(int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Empresa.Where(x => x.IdEmpresa == id)
+                    .Select(x => new EmpresaDTO
+                    {
+                        IdEmpresa = x.IdEmpresa,
+                        Nombre = x.Nombre,
+                        TipoCambio = x.TipoCambio
+                    }).SingleOrDefault();
+                return result;
+            }
+        }
+
         public bool add(EmpresaDTO Empresa)
         {
             using (var context = getContext())
@@ -108,10 +124,10 @@ namespace NubeBooks.Core.BL
                 {
                     var row = context.Empresa.Where(x => x.IdEmpresa == Empresa.IdEmpresa).SingleOrDefault();
                     row.Nombre = Empresa.Nombre;
-                    row.Estado = Empresa.Estado;
-                    row.Descripcion = Empresa.Descripcion;
+                    row.Estado = true;
+                    //row.Descripcion = Empresa.Descripcion;
                     row.TipoCambio = Empresa.TipoCambio;
-                    row.IdPeriodo = Empresa.IdPeriodo;
+                    //row.IdPeriodo = Empresa.IdPeriodo;
                     context.SaveChanges();
                     return true;
                 }

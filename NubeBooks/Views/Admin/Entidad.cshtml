@@ -168,8 +168,9 @@ else { cadena = "Actualizar"; }
 }" class="table table-striped b-t b-b dataTable">
                     <thead>
                         <tr>
-                            <th width="20%">Nombre</th>
+                            <th width="15%">Nombre</th>
                             <th class="text-center">Email</th>
+                            <th class="text-center">Cargo</th>
                             <th class="text-center">Teléfono</th>
                             <th class="text-center">Celular</th>
                             <th class="text-center">Estado</th>
@@ -185,6 +186,7 @@ else { cadena = "Actualizar"; }
                                 <tr @Html.Raw(classInactive)>
                                     <td>@obj.Nombre</td>
                                     <td class="text-center">@obj.Email</td>
+                                    <td class="text-center">@obj.Cargo</td>
                                     <td class="text-center">@obj.Telefono</td>
                                     <td class="text-center">@obj.Celular</td>
                                     @{ var eColor = obj.Estado ? "#27c24c" : "red"; }
