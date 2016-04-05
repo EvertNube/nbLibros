@@ -11,6 +11,9 @@
                 $('.alert.alert-success').removeClass('hidden');
             });
         });
+        function handleClick(element) {
+            window.location.href = '@Url.Action("EntidadesProveedores", "Admin")' + "?inactivos=" + element.checked;
+        }
     </script>
 }
 
@@ -77,6 +80,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="checkbox">
+        <label class="i-checks">
+            <input type="checkbox" value="@(ViewBag.vbInactivos == true ? "true" : "false")" checked="@ViewBag.vbInactivos" onclick="handleClick(this);"><i></i> Mostrar Inactivos
+        </label>
     </div>
 </div>
 

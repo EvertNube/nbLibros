@@ -26,6 +26,21 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+        public List<AreaDTO> getAreasActivasEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Area.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new AreaDTO
+                {
+                    IdArea = x.IdArea,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
         public List<AreaDTO> getAreasEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())

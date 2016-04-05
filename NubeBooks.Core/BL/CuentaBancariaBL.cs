@@ -36,6 +36,26 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+        public List<CuentaBancariaDTO> getCuentasBancariasActivasPorTipoEnEmpresa(int idEmpresa, int pTipoCuenta)
+        {
+            using (var context = getContext())
+            {
+                var result = context.CuentaBancaria.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoCuenta == pTipoCuenta && x.Estado).Select(x => new CuentaBancariaDTO
+                {
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    NombreCuenta = x.NombreCuenta,
+                    FechaConciliacion = x.FechaConciliacion,
+                    SaldoDisponible = x.SaldoDisponible,
+                    SaldoBancario = x.SaldoBancario,
+                    Estado = x.Estado,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    IdTipoCuenta = x.IdTipoCuenta
+                }).ToList();
+                return result;
+            }
+        }
         public List<CuentaBancariaDTO> getCuentasBancariasEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())

@@ -39,7 +39,30 @@ namespace NubeBooks.Core.BL
                 return result.ToList<UsuarioDTO>();
             }
         }
-
+        public List<UsuarioDTO> getUsuariosActivosEnEmpresa(int idEmpresa, int IdRol)
+        {
+            using (var context = getContext())
+            {
+                //where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdUsuario != 1 && r.IdEmpresa == idEmpresa
+                var result = from r in context.Usuario.AsEnumerable()
+                             where getRoleKeys(IdRol).Contains(r.IdRol) && r.IdEmpresa == idEmpresa && r.Estado
+                             select new UsuarioDTO
+                             {
+                                 IdUsuario = r.IdUsuario,
+                                 Nombre = r.Nombre,
+                                 Email = r.Email,
+                                 Cuenta = r.Cuenta,
+                                 Active = r.Estado,
+                                 IdRol = r.IdRol, //?? 0
+                                 NombreRol = r.Rol.Nombre,
+                                 IdCargo = r.IdCargo,
+                                 IdEmpresa = r.IdEmpresa,
+                                 nombreEmpresa = r.Empresa.Nombre ?? "N/A",
+                                 Token = r.Token
+                             };
+                return result.ToList<UsuarioDTO>();
+            }
+        }
         public IList<UsuarioDTO> getUsuarios()
         {
             using (var context = getContext())

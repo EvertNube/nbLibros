@@ -6,6 +6,8 @@
 }
 @section scripts{
     <script type="text/javascript">
+        var inactivos = '@ViewBag.vbInactivos';
+
         $(function () {
             $('.input-group.date').datepicker();
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
@@ -22,6 +24,11 @@
             var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
             return "/Admin/ExportarLibros/?idTipoCuenta=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+
+        function handleClick(element)
+        {
+            window.location.href = '@Url.Action("LibrosBancarios", "Admin")' + "?inactivos=" + element.checked;
         }
     </script>
 }
@@ -84,6 +91,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="checkbox">
+        <label class="i-checks">
+            <input type="checkbox" value="@(ViewBag.vbInactivos == true ? "true" : "false")" checked="@ViewBag.vbInactivos" onclick="handleClick(this);"><i></i> Mostrar Inactivos
+        </label>
     </div>
 </div>
 

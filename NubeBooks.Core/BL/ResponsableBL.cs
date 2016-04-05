@@ -26,6 +26,21 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+        public List<ResponsableDTO> getResponsablesActivosEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Responsable.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ResponsableDTO
+                {
+                    IdResponsable = x.IdResponsable,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
         public List<ResponsableDTO> getResponsablesEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())

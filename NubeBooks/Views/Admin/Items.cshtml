@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 @section scripts{
+    <script type="text/javascript">
+        function handleClick(element) {
+            window.location.href = '@Url.Action("Items", "Admin")' + "?inactivos=" + element.checked;
+        }
+    </script>
 }
 
 <div class="bg-light lter b-b wrapper-md">
@@ -67,6 +72,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="checkbox">
+        <label class="i-checks">
+            <input type="checkbox" value="@(ViewBag.vbInactivos == true ? "true" : "false")" checked="@ViewBag.vbInactivos" onclick="handleClick(this);"><i></i> Mostrar Inactivos
+        </label>
     </div>
 </div>
 

@@ -25,6 +25,20 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+        public List<HonorarioDTO> getHonorariosActivosEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Honorario.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new HonorarioDTO
+                {
+                    IdHonorario = x.IdHonorario,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa
+                }).ToList();
+                return result;
+            }
+        }
         public List<HonorarioDTO> getHonorariosEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())

@@ -332,7 +332,7 @@ namespace NubeBooks.Controllers
             return View("Libros", listaLibros);
         }
 
-        public ActionResult LibrosBancarios()
+        public ActionResult LibrosBancarios(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Bancarios";
@@ -341,14 +341,18 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> lista = new List<CuentaBancariaDTO>();
+            ViewBag.vbInactivos = inactivos;
 
             if (user.IdEmpresa != 0)
             {
-                lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 1);
+                if (!inactivos)
+                { lista = objBL.getCuentasBancariasActivasPorTipoEnEmpresa(user.IdEmpresa, 1); }
+                else
+                { lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 1); }
             }
             return View(lista);
         }
-        public ActionResult LibrosAdministrativos()
+        public ActionResult LibrosAdministrativos(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             ViewBag.Title += " - Administrativos";
@@ -357,10 +361,14 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             List<CuentaBancariaDTO> lista = new List<CuentaBancariaDTO>();
+            ViewBag.vbInactivos = inactivos;
 
             if (user.IdEmpresa != 0)
             {
-                lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 2);
+                if (!inactivos)
+                { lista = objBL.getCuentasBancariasActivasPorTipoEnEmpresa(user.IdEmpresa, 2); }
+                else
+                { lista = objBL.getCuentasBancariasPorTipoEnEmpresa(user.IdEmpresa, 2); }
             }
             return View(lista);
         }
@@ -863,7 +871,7 @@ namespace NubeBooks.Controllers
             }
             return RedirectToAction("Libro", "Admin", new { id = idCuentaBancaria });
         }
-        public ActionResult Usuarios()
+        public ActionResult Usuarios(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
@@ -871,12 +879,16 @@ namespace NubeBooks.Controllers
             MenuNavBarSelected(9);
 
             UsuarioDTO currentUser = getCurrentUser();
-
             UsuariosBL usuariosBL = new UsuariosBL();
             List<UsuarioDTO> listaUsuarios = new List<UsuarioDTO>();
+            ViewBag.vbInactivos = inactivos;
+
             if (currentUser.IdEmpresa > 0)
             {
-                listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa, currentUser.IdRol);
+                if (!inactivos)
+                { listaUsuarios = usuariosBL.getUsuariosActivosEnEmpresa(currentUser.IdEmpresa, currentUser.IdRol); }
+                else
+                { listaUsuarios = usuariosBL.getUsuariosEnEmpresa(currentUser.IdEmpresa, currentUser.IdRol); }
             }
 
             return View(listaUsuarios);
@@ -986,7 +998,7 @@ namespace NubeBooks.Controllers
             }
             return View(listaEntidades);
         }
-        public ActionResult EntidadesClientes()
+        public ActionResult EntidadesClientes(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
@@ -999,12 +1011,19 @@ namespace NubeBooks.Controllers
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             List<EntidadResponsableDTO> lista = new List<EntidadResponsableDTO>();
 
+            ViewBag.vbInactivos = inactivos;
+
             if (user.IdEmpresa > 0)
-            { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 1); }
+            { 
+                if (!inactivos)
+                { lista = objBL.getEntidadesResponsablesActivasPorTipoEnEmpresa(user.IdEmpresa, 1); }
+                else
+                { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 1); }
+            }
 
             return View(lista);
         }
-        public ActionResult EntidadesProveedores()
+        public ActionResult EntidadesProveedores(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
@@ -1017,8 +1036,15 @@ namespace NubeBooks.Controllers
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             List<EntidadResponsableDTO> lista = new List<EntidadResponsableDTO>();
 
+            ViewBag.vbInactivos = inactivos;
+
             if (user.IdEmpresa > 0)
-            { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 2); }
+            { 
+                if (!inactivos)
+                { lista = objBL.getEntidadesResponsablesActivasPorTipoEnEmpresa(user.IdEmpresa, 2); }
+                else
+                { lista = objBL.getEntidadesResponsablesPorTipoEnEmpresa(user.IdEmpresa, 2); }
+            }
 
             return View(lista);
         }
@@ -1667,7 +1693,7 @@ namespace NubeBooks.Controllers
             if (dto != null) { cadena = dto.IdTipoMovimientoInv == 1 ? "Ingreso" : "Egreso"; }
             return RedirectToAction("Inventarios" + cadena, "Admin");
         }
-        public ActionResult Items()
+        public ActionResult Items(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -1678,9 +1704,14 @@ namespace NubeBooks.Controllers
             ItemBL objBL = new ItemBL();
             List<ItemDTO> listaItems = new List<ItemDTO>();
 
+            ViewBag.vbInactivos = inactivos;
+
             if (user.IdEmpresa > 0)
             {
-                listaItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
+                if (!inactivos)
+                { listaItems = objBL.getItemsActivosEnEmpresa(user.IdEmpresa); }
+                else
+                { listaItems = objBL.getItemsEnEmpresa(user.IdEmpresa); }
             }
             return View(listaItems);
         }
@@ -1755,7 +1786,7 @@ namespace NubeBooks.Controllers
             TempData["Item"] = dto;
             return RedirectToAction("Item");
         }
-        public ActionResult CategoriaItms()
+        public ActionResult CategoriaItms(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -1765,10 +1796,15 @@ namespace NubeBooks.Controllers
 
             CategoriaItmBL objBL = new CategoriaItmBL();
             List<CategoriaItmDTO> listaCategoriaItms = new List<CategoriaItmDTO>();
+            ViewBag.vbInactivos = inactivos;
 
             if (user.IdEmpresa > 0)
             {
                 listaCategoriaItms = objBL.getCategoriaItmsEnEmpresa(user.IdEmpresa);
+                if (!inactivos)
+                { listaCategoriaItms = objBL.getCategoriaItmsActivasEnEmpresa(user.IdEmpresa); }
+                else
+                { listaCategoriaItms = objBL.getCategoriaItmsEnEmpresa(user.IdEmpresa); }
             }
             return View(listaCategoriaItms);
         }
@@ -1842,7 +1878,7 @@ namespace NubeBooks.Controllers
             TempData["CategoriaItm"] = dto;
             return RedirectToAction("CategoriaItm");
         }
-        public ActionResult Ubicaciones()
+        public ActionResult Ubicaciones(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -1852,10 +1888,15 @@ namespace NubeBooks.Controllers
 
             UbicacionBL objBL = new UbicacionBL();
             List<UbicacionDTO> listaUbicacions = new List<UbicacionDTO>();
+            ViewBag.vbInactivos = inactivos;
 
             if (user.IdEmpresa > 0)
             {
                 listaUbicacions = objBL.getUbicacionsEnEmpresa(user.IdEmpresa);
+                if (!inactivos)
+                { listaUbicacions = objBL.getUbicacionsActivasEnEmpresa(user.IdEmpresa); }
+                else
+                { listaUbicacions = objBL.getUbicacionsEnEmpresa(user.IdEmpresa); }
             }
             return View(listaUbicacions);
         }
@@ -1929,7 +1970,7 @@ namespace NubeBooks.Controllers
             TempData["Ubicacion"] = dto;
             return RedirectToAction("Ubicacion");
         }
-        public ActionResult Areas()
+        public ActionResult Areas(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -1940,9 +1981,14 @@ namespace NubeBooks.Controllers
             AreaBL objBL = new AreaBL();
             List<AreaDTO> listaAreas = new List<AreaDTO>();
 
+            ViewBag.vbInactivos = inactivos;
+
             if (currentUser.IdEmpresa > 0)
             {
-                listaAreas = objBL.getAreasEnEmpresa(currentUser.IdEmpresa);
+                if (!inactivos)
+                { listaAreas = objBL.getAreasActivasEnEmpresa(currentUser.IdEmpresa); }
+                else
+                { listaAreas = objBL.getAreasEnEmpresa(currentUser.IdEmpresa); }
             }
             return View(listaAreas);
         }
@@ -2016,7 +2062,7 @@ namespace NubeBooks.Controllers
             TempData["Area"] = dto;
             return RedirectToAction("Area");
         }
-        public ActionResult Responsables()
+        public ActionResult Responsables(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -2024,13 +2070,18 @@ namespace NubeBooks.Controllers
             MenuNavBarSelected(5);
 
             UsuarioDTO currentUser = getCurrentUser();
-
             ResponsableBL objBL = new ResponsableBL();
             List<ResponsableDTO> listaResponsables = new List<ResponsableDTO>();
+
+            ViewBag.vbInactivos = inactivos;
 
             if (currentUser.IdEmpresa > 0)
             {
                 listaResponsables = objBL.getResponsablesEnEmpresa(currentUser.IdEmpresa);
+                if (!inactivos)
+                { listaResponsables = objBL.getResponsablesActivosEnEmpresa(currentUser.IdEmpresa); }
+                else
+                { listaResponsables = objBL.getResponsablesEnEmpresa(currentUser.IdEmpresa); }
             }
             return View(listaResponsables);
         }
@@ -2106,7 +2157,7 @@ namespace NubeBooks.Controllers
             return RedirectToAction("Responsable");
         }
 
-        public ActionResult Honorarios()
+        public ActionResult Honorarios(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -2118,9 +2169,14 @@ namespace NubeBooks.Controllers
             HonorarioBL objBL = new HonorarioBL();
             List<HonorarioDTO> listaHonorarios = new List<HonorarioDTO>();
 
+            ViewBag.vbInactivos = inactivos;
+
             if (currentUser.IdEmpresa > 0)
             {
-                listaHonorarios = objBL.getHonorariosEnEmpresa(currentUser.IdEmpresa);
+                if (!inactivos)
+                { listaHonorarios = objBL.getHonorariosActivosEnEmpresa(currentUser.IdEmpresa); }
+                else
+                { listaHonorarios = objBL.getHonorariosEnEmpresa(currentUser.IdEmpresa); }
             }
             return View(listaHonorarios);
         }
@@ -2376,7 +2432,7 @@ namespace NubeBooks.Controllers
             return RedirectToAction("Contacto");
         }
 
-        public ActionResult Periodos()
+        public ActionResult Periodos(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
@@ -2387,10 +2443,14 @@ namespace NubeBooks.Controllers
 
             PeriodoBL objBL = new PeriodoBL();
             List<PeriodoDTO> listaPeriodos = new List<PeriodoDTO>();
+            ViewBag.vbInactivos = inactivos;
 
             if (currentUser.IdEmpresa > 0)
             {
-                listaPeriodos = objBL.getPeriodosEnEmpresa(currentUser.IdEmpresa);
+                if (!inactivos)
+                { listaPeriodos = objBL.getPeriodosActivosEnEmpresa(currentUser.IdEmpresa); }
+                else
+                { listaPeriodos = objBL.getPeriodosEnEmpresa(currentUser.IdEmpresa); }
             }
             return View(listaPeriodos);
         }

@@ -24,6 +24,20 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
+        public List<UbicacionDTO> getUbicacionsActivasEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Ubicacion.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new UbicacionDTO
+                {
+                    IdUbicacion = x.IdUbicacion,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa
+                }).ToList();
+                return result;
+            }
+        }
         public List<UbicacionDTO> getUbicacionsEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())

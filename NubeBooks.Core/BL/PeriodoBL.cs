@@ -27,6 +27,22 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+        public List<PeriodoDTO> getPeriodosActivosEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Periodo.Where(x => x.IdEmpresa == idEmpresa && x.Active).Select(x => new PeriodoDTO
+                {
+                    IdPeriodo = x.IdPeriodo,
+                    Nombre = x.Nombre,
+                    FechaInicio = x.FechaInicio,
+                    FechaFin = x.FechaFin,
+                    Active = x.Active,
+                    IdEmpresa = x.IdEmpresa
+                }).ToList();
+                return result;
+            }
+        }
         public List<PeriodoDTO> getPeriodosEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())

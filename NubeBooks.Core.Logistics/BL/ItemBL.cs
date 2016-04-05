@@ -28,6 +28,24 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
+        public List<ItemDTO> getItemsActivosEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Item.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ItemDTO
+                {
+                    IdItem = x.IdItem,
+                    IdCategoriaItm = x.IdCategoriaItm,
+                    Codigo = x.Codigo,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    UnidadMedida = x.UnidadMedida,
+                    Estado = x.Estado,
+                    IdEmpresa = x.IdEmpresa
+                }).ToList();
+                return result;
+            }
+        }
         public List<ItemDTO> getItemsEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())
@@ -101,7 +119,7 @@ namespace NubeBooks.Core.Logistics.BL
                     row.Nombre = Item.Nombre;
                     row.Descripcion = Item.Descripcion;
                     row.UnidadMedida = Item.UnidadMedida;
-                    row.Estado = true;
+                    row.Estado = Item.Estado;
                     row.IdEmpresa = Item.IdEmpresa;
                     context.SaveChanges();
                     return true;
