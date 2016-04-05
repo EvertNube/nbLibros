@@ -130,11 +130,6 @@
                                                         </div>
                                                     }
                                                 </div>
-                                                @*<div class="col-sm-3 col-xs-3 text-center">
-                                                    <div class="btn-group">
-                                                        <label style="transform:translateY(20%)"><input class="btn-showInactive" type="checkbox" id="btn-showInactive@("-" + item.IdTipoComprobante)" /> Mostrar Inactivos</label>
-                                                    </div>
-                                                </div>*@
                                                 <div class="col-sm-6 col-xs-6">
                                                     @if (!ViewBag.EsUsuarioExterno)
                                                     {<a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = item.IdTipoComprobante })"><i class="fa fa-plus"></i> Crear nuevo @item.Nombre</a>}

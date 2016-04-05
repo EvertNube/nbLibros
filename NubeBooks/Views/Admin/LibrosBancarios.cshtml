@@ -72,7 +72,8 @@
                                 <td class="text-center">@item.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                 <td class="text-center">@item.SimboloMoneda @item.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
                                 <td class="text-center">@item.SimboloMoneda @item.SaldoBancario.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                <td class="text-center">@(item.Estado ? "Activo" : "Inactivo" )</td>
+                                @{ var eColor = item.Estado ? "#27c24c" : "red"; }
+                                <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
                                     <a href="@Url.Action("Libro", "Admin", new { id = item.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>

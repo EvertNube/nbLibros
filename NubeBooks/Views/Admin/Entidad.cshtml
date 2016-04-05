@@ -117,7 +117,7 @@ else { cadena = "Actualizar"; }
                                 <label>Estado</label>
                                 <div>
                                     <label class="i-switch m-t-xs m-r">
-                                        <input id="Estado" name="Estado" type="checkbox" value="@Model.Estado" checked="@Model.Estado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <input id="Estado" name="Estado" type="checkbox" value="@(Model.Estado ? "true" : "false")" checked="@Model.Estado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
                                         <i></i>
                                     </label>
                                 </div>
@@ -127,7 +127,7 @@ else { cadena = "Actualizar"; }
                 }
                 else
                 {
-                    @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                    @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : true, @type = "hidden" })
                 }
                 <div class="line line-dashed b-b line-lg pull-in"></div>
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })

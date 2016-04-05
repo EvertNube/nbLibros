@@ -49,9 +49,9 @@
                                 <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
-                                    <a href="@Url.Action("CategoriaItm", "Admin", new { id = item.IdCategoriaItm })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                    <a href="@Url.Action("CategoriaItm", "Admin", new { id = item.IdCategoriaItm })"><i class="fa fa-@rIcon" title="@rTitle">&nbsp;&nbsp;</i></a>
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdCategoriaItm"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdCategoriaItm"><i class="fa fa-trash" title="Eliminar"></i></a>}
                                 </td>
                             </tr>
                                         }

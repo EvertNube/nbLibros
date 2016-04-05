@@ -134,7 +134,7 @@ else { cadena = "Actualizar"; }
                                 <label>Active</label>
                                 <div>
                                     <label class="i-switch m-t-xs m-r">
-                                        <input id="Active" name="Active" type="checkbox" value="@Model.Active" checked="@Model.Active" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <input id="Active" name="Active" type="checkbox" value="@(Model.Active ? "true" : "false")" checked="@Model.Active" onchange="cb=$(this);cb.val(cb.prop('checked'));">
                                         <i></i>
                                     </label>
                                 </div>
