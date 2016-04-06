@@ -311,6 +311,102 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public List<LiquidezDTO> getFacturacionEnEmpresaPorMoneda(int idEmpresa, int Moneda, DateTime fecha)
+        {
+            using (var context = getContext())
+            {
+                DateStartEndDTO currentDate = GetDateStartEnd_In_Date(fecha);
+
+                List<ComprobanteDTO> lista = (from cmp in context.Comprobante
+                                              where cmp.IdEmpresa == idEmpresa && cmp.Estado == true 
+                                              && (cmp.FechaEmision <= currentDate.lastDayYear && cmp.FechaEmision >= currentDate.firstDayYear)
+                                              select new ComprobanteDTO
+                                              {
+                                                  IdComprobante = cmp.IdComprobante,
+                                                  IdTipoComprobante = cmp.IdTipoComprobante,
+                                                  FechaEmision = cmp.FechaEmision,
+                                                  Monto = cmp.Monto,
+                                                  MontoSinIGV = cmp.MontoSinIGV,
+                                                  TipoCambio = cmp.TipoCambio,
+                                                  IdMoneda = cmp.IdMoneda
+                                              }).ToList();
+
+                List<LiquidezDTO> lstFac = new List<LiquidezDTO>();
+
+                switch (Moneda)
+                {
+                    case 1:
+                        for (int i = 12; i > 0; i--)
+                        {
+                            LiquidezDTO nuevo = new LiquidezDTO();
+                            //nuevo.Mes = (currentDate.today.Month - i) > 0 ? (currentDate.today.Month - i) : (currentDate.today.Month + 12 - i);
+                            nuevo.Mes = i;
+
+                            Decimal Soles = 0, Dolares = 0;
+                            //Total de Soles + Total de Dolares a ==> SOLES
+                            Soles = lista.Where(x => x.IdTipoComprobante == 1 && x.IdMoneda == 1 && x.FechaEmision.Month == nuevo.Mes).Sum(x => x.Monto);
+                            Dolares = lista.Where(x => x.IdTipoComprobante == 1 && x.IdMoneda == 2 && x.FechaEmision.Month == nuevo.Mes).Sum(x => x.Monto * x.TipoCambio);
+
+                            nuevo.Monto = Soles + Dolares;
+                            lstFac.Add(nuevo);
+                        }
+                        break;
+                    default:
+                        for (int i = 12; i > 0; i--)
+                        {
+                            LiquidezDTO nuevo = new LiquidezDTO();
+                            //nuevo.Mes = (currentDate.today.Month - i) > 0 ? (currentDate.today.Month - i) : (currentDate.today.Month + 12 - i);
+                            nuevo.Mes = i;
+
+                            Decimal Soles = 0, Dolares = 0;
+                            //Total de Soles + Total de Dolares a ==> SOLES
+                            Soles = lista.Where(x => x.IdTipoComprobante == 1 && x.IdMoneda == 1 && x.FechaEmision.Month == nuevo.Mes).Sum(x => x.Monto / (x.TipoCambio != 0 ? x.TipoCambio : 1));
+                            Dolares = lista.Where(x => x.IdTipoComprobante == 1 && x.IdMoneda == 2 && x.FechaEmision.Month == nuevo.Mes).Sum(x => x.Monto);
+
+                            nuevo.Monto = Soles + Dolares;
+                            lstFac.Add(nuevo);
+                        }
+                        break;
+                }
+
+                return lstFac;
+            }
+        }
+
+        public List<LiquidezDTO> getVariacionPorcentual_12Meses(List<LiquidezDTO> lista1, List<LiquidezDTO> lista2)
+        {
+            List<string> meses = new List<string>() { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+            List<LiquidezDTO> lista = new List<LiquidezDTO>();
+            
+            for (int i = 0; i < 12; i++)
+            {
+                LiquidezDTO nuevo = new LiquidezDTO();
+                nuevo.Monto = lista2[i].Monto != 0 ? (lista1[i].Monto / lista2[i].Monto) - 1 : 0;
+                nuevo.Mes = lista1[i].Mes;
+                nuevo.nombreMes = meses[nuevo.Mes - 1];
+                lista.Add(nuevo);
+            }
+            return lista;
+        }
+
+        public DateStartEndDTO GetDateStartEnd_In_Date(DateTime fecha)
+        {
+            DateStartEndDTO obj = new DateStartEndDTO();
+            obj.today = fecha;
+
+            obj.firstDayYear = new DateTime(fecha.Year, 1, 1);
+            obj.lastDayYear = new DateTime(fecha.Year, 12, 31);
+
+            //obj.firstDayMonth = new DateTime(fecha.Year, fecha.Month, 1);
+            //obj.lastDayMonth = obj.firstDayMonth.AddMonths(1).AddDays(-1);
+
+            //Ultimo dia inicial de hace un año atras (YA - Year Ago)
+            //obj.firstDayMonthYA = new DateTime(fecha.Year - 1, fecha.Month + 1, 1);
+            //obj.lastDayMonthYA = obj.firstDayMonthYA.AddMonths(1).AddDays(-1);
+
+            return obj;
+        }
+
         public Decimal getEjecucionDePresupuestoEnEmpresa(int idEmpresa, int idMoneda, int idPeriodo, int tipo)
         {
             using (var context = getContext())

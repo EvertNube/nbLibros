@@ -88,6 +88,7 @@
     <Compile Include="DTO\ComprobanteR_DTO.cs" />
     <Compile Include="DTO\ContactoDTO.cs" />
     <Compile Include="DTO\CuentaBancariaDTO.cs" />
+    <Compile Include="DTO\DateStartEndDTO.cs" />
     <Compile Include="DTO\EmpresaDTO.cs" />
     <Compile Include="DTO\EntidadResponsableDTO.cs" />
     <Compile Include="DTO\EntidadResponsableR_DTO.cs" />

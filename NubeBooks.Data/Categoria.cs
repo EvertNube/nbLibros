@@ -18,8 +18,8 @@ namespace NubeBooks.Data
         public Categoria()
         {
             this.CategoriaPorPeriodo = new HashSet<CategoriaPorPeriodo>();
-            this.Movimiento = new HashSet<Movimiento>();
             this.Comprobante = new HashSet<Comprobante>();
+            this.Movimiento = new HashSet<Movimiento>();
         }
     
         public int IdCategoria { get; set; }
@@ -33,8 +33,8 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoriaPorPeriodo> CategoriaPorPeriodo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Movimiento> Movimiento { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Movimiento> Movimiento { get; set; }
     }
 }

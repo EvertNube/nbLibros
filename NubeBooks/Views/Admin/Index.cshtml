@@ -12,7 +12,7 @@
     <script type="text/javascript">
         $(function () {
             PintarGraficaLiquidez();
-            PintarGraficaRentabilidad();
+            PintarGraficaFacturacion();
             PintarPieIngresos();
             PintarPieEgresos();
             //ObtenerTipoCambio();
@@ -71,13 +71,41 @@
             });
         }
 
+        function PintarGraficaFacturacion() {
+            var list1 = @Html.Raw(Json.Encode(ViewBag.lstFacturacion));
+            var list2 = @Html.Raw(Json.Encode(ViewBag.lstFacturacionLastYear));
+
+            var lstchart1 = [], lstchart2 = [];
+            for (var i = 0; i < 12; i++) {
+                lstchart1.push([12 - i, list1[i].Monto]);
+                lstchart2.push([12 - i, list2[i].Monto]);
+            }
+
+            $.plot($("#flot-chart2"), [{
+                data:lstchart1,
+                lines: { show: true, lineWidth: 2, fill: false, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
+            },
+            {
+                data:lstchart2,
+                lines: { show: true, lineWidth: 2, fill: false, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
+            }], {
+                colors: ['#7f8c8d', '#e8eff0'],
+                series: { shadowSize: 0 },
+                xaxis:{ font: { color: '#a1a7ac' } },
+                yaxis:{ font: { color: '#a1a7ac' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                tooltip: true,
+                tooltipOpts: { content: '%y',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+            });
+        }
+
         function PintarPieIngresos()
         {
             var list = @Html.Raw(Json.Encode(ViewBag.topIngAreas));
 
             var lstchart = [];
             var sPie = "";
-            
+
             var maxAreas = Object.size(list);
             if (maxAreas <= 0) {
                 return 0;
@@ -90,7 +118,7 @@
                 //if (i != maxAreas - 1) { sPie += ","; }
             }
 
-            $.plot($("#pie-chart"), lstchart, 
+            $.plot($("#pie-chart"), lstchart,
                 { series:
                           { pie:
                             { show: true,
@@ -100,7 +128,7 @@
                             }
                           },
                     colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
-                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
                     tooltip: true,
                     tooltipOpts: { content: '%s: %p.0%' }
                 });
@@ -112,7 +140,7 @@
 
             var lstchart = [];
             var sPie = "";
-            
+
             var maxAreas = Object.size(list);
             if (maxAreas <= 0) {
                 return 0;
@@ -125,7 +153,7 @@
                 //if (i != maxAreas - 1) { sPie += ","; }
             }
 
-            $.plot($("#pie-chart2"), lstchart, 
+            $.plot($("#pie-chart2"), lstchart,
                 { series:
                           { pie:
                             { show: true,
@@ -135,7 +163,7 @@
                             }
                           },
                     colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
-                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },   
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
                     tooltip: true,
                     tooltipOpts: { content: '%s: %p.0%' }
                 });
@@ -156,14 +184,14 @@
             var todayYear = todayDate.getFullYear();
 
             var tcUrl = 'http://code.staffsystems.us/webservices/tipo-de-cambio/serverside.php?work=get_sunat&mes=' + (todayDate.getMonth() + 1) + '&anho=' + todayDate.getFullYear();
-            
+
             jQuery.support.cors = true;
             $.ajax({
                 url: tcUrl,
                 type: 'GET',
                 crossDomain: true,
                 dataType: 'jsonp',
-                success: function (data) {                
+                success: function (data) {
                     console.log(data);
                 },
                 error: function (message) {
@@ -205,10 +233,9 @@
                                 else { vCmps += item.ToString() + "]"; }
                                 contTMC++;
                             }
-
                         }
                         <div class="m-b-xs">@totalMovs <span class="text-muted">movimientos</span></div>
-                        <div ng-init=@("d3_1="+vMovs)
+                        <div ng-init=@("d3_1=" + vMovs)
                              ui-jq="sparkline"
                              ui-options="@(vMovs), {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
                              class="sparkline inline">
@@ -217,7 +244,7 @@
                     </div>
                     <div class="inline text-left">
                         <div class="m-b-xs">@totalCmps <span class="text-muted">comprobantes</span></div>
-                        <div ng-init=@("d3_2="+vCmps)
+                        <div ng-init=@("d3_2=" + vCmps)
                              ui-jq="sparkline"
                              ui-options="@(vCmps), {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
                              class="sparkline inline">
@@ -299,13 +326,27 @@
             <!-- service -->
             <div class="panel hbox hbox-auto-xs no-border">
                 <div class="col wrapper">
-                    <h4 class="font-thin m-t-none m-b-none text-primary-lt">Rentabilidad</h4>
-                    <span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>
+                    <h4 class="font-thin m-t-none m-b-none text-primary-lt h3">Facturación</h4>
+                    @*<span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>*@
+                    <span class="m-b block text-sm text-muted">Información actualizada al @System.DateTime.Now.ToShortDateString()</span>
                     <div id="flot-chart2" style="height:240px"></div>
                 </div>
                 <div class="col wrapper-lg w-lg bg-light dk r-r">
-                    <h4 class="font-thin m-t-none m-b">Ejecución de Presupuesto</h4>
-                    <div class="">
+                    <h4 class="font-thin m-t-none m-b">Variación Porcentual</h4>
+                    <div>
+                        @*@{ List<string> meses = new List<string>() { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }; }*@
+                        @{ var sColor = "";
+                            List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
+                        @foreach (var mes in lstVPorcentualDesc)
+                        {
+                            sColor = mes.Monto >= 0 ? "success" : "danger";
+                            <div>
+                                <span class="pull-right text-@sColor">@mes.Monto.ToString("P2", CultureInfo.InvariantCulture)</span>
+                                <span>@mes.nombreMes</span>
+                            </div>
+                        }
+                    </div>
+                    @*<div class="">
                         <div class="">
                             @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
                                 Decimal PreEgr = ViewBag.EjecucionEgresos * 100;}
@@ -323,7 +364,7 @@
                             <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="@(PreEgr.ToString() + "%")" style="width: @(PreEgr.ToString() + "%")"></div>
                         </div>
                     </div>
-                    <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>
+                    <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>*@
                 </div>
             </div>
             <!-- / service -->

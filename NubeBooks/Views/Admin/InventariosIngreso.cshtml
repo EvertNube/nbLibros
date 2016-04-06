@@ -91,7 +91,6 @@
                         <th class="text-center" style="width:7%">Lote</th>
                         <th class="text-center">Stock<br />Lote</th>
                         <th class="text-center" style="width:7%">Venc.</th>
-                        <th class="text-center" style="width:7%">Usuario</th>
                         <th class="text-center" style="width:7%">Opc.</th>
                     </tr>
                 </thead>
@@ -110,7 +109,6 @@
                                 <td class="text-center">@item.SerieLote</td>
                                 <td class="text-center">@item.StockLote</td>
                                 <td class="text-center">@(item.FechaFin != null ? item.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-")</td>
-                                <td class="text-center">@item.nUsuario</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
                                     <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;

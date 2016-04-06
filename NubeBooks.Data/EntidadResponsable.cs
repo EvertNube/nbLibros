@@ -17,11 +17,11 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EntidadResponsable()
         {
-            this.Movimiento = new HashSet<Movimiento>();
-            this.Proyecto = new HashSet<Proyecto>();
             this.Comprobante = new HashSet<Comprobante>();
-            this.MovimientoInv = new HashSet<MovimientoInv>();
             this.Contacto = new HashSet<Contacto>();
+            this.Movimiento = new HashSet<Movimiento>();
+            this.MovimientoInv = new HashSet<MovimientoInv>();
+            this.Proyecto = new HashSet<Proyecto>();
         }
     
         public int IdEntidadResponsable { get; set; }
@@ -39,18 +39,18 @@ namespace NubeBooks.Data
         public string CuentaSoles { get; set; }
         public string CuentaDolares { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Contacto> Contacto { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comprobante> Comprobante { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Contacto> Contacto { get; set; }
+        public virtual ICollection<Proyecto> Proyecto { get; set; }
     }
 }

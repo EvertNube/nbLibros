@@ -34,6 +34,8 @@ namespace NubeBooks.Data
         public bool Ejecutado { get; set; }
         public Nullable<int> IdHonorario { get; set; }
         public int UsuarioCreacion { get; set; }
+        public Nullable<System.DateTime> FechaPago { get; set; }
+        public Nullable<int> IdLogUsuario { get; set; }
         public Nullable<decimal> MontoIncompleto { get; set; }
     }
 }

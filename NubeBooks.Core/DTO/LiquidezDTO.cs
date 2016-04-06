@@ -11,5 +11,6 @@ namespace NubeBooks.Core.DTO
     {
         public Decimal Monto { get; set; }
         public int Mes { get; set; }
+        public string nombreMes { get; set; }
     }
 }

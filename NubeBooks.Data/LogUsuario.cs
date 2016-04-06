@@ -12,35 +12,27 @@ namespace NubeBooks.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class LogUsuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuario()
+        public LogUsuario()
         {
             this.Comprobante = new HashSet<Comprobante>();
             this.Movimiento = new HashSet<Movimiento>();
             this.MovimientoInv = new HashSet<MovimientoInv>();
         }
     
-        public int IdUsuario { get; set; }
-        public string Nombre { get; set; }
-        public string Email { get; set; }
-        public string Cuenta { get; set; }
-        public string Pass { get; set; }
-        public bool Estado { get; set; }
-        public Nullable<System.DateTime> FechaRegistro { get; set; }
-        public int IdRol { get; set; }
-        public Nullable<int> IdCargo { get; set; }
-        public int IdEmpresa { get; set; }
-        public string Token { get; set; }
+        public int IdLogUsuario { get; set; }
+        public System.DateTime FechaCreacion { get; set; }
+        public System.DateTime FechaActualizacion { get; set; }
+        public int UsuarioCreacion { get; set; }
+        public int UsuarioActualizacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
-        public virtual Empresa Empresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
-        public virtual Rol Rol { get; set; }
     }
 }

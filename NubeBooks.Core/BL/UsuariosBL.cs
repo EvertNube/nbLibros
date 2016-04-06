@@ -206,7 +206,7 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                if (user.IdUsuario != null && user.Cuenta != null && user.Email != null)
+                if (user.IdUsuario > 0 && user.Cuenta != null && user.Email != null)
                 {
                     var element = context.Usuario.Where(x => x.IdUsuario == user.IdUsuario);
                     var list = context.Usuario.Where(x => (x.Cuenta == user.Cuenta || x.Email == user.Email) && x.IdEmpresa == user.IdEmpresa).Except(element).ToList<Usuario>();

@@ -32,7 +32,7 @@
 @if (Model == null || Model.IdUsuario == 0) { cadena = "Nuevo"; }
 else { cadena = "Actualizar"; }
 <div class="bg-light lter b-b wrapper-md">
-    <h1 class="m-n font-thin h3">@cadena Área</h1>
+    <h1 class="m-n font-thin h3">@cadena Usuario</h1>
 </div>
 <div class="wrapper-md" ng-controller="FormDemoCtrl">
     <div class="panel panel-default">
@@ -52,7 +52,7 @@ else { cadena = "Actualizar"; }
                             }
                             else
                             {
-                                @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text", @disabled = "disabled" })
+                                @Html.TextBoxFor(u => u.Nombre, new { @value = Model.Nombre, @class = "form-control", @placeholder = "Ingrese su nombre completo", @type = "text", @readonly = "" })
                             }
                         </div>
                         <div class="col-md-4">

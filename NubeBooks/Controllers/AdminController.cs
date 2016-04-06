@@ -219,6 +219,11 @@ namespace NubeBooks.Controllers
             ViewBag.lstLiquidezDolares = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 2);
             //Rentabilidad
             ViewBag.lstRentabilidad = objBL.getRentabilidadEnEmpresaSegunMoneda(user.IdEmpresa, empresa.IdMoneda);
+            //Facturacion y Variacion Porcentual
+            List<LiquidezDTO> lista1 = objBL.getFacturacionEnEmpresaPorMoneda(user.IdEmpresa, empresa.IdMoneda, DateTime.Now);
+            List<LiquidezDTO> lista2 = objBL.getFacturacionEnEmpresaPorMoneda(user.IdEmpresa, empresa.IdMoneda, DateTime.Now.AddYears(-1));
+            ViewBag.lstFacturacion = lista1; ViewBag.lstFacturacionLastYear = lista2;
+            ViewBag.lstVPorcentual = objBL.getVariacionPorcentual_12Meses(lista1, lista2);
             //Ejecucion de Presupuesto
             ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 1);
             ViewBag.EjecucionEgresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 2);

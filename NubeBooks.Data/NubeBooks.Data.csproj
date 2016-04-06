@@ -115,6 +115,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibrosModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="LogUsuario.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Moneda.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -167,6 +170,12 @@
     <Compile Include="SP_Get_StockLotes_En_Empresa_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Rep_AvanceDePresupuesto_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -198,6 +207,9 @@
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Rep_IngresosEgresosPorAreas_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoComprobante.cs">

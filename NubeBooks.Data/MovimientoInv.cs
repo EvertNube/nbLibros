@@ -30,11 +30,13 @@ namespace NubeBooks.Data
         public bool Estado { get; set; }
         public int UsuarioCreacion { get; set; }
         public int IdEmpresa { get; set; }
+        public Nullable<int> IdLogUsuario { get; set; }
     
         public virtual Empresa Empresa { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
         public virtual FormaMovimientoInv FormaMovimientoInv { get; set; }
         public virtual Item Item { get; set; }
+        public virtual LogUsuario LogUsuario { get; set; }
         public virtual Ubicacion Ubicacion { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
