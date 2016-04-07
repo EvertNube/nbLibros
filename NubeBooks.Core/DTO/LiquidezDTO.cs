@@ -10,6 +10,7 @@ namespace NubeBooks.Core.DTO
     public class LiquidezDTO
     {
         public Decimal Monto { get; set; }
+        public string sMonto { get; set; }
         public int Mes { get; set; }
         public string nombreMes { get; set; }
     }

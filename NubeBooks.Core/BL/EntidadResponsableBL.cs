@@ -210,6 +210,101 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public EntidadResponsableDTO getEntidadResponsableEnEmpresa_Only(int idEmpresa, int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.EntidadResponsable.Where(x => x.IdEntidadResponsable == id && x.IdEmpresa == idEmpresa)
+                    .Select(r => new EntidadResponsableDTO {
+                        IdEntidadResponsable = r.IdEntidadResponsable,
+                        IdTipoIdentificacion = r.IdTipoIdentificacion,
+                        IdTipoEntidad = r.IdTipoEntidad,
+                        Nombre = r.Nombre,
+                        Estado = r.Estado,
+                        Detraccion = r.Detraccion,
+                        Tipo = r.Tipo,
+                        IdEmpresa = r.IdEmpresa,
+                        NroIdentificacion = r.NroIdentificacion,
+                        NombreComercial = r.NombreComercial,
+                        Direccion = r.Direccion,
+                        Banco = r.Banco,
+                        CuentaSoles = r.CuentaSoles,
+                        CuentaDolares = r.CuentaDolares
+                    }).SingleOrDefault();
+
+                return result;
+            }
+        }
+
+        public List<ProyectoDTO> getProyectosActivos_EntidadResponsableEnEmpresa(int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Proyecto.Where(x => x.IdEntidadResponsable == id && x.Estado).Select(x => new ProyectoDTO
+                {
+                    IdProyecto = x.IdProyecto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
+
+        public List<ProyectoDTO> getProyectos_EntidadResponsableEnEmpresa(int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Proyecto.Where(x => x.IdEntidadResponsable == id).Select(x => new ProyectoDTO {
+                    IdProyecto = x.IdProyecto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Descripcion = x.Descripcion,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
+
+        public List<ContactoDTO> getContactosActivos_EntidadResponsableEnEmpresa(int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Contacto.Where(x => x.IdEntidadResponsable == id && x.Estado).Select(x => new ContactoDTO
+                {
+                    IdContacto = x.IdContacto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Telefono = x.Telefono,
+                    Celular = x.Celular,
+                    Email = x.Email,
+                    Cargo = x.Cargo,
+                    Estado = x.Estado
+                }).ToList();
+
+                return result;
+            }
+        }
+        public List<ContactoDTO> getContactos_EntidadResponsableEnEmpresa(int id)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Contacto.Where(x => x.IdEntidadResponsable == id).Select(x => new ContactoDTO {
+                    IdContacto = x.IdContacto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    Nombre = x.Nombre,
+                    Telefono = x.Telefono,
+                    Celular = x.Celular,
+                    Email = x.Email,
+                    Cargo = x.Cargo,
+                    Estado = x.Estado
+                }).ToList();
+
+                return result;
+            }
+        }
+
         public EntidadResponsableDTO getEntidadResponsable(int id)
         {
             using (var context = getContext())

@@ -381,7 +381,12 @@ namespace NubeBooks.Core.BL
             for (int i = 0; i < 12; i++)
             {
                 LiquidezDTO nuevo = new LiquidezDTO();
-                nuevo.Monto = lista2[i].Monto != 0 ? (lista1[i].Monto / lista2[i].Monto) - 1 : 0;
+                //nuevo.Monto = (lista2[i].Monto == 0 && lista1[i].Monto == 0) ? 0 : (lista2[i].Monto != 0) ? ((lista1[i].Monto != 0) ? (lista1[i].Monto / lista2[i].Monto) - 1 : -1) : 1;
+                nuevo.sMonto = "";
+                if (lista2[i].Monto == 0 && lista1[i].Monto == 0) { nuevo.Monto = 0; }
+                else if (lista2[i].Monto != 0 && lista1[i].Monto != 0) { nuevo.Monto = (lista1[i].Monto / lista2[i].Monto) - 1; }
+                else { nuevo.Monto = 0; nuevo.sMonto = "N/A"; }
+
                 nuevo.Mes = lista1[i].Mes;
                 nuevo.nombreMes = meses[nuevo.Mes - 1];
                 lista.Add(nuevo);
@@ -416,13 +421,13 @@ namespace NubeBooks.Core.BL
                 var cadena = tipo == 1 ? "INGRESOS" : "EGRESOS";
                 var prep = (from cat in context.Categoria
                            join cp in context.CategoriaPorPeriodo on cat.IdCategoria equals cp.IdCategoria
-                           where cat.IdEmpresa == idEmpresa && cp.IdPeriodo == idPeriodo && cat.Nombre == cadena
+                           where cat.IdEmpresa == idEmpresa && cp.IdPeriodo == idPeriodo && cat.Nombre == cadena && cat.Estado
                            select new CategoriaPorPeriodoDTO
                            {
                                IdCategoria = cp.IdCategoria,
                                IdPeriodo = cp.IdPeriodo,
                                Monto = cp.Monto
-                           }).SingleOrDefault();
+                           }).FirstOrDefault();
 
                 if (prep == null)
                 {

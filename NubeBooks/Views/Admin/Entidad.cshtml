@@ -25,6 +25,14 @@
                 return false;
             }
         }
+
+        function handleClick() {
+            debugger;
+            var sContacto = "", sProyecto = "";
+            sContacto = $('#chkContacto').val() ? "inactivosC=" + $('#chkContacto').val() : "";
+            sProyecto = $('#chkProyecto').val() ? "inactivosP=" + $('#chkProyecto').val() : "";
+            window.location.href = '@Url.Action("Entidad", "Admin", new { @id = Model.IdEntidadResponsable })' + "?" + sContacto + "&" + sProyecto;
+        }
     </script>
 }
 @{var cadena = "";}
@@ -178,9 +186,9 @@ else { cadena = "Actualizar"; }
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.lstContactos != null)
+                        @if (ViewBag.lstContactos != null)
                         {
-                            foreach (var obj in Model.lstContactos)
+                            foreach (var obj in (List<ContactoDTO>)ViewBag.lstContactos)
                             {
                                 var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
                                 <tr @Html.Raw(classInactive)>
@@ -202,7 +210,12 @@ else { cadena = "Actualizar"; }
                 </table>
             </div>
         </div>
-    }
+        <div class="checkbox">
+            <label class="i-checks">
+                <input id="chkContacto" type="checkbox" value="@(ViewBag.vbInactivosC == true ? "true" : "false")" checked="@ViewBag.vbInactivosC" onclick="cb = $(this); cb.val(cb.prop('checked')); handleClick();"><i></i> Mostrar Inactivos
+            </label>
+        </div>
+                                        }
     @if (Model != null && Model.IdEntidadResponsable != 0 && Model.IdTipoEntidad == 1)
             {
         <div class="bg-light lter b-b wrapper-md">
@@ -238,9 +251,9 @@ else { cadena = "Actualizar"; }
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (Model.lstProyectos != null)
+                                @if (ViewBag.lstProyectos != null)
                                 {
-                                    foreach (var obj in Model.lstProyectos)
+                                    foreach (var obj in (List<ProyectoDTO>)ViewBag.lstProyectos)
                                     {
                                         var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
                                         <tr @Html.Raw(classInactive)>
@@ -259,5 +272,10 @@ else { cadena = "Actualizar"; }
                         </table>
                     </div>
                 </div>
-    }
+                <div class="checkbox">
+                    <label class="i-checks">
+                        <input id="chkProyecto" type="checkbox" value="@(ViewBag.vbInactivosP == true ? "true" : "false")" checked="@ViewBag.vbInactivosP" onclick="cb = $(this); cb.val(cb.prop('checked')); handleClick();"><i></i> Mostrar Inactivos
+                    </label>
+                </div>
+                                                }
 </div>

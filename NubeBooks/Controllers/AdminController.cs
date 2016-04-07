@@ -1053,7 +1053,7 @@ namespace NubeBooks.Controllers
 
             return View(lista);
         }
-        public ActionResult Entidad(int? id = null, int? idTipoEntidad = null)
+        public ActionResult Entidad(int? id = null, int? idTipoEntidad = null, bool inactivosC = false, bool inactivosP = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
@@ -1068,15 +1068,26 @@ namespace NubeBooks.Controllers
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             ViewBag.TipoIdentificacion = objBL.getTiposDeIdentificaciones();
 
+            ViewBag.vbInactivosC = inactivosC;
+            ViewBag.vbInactivosP = inactivosP;
+
             var objSent = TempData["Entidad"];
             if (objSent != null) { TempData["Entidad"] = null; return View(objSent); }
 
             EntidadResponsableDTO obj;
             if (id != null && id != 0)
             {
-                obj = objBL.getEntidadResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                //obj = objBL.getEntidadResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
+                obj = objBL.getEntidadResponsableEnEmpresa_Only((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Entidades");
                 if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Entidades");
+                //Contactos
+                if (!inactivosC) { ViewBag.lstContactos = objBL.getContactosActivos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
+                else { ViewBag.lstContactos = objBL.getContactos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
+                //Proyectos
+                if (!inactivosP) { ViewBag.lstProyectos = objBL.getProyectosActivos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
+                else { ViewBag.lstProyectos = objBL.getProyectos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
+
                 return View(obj);
             }
             obj = new EntidadResponsableDTO();

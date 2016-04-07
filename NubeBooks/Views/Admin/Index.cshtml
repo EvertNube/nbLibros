@@ -91,7 +91,13 @@
             }], {
                 colors: ['#7f8c8d', '#e8eff0'],
                 series: { shadowSize: 0 },
-                xaxis:{ font: { color: '#a1a7ac' } },
+                xaxis:{ 
+                    font: { color: '#a1a7ac' },
+                    position: 'bottom',
+                    ticks: [
+                      [ 1, 'Ene' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Abr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Ago' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dic' ]
+                    ]
+                },
                 yaxis:{ font: { color: '#a1a7ac' } },
                 grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
                 tooltip: true,
@@ -334,14 +340,13 @@
                 <div class="col wrapper-lg w-lg bg-light dk r-r">
                     <h4 class="font-thin m-t-none m-b">Variación Porcentual</h4>
                     <div>
-                        @*@{ List<string> meses = new List<string>() { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }; }*@
                         @{ var sColor = "";
                             List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
                         @foreach (var mes in lstVPorcentualDesc)
                         {
-                            sColor = mes.Monto >= 0 ? "success" : "danger";
+                            sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
                             <div>
-                                <span class="pull-right text-@sColor">@mes.Monto.ToString("P2", CultureInfo.InvariantCulture)</span>
+                                <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "N/A" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
                                 <span>@mes.nombreMes</span>
                             </div>
                         }
@@ -368,6 +373,53 @@
                 </div>
             </div>
             <!-- / service -->
+            <!-- Ingresos y Egresos -->
+            <div class="panel wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row row-sm">
+                            @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
+                                Decimal PreEgr = ViewBag.EjecucionEgresos * 100; }
+                            <div class="col-xs-6 text-center">
+                                <div ui-jq="easyPieChart" ui-options="{
+                          percent: @PreIng,
+                          lineWidth: 4,
+                          trackColor: '#e8eff0',
+                          barColor: '#27c24c',
+                          scaleColor: false,
+                          size: 115,
+                          rotate: 90,
+                          lineCap: 'butt'
+                        }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
+                                    <div>
+                                        <span class="text-dark h4">@String.Format("{0:P2}", ViewBag.EjecucionIngresos)</span>
+                                    </div>
+                                    <canvas width="230" height="230" style="width: 115px; height: 115px;"></canvas>
+                                </div>
+                                <div class="text-muted font-bold text-xs m-t m-b">Ingresos</div>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div ui-jq="easyPieChart" ui-options="{
+                          percent: @PreEgr,
+                          lineWidth: 4,
+                          trackColor: '#e8eff0',
+                          barColor: '#fad733',
+                          scaleColor: false,
+                          size: 115,
+                          rotate: 180,
+                          lineCap: 'butt'
+                        }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
+                                    <div>
+                                        <span class="h4">@String.Format("{0:P2}", ViewBag.EjecucionEgresos)</span>
+                                    </div>
+                                    <canvas width="230" height="230" style="width: 115px; height: 115px;"></canvas>
+                                </div>
+                                <div class="text-muted font-bold text-xs m-t m-b">Egresos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- tasks -->
             <div class="panel wrapper">
                 <div class="row">
