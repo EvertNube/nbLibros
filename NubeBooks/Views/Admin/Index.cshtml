@@ -76,8 +76,12 @@
             var list2 = @Html.Raw(Json.Encode(ViewBag.lstFacturacionLastYear));
 
             var lstchart1 = [], lstchart2 = [];
+            //Mes Actual
+            var facMes = (new Date()).getMonth() + 1;
+
             for (var i = 0; i < 12; i++) {
-                lstchart1.push([12 - i, list1[i].Monto]);
+                if(list1[i].Mes <= facMes)
+                { lstchart1.push([12 - i, list1[i].Monto]); }
                 lstchart2.push([12 - i, list2[i].Monto]);
             }
 
@@ -340,15 +344,18 @@
                 <div class="col wrapper-lg w-lg bg-light dk r-r">
                     <h4 class="font-thin m-t-none m-b">Variación Porcentual</h4>
                     <div>
-                        @{ var sColor = "";
+                        @{ var sColor = ""; int mesActual = DateTime.Now.Month;
                             List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
                         @foreach (var mes in lstVPorcentualDesc)
                         {
-                            sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
-                            <div>
-                                <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "N/A" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
-                                <span>@mes.nombreMes</span>
-                            </div>
+                            if (mes.Mes <= mesActual)
+                            {
+                                sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
+                                <div>
+                                    <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "N/A" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
+                                    <span>@mes.nombreMes</span>
+                                </div>
+                            }
                         }
                     </div>
                     @*<div class="">

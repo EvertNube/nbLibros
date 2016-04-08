@@ -3205,6 +3205,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add(FechaEjecucion);
             dt.Columns.Add("Fecha Cancelación");
             dt.Columns.Add("Dias transcurridos Emisión - Cancelación");
+            dt.Columns.Add("Dias Vencidos");
             dt.Columns.Add("Comentarios");
 
             List<bool> Ejecutados = new List<bool>() { true, false };
@@ -3235,6 +3236,7 @@ namespace NubeBooks.Controllers
                     row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                     //Dias transcurridos Emisión - Cancelación
                     row[neleCols] = obj.FechaPago != null ? (obj.Ejecutado ? obj.FechaPago.GetValueOrDefault().Subtract(obj.FechaEmision).Days.ToString() : "-") : "-";
+                    row["Dias Vencidos"] = obj.Ejecutado ? "0" : obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
                     row["Comentarios"] = obj.Comentario;
                     dt.Rows.Add(row);
                 }
