@@ -18,11 +18,11 @@
                 modal.find('.modal-body input').val(idElement);
             });
             $("input#anular").click(function () {
-                var idelement = $('form.element').serialize();
+                var idelement = $('form#form-anular').serialize();
                 $.ajax({
                     type: "POST",
                     url: "/Admin/AnularComprobante",
-                    data: $('form.element').serialize(),
+                    data: idelement,
                     success: function (msg) {
                         $("#modal-form").modal('hide');
                         window.location.href = "/Admin/ComprobantesEgreso";
@@ -42,11 +42,11 @@
                 modal.find('.modal-body input').val(idElement);
             });
             $("input#delete").click(function () {
-                var idelement = $('form.element').serialize();
+                var idelement = $('form#form-delete').serialize();
                 $.ajax({
                     type: "POST",
                     url: "/Admin/DeleteComprobante",
-                    data: $('form.element').serialize(),
+                    data: idelement,
                     success: function (msg) {
                         $("#modal-form").modal('hide');
                         window.location.href = "/Admin/ComprobantesEgreso";
@@ -152,7 +152,7 @@
             </div>
             <div class="modal-body">
                 <p>Estas a punto de anular este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
-                <form class="element" name="element">
+                <form id="form-anular" class="element" name="element">
                     <input type="hidden" class="form-control" name="id" id="id-element">
                 </form>
             </div>
@@ -173,7 +173,7 @@
             </div>
             <div class="modal-body">
                 <p>Estas a punto de eliminar este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
-                <form class="element" name="element">
+                <form id="form-delete" class="element" name="element">
                     <input type="hidden" class="form-control" name="id" id="id-element">
                 </form>
             </div>

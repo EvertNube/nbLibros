@@ -17,5 +17,6 @@ namespace NubeBooks.Core.DTO
         public int IdEmpresa { get; set; }
 
         public Decimal Monto { get; set; }
+        public Decimal Porcentaje { get; set; }
     }
 }

@@ -3220,8 +3220,8 @@ namespace NubeBooks.Controllers
                     System.Data.DataRow row = dt.NewRow();
                     row["Numero"] = obj.NroDocumento;
                     row["Documento"] = obj.NombreTipoDocumento;
-                    //row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"));
-                    row["Fecha"] = obj.FechaEmision.ToString("d", CultureInfo.CreateSpecificCulture("en-GB"));
+                    //row["Fecha"] = obj.FechaEmision.ToString("d", CultureInfo.CreateSpecificCulture("es-PE"));
+                    row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
                     row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
                     row[Entidad] = obj.NombreEntidad;
                     if (IdTipoComprobante == 1)
@@ -3336,13 +3336,15 @@ namespace NubeBooks.Controllers
                 row["Modalidad"] = obj.Nombre;
                 row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                 Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
+                obj.Porcentaje = porcentaje;
                 row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row);
             }
 
             System.Data.DataRow rowFinal = dt.NewRow();
             rowFinal[0] = "TOTAL";
-            rowFinal[2] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal[1] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal[2] = lstHonorariosMontos.Sum(x => x.Porcentaje).ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
             GenerarPdf(dt, "Facturaci&oacute;n por Modalidad de Pago", "FacturacionPorModalidadDePago", objEmpresa, FechaInicio, FechaFin, Response);

@@ -57,7 +57,7 @@
                                 <td class="text-center">
                                     <a href="@Url.Action("Ubicacion", "Admin", new { id = item.IdUbicacion })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
-                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdUbicacion"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdUbicacion"><i class="fa fa-trash" title="Eliminar"></i></a>}
                                 </td>
                             </tr>
                                         }

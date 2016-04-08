@@ -18,11 +18,11 @@
             });
 
             $("input#delete").click(function () {
-                var idelement = $('form.element').serialize();
+                var idelement = $('form#form-delete').serialize();
                 $.ajax({
                     type: "POST",
                     url: "/Admin/DeleteMovimientoInv",
-                    data: $('form.element').serialize(),
+                    data: idelement,
                     success: function (msg) {
                         //$("#thanks").html(msg)
                         $("#modal-form").modal('hide');
@@ -132,7 +132,7 @@
             </div>
             <div class="modal-body">
                 <p>¿Está seguro de eliminar este elemento?</p>
-                <form class="element" name="element">
+                <form id="form-delete" class="element" name="element">
                     <input type="hidden" class="form-control" name="id" id="id-element">
                 </form>
             </div>
