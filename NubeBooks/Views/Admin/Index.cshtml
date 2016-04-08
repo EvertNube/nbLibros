@@ -348,14 +348,15 @@
                             List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
                         @foreach (var mes in lstVPorcentualDesc)
                         {
-                            if (mes.Mes <= mesActual)
-                            {
+                            
                                 sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
                                 <div>
-                                    <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "N/A" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
+                                    @if (mes.Mes <= mesActual) {
+                                        <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "-" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
+                                    }
                                     <span>@mes.nombreMes</span>
                                 </div>
-                            }
+                            
                         }
                     </div>
                     @*<div class="">

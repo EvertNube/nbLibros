@@ -383,7 +383,7 @@ namespace NubeBooks.Core.BL
                 LiquidezDTO nuevo = new LiquidezDTO();
                 //nuevo.Monto = (lista2[i].Monto == 0 && lista1[i].Monto == 0) ? 0 : (lista2[i].Monto != 0) ? ((lista1[i].Monto != 0) ? (lista1[i].Monto / lista2[i].Monto) - 1 : -1) : 1;
                 nuevo.sMonto = "";
-                if (lista2[i].Monto == 0 && lista1[i].Monto == 0) { nuevo.Monto = 0; }
+                if (lista2[i].Monto == 0 && lista1[i].Monto == 0) { nuevo.Monto = 0; nuevo.sMonto = "N/A"; }
                 else if (lista2[i].Monto != 0 && lista1[i].Monto != 0) { nuevo.Monto = (lista1[i].Monto / lista2[i].Monto) - 1; }
                 else { nuevo.Monto = 0; nuevo.sMonto = "N/A"; }
 
