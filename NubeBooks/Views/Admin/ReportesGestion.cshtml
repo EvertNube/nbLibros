@@ -48,6 +48,8 @@
                 case 11:
                     return "/Admin/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
+                case 12:
+                    return "/Admin/GenerarRep_Gestion_Mensual";
             }
         }
     </script>
@@ -139,6 +141,16 @@
                         <label class="col-md-6 text-center">Status de Pago de Doc. de Egresos</label>
                         <div class="col-md-6 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="8">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Gestión Mensual</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-success reporte" data-idreporte="12">Generar Reporte</a>
                         </div>
                     </div>
                 </div>

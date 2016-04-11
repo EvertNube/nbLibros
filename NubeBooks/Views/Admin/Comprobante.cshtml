@@ -306,7 +306,7 @@
                         @{var columnas = 3; if (Model.IdTipoComprobante != 1 && Model.IdTipoComprobante != 3) { columnas = 3; }}
                         <div class="col-md-@columnas">
                             <label class="control-label">@strEntidad</label>
-                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
+                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3)

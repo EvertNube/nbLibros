@@ -3353,6 +3353,36 @@ namespace NubeBooks.Controllers
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
+
+        public ActionResult GenerarRep_Gestion_Mensual()
+        {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<LiquidezDTO> lista = repBL.getGestionMensual(objEmpresa.IdEmpresa);
+
+            if (lista == null)
+                return RedirectToAction("ReportesGestion", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Mes");
+            dt.Columns.Add("I/E");
+            dt.Columns.Add("Montos");
+
+            //int mesActual = DateTime.Now.Month;
+
+            foreach (var obj in lista)
+            {
+                PintarGestionPorMesIE(obj, dt);
+            }
+
+            GenerarPdf5(dt, "Ingresos y Egresos por Mes", "IngresosYEgresosPorMes", objEmpresa, Response);
+
+            return RedirectToAction("ReportesGestion", new { message = 2 });
+        }
+
         public ActionResult GenerarRep_Movimiento_De_Inventarios(int? idItem, DateTime? FechaInicio, DateTime? FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
@@ -3792,7 +3822,24 @@ namespace NubeBooks.Controllers
             row4[2] = (obj.Ingresos + obj.Egresos).ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row4);
         }
-
+        private static void PintarGestionPorMesIE(LiquidezDTO obj, System.Data.DataTable dt)
+        {
+            DataRow row1 = dt.NewRow();
+            row1[0] = obj.nombreMes;
+            dt.Rows.Add(row1);
+            DataRow row2 = dt.NewRow();
+            row2[1] = "INGRESOS";
+            row2[2] = obj.Ingreso.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row2);
+            DataRow row3 = dt.NewRow();
+            row3[1] = "EGRESOS";
+            row3[2] = obj.Egreso.ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row3);
+            DataRow row4 = dt.NewRow();
+            row4[1] = "NETO";
+            row4[2] = (obj.Ingreso + obj.Egreso).ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(row4);
+        }
         #endregion
 
         #region Exportar Detalles

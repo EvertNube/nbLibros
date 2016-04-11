@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f953d59a55a74ab98b725c20b475b899" Name="Diagram1">
+      <Diagram DiagramId="60a97f5d6ada4721a0982958c96074d5" Name="Diagram1">
         <EntityTypeShape EntityType="LibrosDBModel.Area" Width="1.5" PointX="11.25" PointY="17.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.AreaPorComprobante" Width="1.5" PointX="13.5" PointY="23.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Categoria" Width="1.5" PointX="11.25" PointY="20.875" IsExpanded="true" />
@@ -28,7 +28,6 @@
         <EntityTypeShape EntityType="LibrosDBModel.Proyecto" Width="1.5" PointX="13.5" PointY="39.25" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Responsable" Width="1.5" PointX="11.25" PointY="37.125" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.Rol" Width="1.5" PointX="12" PointY="43.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LibrosDBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.TipoComprobante" Width="1.5" PointX="0.75" PointY="20.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.TipoCuenta" Width="1.5" PointX="3.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="LibrosDBModel.TipoDocumento" Width="1.5" PointX="0.75" PointY="29" IsExpanded="true" />

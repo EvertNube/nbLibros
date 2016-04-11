@@ -315,17 +315,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="LibrosDBModel.sysdiagrams">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TipoComprobante">
       <EntityTypeMapping TypeName="LibrosDBModel.TipoComprobante">
         <MappingFragment StoreEntitySet="TipoComprobante">
@@ -420,9 +409,6 @@
     <FunctionImportMapping FunctionImportName="SP_ActualizarMontos" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos" />
     <FunctionImportMapping FunctionImportName="SP_ActualizarMontos_Empresa" FunctionName="LibrosDBModel.Store.SP_ActualizarMontos_Empresa" />
     <FunctionImportMapping FunctionImportName="SP_ActualizarPresupuestoPadre" FunctionName="LibrosDBModel.Store.SP_ActualizarPresupuestoPadre" />
-    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="LibrosDBModel.Store.sp_alterdiagram" />
-    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="LibrosDBModel.Store.sp_creatediagram" />
-    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="LibrosDBModel.Store.sp_dropdiagram" />
     <FunctionImportMapping FunctionImportName="SP_Get_Arbol_Categoria" FunctionName="LibrosDBModel.Store.SP_Get_Arbol_Categoria">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Arbol_Categoria_Result">
@@ -588,26 +574,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="LibrosDBModel.Store.sp_helpdiagramdefinition">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="LibrosDBModel.sp_helpdiagramdefinition_Result">
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="LibrosDBModel.Store.sp_helpdiagrams">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="LibrosDBModel.sp_helpdiagrams_Result">
-          <ScalarProperty Name="Database" ColumnName="Database" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Owner" ColumnName="Owner" />
-          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="LibrosDBModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="SP_Rep_AvanceDePresupuesto" FunctionName="LibrosDBModel.Store.SP_Rep_AvanceDePresupuesto">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_AvanceDePresupuesto_Result">
@@ -756,6 +722,14 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LibrosDBModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresos_PorMes_EnEmpresa">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result">
+          <ScalarProperty Name="Mes" ColumnName="Mes" />
+          <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+          <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

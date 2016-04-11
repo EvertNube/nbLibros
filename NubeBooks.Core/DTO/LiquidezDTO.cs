@@ -13,5 +13,7 @@ namespace NubeBooks.Core.DTO
         public string sMonto { get; set; }
         public int Mes { get; set; }
         public string nombreMes { get; set; }
+        public Decimal Ingreso { get; set; }
+        public Decimal Egreso { get; set; }
     }
 }

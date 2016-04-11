@@ -354,7 +354,7 @@ namespace NubeBooks.Core.BL
             {
                 try
                 {
-                    var row = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == 1 && x.NroDocumento == NroDocumento && x.IdComprobante != idComprobante).SingleOrDefault();
+                    var row = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && (x.IdTipoComprobante == 1 || x.IdTipoComprobante == 3) && x.NroDocumento == NroDocumento && x.IdComprobante != idComprobante).SingleOrDefault();
                     if (row != null)
                     { return true; }
                     return false;

@@ -241,7 +241,7 @@ namespace NubeBooks.Core.BL
         }
         #endregion
 
-        #region Documentos Pagadas y Por Cobrar
+        #region Documentos Pagados y Por Cobrar
         public List<ComprobanteDTO> getComprobantesIngresosYEgresosEnEmpresa(int idEmpresa, int idTipoComprobante, DateTime fechaInicio, DateTime fechaFin)
         {
             using (var context = getContext())
@@ -311,6 +311,25 @@ namespace NubeBooks.Core.BL
                     IdEmpresa = x.IdEmpresa,
                     Monto = x.Monto.GetValueOrDefault()
                 }).OrderBy(x => x.Nombre).ToList();
+
+                return result;
+            }
+        }
+        #endregion
+
+        #region Gestion Mensual en el Año
+        public List<LiquidezDTO> getGestionMensual(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                List<string> meses = new List<string>() { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+                var result = context.SP_Rep_IngresosEgresos_PorMes_EnEmpresa(idEmpresa).Select(x => new LiquidezDTO
+                {
+                    Mes = x.Mes,
+                    nombreMes = meses[x.Mes - 1],
+                    Ingreso = x.Ingreso.GetValueOrDefault(),
+                    Egreso = x.Egreso.GetValueOrDefault()
+                }).ToList();
 
                 return result;
             }
@@ -487,5 +506,6 @@ namespace NubeBooks.Core.BL
 
 
         #endregion
+        
     }
 }
