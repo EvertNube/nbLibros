@@ -41,7 +41,13 @@
                     splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 }}], {
                         colors: ['#23b7e5', '#7266ba'],
                         series: { shadowSize: 3 },
-                        xaxis:{ font: { color: '#a1a7ac' } },
+                        xaxis:{ 
+                            font: { color: '#a1a7ac' },
+                            position: 'bottom',
+                            ticks: [
+                              [ 1, 'Ene' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Abr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Ago' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dic' ]
+                            ]
+                        },
                         yaxis:{ font: { color: '#a1a7ac' } },
                         grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
                         tooltip: true,
@@ -224,26 +230,26 @@
                     <small class="text-muted">Bienvenido a Nube Books.</small>
                 </div>
                 <div class="col-sm-6 text-right hidden-xs">
-                    <div class="inline m-r text-left">
-                        @{ 
-                            int totalMovs = ((List<int>)ViewBag.contMovimientos).Sum(x => x);
-                            int totalCmps = ((List<int>)ViewBag.contComprobantes).Sum(x => x);
-                            string vMovs = "[", vCmps = "[";
-                            int contTMC = 0;
-                            foreach (var item in (List<int>)ViewBag.contMovimientos)
-                            {
-                                if (contTMC != 11) { vMovs += item.ToString() + ","; }
-                                else { vMovs += item.ToString() + "]"; }
-                                contTMC++;
-                            }
-                            contTMC = 0;
-                            foreach (var item in (List<int>)ViewBag.contComprobantes)
-                            {
-                                if (contTMC != 11) { vCmps += item.ToString() + ","; }
-                                else { vCmps += item.ToString() + "]"; }
-                                contTMC++;
-                            }
+                    @*@{
+                        int totalMovs = ((List<int>)ViewBag.contMovimientos).Sum(x => x);
+                        int totalCmps = ((List<int>)ViewBag.contComprobantes).Sum(x => x);
+                        string vMovs = "[", vCmps = "[";
+                        int contTMC = 0;
+                        foreach (var item in (List<int>)ViewBag.contMovimientos)
+                        {
+                            if (contTMC != 11) { vMovs += item.ToString() + ","; }
+                            else { vMovs += item.ToString() + "]"; }
+                            contTMC++;
                         }
+                        contTMC = 0;
+                        foreach (var item in (List<int>)ViewBag.contComprobantes)
+                        {
+                            if (contTMC != 11) { vCmps += item.ToString() + ","; }
+                            else { vCmps += item.ToString() + "]"; }
+                            contTMC++;
+                        }
+                    }*@
+                    @*<div class="inline m-r text-left">
                         <div class="m-b-xs">@totalMovs <span class="text-muted">movimientos</span></div>
                         <div ng-init=@("d3_1=" + vMovs)
                              ui-jq="sparkline"
@@ -260,7 +266,7 @@
                              class="sparkline inline">
                             cargando...
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -336,7 +342,7 @@
             <!-- service -->
             <div class="panel hbox hbox-auto-xs no-border">
                 <div class="col wrapper">
-                    <h4 class="font-thin m-t-none m-b-none text-primary-lt h3">Facturación</h4>
+                    <h4 class="font-thin m-t-none m-b-none text-primary-lt h3">Facturación (@(ViewBag.sMoneda))</h4>
                     @*<span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>*@
                     <span class="m-b block text-sm text-muted">Información actualizada al @System.DateTime.Now.ToShortDateString()</span>
                     <div id="flot-chart2" style="height:240px"></div>
@@ -383,6 +389,7 @@
             <!-- / service -->
             <!-- Ingresos y Egresos -->
             <div class="panel wrapper">
+                <h4 class="font-thin m-t-none m-b text-muted">Avance de Presupuesto</h4>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row row-sm">

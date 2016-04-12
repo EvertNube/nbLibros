@@ -38,7 +38,8 @@ namespace NubeBooks.Helpers
         public static string ERROR_NO_DELETE = "<strong>Error.</strong> Se produjo un error mientras se intentaba eliminar el elemento.";
         public static string ERROR_NO_BAN = "<strong>Error.</strong> Se produjo un error mientras se intentaba anular el elemento.";
         public static string ERROR_NO_UNBAN = "<strong>Error.</strong> Se produjo un error mientras se intentaba restablecer el elemento.";
-        public static string ERROR_DOCUMENTO_INGRESO_REPETIDO = "<strong>Hubo un error al insertar.</strong> Ya existe un comprobante de ingreso con el mismo Número de documento.";
+        public static string ERROR_DOCUMENTO_INGRESO_REPETIDO_1 = "<strong>Hubo un error al insertar.</strong> Ya existe un comprobante de INGRESO con el mismo Número de documento.";
+        public static string ERROR_DOCUMENTO_INGRESO_REPETIDO_3 = "<strong>Hubo un error al insertar.</strong> Ya existe un comprobante de INGRESO ANULADO con el mismo Número de documento.";
 
         public static string SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD = "<strong>Se ha enviado un mensaje a su correo electrónico.</strong>";
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";

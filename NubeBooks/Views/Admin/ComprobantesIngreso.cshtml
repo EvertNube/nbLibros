@@ -63,6 +63,15 @@
                 window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
                 $('#modal-form-exportar').modal('toggle');
             });
+
+            $('#addComment').click(function () {
+                $(this).children('i.fa-minus, i.fa-plus').toggleClass("fa-minus fa-plus");
+                $('#comentarioAnulado').toggle();
+                if ($(this).children('i.fa-minus')) { $('#comentarioAnulado').val(''); }
+                $(this).children('span').text(function (i, text) {
+                    return text === "Agregar Comentario" ? "Eliminar Comentario" : "Agregar Comentario";
+                });
+            });
         });
 
         function exportarDetalle(fechaInicio, fechaFin) {
@@ -151,9 +160,15 @@
                 <h4 class="modal-title">Anular Elemento: </h4>
             </div>
             <div class="modal-body">
-                <p>Estas a punto de anular este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
+                <p>Estás a punto de anular el comprobante. Al hacerlo, también se eliminará la asociación a cualquier movimiento de banco. ¿Estás seguro de continuar?</p>
+                <p>
+                    <button id="addComment" class="btn btn-default btn-sm btn-addon">
+                    <i class="fa fa-plus"></i><span>Agregar Comentario</span>
+                    </button>
+                </p>
                 <form id="form-anular" class="element" name="element">
                     <input type="hidden" class="form-control" name="id" id="id-element">
+                    <textarea id="comentarioAnulado" class="form-control" cols="20" name="comentario" placeholder="Agrega un comentario..." rows="3" style="resize: none; display: none;" type="text"></textarea>
                 </form>
             </div>
             <div class="modal-footer">

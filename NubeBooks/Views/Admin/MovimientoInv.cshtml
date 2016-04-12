@@ -83,7 +83,7 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-4">
                             <label># Documento</label>
-                            @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control", @placeholder = "Documento", @type = "text" })
+                            @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control", @placeholder = "Documento", @type = "text", @required = "" })
                             @Html.ValidationMessageFor(u => u.NroDocumento, "", new { @style = "color:red;" })
                         </div>
                     </div>
@@ -105,7 +105,7 @@ else { cadena = "Actualizar"; }
                         }
                         <div class="col-md-4">
                             <label>Serie - Lote</label>
-                            @Html.TextBoxFor(u => u.SerieLote, new { @class = "form-control", @placeholder = "Serie / Lote", @type = "text" })
+                            @Html.TextBoxFor(u => u.SerieLote, new { @class = "form-control", @placeholder = "Serie / Lote", @type = "text", @required = "" })
                             @Html.ValidationMessageFor(u => u.SerieLote, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoMovimientoInv != 1)
@@ -122,7 +122,7 @@ else { cadena = "Actualizar"; }
                     <div class="row">
                         <div class="col-md-4">
                             <label>Cantidad</label>
-                            @Html.TextBoxFor(u => u.Cantidad, new { @class = "form-control", @placeholder = "Cantidad", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                            @Html.TextBoxFor(u => u.Cantidad, new { @class = "form-control", @placeholder = "Cantidad", @type = "text", @onkeypress = "return CheckNumericValue(event)", @required = "" })
                             @Html.ValidationMessageFor(u => u.Cantidad, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-4">

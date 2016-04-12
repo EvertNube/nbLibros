@@ -214,6 +214,7 @@ namespace NubeBooks.Controllers
             ViewBag.TotalDolaresOld = empresa.TotalDolaresOld.GetValueOrDefault();
             ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
             ViewBag.TipoCambio = empresa.TipoCambio;
+            ViewBag.sMoneda = empresa.SimboloMoneda;
             //Liquidez
             ViewBag.lstLiquidezSoles = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
             ViewBag.lstLiquidezDolares = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 2);
@@ -234,8 +235,8 @@ namespace NubeBooks.Controllers
             ViewBag.topIngAreas = objBL.getTopIngArea(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
             ViewBag.topEgrAreas = objBL.getTopEgrArea(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
             //Contador de Movimientos y Comprobantes en los meses
-            ViewBag.contMovimientos = objBL.getContadorDeMovimientos(user.IdEmpresa);
-            ViewBag.contComprobantes = objBL.getContadorDeComprobantes(user.IdEmpresa);
+            //ViewBag.contMovimientos = objBL.getContadorDeMovimientos(user.IdEmpresa);
+            //ViewBag.contComprobantes = objBL.getContadorDeComprobantes(user.IdEmpresa);
 
             return View();
         }
@@ -1425,13 +1426,22 @@ namespace NubeBooks.Controllers
                 }
 
                 ComprobanteBL objBL = new ComprobanteBL();
-                
+                int nDocRepetido = objBL.repeatedNroDocumento(dto.IdEmpresa, dto.IdComprobante, dto.NroDocumento);
+
                 if (dto.IdComprobante == 0)
                 {
                     //Si el numero de documento se repite en los ingresos no permitir el registro
-                    if (objBL.repeatedNroDocumento(dto.IdEmpresa, dto.IdComprobante, dto.NroDocumento) && dto.IdTipoComprobante == 1)
+                    if (nDocRepetido > 0 && dto.IdTipoComprobante == 1)
                     {
-                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO);
+                        switch (nDocRepetido)
+                        {
+                            case 1:
+                                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO_1);
+                                break;
+                            case 3:
+                                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO_3);
+                                break;
+                        }
                     }
                     else if (objBL.add(dto))
                     {
@@ -1442,9 +1452,17 @@ namespace NubeBooks.Controllers
                 else if (dto.IdComprobante != 0)
                 {
                     //Si el numero de documento se repite en los ingresos no permitir el registro
-                    if (objBL.repeatedNroDocumento(dto.IdEmpresa, dto.IdComprobante, dto.NroDocumento) && dto.IdTipoComprobante == 1)
+                    if (nDocRepetido > 0 && dto.IdTipoComprobante == 1)
                     {
-                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO);
+                        switch (nDocRepetido)
+                        {
+                            case 1:
+                                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO_1);
+                                break;
+                            case 3:
+                                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_DOCUMENTO_INGRESO_REPETIDO_3);
+                                break;
+                        }
                     }
                     else if (objBL.update(dto))
                     {
@@ -1501,7 +1519,7 @@ namespace NubeBooks.Controllers
             return RedirectToAction("Comprobantes" + cadena, "Admin");
         }
         [HttpPost]
-        public ActionResult AnularComprobante(int id)
+        public ActionResult AnularComprobante(int id, string comentario)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (getCurrentUser().IdRol == 4) { return RedirectToAction("Comprobantes", "Admin"); }
@@ -1511,7 +1529,7 @@ namespace NubeBooks.Controllers
             {
                 ComprobanteBL objBL = new ComprobanteBL();
                 dto = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, id);
-                if (objBL.ban(id))
+                if (objBL.ban(id, comentario))
                 {
                     createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_BAN);
                 }
@@ -3222,7 +3240,7 @@ namespace NubeBooks.Controllers
                     row["Numero"] = obj.NroDocumento;
                     row["Documento"] = obj.NombreTipoDocumento;
                     //row["Fecha"] = obj.FechaEmision.ToString("d", CultureInfo.CreateSpecificCulture("es-PE"));
-                    row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                    row["Fecha"] = obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
                     row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
                     row[Entidad] = obj.NombreEntidad;
                     if (IdTipoComprobante == 1)
@@ -3232,8 +3250,8 @@ namespace NubeBooks.Controllers
                     row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                     row["Partida de Presupuesto"] = obj.NombreCategoria;
                     row["Monto Pendiente"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
-                    row[FechaEjecucion] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
-                    row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                    row[FechaEjecucion] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                    row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                     //Dias transcurridos Emisión - Cancelación
                     row[neleCols] = obj.FechaPago != null ? (obj.Ejecutado ? obj.FechaPago.GetValueOrDefault().Subtract(obj.FechaEmision).Days.ToString() : "-") : "-";
                     row["Dias Vencidos"] = obj.Ejecutado ? "0" : obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
@@ -3291,7 +3309,7 @@ namespace NubeBooks.Controllers
             foreach (var obj in catArbol.Comprobantes)
             {
                 System.Data.DataRow row = dt.NewRow();
-                row["Fecha"] = obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Fecha"] = obj.Fecha.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
                 row["Entidad"] = obj.NombreEntidad;
                 row["Documento"] = obj.NombreDocumento;
                 row["# Documento"] = obj.NroDocumento;
@@ -3416,14 +3434,14 @@ namespace NubeBooks.Controllers
             foreach (var obj in lstMovs)
             {
                 DataRow row = dt.NewRow();
-                row["Fecha"] = obj.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Fecha"] = obj.FechaInicial.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
                 row["Movimiento"] = obj.nTipo;
                 row["Tipo"] = obj.nForma;
                 row["Cantidad"] = obj.Cantidad;
                 row["Unid Med"] = obj.UnidadMedida;
                 row["Lote"] = obj.SerieLote;
                 row["Stock por Lote"] = obj.StockLote;
-                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Usuario"] = obj.nUsuario;
                 dt.Rows.Add(row);
             }
@@ -3467,7 +3485,7 @@ namespace NubeBooks.Controllers
                 row["Item"] = obj.nItem;
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
-                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Saldo Por Lote"] = obj.StockLote;
                 row["Saldo Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
@@ -3512,7 +3530,7 @@ namespace NubeBooks.Controllers
                 row["Item"] = obj.nItem;
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
-                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Saldo Por Lote"] = obj.StockLote;
                 row["Saldo Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
@@ -3754,7 +3772,7 @@ namespace NubeBooks.Controllers
                 foreach (var com in obj.Comprobantes)
                 {
                     DataRow row2 = dt.NewRow();
-                    row2["Fecha"] = com.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                    row2["Fecha"] = com.Fecha.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
                     row2["Entidad"] = com.NombreEntidad;
                     row2["Documento"] = com.NombreDocumento;
                     row2["# Documento"] = com.NroDocumento;
@@ -3930,7 +3948,7 @@ namespace NubeBooks.Controllers
             foreach (var obj in CuentaBancaria.listaMovimiento)
             {
                 System.Data.DataRow row = dt.NewRow();
-                row["Fecha"] = obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")); ;
+                row["Fecha"] = obj.Fecha.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")); ;
                 row["Movimiento"] = obj.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
                 row["Detalle"] = obj.NroOperacion;
                 row["Moneda"] = CuentaBancaria.SimboloMoneda;
@@ -4107,7 +4125,7 @@ namespace NubeBooks.Controllers
                 row["Lote"] = obj.SerieLote;
                 row["Stock Lote"] = obj.StockLote;
                 if (idTipo == 1)
-                { row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-"; }
+                { row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-"; }
                 row["Usuario"] = obj.nUsuario;
                 dt.Rows.Add(row);
             }

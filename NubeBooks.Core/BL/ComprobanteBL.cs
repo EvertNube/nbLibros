@@ -348,7 +348,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public bool repeatedNroDocumento(int idEmpresa, int idComprobante, string NroDocumento)
+        public int repeatedNroDocumento(int idEmpresa, int idComprobante, string NroDocumento)
         {
             using (var context = getContext())
             {
@@ -356,8 +356,11 @@ namespace NubeBooks.Core.BL
                 {
                     var row = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && (x.IdTipoComprobante == 1 || x.IdTipoComprobante == 3) && x.NroDocumento == NroDocumento && x.IdComprobante != idComprobante).SingleOrDefault();
                     if (row != null)
-                    { return true; }
-                    return false;
+                    {
+                        return row.IdTipoComprobante;
+                    }
+                    //No existe Comprobante con ese numero
+                    return 0;
                 }
                 catch (Exception e)
                 {
@@ -367,7 +370,7 @@ namespace NubeBooks.Core.BL
 
         }
 
-        public bool ban(int id)
+        public bool ban(int id, string comentario)
         {
             using (var context = getContext())
             {
@@ -386,6 +389,7 @@ namespace NubeBooks.Core.BL
                         //Anulando el Comprobante
                         row.IdTipoComprobante = row.IdTipoComprobante == 1 ? 3 : 4;
                         row.Ejecutado = false;
+                        row.Comentario = comentario;
                         context.SaveChanges();
                         return true;
                     }

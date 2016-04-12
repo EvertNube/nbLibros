@@ -242,7 +242,7 @@
                 strTitulo = "Egreso";
                 strFechaIni = "Fecha Documento";
                 strEntidad = "Proveedor";
-                strFechaFin = "Pago";
+                strFechaFin = "Estimada de Pago";
                 break;
             case 3:
                 strTitulo = "Ingreso Anulado";
@@ -292,7 +292,7 @@
                             @Html.ValidationMessageFor(u => u.NroDocumento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
-                            <label>Fecha de @strFechaFin</label>
+                            <label>Fecha @strFechaFin</label>
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de cancelación", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
