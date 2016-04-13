@@ -233,7 +233,7 @@
                                                         {
                                                         <th class="text-center" width="15%">Saldo Bancario</th>}
                                                         <th class="text-center" width="10%">Estado</th>
-                                                        <th class="text-center" width="10%">Opc.</th>
+                                                        <th style="width:8%"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -258,7 +258,7 @@
                                                                     {
                                                                     <td class="text-center" width="10%">Inactivo</td>}
                                                         @{var rIcon = ViewBag.EsUsuarioExterno == true ? "search" : "pencil"; }
-                                                        <td align="center" width="10%"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-@rIcon"></i></a></td>
+                                                        <td class="text-center"><a href="@Url.Action("Libro", new { id = obj.IdCuentaBancaria })"><i class="fa fa-@rIcon"></i></a></td>
                                                         @*else
                                                             {
                                                                 <td align="center" width="10%"><a href="@Url.Action("LibroVista", new { id = obj.IdCuentaBancaria })"><i class="fa fa-search"></i></a></td>

@@ -241,7 +241,7 @@ else { cadena = "Actualizar"; }
                             <th class="text-center">Entidad</th>
                             <th class="text-center">Docum.&nbsp;</th>
                             <th class="text-center">E</th>
-                            <th class="text-center" style="width:7%">Opc.</th>
+                            <th style="width:8%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -268,7 +268,7 @@ else { cadena = "Actualizar"; }
                                         var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";}
                                     <td class="text-center"><a href="#" class="mactivo" data-id="@obj.IdMovimiento"><i class="fa @rEstado @rColor"></i></a></td>
                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
-                                    <td class="text-center" width="7%">
+                                    <td class="text-center">
                                         <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                         @if (!ViewBag.EsUsuarioExterno)
                                         {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-trash" title="Eliminar"></i></a>}

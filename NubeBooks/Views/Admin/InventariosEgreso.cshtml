@@ -82,15 +82,15 @@
 }" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width:7%">Fecha</th>
-                        <th class="text-center">Movimiento</th>
-                        <th class="text-center">Cod - Item</th>
-                        <th class="text-center">Documento</th>
-                        <th class="text-center">Cantidad</th>
-                        <th class="text-center">U. Med</th>
-                        <th class="text-center" style="width:7%">Lote</th>
+                        <th style="width:7%">Fecha</th>
+                        <th>Movimiento</th>
+                        <th>Código Item</th>
+                        <th>Documento</th>
+                        <th>Cantidad</th>
+                        <th class="text-center">Unidad de<br />Medida</th>
+                        <th class="text-center">Lote</th>
                         <th class="text-center">Stock<br />Lote</th>
-                        <th class="text-center" style="width:7%">Opc.</th>
+                        <th style="width:8%"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,17 +99,17 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-center">@item.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                <td class="text-center">@item.nForma</td>
-                                <td class="text-center">@item.nItem</td>
-                                <td class="text-center">@item.NroDocumento</td>
-                                <td class="text-center">@item.Cantidad</td>
-                                <td class="text-center">@item.UnidadMedida</td>
+                                <td>@item.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                <td>@item.nForma</td>
+                                <td>@item.nItem</td>
+                                <td>@item.NroDocumento</td>
+                                <td>@item.Cantidad</td>
+                                <td>@item.UnidadMedida</td>
                                 <td class="text-center">@item.SerieLote</td>
                                 <td class="text-center">@item.StockLote</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
-                                    <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                    <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
                                     {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdMovimientoInv" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
                                 </td>
