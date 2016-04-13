@@ -250,6 +250,7 @@ namespace NubeBooks.Controllers
 
             EmpresaBL objBL = new EmpresaBL();
             //ViewBag.IdEmpresa = id;
+            ViewBag.lstMonedas = objBL.getListaMonedas();
 
             var objSent = TempData["Empresa"];
             if (objSent != null) { TempData["Empresa"] = null; return View(objSent); }
@@ -3396,7 +3397,7 @@ namespace NubeBooks.Controllers
                 PintarGestionPorMesIE(obj, dt);
             }
 
-            GenerarPdf5(dt, "Ingresos y Egresos por Mes", "IngresosYEgresosPorMes", objEmpresa, Response);
+            GenerarPdf5(dt, "Facturaci&oacute;n Mensual", "FacturacionMensual", objEmpresa, Response, true);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3727,7 +3728,7 @@ namespace NubeBooks.Controllers
                 sw.Close();
             }
         }
-        private static void GenerarPdf5(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response)
+        private static void GenerarPdf5(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response, bool moneda = false)
         {
             GridView gv = new GridView();
 
@@ -3742,7 +3743,8 @@ namespace NubeBooks.Controllers
 
                 AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
-                AddWhiteHeader(gv, 1, "");
+                //AddWhiteHeader(gv, 1, "");
+                if (moneda) { AddWhiteHeader(gv, 1, "Moneda: (" + objEmpresa.SimboloMoneda + ")"); }
                 //PintarCategorias(gv);
 
                 Response.ClearContent();

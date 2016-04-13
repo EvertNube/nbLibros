@@ -88,7 +88,8 @@ namespace NubeBooks.Core.BL
                     {
                         IdEmpresa = x.IdEmpresa,
                         Nombre = x.Nombre,
-                        TipoCambio = x.TipoCambio
+                        TipoCambio = x.TipoCambio,
+                        IdMoneda = x.IdMoneda
                     }).SingleOrDefault();
                 return result;
             }
@@ -127,6 +128,7 @@ namespace NubeBooks.Core.BL
                     row.Estado = true;
                     //row.Descripcion = Empresa.Descripcion;
                     row.TipoCambio = Empresa.TipoCambio;
+                    row.IdMoneda = Empresa.IdMoneda;
                     //row.IdPeriodo = Empresa.IdPeriodo;
                     context.SaveChanges();
                     return true;
@@ -695,6 +697,20 @@ namespace NubeBooks.Core.BL
                 }
 
                 return lstCont;
+            }
+        }
+
+        public List<MonedaDTO> getListaMonedas()
+        {
+            using (var context = getContext())
+            {
+                var result = context.Moneda.Select(x => new MonedaDTO
+                {
+                    IdMoneda = x.IdMoneda,
+                    Nombre = x.Nombre,
+                    Simbolo = x.Simbolo
+                }).ToList();
+                return result;
             }
         }
     }

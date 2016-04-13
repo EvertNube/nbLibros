@@ -35,10 +35,15 @@
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la Empresa", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label>Tipo de Cambio</label>
                             @Html.TextBoxFor(u => u.TipoCambio, new { @class = "form-control", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                             @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Moneda</label>
+                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "form-control miselect2 rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdMoneda, "", new { @style = "color:red;" })
                         </div>
                     </div>
                 </div>
