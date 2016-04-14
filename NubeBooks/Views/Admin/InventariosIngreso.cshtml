@@ -111,7 +111,7 @@
                                 <td>@(item.FechaFin != null ? item.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-")</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
-                                    <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;&nbsp;
+                                    <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv, idTipo = item.IdTipoMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;&nbsp;
                                     @if (!ViewBag.EsUsuarioExterno)
                                     {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdMovimientoInv" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
                                 </td>

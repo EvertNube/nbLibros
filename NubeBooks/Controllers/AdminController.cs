@@ -2893,7 +2893,7 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Áreas");
-            dt.Columns.Add("Clientes");
+            dt.Columns.Add("Proveedores");
             dt.Columns.Add("Montos");
             dt.Columns.Add("Porcentaje");
 
@@ -2921,7 +2921,7 @@ namespace NubeBooks.Controllers
                 PintarCabeceraTabla(gv);
                 //PintarIntercaladoCategorias(gv);
 
-                AddSuperHeader(gv, "Egresos por &aacute;reas - Empresa:" + objEmpresa.Nombre);
+                AddSuperHeader(gv, "Gastos por &aacute;reas - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
@@ -2931,7 +2931,7 @@ namespace NubeBooks.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + "EgresosPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + "GastosPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
@@ -2965,7 +2965,7 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Áreas");
-            dt.Columns.Add("Entidades");
+            dt.Columns.Add("Clientes");
             dt.Columns.Add("Montos");
             dt.Columns.Add("Porcentaje");
 
@@ -2993,7 +2993,7 @@ namespace NubeBooks.Controllers
                 PintarCabeceraTabla(gv);
                 //PintarIntercaladoCategorias(gv);
 
-                AddSuperHeader(gv, "Ingresos por &aacute;reas - Empresa:" + objEmpresa.Nombre);
+                AddSuperHeader(gv, "Ventas por &aacute;reas - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
@@ -3003,7 +3003,7 @@ namespace NubeBooks.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + "IngresosPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + "VentasPorAreas_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
@@ -3092,7 +3092,7 @@ namespace NubeBooks.Controllers
             rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
-            GenerarPdf(dt, "Ingresos por Clientes", "IngresosPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Ventas por Clientes", "VentasPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3181,7 +3181,7 @@ namespace NubeBooks.Controllers
             rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
-            GenerarPdf(dt, "Ingresos por Consultores", "IngresosPorConsultores", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Ventas por Consultores", "VentasPorConsultores", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3251,8 +3251,8 @@ namespace NubeBooks.Controllers
                     row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                     row["Partida de Presupuesto"] = obj.NombreCategoria;
                     row["Monto Pendiente"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
-                    row[FechaEjecucion] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
-                    row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                    row[FechaEjecucion] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                    row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                     //Dias transcurridos Emisión - Cancelación
                     row[neleCols] = obj.FechaPago != null ? (obj.Ejecutado ? obj.FechaPago.GetValueOrDefault().Subtract(obj.FechaEmision).Days.ToString() : "-") : "-";
                     row["Dias Vencidos"] = obj.Ejecutado ? "0" : obj.FechaConclusion != null ? (FechaActual - obj.FechaConclusion.GetValueOrDefault()).Days.ToString() : "N/A";
@@ -3310,7 +3310,7 @@ namespace NubeBooks.Controllers
             foreach (var obj in catArbol.Comprobantes)
             {
                 System.Data.DataRow row = dt.NewRow();
-                row["Fecha"] = obj.Fecha.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Fecha"] = obj.Fecha.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
                 row["Entidad"] = obj.NombreEntidad;
                 row["Documento"] = obj.NombreDocumento;
                 row["# Documento"] = obj.NroDocumento;
@@ -3368,7 +3368,7 @@ namespace NubeBooks.Controllers
             rowFinal[2] = lstHonorariosMontos.Sum(x => x.Porcentaje).ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
-            GenerarPdf(dt, "Facturaci&oacute;n por Modalidad de Pago", "FacturacionPorModalidadDePago", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Ventas por Modalidad de Pago", "VentasPorModalidadDePago", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3387,8 +3387,8 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Mes");
-            dt.Columns.Add("I/E");
-            dt.Columns.Add("Montos");
+            dt.Columns.Add("Detalle");
+            dt.Columns.Add("Monto con IGV");
 
             //int mesActual = DateTime.Now.Month;
 
@@ -3397,7 +3397,7 @@ namespace NubeBooks.Controllers
                 PintarGestionPorMesIE(obj, dt);
             }
 
-            GenerarPdf5(dt, "Facturaci&oacute;n Mensual", "FacturacionMensual", objEmpresa, Response, true);
+            GenerarPdf6(dt, "Ventas-Gastos por Mes", "Ventas-Gastos_por_Mes", objEmpresa, Response);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3435,14 +3435,14 @@ namespace NubeBooks.Controllers
             foreach (var obj in lstMovs)
             {
                 DataRow row = dt.NewRow();
-                row["Fecha"] = obj.FechaInicial.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Fecha"] = obj.FechaInicial.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
                 row["Movimiento"] = obj.nTipo;
                 row["Tipo"] = obj.nForma;
                 row["Cantidad"] = obj.Cantidad;
                 row["Unid Med"] = obj.UnidadMedida;
                 row["Lote"] = obj.SerieLote;
                 row["Stock por Lote"] = obj.StockLote;
-                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Usuario"] = obj.nUsuario;
                 dt.Rows.Add(row);
             }
@@ -3486,7 +3486,7 @@ namespace NubeBooks.Controllers
                 row["Item"] = obj.nItem;
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
-                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Saldo Por Lote"] = obj.StockLote;
                 row["Saldo Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
@@ -3531,14 +3531,14 @@ namespace NubeBooks.Controllers
                 row["Item"] = obj.nItem;
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
-                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Saldo Por Lote"] = obj.StockLote;
                 row["Saldo Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf4(dt, "Reporte de Items por Fecha de Vencimiento", "ReporteDeItemsPorVencimiento", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf4(dt, "Items Por Fecha de Vencimiento", "ItemsPorFechaDeVencimiento", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3576,7 +3576,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf4(dt, "Reporte Stock de Items", "ReporteStockDeItems", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf4(dt, "Stock Por Items", "StockPorItems", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3728,7 +3728,7 @@ namespace NubeBooks.Controllers
                 sw.Close();
             }
         }
-        private static void GenerarPdf5(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response, bool moneda = false)
+        private static void GenerarPdf5(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response)
         {
             GridView gv = new GridView();
 
@@ -3744,7 +3744,42 @@ namespace NubeBooks.Controllers
                 AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 //AddWhiteHeader(gv, 1, "");
-                if (moneda) { AddWhiteHeader(gv, 1, "Moneda: (" + objEmpresa.SimboloMoneda + ")"); }
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+        }
+        private static void GenerarPdf6(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                //AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 1, "A&ntilde;o: " + DateTime.Now.Year);
+                AddWhiteHeader(gv, 2, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
                 //PintarCategorias(gv);
 
                 Response.ClearContent();
@@ -3774,7 +3809,7 @@ namespace NubeBooks.Controllers
                 foreach (var com in obj.Comprobantes)
                 {
                     DataRow row2 = dt.NewRow();
-                    row2["Fecha"] = com.Fecha.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB"));
+                    row2["Fecha"] = com.Fecha.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
                     row2["Entidad"] = com.NombreEntidad;
                     row2["Documento"] = com.NombreDocumento;
                     row2["# Documento"] = com.NroDocumento;
@@ -3848,11 +3883,11 @@ namespace NubeBooks.Controllers
             row1[0] = obj.nombreMes;
             dt.Rows.Add(row1);
             DataRow row2 = dt.NewRow();
-            row2[1] = "INGRESOS";
+            row2[1] = "VENTAS";
             row2[2] = obj.Ingreso.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row2);
             DataRow row3 = dt.NewRow();
-            row3[1] = "EGRESOS";
+            row3[1] = "GASTOS";
             row3[2] = obj.Egreso.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row3);
             DataRow row4 = dt.NewRow();
@@ -3950,7 +3985,7 @@ namespace NubeBooks.Controllers
             foreach (var obj in CuentaBancaria.listaMovimiento)
             {
                 System.Data.DataRow row = dt.NewRow();
-                row["Fecha"] = obj.Fecha.ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")); ;
+                row["Fecha"] = obj.Fecha.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")); ;
                 row["Movimiento"] = obj.IdTipoMovimiento == 1 ? "Entrada" : "Salida";
                 row["Detalle"] = obj.NroOperacion;
                 row["Moneda"] = CuentaBancaria.SimboloMoneda;
@@ -4127,7 +4162,7 @@ namespace NubeBooks.Controllers
                 row["Lote"] = obj.SerieLote;
                 row["Stock Lote"] = obj.StockLote;
                 if (idTipo == 1)
-                { row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("yyyy/MMM/dd", CultureInfo.CreateSpecificCulture("en-GB")) : "-"; }
+                { row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-"; }
                 row["Usuario"] = obj.nUsuario;
                 dt.Rows.Add(row);
             }

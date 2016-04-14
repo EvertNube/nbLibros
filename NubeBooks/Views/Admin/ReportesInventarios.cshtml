@@ -76,20 +76,25 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="col-md-4 text-center">Movimientos de inventarios</label>
+                        <label class="col-md-4 text-center">Movimientos por Item</label>
                         @Html.DropDownList("IdItem", new SelectList(ViewBag.lstItems, "IdItem", "Nombre", 0), new { @class = "col-md-4 no-padder miselect2" })
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-md-6 text-center">Inventarios</label>
-                        <div class="col-md-6 text-center">
+                        <label class="col-md-8 text-center">Movimiento de Items</label>
+                        <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-header"><br /></div>
+        <div class="panel-body">
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
@@ -102,8 +107,17 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-md-6 text-center">Stock Por Items</label>
-                        <div class="col-md-6 text-center">
+                        <label class="col-md-4 text-center">Stock Por Items</label>
+                        <select class="col-md-4 no-padder miselect2" name="year" id="year">
+                            @{ int myYear = 1990; }
+                            @for (int i = 0; i < 35; i++)
+                            {
+                                if (myYear + i == DateTime.Now.Year)
+                                {<option value="@(myYear + i)" selected>@(myYear + i)</option>}
+                                else {<option value="@(myYear + i)">@(myYear + i)</option>}
+                            }
+                        </select>
+                        <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-success reporte" data-idreporte="4">Generar Reporte</a>
                         </div>
                     </div>
