@@ -41,7 +41,8 @@
                     return "/Admin/GenerarRep_Items_Por_Vencimiento/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin) + "&" + "rFechaFin=" + encodeURIComponent(rFechaFin);
                     break;
                 case 4:
-                    return "/Admin/GenerarRep_Stock_De_Items/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    //return "/Admin/GenerarRep_Stock_De_Items/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return "/Admin/GenerarRep_Stock_De_Items/?FechaFin=" + encodeURIComponent(rFechaFin);
                     break;
             }
         }
@@ -79,13 +80,13 @@
                         <label class="col-md-4 text-center">Movimientos por Item</label>
                         @Html.DropDownList("IdItem", new SelectList(ViewBag.lstItems, "IdItem", "Nombre", 0), new { @class = "col-md-4 no-padder miselect2" })
                         <div class="col-md-4 text-center">
-                            <a class="btn btn-sm btn-success reporte" data-idreporte="1">Generar Reporte</a>
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="1">Generar Reporte</a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="col-md-8 text-center">Movimiento de Items</label>
                         <div class="col-md-4 text-center">
-                            <a class="btn btn-sm btn-success reporte" data-idreporte="2">Generar Reporte</a>
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="2">Generar Reporte</a>
                         </div>
                     </div>
                 </div>
@@ -93,32 +94,32 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-header"><br /></div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="col-md-4 text-center">Items Por Fecha de Vencimiento</label>
-                        <div class="col-md-4 text-center no-padder">
-                            @Html.TextBox("rFechaFin", DateTime.Now, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                        <label class="col-md-4 text-right" style="transform:translateY(30%)">Fecha Limite: </label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("rFechaFin", DateTime.Now, "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @readonly = "readonly" })
+                            @*@Html.TextBox("rFechaFin", DateTime.Now, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })*@
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-8 text-center">Items Por Fecha de Vencimiento</label>
                         <div class="col-md-4 text-center">
-                            <a class="btn btn-sm btn-success reporte" data-idreporte="3">Generar Reporte</a>
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="3">Generar Reporte</a>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-md-4 text-center">Stock Por Items</label>
-                        <select class="col-md-4 no-padder miselect2" name="year" id="year">
-                            @{ int myYear = 1990; }
-                            @for (int i = 0; i < 35; i++)
-                            {
-                                if (myYear + i == DateTime.Now.Year)
-                                {<option value="@(myYear + i)" selected>@(myYear + i)</option>}
-                                else {<option value="@(myYear + i)">@(myYear + i)</option>}
-                            }
-                        </select>
+                        <label class="col-md-8 text-center">Stock Por Items</label>
                         <div class="col-md-4 text-center">
-                            <a class="btn btn-sm btn-success reporte" data-idreporte="4">Generar Reporte</a>
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="4">Generar Reporte</a>
                         </div>
                     </div>
                 </div>

@@ -3373,12 +3373,12 @@ namespace NubeBooks.Controllers
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
 
-        public ActionResult GenerarRep_Gestion_Mensual()
+        public ActionResult GenerarRep_Ventas_Gastos_Por_Mes(int year)
         {
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
-            List<LiquidezDTO> lista = repBL.getGestionMensual(objEmpresa.IdEmpresa);
+            List<LiquidezDTO> lista = repBL.getGestionMensual(objEmpresa.IdEmpresa, year);
 
             if (lista == null)
                 return RedirectToAction("ReportesGestion", new { message = 2 });
@@ -3398,6 +3398,37 @@ namespace NubeBooks.Controllers
             }
 
             GenerarPdf6(dt, "Ventas-Gastos por Mes", "Ventas-Gastos_por_Mes", objEmpresa, Response);
+
+            return RedirectToAction("ReportesGestion", new { message = 2 });
+        }
+
+        public ActionResult GenerarRep_Ventas_Por_Mes(int year)
+        {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<LiquidezDTO> lista = repBL.getGestionMensual(objEmpresa.IdEmpresa, year);
+
+            if (lista == null)
+                return RedirectToAction("ReportesGestion", new { message = 2 });
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Mes");
+            dt.Columns.Add("Monto con IGV");
+
+            //int mesActual = DateTime.Now.Month;
+
+            foreach (var obj in lista)
+            {
+                DataRow row = dt.NewRow();
+                row["Mes"] = obj.nombreMes;
+                row["Monto con IGV"] = obj.Ingreso.ToString("N2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf6(dt, "Ventas por Mes", "Ventas_por_Mes", objEmpresa, Response);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3542,9 +3573,9 @@ namespace NubeBooks.Controllers
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
-        public ActionResult GenerarRep_Stock_De_Items(DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarRep_Stock_De_Items(DateTime? FechaFin)
         {
-            if (FechaInicio == null || FechaFin == null)
+            if (FechaFin == null)
             {
                 return RedirectToAction("ReportesInventarios", new { message = 1 });
             }
@@ -3552,7 +3583,7 @@ namespace NubeBooks.Controllers
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             Reportes_InventariosBL repBL = new Reportes_InventariosBL();
-            List<ItemDTO> lista = repBL.Get_Reporte_Stock_De_Items(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
+            List<ItemDTO> lista = repBL.Get_Reporte_Stock_De_Items(objEmpresa.IdEmpresa, FechaFin.GetValueOrDefault());
 
 
             if (lista == null)
@@ -3576,7 +3607,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf4(dt, "Stock Por Items", "StockPorItems", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf7(dt, "Stock Por Items", "StockPorItems", objEmpresa, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3780,6 +3811,42 @@ namespace NubeBooks.Controllers
                 //AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 1, "A&ntilde;o: " + DateTime.Now.Year);
                 AddWhiteHeader(gv, 2, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+                //PintarCategorias(gv);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+        }
+        private static void GenerarPdf7(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, DateTime? FechaFin, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
+                //Cabecera principal
+                AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 2, "FECHA LIMITE: " + FechaFin.GetValueOrDefault().ToShortDateString());
+
                 //PintarCategorias(gv);
 
                 Response.ClearContent();

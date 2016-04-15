@@ -318,12 +318,12 @@ namespace NubeBooks.Core.BL
         #endregion
 
         #region Gestion Mensual en el Año
-        public List<LiquidezDTO> getGestionMensual(int idEmpresa)
+        public List<LiquidezDTO> getGestionMensual(int idEmpresa, int year)
         {
             using (var context = getContext())
             {
                 List<string> meses = new List<string>() { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
-                var result = context.SP_Rep_IngresosEgresos_PorMes_EnEmpresa(idEmpresa).Select(x => new LiquidezDTO
+                var result = context.SP_Rep_IngresosEgresos_PorMes_EnEmpresa(idEmpresa, year).Select(x => new LiquidezDTO
                 {
                     Mes = x.Mes,
                     nombreMes = meses[x.Mes - 1],

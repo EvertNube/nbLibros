@@ -1144,7 +1144,6 @@
         </Function>
         <Function Name="SP_Get_Rep_Stock_De_Items" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
-          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Get_StockLotes_En_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1216,6 +1215,7 @@
         </Function>
         <Function Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="Anio" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Rep_IngresosEgresosPorAreaNull" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
@@ -2852,11 +2852,6 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_Get_Rep_Stock_De_Items" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="SP_Get_StockLotes_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result)">
           <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2936,6 +2931,11 @@
           </FunctionImport>
           <FunctionImport Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result)">
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="Anio" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Get_Rep_Stock_De_Items" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
@@ -3019,13 +3019,6 @@
           <Property Type="String" Name="nTipo" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="nUsuario" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="StockLote" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="SP_Get_Rep_Stock_De_Items_Result">
-          <Property Type="Int32" Name="IdItem" Nullable="false" />
-          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
-          <Property Type="Int32" Name="SaldoItem" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_Get_StockLotes_En_Empresa_Result">
           <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
@@ -3171,6 +3164,13 @@
           <Property Type="Int32" Name="Mes" Nullable="false" />
           <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="SP_Get_Rep_Stock_De_Items_Result">
+          <Property Type="Int32" Name="IdItem" Nullable="false" />
+          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="SaldoItem" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3688,17 +3688,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_Rep_Stock_De_Items" FunctionName="LibrosDBModel.Store.SP_Get_Rep_Stock_De_Items">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="nItem" ColumnName="nItem" />
-                <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
-                <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
-                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Get_StockLotes_En_Empresa" FunctionName="LibrosDBModel.Store.SP_Get_StockLotes_En_Empresa">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result">
@@ -3905,6 +3894,17 @@
                 <ScalarProperty Name="Mes" ColumnName="Mes" />
                 <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
                 <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_Rep_Stock_De_Items" FunctionName="LibrosDBModel.Store.SP_Get_Rep_Stock_De_Items">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="nItem" ColumnName="nItem" />
+                <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
+                <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
+                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

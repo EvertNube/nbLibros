@@ -511,17 +511,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_Get_Rep_Stock_De_Items" FunctionName="LibrosDBModel.Store.SP_Get_Rep_Stock_De_Items">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
-          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-          <ScalarProperty Name="nItem" ColumnName="nItem" />
-          <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
-          <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
-          <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_Get_StockLotes_En_Empresa" FunctionName="LibrosDBModel.Store.SP_Get_StockLotes_En_Empresa">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result">
@@ -728,6 +717,17 @@
           <ScalarProperty Name="Mes" ColumnName="Mes" />
           <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
           <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_Rep_Stock_De_Items" FunctionName="LibrosDBModel.Store.SP_Get_Rep_Stock_De_Items">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
+          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+          <ScalarProperty Name="nItem" ColumnName="nItem" />
+          <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
+          <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
+          <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

@@ -86,11 +86,11 @@ namespace NubeBooks.Core.Logistics.BL
             }
         }
 
-        public List<ItemDTO> Get_Reporte_Stock_De_Items(int idEmpresa, DateTime fechaInicio, DateTime fechaFin)
+        public List<ItemDTO> Get_Reporte_Stock_De_Items(int idEmpresa, DateTime fechaFin)
         {
             using (var context = getContext())
             {
-                var result = context.SP_Get_Rep_Stock_De_Items(idEmpresa, fechaInicio, fechaFin).Select(x => new ItemDTO
+                var result = context.SP_Get_Rep_Stock_De_Items(idEmpresa, fechaFin).Select(x => new ItemDTO
                 {
                     IdItem = x.IdItem,
                     Nombre = x.nItem,

@@ -1,11 +1,16 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
 @section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         $(function () {
             $('.input-group.date').datepicker();
+            $('.miselect2').select2();
 
             $('.reporte').click(function () {
                 this.href = GenerarReporte($(this).data("idreporte"));
@@ -19,6 +24,8 @@
 
             var FechaFin = $("#FechaFin").val().split("/");
             FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            var jsYear = $('#year option:selected').text();
 
             switch (nrep) {
                 case 2:
@@ -49,7 +56,11 @@
                     return "/Admin/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 12:
-                    return "/Admin/GenerarRep_Gestion_Mensual";
+                    return "/Admin/GenerarRep_Ventas_Gastos_Por_Mes/?year=" + jsYear;
+                    break;
+                case 13:
+                    return "/Admin/GenerarRep_Ventas_Por_Mes/?year=" + jsYear;
+                    break;
             }
         }
     </script>
@@ -148,14 +159,32 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-header"><br /></div>
         <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" style="transform:translateY(30%)">Año: </label>
+                        <select class="col-md-8 no-padder miselect2" name="year" id="year">
+                            @{ int myYear = 1990; }
+                            @for (int i = 0; i < 50; i++)
+                            {
+                                if (myYear + i == DateTime.Now.Year)
+                                {
+                                    <option value="@(myYear + i)" selected>@(myYear + i)</option>}
+                                else {
+                                    <option value="@(myYear + i)">@(myYear + i)</option>}
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
                         <label class="col-md-6 text-center">Ventas por Mes</label>
                         <div class="col-md-6 text-center">
-                            <a class="btn btn-sm btn-primary reporte" data-idreporte="12">Generar Reporte</a>
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="13">Generar Reporte</a>
                         </div>
                     </div>
                     <div class="col-md-6">
