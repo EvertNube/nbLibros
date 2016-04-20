@@ -15,5 +15,7 @@ namespace NubeBooks.Core.DTO
         public string nombreMes { get; set; }
         public Decimal Ingreso { get; set; }
         public Decimal Egreso { get; set; }
+        public Decimal Ingreso_SinIGV { get; set; }
+        public Decimal Egreso_SinIGV { get; set; }
     }
 }

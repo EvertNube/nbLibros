@@ -3043,8 +3043,10 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Áreas");
-            dt.Columns.Add("V/G");
-            dt.Columns.Add("Montos");
+            //dt.Columns.Add("V/G");
+            dt.Columns.Add("Movimiento");
+            dt.Columns.Add("Monto Con IGV");
+            dt.Columns.Add("Monto Sin IGV");
 
             foreach (var obj in lstAreasIE)
             {
@@ -3075,7 +3077,8 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Clientes");
-            dt.Columns.Add("Monto");
+            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto sin IGV");
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstClientes.Sum(x => x.Monto);
@@ -3086,7 +3089,8 @@ namespace NubeBooks.Controllers
                 {
                     System.Data.DataRow row = dt.NewRow();
                     row["Clientes"] = obj.Nombre;
-                    row["Monto"] = obj.Monto;
+                    row["Monto con IGV"] = obj.Monto;
+                    row["Monto sin IGV"] = obj.MontoSinIGV;
                     Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
                     row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
                     dt.Rows.Add(row);
@@ -3352,7 +3356,8 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Modalidad");
-            dt.Columns.Add("Monto");
+            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto sin IGV");
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstHonorariosMontos.Sum(x => x.Monto);
@@ -3361,7 +3366,8 @@ namespace NubeBooks.Controllers
             {
                 DataRow row = dt.NewRow();
                 row["Modalidad"] = obj.Nombre;
-                row["Monto"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto con IGV"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto sin IGV"] = obj.Monto_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
                 obj.Porcentaje = porcentaje;
                 row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
@@ -3394,7 +3400,8 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Mes");
             dt.Columns.Add("Detalle");
-            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto Con IGV");
+            dt.Columns.Add("Monto Sin IGV");
 
             //int mesActual = DateTime.Now.Month;
 
@@ -3422,7 +3429,8 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Mes");
-            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto Con IGV");
+            dt.Columns.Add("Monto Sin IGV");
 
             //int mesActual = DateTime.Now.Month;
 
@@ -3430,7 +3438,8 @@ namespace NubeBooks.Controllers
             {
                 DataRow row = dt.NewRow();
                 row["Mes"] = obj.nombreMes;
-                row["Monto con IGV"] = obj.Ingreso.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Con IGV"] = obj.Ingreso.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Sin IGV"] = obj.Ingreso_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row);
             }
 
@@ -3940,14 +3949,17 @@ namespace NubeBooks.Controllers
             DataRow row2 = dt.NewRow();
             row2[1] = "VENTAS";
             row2[2] = obj.Ingresos.ToString("N2", CultureInfo.InvariantCulture);
+            row2[3] = obj.Ingresos_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row2);
             DataRow row3 = dt.NewRow();
             row3[1] = "GASTOS";
             row3[2] = obj.Egresos.ToString("N2", CultureInfo.InvariantCulture);
+            row3[3] = obj.Egresos_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row3);
             DataRow row4 = dt.NewRow();
             row4[0] = "NETO";
             row4[2] = (obj.Ingresos + obj.Egresos).ToString("N2", CultureInfo.InvariantCulture);
+            row4[3] = (obj.Ingresos_SinIGV + obj.Egresos_SinIGV).ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row4);
         }
         private static void PintarGestionPorMesIE(LiquidezDTO obj, System.Data.DataTable dt)
@@ -3958,14 +3970,17 @@ namespace NubeBooks.Controllers
             DataRow row2 = dt.NewRow();
             row2[1] = "VENTAS";
             row2[2] = obj.Ingreso.ToString("N2", CultureInfo.InvariantCulture);
+            row2[3] = obj.Ingreso_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row2);
             DataRow row3 = dt.NewRow();
             row3[1] = "GASTOS";
             row3[2] = obj.Egreso.ToString("N2", CultureInfo.InvariantCulture);
+            row3[3] = obj.Egreso_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row3);
             DataRow row4 = dt.NewRow();
             row4[1] = "NETO";
             row4[2] = (obj.Ingreso + obj.Egreso).ToString("N2", CultureInfo.InvariantCulture);
+            row4[3] = (obj.Ingreso_SinIGV + obj.Egreso_SinIGV).ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row4);
         }
         #endregion

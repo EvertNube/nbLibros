@@ -16,5 +16,7 @@ namespace NubeBooks.Data
         public int Mes { get; set; }
         public Nullable<decimal> Ingreso { get; set; }
         public Nullable<decimal> Egreso { get; set; }
+        public Nullable<decimal> Ingreso_SinIGV { get; set; }
+        public Nullable<decimal> Egreso_SinIGV { get; set; }
     }
 }

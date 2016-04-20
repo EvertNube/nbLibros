@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="IdArea" />
@@ -1010,7 +1010,19 @@
           <Parameter Name="FechaIni" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="FN_FacturacionPorCliente_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="IdCliente" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="FN_FacturacionPorHonorario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdHonorario" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="FN_FacturacionPorHonorario_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdHonorario" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaIni" Type="datetime" Mode="In" />
@@ -1075,13 +1087,32 @@
           <Parameter Name="FechaIni" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="FN_IngresosEgresos_AreaEnComprobantes_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+          <Parameter Name="IdArea" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="FN_IngresosEgresos_AreaNullEnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="FechaIni" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="FN_IngresosEgresos_AreaNullEnComprobantes_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="FN_IngresosEgresos_PorMes_EnAnio_EnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="Mes" Type="int" Mode="In" />
+          <Parameter Name="Anio" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FN_IngresosEgresos_PorMes_EnAnio_EnComprobantes_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
           <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="Mes" Type="int" Mode="In" />
@@ -1467,7 +1498,8 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibrosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2816,17 +2848,17 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
-          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarMontos_Empresa">
-          <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarPresupuestoPadre">
             <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
             <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
-          <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
             <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
@@ -2838,14 +2870,22 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Get_Rep_De_Items_Por_Vencimiento" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="rFechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="SP_Get_Rep_De_Movimientos_De_Inventarios" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result)">
             <Parameter Name="IdItem" Mode="In" Type="Int32" />
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Get_Rep_Stock_De_Items" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="SP_Get_StockLotes_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result)">
-          <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(LibrosDBModel.SP_GetReporteDetalleMovimientos_Result)">
             <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
@@ -2911,6 +2951,10 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="Anio" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="SP_Rep_IngresosEgresosPorAreaNull" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresosPorAreaNull_Result)">
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
@@ -2920,18 +2964,6 @@
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" ReturnType="Collection(LibrosDBModel.SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="Anio" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Get_Rep_Stock_De_Items" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Get_Rep_De_Items_Por_Vencimiento" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="rFechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
@@ -2980,6 +3012,17 @@
           <Property Type="Int32" Name="SaldoItem" Nullable="false" />
           <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
         </ComplexType>
+        <ComplexType Name="SP_Get_Rep_De_Items_Por_Vencimiento_Result">
+          <Property Type="Int32" Name="IdItem" Nullable="false" />
+          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="nCategoria" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="StockLote" Nullable="false" />
+          <Property Type="Int32" Name="SaldoItem" Nullable="false" />
+          <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
+        </ComplexType>
         <ComplexType Name="SP_Get_Rep_De_Movimientos_De_Inventarios_Result">
           <Property Type="Int32" Name="IdMovimientoInv" Nullable="false" />
           <Property Type="Int32" Name="IdFormaMovimientoInv" Nullable="false" />
@@ -3004,6 +3047,13 @@
           <Property Type="String" Name="nTipo" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="nUsuario" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="StockLote" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_Get_Rep_Stock_De_Items_Result">
+          <Property Type="Int32" Name="IdItem" Nullable="false" />
+          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="SaldoItem" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_Get_StockLotes_En_Empresa_Result">
           <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
@@ -3094,6 +3144,7 @@
           <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
         <ComplexType Name="SP_Rep_FacturacionPorHonorarios_Result">
           <Property Type="Int32" Name="IdHonorario" Nullable="false" />
@@ -3101,6 +3152,7 @@
           <Property Type="Boolean" Name="Estado" Nullable="false" />
           <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Monto_SinIGV" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
         <ComplexType Name="SP_Rep_FacturacionPorVendedor_Result">
           <Property Type="Int32" Name="IdResponsable" Nullable="false" />
@@ -3127,6 +3179,13 @@
           <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
+        <ComplexType Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result">
+          <Property Type="Int32" Name="Mes" Nullable="false" />
+          <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Ingreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Egreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
         <ComplexType Name="SP_Rep_IngresosEgresosPorAreaNull_Result">
           <Property Type="Int32" Name="IdArea" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="8" />
@@ -3135,6 +3194,8 @@
           <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
           <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Ingreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Egreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
         <ComplexType Name="SP_Rep_IngresosEgresosPorAreas_Result">
           <Property Type="Int32" Name="IdArea" Nullable="false" />
@@ -3144,29 +3205,8 @@
           <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
           <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result">
-          <Property Type="Int32" Name="Mes" Nullable="false" />
-          <Property Type="Decimal" Name="Ingreso" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="SP_Get_Rep_Stock_De_Items_Result">
-          <Property Type="Int32" Name="IdItem" Nullable="false" />
-          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
-          <Property Type="Int32" Name="SaldoItem" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="SP_Get_Rep_De_Items_Por_Vencimiento_Result">
-          <Property Type="Int32" Name="IdItem" Nullable="false" />
-          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="nCategoria" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="StockLote" Nullable="false" />
-          <Property Type="Int32" Name="SaldoItem" Nullable="false" />
-          <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="Ingreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="Egreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3640,6 +3680,21 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Items_Por_Vencimiento" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Items_Por_Vencimiento">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result">
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="nItem" ColumnName="nItem" />
+                <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
+                <ScalarProperty Name="nCategoria" ColumnName="nCategoria" />
+                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
+                <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Movimientos_De_Inventarios" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Movimientos_De_Inventarios">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result">
@@ -3666,6 +3721,17 @@
                 <ScalarProperty Name="nTipo" ColumnName="nTipo" />
                 <ScalarProperty Name="nUsuario" ColumnName="nUsuario" />
                 <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_Rep_Stock_De_Items" FunctionName="LibrosDBModel.Store.SP_Get_Rep_Stock_De_Items">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="nItem" ColumnName="nItem" />
+                <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
+                <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
+                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3796,6 +3862,7 @@
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3807,6 +3874,7 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Monto_SinIGV" ColumnName="Monto_SinIGV" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3843,6 +3911,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresos_PorMes_EnEmpresa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result">
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
+                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+                <ScalarProperty Name="Ingreso_SinIGV" ColumnName="Ingreso_SinIGV" />
+                <ScalarProperty Name="Egreso_SinIGV" ColumnName="Egreso_SinIGV" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresosPorAreaNull" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresosPorAreaNull">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresosPorAreaNull_Result">
@@ -3853,6 +3932,8 @@
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
                 <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
                 <ScalarProperty Name="Egreso" ColumnName="Egreso" />
+                <ScalarProperty Name="Ingreso_SinIGV" ColumnName="Ingreso_SinIGV" />
+                <ScalarProperty Name="Egreso_SinIGV" ColumnName="Egreso_SinIGV" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3866,41 +3947,8 @@
                 <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
                 <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
                 <ScalarProperty Name="Egreso" ColumnName="Egreso" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Rep_IngresosEgresos_PorMes_EnEmpresa" FunctionName="LibrosDBModel.Store.SP_Rep_IngresosEgresos_PorMes_EnEmpresa">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result">
-                <ScalarProperty Name="Mes" ColumnName="Mes" />
-                <ScalarProperty Name="Ingreso" ColumnName="Ingreso" />
-                <ScalarProperty Name="Egreso" ColumnName="Egreso" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_Rep_Stock_De_Items" FunctionName="LibrosDBModel.Store.SP_Get_Rep_Stock_De_Items">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="nItem" ColumnName="nItem" />
-                <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
-                <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
-                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Items_Por_Vencimiento" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Items_Por_Vencimiento">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result">
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="nItem" ColumnName="nItem" />
-                <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
-                <ScalarProperty Name="nCategoria" ColumnName="nCategoria" />
-                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
-                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
-                <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
+                <ScalarProperty Name="Ingreso_SinIGV" ColumnName="Ingreso_SinIGV" />
+                <ScalarProperty Name="Egreso_SinIGV" ColumnName="Egreso_SinIGV" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

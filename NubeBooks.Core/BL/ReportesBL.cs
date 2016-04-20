@@ -160,7 +160,9 @@ namespace NubeBooks.Core.BL
                         Estado = x.Estado,
                         IdEmpresa = x.IdEmpresa,
                         Ingresos = x.Ingreso.GetValueOrDefault(),
-                        Egresos = x.Egreso.GetValueOrDefault()
+                        Egresos = x.Egreso.GetValueOrDefault(),
+                        Ingresos_SinIGV = x.Ingreso_SinIGV.GetValueOrDefault(),
+                        Egresos_SinIGV = x.Egreso_SinIGV.GetValueOrDefault()
                     }).OrderBy(x => x.Nombre).ToList();
                 
                 var resultNull = context.SP_Rep_IngresosEgresosPorAreaNull(idEmpresa, fechaInicio, fechaFin).Select(x => new AreaDTO
@@ -171,7 +173,9 @@ namespace NubeBooks.Core.BL
                     Estado = Convert.ToBoolean(x.Estado),
                     IdEmpresa = x.IdEmpresa.GetValueOrDefault(),
                     Ingresos = x.Ingreso.GetValueOrDefault(),
-                    Egresos = x.Egreso.GetValueOrDefault()
+                    Egresos = x.Egreso.GetValueOrDefault(),
+                    Ingresos_SinIGV = x.Ingreso_SinIGV.GetValueOrDefault(),
+                    Egresos_SinIGV = x.Egreso_SinIGV.GetValueOrDefault()
                 }).ToList();
 
                 foreach (var item in resultNull)
@@ -196,7 +200,8 @@ namespace NubeBooks.Core.BL
                         Estado = x.Estado,
                         Tipo = x.Tipo,
                         IdEmpresa = x.IdEmpresa,
-                        Monto = x.Monto.GetValueOrDefault()
+                        Monto = x.Monto.GetValueOrDefault(),
+                        MontoSinIGV = x.MontoSinIGV.GetValueOrDefault()
                     }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -309,7 +314,8 @@ namespace NubeBooks.Core.BL
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     IdEmpresa = x.IdEmpresa,
-                    Monto = x.Monto.GetValueOrDefault()
+                    Monto = x.Monto.GetValueOrDefault(),
+                    Monto_SinIGV = x.Monto_SinIGV.GetValueOrDefault()
                 }).OrderBy(x => x.Nombre).ToList();
 
                 return result;
@@ -328,7 +334,9 @@ namespace NubeBooks.Core.BL
                     Mes = x.Mes,
                     nombreMes = meses[x.Mes - 1],
                     Ingreso = x.Ingreso.GetValueOrDefault(),
-                    Egreso = x.Egreso.GetValueOrDefault()
+                    Egreso = x.Egreso.GetValueOrDefault(),
+                    Ingreso_SinIGV = x.Ingreso_SinIGV.GetValueOrDefault(),
+                    Egreso_SinIGV = x.Egreso_SinIGV.GetValueOrDefault()
                 }).ToList();
 
                 return result;

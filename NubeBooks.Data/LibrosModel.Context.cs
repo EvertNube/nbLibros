@@ -134,6 +134,19 @@ namespace NubeBooks.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_De_Inventarios_Result>("SP_Get_Rep_De_Inventarios", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
+        public virtual ObjectResult<SP_Get_Rep_De_Items_Por_Vencimiento_Result> SP_Get_Rep_De_Items_Por_Vencimiento(Nullable<int> idEmpresa, Nullable<System.DateTime> rFechaFin)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var rFechaFinParameter = rFechaFin.HasValue ?
+                new ObjectParameter("rFechaFin", rFechaFin) :
+                new ObjectParameter("rFechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_De_Items_Por_Vencimiento_Result>("SP_Get_Rep_De_Items_Por_Vencimiento", idEmpresaParameter, rFechaFinParameter);
+        }
+    
         public virtual ObjectResult<SP_Get_Rep_De_Movimientos_De_Inventarios_Result> SP_Get_Rep_De_Movimientos_De_Inventarios(Nullable<int> idItem, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idItemParameter = idItem.HasValue ?
@@ -153,6 +166,19 @@ namespace NubeBooks.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_De_Movimientos_De_Inventarios_Result>("SP_Get_Rep_De_Movimientos_De_Inventarios", idItemParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_Get_Rep_Stock_De_Items_Result> SP_Get_Rep_Stock_De_Items(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaFin)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_Stock_De_Items_Result>("SP_Get_Rep_Stock_De_Items", idEmpresaParameter, fechaFinParameter);
         }
     
         public virtual ObjectResult<SP_Get_StockLotes_En_Empresa_Result> SP_Get_StockLotes_En_Empresa(Nullable<int> idEmpresa)
@@ -384,6 +410,19 @@ namespace NubeBooks.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_GastosPorProveedor_Result>("SP_Rep_GastosPorProveedor", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
+        public virtual ObjectResult<SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result> SP_Rep_IngresosEgresos_PorMes_EnEmpresa(Nullable<int> idEmpresa, Nullable<int> anio)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result>("SP_Rep_IngresosEgresos_PorMes_EnEmpresa", idEmpresaParameter, anioParameter);
+        }
+    
         public virtual ObjectResult<SP_Rep_IngresosEgresosPorAreaNull_Result> SP_Rep_IngresosEgresosPorAreaNull(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idEmpresaParameter = idEmpresa.HasValue ?
@@ -416,45 +455,6 @@ namespace NubeBooks.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result> SP_Rep_IngresosEgresos_PorMes_EnEmpresa(Nullable<int> idEmpresa, Nullable<int> anio)
-        {
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var anioParameter = anio.HasValue ?
-                new ObjectParameter("Anio", anio) :
-                new ObjectParameter("Anio", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result>("SP_Rep_IngresosEgresos_PorMes_EnEmpresa", idEmpresaParameter, anioParameter);
-        }
-    
-        public virtual ObjectResult<SP_Get_Rep_Stock_De_Items_Result> SP_Get_Rep_Stock_De_Items(Nullable<int> idEmpresa, Nullable<System.DateTime> fechaFin)
-        {
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var fechaFinParameter = fechaFin.HasValue ?
-                new ObjectParameter("FechaFin", fechaFin) :
-                new ObjectParameter("FechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_Stock_De_Items_Result>("SP_Get_Rep_Stock_De_Items", idEmpresaParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Get_Rep_De_Items_Por_Vencimiento_Result> SP_Get_Rep_De_Items_Por_Vencimiento(Nullable<int> idEmpresa, Nullable<System.DateTime> rFechaFin)
-        {
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var rFechaFinParameter = rFechaFin.HasValue ?
-                new ObjectParameter("rFechaFin", rFechaFin) :
-                new ObjectParameter("rFechaFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_De_Items_Por_Vencimiento_Result>("SP_Get_Rep_De_Items_Por_Vencimiento", idEmpresaParameter, rFechaFinParameter);
         }
     }
 }

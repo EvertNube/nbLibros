@@ -18,5 +18,6 @@ namespace NubeBooks.Data
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
         public Nullable<decimal> Monto { get; set; }
+        public Nullable<decimal> Monto_SinIGV { get; set; }
     }
 }

@@ -22,6 +22,9 @@ namespace NubeBooks.Core.DTO
         public Decimal Ingresos { get; set; }
         public Decimal Egresos { get; set; }
 
+        public Decimal Ingresos_SinIGV { get; set; }
+        public Decimal Egresos_SinIGV { get; set; }
+
         public Decimal Porcentaje { get; set; }
     }
 }

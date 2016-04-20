@@ -20,5 +20,7 @@ namespace NubeBooks.Data
         public Nullable<int> IdEmpresa { get; set; }
         public Nullable<decimal> Ingreso { get; set; }
         public Nullable<decimal> Egreso { get; set; }
+        public Nullable<decimal> Ingreso_SinIGV { get; set; }
+        public Nullable<decimal> Egreso_SinIGV { get; set; }
     }
 }

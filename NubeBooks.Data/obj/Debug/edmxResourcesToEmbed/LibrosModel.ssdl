@@ -1005,7 +1005,19 @@
     <Parameter Name="FechaIni" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="FN_FacturacionPorCliente_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="FN_FacturacionPorHonorario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdHonorario" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_FacturacionPorHonorario_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdHonorario" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="FechaIni" Type="datetime" Mode="In" />
@@ -1070,13 +1082,32 @@
     <Parameter Name="FechaIni" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="FN_IngresosEgresos_AreaEnComprobantes_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="FN_IngresosEgresos_AreaNullEnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="FechaIni" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="FN_IngresosEgresos_AreaNullEnComprobantes_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="FN_IngresosEgresos_PorMes_EnAnio_EnComprobantes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="Mes" Type="int" Mode="In" />
+    <Parameter Name="Anio" Type="int" Mode="In" />
+  </Function>
+  <Function Name="FN_IngresosEgresos_PorMes_EnAnio_EnComprobantes_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="Mes" Type="int" Mode="In" />
