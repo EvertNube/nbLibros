@@ -1132,8 +1132,6 @@
         </Function>
         <Function Name="SP_Get_Rep_De_Items_Por_Vencimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
-          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
-          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
           <Parameter Name="rFechaFin" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_Get_Rep_De_Movimientos_De_Inventarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2840,12 +2838,6 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_Get_Rep_De_Items_Por_Vencimiento" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
-            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-            <Parameter Name="rFechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="SP_Get_Rep_De_Movimientos_De_Inventarios" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result)">
             <Parameter Name="IdItem" Mode="In" Type="Int32" />
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -2937,6 +2929,10 @@
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Get_Rep_De_Items_Por_Vencimiento" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="rFechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
           <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -2974,17 +2970,6 @@
           <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
         <ComplexType Name="SP_Get_Rep_De_Inventarios_Result">
-          <Property Type="Int32" Name="IdItem" Nullable="false" />
-          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="nCategoria" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="StockLote" Nullable="false" />
-          <Property Type="Int32" Name="SaldoItem" Nullable="false" />
-          <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
-        </ComplexType>
-        <ComplexType Name="SP_Get_Rep_De_Items_Por_Vencimiento_Result">
           <Property Type="Int32" Name="IdItem" Nullable="false" />
           <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
@@ -3171,6 +3156,17 @@
           <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
           <Property Type="Int32" Name="SaldoItem" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Get_Rep_De_Items_Por_Vencimiento_Result">
+          <Property Type="Int32" Name="IdItem" Nullable="false" />
+          <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="nCategoria" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="StockLote" Nullable="false" />
+          <Property Type="Int32" Name="SaldoItem" Nullable="false" />
+          <Property Type="String" Name="nUbicacion" Nullable="false" MaxLength="150" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3644,21 +3640,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Items_Por_Vencimiento" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Items_Por_Vencimiento">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result">
-                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
-                <ScalarProperty Name="nItem" ColumnName="nItem" />
-                <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
-                <ScalarProperty Name="nCategoria" ColumnName="nCategoria" />
-                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
-                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
-                <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Movimientos_De_Inventarios" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Movimientos_De_Inventarios">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Movimientos_De_Inventarios_Result">
@@ -3905,6 +3886,21 @@
                 <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
                 <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
                 <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_Rep_De_Items_Por_Vencimiento" FunctionName="LibrosDBModel.Store.SP_Get_Rep_De_Items_Por_Vencimiento">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_De_Items_Por_Vencimiento_Result">
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="nItem" ColumnName="nItem" />
+                <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
+                <ScalarProperty Name="nCategoria" ColumnName="nCategoria" />
+                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
+                <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
+                <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -65,11 +65,11 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
-        public List<MovimientoInvDTO> Get_Reporte_Items_Por_Vencimiento(int idEmpresa, DateTime fechaInicio, DateTime fechaFin, DateTime rFechaFin)
+        public List<MovimientoInvDTO> Get_Reporte_Items_Por_Vencimiento(int idEmpresa, DateTime rFechaFin)
         {
             using (var context = getContext())
             {
-                var result = context.SP_Get_Rep_De_Items_Por_Vencimiento(idEmpresa, fechaInicio, fechaFin, rFechaFin).Select(x => new MovimientoInvDTO
+                var result = context.SP_Get_Rep_De_Items_Por_Vencimiento(idEmpresa, rFechaFin).Select(x => new MovimientoInvDTO
                 {
                     IdItem = x.IdItem,
                     nItem = x.nItem,

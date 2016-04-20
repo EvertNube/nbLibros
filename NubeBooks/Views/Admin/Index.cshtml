@@ -10,6 +10,11 @@
     @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot-spline/js/jquery.flot.spline.min.js")
     @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot/jquery.flot.pie.js")
     <script type="text/javascript">
+        @*var jsTotalConsolidado = @ViewBag.TotalConsolidado;*@
+        var jsTotalSoles = parseFloat('@ViewBag.TotalSoles');
+        var jsTotalDolares = parseFloat('@ViewBag.TotalDolares');
+        var jsTipoCambio = parseFloat('@ViewBag.TipoCambio');
+
         $(function () {
             PintarGraficaLiquidez();
             PintarGraficaFacturacion();
@@ -22,6 +27,25 @@
         function Moneda_Consolidado(item)
         {
             $(item).toggleClass('bg-success bg-warning');
+
+            if($(item).hasClass('bg-success'))
+            {
+                var sTotal = jsTotalDolares + (jsTotalSoles / jsTipoCambio)
+                @*var sTotal = jsTotalSoles @ViewBag.TotalConsolidado / @ViewBag.TipoCambio;*@
+                var sCadena = '$ ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+                $('#total_consolidado span').text(sCadena);
+                
+                //$(item).val(sTotal);
+            }
+            else if($(item).hasClass('bg-warning'))
+            {
+                var sTotal = jsTotalSoles + (jsTotalDolares * jsTipoCambio)
+                
+                var sCadena = 'S/. ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+                $('#total_consolidado span').text(sCadena);
+
+                //$(item).val(sTotal);
+            }
         }
 
         function PintarGraficaLiquidez() {
@@ -47,7 +71,7 @@
                     splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 }}], {
                         colors: ['#23b7e5', '#7266ba'],
                         series: { shadowSize: 3 },
-                        xaxis:{ 
+                        xaxis:{
                             font: { color: '#a1a7ac' },
                             position: 'bottom',
                             ticks: [
@@ -107,7 +131,7 @@
             }], {
                 colors: ['#7f8c8d', '#e8eff0'],
                 series: { shadowSize: 0 },
-                xaxis:{ 
+                xaxis:{
                     font: { color: '#a1a7ac' },
                     position: 'bottom',
                     ticks: [
@@ -211,16 +235,31 @@
             $.ajax({
                 url: tcUrl,
                 type: 'GET',
-                crossDomain: true,
-                dataType: 'jsonp',
+                //crossDomain: true,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     console.log(data);
                 },
                 error: function (message) {
                     //alert(x + '\n' + y + '\n' + z);
-                    alert(message);
+                    //alert(message);
+                    console.log(message);
                 }
             });
+            /*$.ajax({
+                type: "GET",
+                url: tcUrl,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (message) {
+                    console.log(data);
+                }
+            });*/
         }
 
     </script>
@@ -330,7 +369,10 @@
                                     <div id="total_consolidado" class="text-primary-dk font-thin h1"><span>S/. @ViewBag.TotalConsolidado.ToString("N2", CultureInfo.InvariantCulture)</span></div>
                                     <span class="text-muted text-xs">CONSOLIDADO</span>
                                 </div>
-                                <div id="pie_consolidado" class="col w-xs v-middle hidden-md bg-success dker">
+                                @{ 
+                                    var colorTMoneda = ViewBag.TipoMoneda == 1 ? "warning" : "success";
+                                }
+                                <div id="pie_consolidado" class="col w-xs v-middle hidden-md bg-@colorTMoneda dker">
                                     <a href="#"><i class="fa fa-money fa-3x"></i></a>
                                 </div>
                             </div>

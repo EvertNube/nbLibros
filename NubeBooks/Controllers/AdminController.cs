@@ -212,8 +212,14 @@ namespace NubeBooks.Controllers
             ViewBag.TotalDolares = empresa.TotalDolares.GetValueOrDefault();
             ViewBag.TotalSolesOld = empresa.TotalSolesOld.GetValueOrDefault();
             ViewBag.TotalDolaresOld = empresa.TotalDolaresOld.GetValueOrDefault();
-            ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio;
+
+            if (empresa.IdMoneda == 1)
+            { ViewBag.TotalConsolidado = empresa.TotalSoles.GetValueOrDefault() + empresa.TotalDolares.GetValueOrDefault() * empresa.TipoCambio; }
+            else
+            { ViewBag.TotalConsolidado = empresa.TotalDolares.GetValueOrDefault() + empresa.TotalSoles.GetValueOrDefault() / empresa.TipoCambio; }
+
             ViewBag.TipoCambio = empresa.TipoCambio;
+            ViewBag.TipoMoneda = empresa.IdMoneda;
             ViewBag.sMoneda = empresa.SimboloMoneda;
             //Liquidez
             ViewBag.lstLiquidezSoles = objBL.getLiquidezEnEmpresaPorMoneda(user.IdEmpresa, 1);
@@ -2719,7 +2725,7 @@ namespace NubeBooks.Controllers
 
             if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
-            ViewBag.Title += " - Reportes de Presupuestos";
+            ViewBag.Title += " - Reportes de Presupuesto";
             MenuNavBarSelected(1, 0);
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
@@ -2820,7 +2826,7 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Nivel");
-            dt.Columns.Add("P. Presupuesto");
+            dt.Columns.Add("Partida");
             dt.Columns.Add("Total (" + objEmpresa.SimboloMoneda + ")");
             dt.Columns.Add("PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")");
             dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
@@ -3528,9 +3534,9 @@ namespace NubeBooks.Controllers
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
-        public ActionResult GenerarRep_Items_Por_Vencimiento(DateTime? FechaInicio, DateTime? FechaFin, DateTime? rFechaFin)
+        public ActionResult GenerarRep_Items_Por_Vencimiento(DateTime? rFechaFin)
         {
-            if (FechaFin == null)
+            if (rFechaFin == null)
             {
                 return RedirectToAction("ReportesInventarios", new { message = 1 });
             }
@@ -3538,7 +3544,7 @@ namespace NubeBooks.Controllers
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             Reportes_InventariosBL repBL = new Reportes_InventariosBL();
-            List<MovimientoInvDTO> lstInventarios = repBL.Get_Reporte_Items_Por_Vencimiento(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault(), rFechaFin.GetValueOrDefault());
+            List<MovimientoInvDTO> lstInventarios = repBL.Get_Reporte_Items_Por_Vencimiento(objEmpresa.IdEmpresa, rFechaFin.GetValueOrDefault());
 
             if (lstInventarios == null)
                 return RedirectToAction("ReportesInventarios", new { message = 2 });
@@ -3569,7 +3575,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf4(dt, "Items Por Fecha de Vencimiento", "ItemsPorFechaDeVencimiento", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf7(dt, "Items Por Fecha de Vencimiento", "ItemsPorFechaDeVencimiento", objEmpresa, rFechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3894,7 +3900,7 @@ namespace NubeBooks.Controllers
         {
             System.Data.DataRow row = dt.NewRow();
             row["Nivel"] = obj.Nivel;
-            row["P. Presupuesto"] = obj.Nombre;
+            row["Partida"] = obj.Nombre;
             Decimal pMonto = lstCatMontos.SingleOrDefault(x => x.IdCategoria == obj.IdCategoria).Presupuesto.GetValueOrDefault();
             row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
             row["PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
