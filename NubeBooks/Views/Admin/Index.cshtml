@@ -366,7 +366,7 @@
                                     <div ng-init="d3_3=[@pDolares,@pSoles]" ui-jq="sparkline" ui-options="[@pDolares,@pSoles], {type:'pie', height:60,  tooltipFormat: '{{offset:offset}} ({{percent.1}}%)', tooltipValueLookups: {'offset': {0:'Dólares',1:'Soles'}}, sliceColors:['#1a9c39','#fad733']}" class="sparkline inline"></div>
                                 </div>
                                 <div class="col dk padder-v r-r">
-                                    <div id="total_consolidado" class="text-primary-dk font-thin h1"><span>S/. @ViewBag.TotalConsolidado.ToString("N2", CultureInfo.InvariantCulture)</span></div>
+                                    <div id="total_consolidado" class="text-primary-dk font-thin h1"><span>@ViewBag.sMoneda @ViewBag.TotalConsolidado.ToString("N2", CultureInfo.InvariantCulture)</span></div>
                                     <span class="text-muted text-xs">CONSOLIDADO</span>
                                 </div>
                                 @{ 
