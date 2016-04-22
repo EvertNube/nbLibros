@@ -473,6 +473,7 @@
           <ScalarProperty Name="IdItem" ColumnName="IdItem" />
           <ScalarProperty Name="nItem" ColumnName="nItem" />
           <ScalarProperty Name="nItemCodigo" ColumnName="nItemCodigo" />
+          <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
           <ScalarProperty Name="nCategoria" ColumnName="nCategoria" />
           <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
           <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
@@ -496,6 +497,7 @@
           <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
           <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
           <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
+          <ScalarProperty Name="nEntidadResponsable" ColumnName="nEntidadResponsable" />
           <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
           <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
           <ScalarProperty Name="Comentario" ColumnName="Comentario" />
@@ -516,6 +518,7 @@
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result">
           <ScalarProperty Name="IdItem" ColumnName="IdItem" />
           <ScalarProperty Name="nItem" ColumnName="nItem" />
+          <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
           <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
           <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
           <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
@@ -619,6 +622,7 @@
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -628,6 +632,7 @@
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -674,6 +679,7 @@
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -695,6 +701,7 @@
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

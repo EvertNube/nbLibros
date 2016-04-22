@@ -19,6 +19,8 @@ namespace NubeBooks.Core.DTO
 
         public List<EntidadResponsableR_DTO> lstClientes { get; set; }
         public Decimal SumaClientes { get; set; }
+        public Decimal SumaClientes_SinIGV { get; set; }
+
         public Decimal Ingresos { get; set; }
         public Decimal Egresos { get; set; }
 

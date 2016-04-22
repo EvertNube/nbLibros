@@ -18,5 +18,6 @@ namespace NubeBooks.Core.DTO
         public int IdEmpresa { get; set; }
 
         public Decimal Monto { get; set; }
+        public Decimal MontoSinIGV { get; set; }
     }
 }

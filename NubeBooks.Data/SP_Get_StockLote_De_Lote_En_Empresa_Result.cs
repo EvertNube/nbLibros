@@ -11,13 +11,9 @@ namespace NubeBooks.Data
 {
     using System;
     
-    public partial class SP_Get_Rep_Stock_De_Items_Result
+    public partial class SP_Get_StockLote_De_Lote_En_Empresa_Result
     {
-        public int IdItem { get; set; }
-        public string nItem { get; set; }
-        public string UnidadMedida { get; set; }
-        public string nCodigo { get; set; }
-        public string nCategoriaItm { get; set; }
-        public Nullable<int> SaldoItem { get; set; }
+        public string SerieLote { get; set; }
+        public Nullable<int> StockLote { get; set; }
     }
 }

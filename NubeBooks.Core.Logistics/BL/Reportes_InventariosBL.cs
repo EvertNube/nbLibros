@@ -38,7 +38,8 @@ namespace NubeBooks.Core.Logistics.BL
                     nItem = x.nItemCodigo + " - " + x.nItem,
                     nTipo = x.nTipo,
                     nUsuario = x.nUsuario,
-                    StockLote = x.StockLote
+                    StockLote = x.StockLote,
+                    nEntidadResponsable = x.nEntidadResponsable
                 }).OrderBy(x => x.FechaInicial).ToList();
 
                 return result;
@@ -79,7 +80,8 @@ namespace NubeBooks.Core.Logistics.BL
                     FechaFin = x.FechaFin,
                     StockLote = x.StockLote,
                     SaldoItem = x.SaldoItem,
-                    nUbicacion = x.nUbicacion
+                    nUbicacion = x.nUbicacion,
+                    UnidadMedida = x.UnidadMedida
                 }).OrderBy(x => x.FechaInicial).ToList();
 
                 return result;
@@ -94,6 +96,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdItem = x.IdItem,
                     Nombre = x.nItem,
+                    UnidadMedida = x.UnidadMedida,
                     Codigo = x.nCodigo,
                     nCategoriaItem = x.nCategoriaItm,
                     SaldoItem = x.SaldoItem.GetValueOrDefault()

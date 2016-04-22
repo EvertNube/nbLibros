@@ -28,5 +28,6 @@ namespace NubeBooks.Data
         public string CuentaSoles { get; set; }
         public string CuentaDolares { get; set; }
         public Nullable<decimal> Monto { get; set; }
+        public Nullable<decimal> MontoSinIGV { get; set; }
     }
 }

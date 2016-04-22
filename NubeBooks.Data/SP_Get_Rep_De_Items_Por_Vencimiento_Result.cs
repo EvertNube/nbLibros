@@ -16,6 +16,7 @@ namespace NubeBooks.Data
         public int IdItem { get; set; }
         public string nItem { get; set; }
         public string nItemCodigo { get; set; }
+        public string UnidadMedida { get; set; }
         public string nCategoria { get; set; }
         public string SerieLote { get; set; }
         public Nullable<System.DateTime> FechaFin { get; set; }

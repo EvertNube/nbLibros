@@ -141,6 +141,14 @@ else { cadena = "Actualizar"; }
                                 </div>
                             </div>
                         }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <label>Comentario</label>
+                                @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Comentario", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.Comentario, "", new { @style = "color:red;" })
+                            </div>
+                        }
                     </div>
                 </div>
                 if (Model.IdTipoMovimientoInv == 1)

@@ -16,5 +16,6 @@ namespace NubeBooks.Data
         public int IdEntidadResponsable { get; set; }
         public string Nombre { get; set; }
         public Nullable<decimal> Monto { get; set; }
+        public Nullable<decimal> MontoSinIGV { get; set; }
     }
 }

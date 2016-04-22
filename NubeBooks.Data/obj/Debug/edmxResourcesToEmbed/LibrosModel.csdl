@@ -1513,6 +1513,7 @@
     <Property Type="Int32" Name="IdItem" Nullable="false" />
     <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="nItemCodigo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="nCategoria" Nullable="false" MaxLength="150" />
     <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
@@ -1532,6 +1533,7 @@
     <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
     <Property Type="Int32" Name="Cantidad" Nullable="false" />
     <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="nEntidadResponsable" Nullable="false" MaxLength="100" />
     <Property Type="DateTime" Name="FechaInicial" Nullable="false" Precision="23" />
     <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
     <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
@@ -1548,6 +1550,7 @@
   <ComplexType Name="SP_Get_Rep_Stock_De_Items_Result">
     <Property Type="Int32" Name="IdItem" Nullable="false" />
     <Property Type="String" Name="nItem" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
     <Property Type="Int32" Name="SaldoItem" Nullable="true" />
@@ -1619,11 +1622,13 @@
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
   <ComplexType Name="SP_Rep_FacturacionPorAreas_Result">
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
   <ComplexType Name="SP_Rep_FacturacionPorCliente_Result">
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
@@ -1658,6 +1663,7 @@
     <Property Type="Boolean" Name="Estado" Nullable="false" />
     <Property Type="Int32" Name="IdEmpresa" Nullable="false" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
   <ComplexType Name="SP_Rep_GastosPorProveedor_Result">
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
@@ -1675,6 +1681,7 @@
     <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
   <ComplexType Name="SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result">
     <Property Type="Int32" Name="Mes" Nullable="false" />

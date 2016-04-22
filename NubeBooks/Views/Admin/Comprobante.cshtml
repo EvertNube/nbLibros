@@ -387,9 +387,16 @@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Afecto al IGV</label>
+                            @{ 
+                                bool miChk = true;
+                                if(Model.IdComprobante != 0)
+                                {
+                                    miChk = Model.Monto == Model.MontoSinIGV ? false : true;
+                                }
+                            }
                             <div>
                                 <label class="i-switch m-t-xs m-r">
-                                    <input id="chkIGV" type="checkbox" checked="" onchange="ActualizarMontoConIGV()">
+                                    <input id="chkIGV" type="checkbox" value="@(miChk ? "true" : "false")" checked="@miChk" onchange="ActualizarMontoConIGV()">
                                     <i></i>
                                 </label>
                             </div>

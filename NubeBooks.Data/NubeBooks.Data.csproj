@@ -170,6 +170,9 @@
     <Compile Include="SP_Get_StockLotes_En_Empresa_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Get_StockLote_De_Lote_En_Empresa_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Rep_AvanceDePresupuesto_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

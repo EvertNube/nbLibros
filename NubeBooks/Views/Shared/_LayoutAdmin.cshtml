@@ -126,14 +126,14 @@
                                 <ul class="nav nav-sub dk">
                                     <li class="nav-sub-header">
                                         <a href="@Url.Action("ReportesGestion", "Admin")">
-                                            <span>Presupuestos</span>
+                                            <span>Gestión</span>
                                         </a>
                                     </li>
                                     @if (!ViewBag.EsUsuarioInterno)
                                     {
                                         <li class="@ViewBag.navbar.lstOptions[1].lstOptions[0].cadena">
                                             <a href="@Url.Action("ReportesPresupuestos", "Admin")">
-                                                <span>Presupuestos</span>
+                                                <span>Presupuesto</span>
                                             </a>
                                         </li>
                                     }

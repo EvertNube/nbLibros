@@ -103,13 +103,15 @@ namespace NubeBooks.Core.BL
                     {
                         IdEntidadResponsable = r.IdEntidadResponsable,
                         Nombre = r.Nombre,
-                        Monto = r.Monto.GetValueOrDefault()
+                        Monto = r.Monto.GetValueOrDefault(),
+                        MontoSinIGV = r.MontoSinIGV.GetValueOrDefault()
                     }).ToList()
                 }).OrderBy(x => x.Nombre).ToList();
 
                 foreach (var item in result)
                 {
                     item.SumaClientes = item.lstClientes.Sum(x => x.Monto);
+                    item.SumaClientes_SinIGV = item.lstClientes.Sum(x => x.MontoSinIGV);
                 }
 
                 return result;
@@ -133,13 +135,15 @@ namespace NubeBooks.Core.BL
                     {
                         IdEntidadResponsable = r.IdEntidadResponsable,
                         Nombre = r.Nombre,
-                        Monto = r.Monto.GetValueOrDefault()
+                        Monto = r.Monto.GetValueOrDefault(),
+                        MontoSinIGV = r.MontoSinIGV.GetValueOrDefault()
                     }).ToList()
                 }).OrderBy(x => x.Nombre).ToList();
 
                 foreach (var item in result)
                 {
                     item.SumaClientes = item.lstClientes.Sum(x => x.Monto);
+                    item.SumaClientes_SinIGV = item.lstClientes.Sum(x => x.MontoSinIGV);
                 }
 
                 return result;
@@ -220,7 +224,8 @@ namespace NubeBooks.Core.BL
                     Estado = x.Estado,
                     Tipo = x.Tipo,
                     IdEmpresa = x.IdEmpresa,
-                    Monto = x.Monto.GetValueOrDefault()
+                    Monto = x.Monto.GetValueOrDefault(),
+                    MontoSinIGV = x.MontoSinIGV.GetValueOrDefault()
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -239,7 +244,8 @@ namespace NubeBooks.Core.BL
                     Descripcion = x.Descripcion,
                     Estado = x.Estado,
                     IdEmpresa = x.IdEmpresa,
-                    Monto = x.Monto.GetValueOrDefault()
+                    Monto = x.Monto.GetValueOrDefault(),
+                    MontoSinIGV = x.MontoSinIGV.GetValueOrDefault()
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }

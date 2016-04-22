@@ -1672,7 +1672,21 @@ namespace NubeBooks.Controllers
                 MovimientoInvBL objBL = new MovimientoInvBL();
                 if (dto.IdMovimientoInv == 0)
                 {
-                    if (objBL.add(dto))
+                    //Verificar que el stock no sea negativo
+                    if(dto.IdTipoMovimientoInv == 2)
+                    {
+                        int sumaLote = objBL.get_Stock_De_Lote_En_Empresa(dto.IdEmpresa, dto.SerieLote) + (dto.Cantidad * -1);
+                        if (sumaLote < 0)
+                        {
+                            createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_ITEMS_LIMIT);
+                            return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
+                        }
+                        else if (objBL.add(dto))
+                        {
+                            createResponseMessage(CONSTANTES.SUCCESS);
+                            return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
+                        }
+                    } else if (objBL.add(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
@@ -1680,7 +1694,20 @@ namespace NubeBooks.Controllers
                 }
                 else if (dto.IdMovimientoInv != 0)
                 {
-                    if (objBL.update(dto))
+                    if (dto.IdTipoMovimientoInv == 2)
+                    {
+                        int sumaLote = objBL.get_Stock_De_Lote_En_Empresa(dto.IdEmpresa, dto.SerieLote) + (dto.Cantidad * -1);
+                        if (sumaLote < 0)
+                        {
+                            createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_ITEMS_LIMIT);
+                            return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
+                        }
+                        else if (objBL.update(dto))
+                        {
+                            createResponseMessage(CONSTANTES.SUCCESS);
+                            return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
+                        }
+                    } else if (objBL.update(dto))
                     {
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Inventarios" + sTipoMovimientoInv, "Admin");
@@ -2900,10 +2927,12 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Áreas");
             dt.Columns.Add("Proveedores");
-            dt.Columns.Add("Montos");
+            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto sin IGV");
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstAreasMontos.Sum(x => x.SumaClientes);
+            Decimal SumaTotal_SinIGV = lstAreasMontos.Sum(x => x.SumaClientes_SinIGV);
 
             foreach (var obj in lstAreasMontos)
             {
@@ -2914,6 +2943,7 @@ namespace NubeBooks.Controllers
             System.Data.DataRow rowFinal = dt.NewRow();
             rowFinal[0] = "TOTAL";
             rowFinal[2] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal[3] = SumaTotal_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
             GridView gv = new GridView();
@@ -2972,10 +3002,12 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Áreas");
             dt.Columns.Add("Clientes");
-            dt.Columns.Add("Montos");
+            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto sin IGV");
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstAreasMontos.Sum(x => x.SumaClientes);
+            Decimal SumaTotal_SinIGV = lstAreasMontos.Sum(x => x.SumaClientes_SinIGV);
 
             foreach (var obj in lstAreasMontos)
             {
@@ -2986,6 +3018,7 @@ namespace NubeBooks.Controllers
             System.Data.DataRow rowFinal = dt.NewRow();
             rowFinal[0] = "TOTAL";
             rowFinal[2] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal[3] = SumaTotal_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
             GridView gv = new GridView();
@@ -3082,6 +3115,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstClientes.Sum(x => x.Monto);
+            Decimal SumaTotal_SinIGV = lstClientes.Sum(x => x.MontoSinIGV);
 
             foreach (var obj in lstClientes)
             {
@@ -3099,7 +3133,8 @@ namespace NubeBooks.Controllers
 
             System.Data.DataRow rowFinal = dt.NewRow();
             rowFinal["Clientes"] = "TOTAL";
-            rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto con IGV"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto sin IGV"] = SumaTotal_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
             GenerarPdf(dt, "Ventas por Clientes", "VentasPorClientes", objEmpresa, FechaInicio, FechaFin, Response);
@@ -3125,10 +3160,12 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Proveedores");
-            dt.Columns.Add("Monto");
+            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto sin IGV");
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstProveedores.Sum(x => x.Monto);
+            Decimal SumaTotal_SinIGV = lstProveedores.Sum(x => x.MontoSinIGV);
 
             foreach (var obj in lstProveedores)
             {
@@ -3136,7 +3173,8 @@ namespace NubeBooks.Controllers
                 {
                     System.Data.DataRow row = dt.NewRow();
                     row["Proveedores"] = obj.Nombre;
-                    row["Monto"] = obj.Monto;
+                    row["Monto con IGV"] = obj.Monto;
+                    row["Monto sin IGV"] = obj.MontoSinIGV;
                     Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
                     row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
                     dt.Rows.Add(row);
@@ -3145,7 +3183,8 @@ namespace NubeBooks.Controllers
 
             System.Data.DataRow rowFinal = dt.NewRow();
             rowFinal["Proveedores"] = "TOTAL";
-            rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto con IGV"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto sin IGV"] = SumaTotal_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
             GenerarPdf(dt, "Gastos por Proveedores", "GastosPorProveedores", objEmpresa, FechaInicio, FechaFin, Response);
@@ -3171,16 +3210,19 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Consultores");
-            dt.Columns.Add("Monto");
+            dt.Columns.Add("Monto con IGV");
+            dt.Columns.Add("Monto sin IGV");
             dt.Columns.Add("Porcentaje");
 
             Decimal SumaTotal = lstVendedores.Sum(x => x.Monto);
+            Decimal SumaTotal_SinIGV = lstVendedores.Sum(x => x.MontoSinIGV);
 
             foreach (var obj in lstVendedores)
             {
                 System.Data.DataRow row = dt.NewRow();
                 row["Consultores"] = obj.Nombre;
-                row["Monto"] = obj.Monto;
+                row["Monto con IGV"] = obj.Monto;
+                row["Monto sin IGV"] = obj.MontoSinIGV;
                 Decimal porcentaje = SumaTotal == 0 ? 0 : obj.Monto / SumaTotal;
                 row["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row);
@@ -3188,7 +3230,8 @@ namespace NubeBooks.Controllers
 
             System.Data.DataRow rowFinal = dt.NewRow();
             rowFinal["Consultores"] = "TOTAL";
-            rowFinal["Monto"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto con IGV"] = SumaTotal.ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto sin IGV"] = SumaTotal_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             dt.Rows.Add(rowFinal);
 
             GenerarPdf(dt, "Ventas por Consultores", "VentasPorConsultores", objEmpresa, FechaInicio, FechaFin, Response);
@@ -3471,11 +3514,16 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Fecha");
             dt.Columns.Add("Movimiento");
             dt.Columns.Add("Tipo");
+            dt.Columns.Add("Numero Documento");
+            dt.Columns.Add("Guia de Remision");
+            dt.Columns.Add("Proveedor");
             dt.Columns.Add("Cantidad");
             dt.Columns.Add("Unid Med");
+            dt.Columns.Add("Ubicacion");
             dt.Columns.Add("Lote");
             dt.Columns.Add("Stock por Lote");
             dt.Columns.Add("Vencimiento");
+            dt.Columns.Add("Comentario");
             dt.Columns.Add("Usuario");
 
             foreach (var obj in lstMovs)
@@ -3484,11 +3532,16 @@ namespace NubeBooks.Controllers
                 row["Fecha"] = obj.FechaInicial.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
                 row["Movimiento"] = obj.nTipo;
                 row["Tipo"] = obj.nForma;
+                row["Numero Documento"] = obj.NroDocumento;
+                row["Guia de Remision"] = obj.GuiaRemision;
+                row["Proveedor"] = obj.nEntidadResponsable;
                 row["Cantidad"] = obj.Cantidad;
                 row["Unid Med"] = obj.UnidadMedida;
+                row["Ubicacion"] = obj.nUbicacion;
                 row["Lote"] = obj.SerieLote;
                 row["Stock por Lote"] = obj.StockLote;
                 row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Comentario"] = obj.Comentario;
                 row["Usuario"] = obj.nUsuario;
                 dt.Rows.Add(row);
             }
@@ -3563,6 +3616,7 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Código");
             dt.Columns.Add("Item");
+            dt.Columns.Add("Unidad Medida");
             dt.Columns.Add("Categoría");
             dt.Columns.Add("Lote");
             dt.Columns.Add("Vencimiento");
@@ -3575,6 +3629,7 @@ namespace NubeBooks.Controllers
                 DataRow row = dt.NewRow();
                 row["Código"] = obj.nItemCodigo;
                 row["Item"] = obj.nItem;
+                row["Unidad Medida"] = obj.UnidadMedida;
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
                 row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
@@ -3584,7 +3639,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf7(dt, "Items Por Fecha de Vencimiento", "ItemsPorFechaDeVencimiento", objEmpresa, rFechaFin, Response);
+            GenerarPdf7(dt, "Items con Fecha de Vencimiento", "ItemsConFechaDeVencimiento", objEmpresa, rFechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3609,6 +3664,7 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Código");
             dt.Columns.Add("Item");
+            dt.Columns.Add("Unidad Medida");
             dt.Columns.Add("Categoría");
             dt.Columns.Add("Saldo Por Item");
 
@@ -3617,6 +3673,7 @@ namespace NubeBooks.Controllers
                 DataRow row = dt.NewRow();
                 row["Código"] = obj.Codigo;
                 row["Item"] = obj.Nombre;
+                row["Unidad Medida"] = obj.UnidadMedida;
                 row["Categoría"] = obj.nCategoriaItem;
                 row["Saldo Por Item"] = obj.SaldoItem;
                 dt.Rows.Add(row);
@@ -3925,7 +3982,8 @@ namespace NubeBooks.Controllers
         {
             System.Data.DataRow row1 = dt.NewRow();
             row1[0] = obj.Nombre;
-            row1["Montos"] = obj.SumaClientes.ToString("N2", CultureInfo.InvariantCulture);
+            row1["Monto con IGV"] = obj.SumaClientes.ToString("N2", CultureInfo.InvariantCulture);
+            row1["Monto sin IGV"] = obj.SumaClientes_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
             Decimal porcentaje = SumaTotal == 0 ? 0 : obj.SumaClientes / SumaTotal;
             row1["Porcentaje"] = porcentaje.ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row1);
@@ -3936,7 +3994,8 @@ namespace NubeBooks.Controllers
                 {
                     System.Data.DataRow row2 = dt.NewRow();
                     row2[1] = item.Nombre;
-                    row2["Montos"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                    row2["Monto con IGV"] = item.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                    row2["Monto sin IGV"] = item.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
                     dt.Rows.Add(row2);
                 }
             }

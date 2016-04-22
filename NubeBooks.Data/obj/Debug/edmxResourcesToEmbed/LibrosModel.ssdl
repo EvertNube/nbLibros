@@ -1029,7 +1029,19 @@
     <Parameter Name="FechaIni" Type="datetime" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
   </Function>
+  <Function Name="FN_FacturacionPorVendedor_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdVendedor" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
   <Function Name="FN_GastosPorProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdCliente" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_GastosPorProveedor_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="IdCliente" Type="int" Mode="In" />
     <Parameter Name="FechaIni" Type="datetime" Mode="In" />
@@ -1114,6 +1126,14 @@
     <Parameter Name="Anio" Type="int" Mode="In" />
   </Function>
   <Function Name="FN_MontoAreaXEntidadEnComp_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+    <Parameter Name="IdArea" Type="int" Mode="In" />
+    <Parameter Name="IdEntidad" Type="int" Mode="In" />
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="FechaIni" Type="datetime" Mode="In" />
+    <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="FN_MontoAreaXEntidadEnComp_Empresa_SinIGV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
     <Parameter Name="IdArea" Type="int" Mode="In" />
     <Parameter Name="IdEntidad" Type="int" Mode="In" />
     <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />

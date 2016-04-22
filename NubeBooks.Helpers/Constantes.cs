@@ -40,6 +40,7 @@ namespace NubeBooks.Helpers
         public static string ERROR_NO_UNBAN = "<strong>Error.</strong> Se produjo un error mientras se intentaba restablecer el elemento.";
         public static string ERROR_DOCUMENTO_INGRESO_REPETIDO_1 = "<strong>Hubo un error al insertar.</strong> Ya existe un comprobante de INGRESO con el mismo Número de documento.";
         public static string ERROR_DOCUMENTO_INGRESO_REPETIDO_3 = "<strong>Hubo un error al insertar.</strong> Ya existe un comprobante de INGRESO ANULADO con el mismo Número de documento.";
+        public static string ERROR_ITEMS_LIMIT = "<strong>Hubo un error.</strong> No se pueden retirar más items de los que hay en el Lote.";
 
         public static string SUCCESS_MESSAGE_FOR_RECOVERY_PASSWORD = "<strong>Se ha enviado un mensaje a su correo electrónico.</strong>";
         public static string SUCCESS_RECOVERY_PASSWORD = "<strong>Se ha enviado un correo con la contraseña.</strong>";

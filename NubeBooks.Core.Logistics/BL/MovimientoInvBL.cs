@@ -77,6 +77,18 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
+        public int get_Stock_De_Lote_En_Empresa(int idEmpresa, string lote)
+        {
+            using (var context = getContext())
+            {
+                var result = context.SP_Get_StockLote_De_Lote_En_Empresa(idEmpresa, lote).SingleOrDefault();
+
+                if (result != null) return result.StockLote.GetValueOrDefault();
+
+                return 0;
+            }
+        }
+
         public List<MovimientoInvDTO> getMovimientoInvsEnEmpresaViewBag(int idEmpresa)
         {
             using (var context = getContext())
