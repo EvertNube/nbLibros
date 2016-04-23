@@ -3325,8 +3325,8 @@ namespace NubeBooks.Controllers
                 }
             }
 
-            string titulo = IdTipoComprobante == 1 ? "Cuentas Cobradas y por Cobrar" : "Cuentas Pagadas y por Pagar";
-            string nombreFile = IdTipoComprobante == 1 ? "CuentasCobradas_y_porCobrar" : "CuentasPagadas_y_porPagar";
+            string titulo = IdTipoComprobante == 1 ? "Documentos Cobrados y por Cobrar" : "Documentos Pagados y por Pagar";
+            string nombreFile = IdTipoComprobante == 1 ? "DocumentosCobrados_y_porCobrar" : "DocumentosPagados_y_porPagar";
 
             GenerarPdf2(dt, titulo, nombreFile, objEmpresa, FechaInicio, FechaFin, Response);
 
