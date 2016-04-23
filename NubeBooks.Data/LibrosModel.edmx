@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="IdArea" />
@@ -1171,6 +1171,11 @@
         <Function Name="SP_Get_Arbol_Categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdCategoria" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_Get_CuentasPor_CobrarPagar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+          <Parameter Name="IdMoneda" Type="int" Mode="In" />
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Get_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdComprobante" Type="int" Mode="In" />
           <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
@@ -1522,7 +1527,8 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibrosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2871,17 +2877,22 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
-          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarMontos_Empresa">
-          <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarPresupuestoPadre">
             <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
             <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
-          <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Get_CuentasPor_CobrarPagar" ReturnType="Collection(Decimal)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="IdMoneda" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
             <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
@@ -2907,8 +2918,12 @@
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Get_StockLote_De_Lote_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLote_De_Lote_En_Empresa_Result)">
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="SerieLote" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="SP_Get_StockLotes_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result)">
-          <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(LibrosDBModel.SP_GetReporteDetalleMovimientos_Result)">
             <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
@@ -2987,10 +3002,6 @@
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_Get_StockLote_De_Lote_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLote_De_Lote_En_Empresa_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
-            <Parameter Name="SerieLote" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
@@ -3084,6 +3095,10 @@
           <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
           <Property Type="Int32" Name="SaldoItem" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Get_StockLote_De_Lote_En_Empresa_Result">
+          <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="StockLote" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_Get_StockLotes_En_Empresa_Result">
           <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
@@ -3241,10 +3256,6 @@
           <Property Type="Decimal" Name="Egreso" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Ingreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
-        </ComplexType>
-        <ComplexType Name="SP_Get_StockLote_De_Lote_En_Empresa_Result">
-          <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="StockLote" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3673,6 +3684,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_CuentasPor_CobrarPagar" FunctionName="LibrosDBModel.Store.SP_Get_CuentasPor_CobrarPagar" />
           <FunctionImportMapping FunctionImportName="SP_Get_MontoIncompletoEnComprobante" FunctionName="LibrosDBModel.Store.SP_Get_MontoIncompletoEnComprobante">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result">
@@ -3773,6 +3785,14 @@
                 <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
                 <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
                 <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Get_StockLote_De_Lote_En_Empresa" FunctionName="LibrosDBModel.Store.SP_Get_StockLote_De_Lote_En_Empresa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_StockLote_De_Lote_En_Empresa_Result">
+                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -3994,14 +4014,6 @@
                 <ScalarProperty Name="Egreso" ColumnName="Egreso" />
                 <ScalarProperty Name="Ingreso_SinIGV" ColumnName="Ingreso_SinIGV" />
                 <ScalarProperty Name="Egreso_SinIGV" ColumnName="Egreso_SinIGV" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_Get_StockLote_De_Lote_En_Empresa" FunctionName="LibrosDBModel.Store.SP_Get_StockLote_De_Lote_En_Empresa">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_StockLote_De_Lote_En_Empresa_Result">
-                <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
-                <ScalarProperty Name="StockLote" ColumnName="StockLote" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

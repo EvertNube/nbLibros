@@ -483,6 +483,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="panel wrapper-md bg-white-only b-b">
+                <div class="row text-center">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Cobrar</h4>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXCobrar_Soles.ToString("N2", CultureInfo.InvariantCulture)</i></div>
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXCobrar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Pagar</h4>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXPagar_Soles.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXPagar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- tasks -->
             <div class="panel wrapper">
                 <div class="row">

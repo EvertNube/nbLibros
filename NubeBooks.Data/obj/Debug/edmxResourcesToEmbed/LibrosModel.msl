@@ -422,6 +422,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_CuentasPor_CobrarPagar" FunctionName="LibrosDBModel.Store.SP_Get_CuentasPor_CobrarPagar" />
     <FunctionImportMapping FunctionImportName="SP_Get_MontoIncompletoEnComprobante" FunctionName="LibrosDBModel.Store.SP_Get_MontoIncompletoEnComprobante">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result">
@@ -522,6 +523,14 @@
           <ScalarProperty Name="nCodigo" ColumnName="nCodigo" />
           <ScalarProperty Name="nCategoriaItm" ColumnName="nCategoriaItm" />
           <ScalarProperty Name="SaldoItem" ColumnName="SaldoItem" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_StockLote_De_Lote_En_Empresa" FunctionName="LibrosDBModel.Store.SP_Get_StockLote_De_Lote_En_Empresa">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Get_StockLote_De_Lote_En_Empresa_Result">
+          <ScalarProperty Name="SerieLote" ColumnName="SerieLote" />
+          <ScalarProperty Name="StockLote" ColumnName="StockLote" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

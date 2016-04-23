@@ -234,6 +234,12 @@ namespace NubeBooks.Controllers
             //Ejecucion de Presupuesto
             ViewBag.EjecucionIngresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 1);
             ViewBag.EjecucionEgresos = objBL.getEjecucionDePresupuestoEnEmpresa(user.IdEmpresa, empresa.IdMoneda, empresa.IdPeriodo.GetValueOrDefault(), 2);
+            //Cuentas por Cobrar y Cuentas por Pagar
+            ViewBag.CuentasXCobrar_Soles = objBL.Get_CuentasPorCobrar(empresa.IdEmpresa, 1);
+            ViewBag.CuentasXCobrar_Dolares = objBL.Get_CuentasPorCobrar(empresa.IdEmpresa, 2);
+            ViewBag.CuentasXPagar_Soles = objBL.Get_CuentasPorPagar(empresa.IdEmpresa, 1);
+            ViewBag.CuentasXPagar_Dolares = objBL.Get_CuentasPorPagar(empresa.IdEmpresa, 2);
+
             //Principales clientes y proveedores
             ViewBag.top5Clientes = objBL.getTop5Clientes(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
             ViewBag.top5Proveedores = objBL.getTop5Proveedores(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());
@@ -2882,7 +2888,7 @@ namespace NubeBooks.Controllers
                 PintarCabeceraTabla(gv);
                 //PintarIntercaladoCategorias(gv);
 
-                AddSuperHeader(gv, "Avance de Presupuesto - Empresa:" + objEmpresa.Nombre);
+                AddSuperHeader(gv, "Ejecucion de Presupuesto - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
@@ -2892,7 +2898,7 @@ namespace NubeBooks.Controllers
 
                 Response.ClearContent();
                 Response.Buffer = true;
-                Response.AddHeader("content-disposition", "attachment; filename=" + "AvanceDePresupuesto_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.AddHeader("content-disposition", "attachment; filename=" + "EjecucionDePresupuesto_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
                 Response.ContentType = "application/ms-excel";
                 Response.Charset = "";
 
@@ -3087,7 +3093,7 @@ namespace NubeBooks.Controllers
                 { PintarAreasIE(obj, dt); }
             }
 
-            GenerarPdf(dt, "Ingresos y Egresos por &Aacute;reas", "IngresosYEgresosPorAreas", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf(dt, "Ventas y Gastos por &Aacute;reas", "VentasYGastosPorAreas", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesGestion", new { message = 2 });
         }
@@ -3376,7 +3382,7 @@ namespace NubeBooks.Controllers
             }
             PintarGastoPorPartidaPresupuesto(catArbol.Hijos.ToList(), dt);
 
-            GenerarPdf2(dt, "Detalle de Ingresos y Gastos por Partida de Presupuesto", "DetalleIngresosYGastos_PartidaDePresupuestos", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf2(dt, "Partida de Presupuesto Movimientos", "PartidaDePresupuestos_Movimientos", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesPresupuestos", new { message = 2 });
         }
@@ -3546,7 +3552,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf3(dt, "Movimientos de Inventarios", "MovimientosDeInventarios", item.Codigo, item.Nombre, objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf3(dt, "Movimientos de todos los Items", "MovimientosDeTodosLosItems", item.Codigo, item.Nombre, objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3574,7 +3580,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Categoría");
             dt.Columns.Add("Lote");
             dt.Columns.Add("Vencimiento");
-            dt.Columns.Add("Saldo Por Lote");
+            dt.Columns.Add("Stock por Lote");
             dt.Columns.Add("Saldo Por Item");
             dt.Columns.Add("Ubicación");
 
@@ -3586,7 +3592,7 @@ namespace NubeBooks.Controllers
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
                 row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
-                row["Saldo Por Lote"] = obj.StockLote;
+                row["Stock por Lote"] = obj.StockLote;
                 row["Saldo Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
                 dt.Rows.Add(row);
@@ -3649,6 +3655,8 @@ namespace NubeBooks.Controllers
             {
                 return RedirectToAction("ReportesInventarios", new { message = 1 });
             }
+
+            //FechaFin = DateTime.Now;
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 

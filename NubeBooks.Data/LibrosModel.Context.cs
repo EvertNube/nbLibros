@@ -100,6 +100,23 @@ namespace NubeBooks.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Arbol_Categoria_Result>("SP_Get_Arbol_Categoria", idCategoriaParameter);
         }
     
+        public virtual ObjectResult<Nullable<decimal>> SP_Get_CuentasPor_CobrarPagar(Nullable<int> idEmpresa, Nullable<int> idMoneda, Nullable<int> idTipoComprobante)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var idMonedaParameter = idMoneda.HasValue ?
+                new ObjectParameter("IdMoneda", idMoneda) :
+                new ObjectParameter("IdMoneda", typeof(int));
+    
+            var idTipoComprobanteParameter = idTipoComprobante.HasValue ?
+                new ObjectParameter("IdTipoComprobante", idTipoComprobante) :
+                new ObjectParameter("IdTipoComprobante", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("SP_Get_CuentasPor_CobrarPagar", idEmpresaParameter, idMonedaParameter, idTipoComprobanteParameter);
+        }
+    
         public virtual ObjectResult<SP_Get_MontoIncompletoEnComprobante_Result> SP_Get_MontoIncompletoEnComprobante(Nullable<int> idComprobante, Nullable<int> idCuentaBancaria, Nullable<int> idEmpresa)
         {
             var idComprobanteParameter = idComprobante.HasValue ?
@@ -179,6 +196,19 @@ namespace NubeBooks.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_Rep_Stock_De_Items_Result>("SP_Get_Rep_Stock_De_Items", idEmpresaParameter, fechaFinParameter);
+        }
+    
+        public virtual ObjectResult<SP_Get_StockLote_De_Lote_En_Empresa_Result> SP_Get_StockLote_De_Lote_En_Empresa(Nullable<int> idEmpresa, string serieLote)
+        {
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            var serieLoteParameter = serieLote != null ?
+                new ObjectParameter("SerieLote", serieLote) :
+                new ObjectParameter("SerieLote", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_StockLote_De_Lote_En_Empresa_Result>("SP_Get_StockLote_De_Lote_En_Empresa", idEmpresaParameter, serieLoteParameter);
         }
     
         public virtual ObjectResult<SP_Get_StockLotes_En_Empresa_Result> SP_Get_StockLotes_En_Empresa(Nullable<int> idEmpresa)
@@ -455,19 +485,6 @@ namespace NubeBooks.Data
                 new ObjectParameter("FechaFin", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_IngresosEgresosPorAreas_Result>("SP_Rep_IngresosEgresosPorAreas", idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
-        }
-    
-        public virtual ObjectResult<SP_Get_StockLote_De_Lote_En_Empresa_Result> SP_Get_StockLote_De_Lote_En_Empresa(Nullable<int> idEmpresa, string serieLote)
-        {
-            var idEmpresaParameter = idEmpresa.HasValue ?
-                new ObjectParameter("IdEmpresa", idEmpresa) :
-                new ObjectParameter("IdEmpresa", typeof(int));
-    
-            var serieLoteParameter = serieLote != null ?
-                new ObjectParameter("SerieLote", serieLote) :
-                new ObjectParameter("SerieLote", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Get_StockLote_De_Lote_En_Empresa_Result>("SP_Get_StockLote_De_Lote_En_Empresa", idEmpresaParameter, serieLoteParameter);
         }
     }
 }

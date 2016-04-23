@@ -713,5 +713,23 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+
+        public Decimal Get_CuentasPorCobrar(int idEmpresa, int idMoneda)
+        {
+            using (var context = getContext())
+            {
+                Decimal result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 1).SingleOrDefault().GetValueOrDefault();
+                return result;
+            }
+        }
+
+        public Decimal Get_CuentasPorPagar(int idEmpresa, int idMoneda)
+        {
+            using (var context = getContext())
+            {
+                Decimal result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 2).SingleOrDefault().GetValueOrDefault();
+                return result;
+            }
+        }
     }
 }

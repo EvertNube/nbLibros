@@ -1166,6 +1166,11 @@
   <Function Name="SP_Get_Arbol_Categoria" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdCategoria" Type="int" Mode="In" />
   </Function>
+  <Function Name="SP_Get_CuentasPor_CobrarPagar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="IdMoneda" Type="int" Mode="In" />
+    <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_Get_MontoIncompletoEnComprobante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdComprobante" Type="int" Mode="In" />
     <Parameter Name="IdCuentaBancaria" Type="int" Mode="In" />
@@ -1189,6 +1194,10 @@
   <Function Name="SP_Get_Rep_Stock_De_Items" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_StockLote_De_Lote_En_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+    <Parameter Name="SerieLote" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="SP_Get_StockLotes_En_Empresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />

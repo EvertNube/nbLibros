@@ -1357,6 +1357,11 @@
     <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
       <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_Get_CuentasPor_CobrarPagar" ReturnType="Collection(Decimal)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="IdMoneda" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_Get_MontoIncompletoEnComprobante" ReturnType="Collection(LibrosDBModel.SP_Get_MontoIncompletoEnComprobante_Result)">
       <Parameter Name="IdComprobante" Mode="In" Type="Int32" />
       <Parameter Name="IdCuentaBancaria" Mode="In" Type="Int32" />
@@ -1380,6 +1385,10 @@
     <FunctionImport Name="SP_Get_Rep_Stock_De_Items" ReturnType="Collection(LibrosDBModel.SP_Get_Rep_Stock_De_Items_Result)">
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Get_StockLote_De_Lote_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLote_De_Lote_En_Empresa_Result)">
+      <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+      <Parameter Name="SerieLote" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_Get_StockLotes_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result)">
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -1554,6 +1563,10 @@
     <Property Type="String" Name="nCodigo" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nCategoriaItm" Nullable="false" MaxLength="150" />
     <Property Type="Int32" Name="SaldoItem" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_Get_StockLote_De_Lote_En_Empresa_Result">
+    <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="StockLote" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SP_Get_StockLotes_En_Empresa_Result">
     <Property Type="String" Name="SerieLote" Nullable="false" MaxLength="50" />
