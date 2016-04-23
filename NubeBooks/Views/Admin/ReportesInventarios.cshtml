@@ -77,14 +77,14 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="col-md-4 text-center">Movimientos de todos los Items</label>
+                        <label class="col-md-4 text-center">Movimientos por Item</label>
                         @Html.DropDownList("IdItem", new SelectList(ViewBag.lstItems, "IdItem", "Nombre", 0), new { @class = "col-md-4 no-padder miselect2" })
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-info reporte" data-idreporte="1">Generar Reporte</a>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-md-8 text-center">Movimiento de Items</label>
+                        <label class="col-md-8 text-center">Movimiento de todos los Items</label>
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-info reporte" data-idreporte="2">Generar Reporte</a>
                         </div>
@@ -111,7 +111,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="col-md-8 text-center">Items con Fecha de Vencimiento</label>
+                        <label class="col-md-8 text-center">Stock de Items con Fecha de Vencimiento</label>
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-primary reporte" data-idreporte="3">Generar Reporte</a>
                         </div>

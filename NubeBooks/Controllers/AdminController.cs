@@ -3325,8 +3325,8 @@ namespace NubeBooks.Controllers
                 }
             }
 
-            string titulo = IdTipoComprobante == 1 ? "Status de Pago de documentos de Ingresos" : "Status de Pago de documentos de Egresos";
-            string nombreFile = IdTipoComprobante == 1 ? "StatusDePago_DocsDeIngresos" : "StatusDePago_DocsDeEgresos";
+            string titulo = IdTipoComprobante == 1 ? "Cuentas Cobradas y por Cobrar" : "Cuentas Pagadas y por Pagar";
+            string nombreFile = IdTipoComprobante == 1 ? "CuentasCobradas_y_porCobrar" : "CuentasPagadas_y_porPagar";
 
             GenerarPdf2(dt, titulo, nombreFile, objEmpresa, FechaInicio, FechaFin, Response);
 
@@ -3552,7 +3552,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf3(dt, "Movimientos de todos los Items", "MovimientosDeTodosLosItems", item.Codigo, item.Nombre, objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf3(dt, "Movimiento por item", "MovimientoPorItem", item.Codigo, item.Nombre, objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3598,7 +3598,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf4(dt, "Reporte de Inventarios", "ReporteDeInventarios", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf4(dt, "Movimientos de todos los items", "MovimientosDeTodosLosItems", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
@@ -3645,7 +3645,7 @@ namespace NubeBooks.Controllers
                 dt.Rows.Add(row);
             }
 
-            GenerarPdf7(dt, "Items con Fecha de Vencimiento", "ItemsConFechaDeVencimiento", objEmpresa, rFechaFin, Response);
+            GenerarPdf7(dt, "Stock de Items con Fecha de Vencimiento", "StockDeItemsConFechaDeVencimiento", objEmpresa, rFechaFin, Response);
 
             return RedirectToAction("ReportesInventarios", new { message = 2 });
         }
