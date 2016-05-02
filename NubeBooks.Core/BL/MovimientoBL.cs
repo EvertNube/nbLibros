@@ -113,8 +113,7 @@ namespace NubeBooks.Core.BL
                     //Actualizar saldo Bancario en Movimiento
                     ActualizarSaldoBancarioEnMovimiento(nuevo.IdMovimiento);
                     //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
-                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
-                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
+                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
                     return true;
                 }
                 catch (Exception e)
@@ -159,8 +158,7 @@ namespace NubeBooks.Core.BL
                     //Actualizar saldo Bancario en Movimiento
                     ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
                     //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
-                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
-                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
+                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
                     return true;
                 }
                 catch (Exception e)
