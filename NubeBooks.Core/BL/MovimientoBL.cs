@@ -113,7 +113,8 @@ namespace NubeBooks.Core.BL
                     //Actualizar saldo Bancario en Movimiento
                     ActualizarSaldoBancarioEnMovimiento(nuevo.IdMovimiento);
                     //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
-                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
+                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
+                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
                     return true;
                 }
                 catch (Exception e)
@@ -158,7 +159,8 @@ namespace NubeBooks.Core.BL
                     //Actualizar saldo Bancario en Movimiento
                     ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
                     //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
-                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
+                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria, Movimiento.Fecha);
+                    ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
                     return true;
                 }
                 catch (Exception e)
@@ -288,7 +290,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public void ActualizarFechaConciliacionEnEmpresa(int idCuentaB, DateTime Fecha)
+        public void ActualizarFechaConciliacionEnEmpresa(int idCuentaB)
         {
             using (var context = getContext())
             {
@@ -296,7 +298,10 @@ namespace NubeBooks.Core.BL
                 {
                     var cuenta = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == idCuentaB).SingleOrDefault();
                     var empresa = context.Empresa.Where(x => x.IdEmpresa == cuenta.IdEmpresa).SingleOrDefault();
-                    empresa.FechaConciliacion = Convert.ToDateTime(Fecha.ToString("yyyy-MM-dd hh:mm:ss tt"));
+                    //La fecha de conciliacion siempre tiene que ser mayor
+                    //if (empresa.FechaConciliacion < Fecha) { empresa.FechaConciliacion = Convert.ToDateTime(Fecha.ToString("yyyy-MM-dd hh:mm:ss tt")); }
+                    if (empresa.FechaConciliacion < cuenta.FechaConciliacion) { empresa.FechaConciliacion = cuenta.FechaConciliacion; }
+
                     context.SaveChanges();
                 }
                 catch (Exception e)

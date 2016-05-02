@@ -55,10 +55,22 @@
             var lstchart1 = [];
             var lstchart2 = [];
 
+            var jsMeses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            var jsSortMeses = [];
+
+            /*for (var i = 0; i < 12; i++) {
+                lstchart1.push([12 - i, listSoles[i].Monto]);
+                lstchart2.push([12 - i, listDolares[i].Monto]);
+            }*/
+
             for (var i = 0; i < 12; i++) {
                 lstchart1.push([12 - i, listSoles[i].Monto]);
-                lstchart2.push([12 - i, listDolares[i].Monto])
+                lstchart2.push([12 - i, listDolares[i].Monto]);
+                jsSortMeses.push([12 - i, jsMeses[listSoles[i].Mes - 1]]);
             }
+
+            //jsSortMeses.push([i+1, jsMeses[listSoles[i].Mes - 1]]);
+            //[[ 1, 'Ene' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Abr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Ago' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dic' ]]
 
             $.plot($("#flot-chart"), [ {
                 data:lstchart1,
@@ -74,9 +86,7 @@
                         xaxis:{
                             font: { color: '#a1a7ac' },
                             position: 'bottom',
-                            ticks: [
-                              [ 1, 'Ene' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Abr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Ago' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dic' ]
-                            ]
+                            ticks: jsSortMeses
                         },
                         yaxis:{ font: { color: '#a1a7ac' } },
                         grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },

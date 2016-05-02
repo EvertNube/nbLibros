@@ -222,6 +222,9 @@ namespace NubeBooks.Core.BL
                     nuevo.IdTipoCuenta = CuentaBancaria.IdTipoCuenta;
                     context.CuentaBancaria.Add(nuevo);
                     context.SaveChanges();
+
+                    ActualizarFechaConciliacionEnEmpresa(nuevo.IdCuentaBancaria);
+
                     return true;
                 }
                 catch (Exception e)
@@ -248,12 +251,36 @@ namespace NubeBooks.Core.BL
                     datoRow.IdEmpresa = CuentaBancaria.IdEmpresa;
                     datoRow.IdTipoCuenta = CuentaBancaria.IdTipoCuenta;
                     context.SaveChanges();
+
+                    ActualizarFechaConciliacionEnEmpresa(datoRow.IdCuentaBancaria);
+
                     return true;
                 }
                 catch (Exception e)
                 {
                     throw e;
                 }
+            }
+        }
+
+        public void ActualizarFechaConciliacionEnEmpresa(int idCuentaB)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var cuenta = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == idCuentaB).SingleOrDefault();
+                    
+                    if (cuenta.Empresa.FechaConciliacion < cuenta.FechaConciliacion) { cuenta.Empresa.FechaConciliacion = cuenta.FechaConciliacion; }
+
+                    context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+
             }
         }
 

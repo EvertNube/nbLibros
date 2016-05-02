@@ -135,7 +135,7 @@ else { cadena = "Actualizar"; }
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de conciliación", @type = "text", @readonly = "readonly" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @Html.ValidationMessageFor(u => u.FechaConciliacion, "", new { @style = "color:red;" })
+                                @*@Html.ValidationMessageFor(u => u.FechaConciliacion, "", new { @style = "color:red;" })*@
                             </div>
                         </div>
                         <div class="col-md-3">
