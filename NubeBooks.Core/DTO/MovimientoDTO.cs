@@ -12,7 +12,7 @@ namespace NubeBooks.Core.DTO
     {
         public int IdMovimiento { get; set; }
         public int IdCuentaBancaria { get; set; }
-        public int IdEntidadResponsable { get; set; }
+        public int? IdEntidadResponsable { get; set; }
         public int IdTipoMovimiento { get; set; }
         public int IdFormaMovimiento { get; set; }
         public int? IdTipoDocumento { get; set; }

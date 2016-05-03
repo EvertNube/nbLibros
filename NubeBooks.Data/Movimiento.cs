@@ -16,7 +16,7 @@ namespace NubeBooks.Data
     {
         public int IdMovimiento { get; set; }
         public int IdCuentaBancaria { get; set; }
-        public int IdEntidadResponsable { get; set; }
+        public Nullable<int> IdEntidadResponsable { get; set; }
         public int IdFormaMovimiento { get; set; }
         public int IdEstadoMovimiento { get; set; }
         public Nullable<int> IdTipoDocumento { get; set; }

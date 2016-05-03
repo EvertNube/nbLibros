@@ -179,6 +179,7 @@ namespace NubeBooks.Core.BL
                     if(row.IdComprobante != null && row.IdComprobante != 0)
                     {
                         var row2 = context.Comprobante.Where(x => x.IdComprobante == row.IdComprobante).SingleOrDefault();
+                        row2.FechaPago = null;
                         row2.Ejecutado = false;
                     }
                     int idCuenta = row.IdCuentaBancaria;

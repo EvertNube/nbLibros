@@ -280,7 +280,7 @@
     </Key>
     <Property Name="IdMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdCuentaBancaria" Type="Int32" Nullable="false" />
-    <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="Int32" />
     <Property Name="IdFormaMovimiento" Type="Int32" Nullable="false" />
     <Property Name="IdEstadoMovimiento" Type="Int32" Nullable="false" />
     <Property Name="IdTipoDocumento" Type="Int32" />
@@ -381,6 +381,16 @@
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="DescripcionRol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="TipoComprobante">
     <Key>
@@ -912,7 +922,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Movimiento_EntidadResponsable">
-    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="0..1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="EntidadResponsable">
@@ -1127,6 +1137,7 @@
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" />
     <EntitySet Name="Rol" EntityType="Self.Rol" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" />
     <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" />
@@ -1354,10 +1365,26 @@
       <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
       <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
       <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="SP_Get_CuentasPor_CobrarPagar" ReturnType="Collection(Decimal)">
+    <FunctionImport Name="SP_Get_CuentasPor_CobrarPagar" ReturnType="Collection(LibrosDBModel.SP_Get_CuentasPor_CobrarPagar_Result)">
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
       <Parameter Name="IdMoneda" Mode="In" Type="Int32" />
       <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
@@ -1407,6 +1434,19 @@
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(LibrosDBModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(LibrosDBModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_Rep_AvanceDePresupuesto" ReturnType="Collection(LibrosDBModel.SP_Rep_AvanceDePresupuesto_Result)">
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -1471,6 +1511,7 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1480,6 +1521,10 @@
     <Property Type="Boolean" Name="Estado" Nullable="true" />
     <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
     <Property Type="Int32" Name="Nivel" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_Get_CuentasPor_CobrarPagar_Result">
+    <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+    <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
   </ComplexType>
   <ComplexType Name="SP_Get_MontoIncompletoEnComprobante_Result">
     <Property Type="Int32" Name="IdComprobante" Nullable="false" />
@@ -1575,7 +1620,7 @@
   <ComplexType Name="SP_GetReporteDetalleMovimientos_Result">
     <Property Type="Int32" Name="IdMovimiento" Nullable="false" />
     <Property Type="Int32" Name="IdCuentaBancaria" Nullable="false" />
-    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
+    <Property Type="Int32" Name="IdEntidadResponsable" Nullable="true" />
     <Property Type="Int32" Name="IdTipoMovimiento" Nullable="false" />
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
     <Property Type="Int32" Name="IdEstadoMovimiento" Nullable="false" />
@@ -1603,6 +1648,17 @@
     <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="18" Scale="4" />
     <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
     <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
   <ComplexType Name="SP_Rep_AvanceDePresupuesto_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="false" />

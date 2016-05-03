@@ -718,8 +718,13 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                Decimal result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 1).SingleOrDefault().GetValueOrDefault();
-                return result;
+                //Decimal result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 1).SingleOrDefault().GetValueOrDefault();
+                var result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 1).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
+                }).ToList<ComprobanteDTO>();
+                return result.Sum(x => x.MontoIncompleto);
             }
         }
 
@@ -727,8 +732,13 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                Decimal result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 2).SingleOrDefault().GetValueOrDefault();
-                return result;
+                //Decimal result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 2).SingleOrDefault().GetValueOrDefault();
+                var result = context.SP_Get_CuentasPor_CobrarPagar(idEmpresa, idMoneda, 2).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
+                }).ToList<ComprobanteDTO>();
+                return result.Sum(x => x.MontoIncompleto);
             }
         }
     }

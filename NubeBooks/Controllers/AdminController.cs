@@ -3265,7 +3265,7 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Entidad";
-            string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Cobro" : "Fecha Pago";
+            string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Estimada de Cobro" : "Fecha Estimada de Pago";
             int neleCols = 12;
 
             dt.Columns.Add("Numero");
