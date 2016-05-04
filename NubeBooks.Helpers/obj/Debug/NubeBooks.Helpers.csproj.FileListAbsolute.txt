@@ -57,7 +57,6 @@ C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\System.Web.Razor.xml
 C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\System.Web.WebPages.xml
 C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\System.Web.WebPages.Razor.xml
-C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\obj\Debug\NubeBooks.Helpers.csprojResolveAssemblyReference.cache
 C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\obj\Debug\NubeBooks.Helpers.dll
 C:\Archivos\NubeLabs\nbLibros\NubeBooks.Helpers\obj\Debug\NubeBooks.Helpers.pdb
 C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Helpers\bin\Debug\NubeBooks.Helpers.dll.config
