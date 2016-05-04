@@ -10,7 +10,7 @@ namespace NubeBooks.Core.DTO
     [Serializable]
     public class EntidadResponsableDTO
     {
-        public int IdEntidadResponsable { get; set; }
+        public int? IdEntidadResponsable { get; set; }
         public int? IdTipoIdentificacion { get; set; }
         public int? IdTipoEntidad { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]

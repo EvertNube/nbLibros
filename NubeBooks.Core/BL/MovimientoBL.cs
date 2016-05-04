@@ -252,7 +252,7 @@ namespace NubeBooks.Core.BL
             else
             {
                 var lista = oBL.getEntidadResponsablesEnEmpresaViewBag(idEmpresa);
-                lista.Insert(0, new EntidadResponsableDTO() { IdEntidadResponsable = 0, Nombre = "Seleccione la Entidad Responsable" });
+                lista.Insert(0, new EntidadResponsableDTO() { IdEntidadResponsable = null, Nombre = "Seleccione la Entidad Responsable" });
                 return lista;
             }
         }

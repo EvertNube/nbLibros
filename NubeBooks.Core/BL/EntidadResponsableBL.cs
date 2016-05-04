@@ -39,6 +39,45 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public List<EntidadResponsableDTO> getEntidadesResponsablesPorTipo_Activos_EnEmpresa(int idEmpresa, int pTipoEntidad)
+        {
+            using (var context = getContext())
+            {
+                var result = context.EntidadResponsable.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoEntidad == pTipoEntidad && x.Estado).Select(x => new EntidadResponsableDTO
+                {
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoIdentificacion = x.IdTipoIdentificacion,
+                    IdTipoEntidad = x.IdTipoEntidad,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado,
+                    Detraccion = x.Detraccion,
+                    Tipo = x.Tipo,
+                    IdEmpresa = x.IdEmpresa,
+                    NroIdentificacion = x.NroIdentificacion,
+                    NombreIdentificacion = x.NroIdentificacion != null ? x.TipoIdentificacion.Nombre + " - " + x.NroIdentificacion : "N/A",
+                    NombreComercial = x.NombreComercial,
+                    Direccion = x.Direccion,
+                    Banco = x.Banco,
+                    CuentaSoles = x.CuentaSoles,
+                    CuentaDolares = x.CuentaDolares
+                }).OrderBy(x => x.Nombre).ToList();
+                return result;
+            }
+        }
+
+        public IList<EntidadResponsableDTO> getEntidadesResponsablesPorTipo_VB_EnEmpresa(int idEmpresa, int pTipoEntidad, bool AsSelectList = false)
+        {
+            if (!AsSelectList)
+                return getEntidadesResponsablesPorTipo_Activos_EnEmpresa(idEmpresa, pTipoEntidad);
+            else
+            {
+                var lista = getEntidadesResponsablesPorTipo_Activos_EnEmpresa(idEmpresa, pTipoEntidad);
+                lista.Insert(0, new EntidadResponsableDTO() { IdEntidadResponsable = null, Nombre = "Seleccione la Entidad Responsable" });
+                return lista;
+            }
+        }
+
+
         public List<EntidadResponsableDTO> getEntidadesResponsablesActivasPorTipoEnEmpresa(int idEmpresa, int pTipoEntidad)
         {
             using (var context = getContext())
@@ -124,8 +163,8 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
-                    //Nombre = x.IdTipoEntidad == 1 ? "C - " + x.Nombre : "P - " + x.Nombre,
-                    Nombre = x.Nombre,
+                    Nombre = x.IdTipoEntidad == 1 ? "C > " + x.Nombre : "P > " + x.Nombre,
+                    //Nombre = x.Nombre,
                     NombreTipoEntidad = x.TipoEntidad.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,

@@ -55,12 +55,23 @@ namespace NubeBooks.Core.Logistics.BL
                     IdItem = x.IdItem,
                     nItem = x.nItem,
                     nItemCodigo = x.nItemCodigo,
+                    FechaInicial = x.FechaInicial,
+                    IdTipoMovimientoInv = x.IdTipoMovimientoInv,
+                    nTipo = x.nTipo,
+                    nForma = x.nForma,
+                    NroDocumento = x.NroDocumento,
+                    GuiaRemision = x.GuiaRemision,
+                    nEntidadResponsable = x.nEntidadResponsable,
                     nCategoria = x.nCategoria,
+                    Cantidad = x.Cantidad,
+                    UnidadMedida = x.UnidadMedida,
+                    nUbicacion = x.nUbicacion,
                     SerieLote = x.SerieLote,
-                    FechaFin = x.FechaFin,
                     StockLote = x.StockLote,
                     SaldoItem = x.SaldoItem,
-                    nUbicacion = x.nUbicacion
+                    FechaFin = x.FechaFin,
+                    Comentario = x.Comentario,
+                    nUsuario = x.nUsuario
                 }).OrderBy(x => x.FechaInicial).ToList();
 
                 return result;

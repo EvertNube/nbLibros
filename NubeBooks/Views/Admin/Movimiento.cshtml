@@ -32,6 +32,11 @@
             $('.input-group.date').datepicker();
             $('.miselect2').select2();
 
+            $('.miselect2_clear').select2({ 
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
+
             $('#IdCategoria').select2({
                 placeholder: "Seleccione una categoría",
                 data: mydata,
@@ -242,7 +247,15 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label>Entidad</label>
-                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
+                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })*@
+                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" 
+                                    id="IdEntidadResponsable" name="IdEntidadResponsable">
+                                @{ var miEntidad = Model != null ? Model.IdEntidadResponsable : 0;}
+                                <option value=""><option>
+                                    @foreach (var item in (List<EntidadResponsableDTO>)ViewBag.EntidadesResponsables)
+                                    {<option value="@item.IdEntidadResponsable" @(item.IdEntidadResponsable == miEntidad ? "selected=selected" : "")>@item.Nombre</option>}
+                            </select>
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">

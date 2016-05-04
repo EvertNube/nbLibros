@@ -13,14 +13,32 @@ namespace NubeBooks.Data
     
     public partial class SP_Get_Rep_De_Inventarios_Result
     {
+        public int IdMovimientoInv { get; set; }
+        public int IdFormaMovimientoInv { get; set; }
+        public int IdTipoMovimientoInv { get; set; }
         public int IdItem { get; set; }
+        public Nullable<int> IdEntidadResponsable { get; set; }
+        public Nullable<int> IdUbicacion { get; set; }
+        public string NroDocumento { get; set; }
+        public string GuiaRemision { get; set; }
+        public string SerieLote { get; set; }
+        public int Cantidad { get; set; }
+        public string UnidadMedida { get; set; }
+        public string nEntidadResponsable { get; set; }
+        public string nUbicacion { get; set; }
+        public System.DateTime FechaInicial { get; set; }
+        public Nullable<System.DateTime> FechaFin { get; set; }
+        public string Comentario { get; set; }
+        public bool Estado { get; set; }
+        public int UsuarioCreacion { get; set; }
+        public int IdEmpresa { get; set; }
+        public string nForma { get; set; }
         public string nItem { get; set; }
         public string nItemCodigo { get; set; }
         public string nCategoria { get; set; }
-        public string SerieLote { get; set; }
-        public Nullable<System.DateTime> FechaFin { get; set; }
+        public string nTipo { get; set; }
+        public string nUsuario { get; set; }
         public int StockLote { get; set; }
         public int SaldoItem { get; set; }
-        public string nUbicacion { get; set; }
     }
 }

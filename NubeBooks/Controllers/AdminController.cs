@@ -757,6 +757,9 @@ namespace NubeBooks.Controllers
             //ViewBag.lstFormaMovs = objBL.Select2_lstFormaDeMovimientos();
 
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
+            //EntidadResponsableBL EntidadBL = new EntidadResponsableBL();
+            //ViewBag.EntidadesResponsables = EntidadBL.getEntidadesResponsablesPorTipo_VB_EnEmpresa(miUsuario.IdEmpresa, 1, true);
+
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true);
             ViewBag.NombreCategoria = "Sin Categoría";
             ViewBag.Categorias = CategoriasBucle(null, null);
@@ -1096,11 +1099,11 @@ namespace NubeBooks.Controllers
                 if (obj == null) return RedirectToAction("Entidades");
                 if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Entidades");
                 //Contactos
-                if (!inactivosC) { ViewBag.lstContactos = objBL.getContactosActivos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
-                else { ViewBag.lstContactos = objBL.getContactos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
+                if (!inactivosC) { ViewBag.lstContactos = objBL.getContactosActivos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
+                else { ViewBag.lstContactos = objBL.getContactos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
                 //Proyectos
-                if (!inactivosP) { ViewBag.lstProyectos = objBL.getProyectosActivos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
-                else { ViewBag.lstProyectos = objBL.getProyectos_EntidadResponsableEnEmpresa(obj.IdEntidadResponsable); }
+                if (!inactivosP) { ViewBag.lstProyectos = objBL.getProyectosActivos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
+                else { ViewBag.lstProyectos = objBL.getProyectos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
 
                 return View(obj);
             }
@@ -3565,9 +3568,11 @@ namespace NubeBooks.Controllers
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
+            ItemBL itemBL = new ItemBL();
+            List<ItemDTO> lstItems = itemBL.getItemsEnEmpresa(objEmpresa.IdEmpresa);
+
             Reportes_InventariosBL repBL = new Reportes_InventariosBL();
             List<MovimientoInvDTO> lstInventarios = repBL.Get_Reporte_De_Inventarios(objEmpresa.IdEmpresa, FechaInicio.GetValueOrDefault(), FechaFin.GetValueOrDefault());
-
 
             if (lstInventarios == null)
                 return RedirectToAction("ReportesInventarios", new { message = 2 });
@@ -3577,14 +3582,56 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Código");
             dt.Columns.Add("Item");
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Movimiento");
+            dt.Columns.Add("Tipo");
+            dt.Columns.Add("Numero Documento");
+            dt.Columns.Add("Guia de Remision");
+            dt.Columns.Add("Entidad");
             dt.Columns.Add("Categoría");
+            dt.Columns.Add("Cantidad");
+            dt.Columns.Add("Unid Med");
+            dt.Columns.Add("Ubicacion");
             dt.Columns.Add("Lote");
-            dt.Columns.Add("Vencimiento");
             dt.Columns.Add("Stock por Lote");
             dt.Columns.Add("Saldo Por Item");
-            dt.Columns.Add("Ubicación");
+            dt.Columns.Add("Vencimiento");
+            dt.Columns.Add("Comentario");
+            dt.Columns.Add("Usuario");
 
-            foreach (var obj in lstInventarios)
+            foreach (var item in lstItems)
+            {
+                DataRow row = dt.NewRow();
+                row["Código"] = item.Codigo;
+                row["Item"] = item.Nombre;
+                dt.Rows.Add(row);
+
+                List<MovimientoInvDTO> movsItm = lstInventarios.Where(x => x.nItemCodigo == item.Codigo).ToList();
+                foreach (var mov in movsItm)
+                {
+                    DataRow row1 = dt.NewRow();
+                    row1["Fecha"] = mov.FechaInicial.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
+                    //row1["Movimiento"] = mov.IdTipoMovimientoInv == 1 ? "Ingreso" : "Egreso";
+                    row1["Movimiento"] = mov.nTipo;
+                    row1["Tipo"] = mov.nForma;
+                    row1["Numero Documento"] = mov.NroDocumento;
+                    row1["Guia de Remision"] = mov.GuiaRemision;
+                    row1["Entidad"] = mov.nEntidadResponsable;
+                    row1["Categoría"] = mov.nCategoria;
+                    row1["Cantidad"] = mov.Cantidad;
+                    row1["Unid Med"] = mov.UnidadMedida;
+                    row1["Ubicacion"] = mov.nUbicacion;
+                    row1["Lote"] = mov.SerieLote;
+                    row1["Stock por Lote"] = mov.StockLote;
+                    row1["Saldo Por Item"] = mov.SaldoItem;
+                    row1["Vencimiento"] = mov.FechaFin != null ? mov.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                    row1["Comentario"] = mov.Comentario;
+                    row1["Usuario"] = mov.nUsuario;
+                    dt.Rows.Add(row1);
+                }
+            }
+
+            /*foreach (var obj in lstInventarios)
             {
                 DataRow row = dt.NewRow();
                 row["Código"] = obj.nItemCodigo;
@@ -3596,7 +3643,7 @@ namespace NubeBooks.Controllers
                 row["Saldo Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
                 dt.Rows.Add(row);
-            }
+            }*/
 
             GenerarPdf4(dt, "Movimientos de todos los items", "MovimientosDeTodosLosItems", objEmpresa, FechaInicio, FechaFin, Response);
 
