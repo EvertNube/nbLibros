@@ -86,7 +86,8 @@ namespace NubeBooks.Core.BL
                     nuevo.IdFormaMovimiento = Movimiento.IdFormaMovimiento;
                     nuevo.IdTipoDocumento = (Movimiento.IdTipoDocumento != 0 && Movimiento.IdTipoDocumento != null ) ? Movimiento.IdTipoDocumento : null;
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
-                    nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
+                    //nuevo.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
+                    nuevo.IdCategoria = Movimiento.IdCategoria;
                     nuevo.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     nuevo.NroOperacion = Movimiento.NroOperacion;
                     //Hora Actual
@@ -134,7 +135,8 @@ namespace NubeBooks.Core.BL
                     datoRow.IdFormaMovimiento = Movimiento.IdFormaMovimiento;
                     datoRow.IdTipoDocumento = Movimiento.IdTipoDocumento == 0 ? null : Movimiento.IdTipoDocumento;
                     //El IdCategoria sera 1 porque la Categoria con Id = 1 es No tiene categoria
-                    datoRow.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
+                    //datoRow.IdCategoria = (Movimiento.IdCategoria != 0 && Movimiento.IdCategoria != null) ? Movimiento.IdCategoria : 1;
+                    datoRow.IdCategoria = Movimiento.IdCategoria;
                     datoRow.IdEstadoMovimiento = Movimiento.IdEstadoMovimiento;
                     datoRow.NroOperacion = Movimiento.NroOperacion;
                     //Hora Actual

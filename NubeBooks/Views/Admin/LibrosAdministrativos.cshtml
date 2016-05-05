@@ -78,7 +78,7 @@
                                 <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                 <td class="text-center">
-                                    <a href="@Url.Action("Libro", "Admin", new { id = item.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
+                                    <a href="@Url.Action("Libro", "Admin", new { id = item.IdCuentaBancaria, idTipoCuenta = 2 })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
                                 </td>
                             </tr>
                                         }

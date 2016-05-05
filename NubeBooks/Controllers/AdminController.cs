@@ -756,6 +756,8 @@ namespace NubeBooks.Controllers
             ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
             //ViewBag.lstFormaMovs = objBL.Select2_lstFormaDeMovimientos();
 
+            EntidadResponsableBL entBL = new EntidadResponsableBL();
+            ViewBag.TipoEntidades = entBL.getTipoDeEntidades();
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
             //EntidadResponsableBL EntidadBL = new EntidadResponsableBL();
             //ViewBag.EntidadesResponsables = EntidadBL.getEntidadesResponsablesPorTipo_VB_EnEmpresa(miUsuario.IdEmpresa, 1, true);
@@ -3283,6 +3285,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Monto Total");
             dt.Columns.Add("Partida de Presupuesto");
             dt.Columns.Add("Monto Pendiente");
+            dt.Columns.Add("Modalidad");
             dt.Columns.Add(FechaEjecucion);
             dt.Columns.Add("Fecha Cancelación");
             dt.Columns.Add("Dias transcurridos Emisión - Cancelación");
@@ -3313,6 +3316,7 @@ namespace NubeBooks.Controllers
                     row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
                     row["Partida de Presupuesto"] = obj.NombreCategoria;
                     row["Monto Pendiente"] = obj.Ejecutado ? "0.00" : obj.MontoIncompleto.ToString("N2", CultureInfo.InvariantCulture);
+                    row["Modalidad"] = obj.nHonorario;
                     row[FechaEjecucion] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                     row["Fecha Cancelación"] = obj.FechaPago != null ? obj.FechaPago.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                     //Dias transcurridos Emisión - Cancelación
@@ -3321,11 +3325,11 @@ namespace NubeBooks.Controllers
                     row["Comentarios"] = obj.Comentario;
                     dt.Rows.Add(row);
                 }
-                if (elem != Ejecutados.Last())
+                /*if (elem != Ejecutados.Last())
                 {
                     DataRow space = dt.NewRow();
                     dt.Rows.Add(space);
-                }
+                }*/
             }
 
             string titulo = IdTipoComprobante == 1 ? "Documentos Cobrados y por Cobrar" : "Documentos Pagados y por Pagar";
@@ -3594,7 +3598,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Ubicacion");
             dt.Columns.Add("Lote");
             dt.Columns.Add("Stock por Lote");
-            dt.Columns.Add("Saldo Por Item");
+            dt.Columns.Add("Stock por Item");
             dt.Columns.Add("Vencimiento");
             dt.Columns.Add("Comentario");
             dt.Columns.Add("Usuario");
@@ -3623,7 +3627,7 @@ namespace NubeBooks.Controllers
                     row1["Ubicacion"] = mov.nUbicacion;
                     row1["Lote"] = mov.SerieLote;
                     row1["Stock por Lote"] = mov.StockLote;
-                    row1["Saldo Por Item"] = mov.SaldoItem;
+                    row1["Stock por Item"] = mov.SaldoItem;
                     row1["Vencimiento"] = mov.FechaFin != null ? mov.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                     row1["Comentario"] = mov.Comentario;
                     row1["Usuario"] = mov.nUsuario;
@@ -3673,8 +3677,8 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Categoría");
             dt.Columns.Add("Lote");
             dt.Columns.Add("Vencimiento");
-            dt.Columns.Add("Saldo Por Lote");
-            dt.Columns.Add("Saldo Por Item");
+            dt.Columns.Add("Stock Por Lote");
+            dt.Columns.Add("Stock Por Item");
             dt.Columns.Add("Ubicación");
 
             foreach (var obj in lstInventarios)
@@ -3686,8 +3690,8 @@ namespace NubeBooks.Controllers
                 row["Categoría"] = obj.nCategoria;
                 row["Lote"] = obj.SerieLote;
                 row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
-                row["Saldo Por Lote"] = obj.StockLote;
-                row["Saldo Por Item"] = obj.SaldoItem;
+                row["Stock Por Lote"] = obj.StockLote;
+                row["Stock Por Item"] = obj.SaldoItem;
                 row["Ubicación"] = obj.nUbicacion;
                 dt.Rows.Add(row);
             }
@@ -3721,7 +3725,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Item");
             dt.Columns.Add("Unidad Medida");
             dt.Columns.Add("Categoría");
-            dt.Columns.Add("Saldo Por Item");
+            dt.Columns.Add("Stock por Item");
 
             foreach (var obj in lista)
             {
@@ -3730,7 +3734,7 @@ namespace NubeBooks.Controllers
                 row["Item"] = obj.Nombre;
                 row["Unidad Medida"] = obj.UnidadMedida;
                 row["Categoría"] = obj.nCategoriaItem;
-                row["Saldo Por Item"] = obj.SaldoItem;
+                row["Stock por Item"] = obj.SaldoItem;
                 dt.Rows.Add(row);
             }
 

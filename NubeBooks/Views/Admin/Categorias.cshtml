@@ -184,6 +184,12 @@
 }
 <div class="bg-light lter b-b wrapper-md">
     <div class="btn-group pull-right m-r">
+        @*Colapsar*@
+        <button id="nestable-menu" class="btn m-b-xs btn-sm btn-default m-r active" ui-toggle-class="toggle-active">
+            <i class="fa fa-plus text"></i>&nbsp;<span class="text">Expandir</span>
+            <i class="fa fa-minus text-active"></i>&nbsp;<span class="text-active">Colapsar</span>
+        </button>
+
         <button class="btn m-b-xs btn-sm btn-default m-r" ui-toggle-class="btn-danger" id="btn-showInactive">
             <i class="text"></i>
             <span class="text">Mostrar Inactivos</span>
@@ -224,16 +230,15 @@
         @Html.Partial("_showAlertMessages")
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6 text-left">
-                    <button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
+                <div class="col-md-6 padder-lg">
+                    @*<button id="nestable-menu" class="btn btn-xs btn-default active" data-toggle="class:show" style="margin-left:30px;">
                         <i class="fa fa-plus text"></i> <span class="text">Expandir</span>
                         <i class="fa fa-minus text-active"></i> <span class="text-active">Colapsar</span>
-                    </button>
+                    </button>*@
+                    <label>Partida</label>
                 </div>
                 <div class="col-md-2 text-center">
-                    <label>
-                        Moneda (@(ViewBag.SimboloMoneda))
-                    </label>
+                    <label> Moneda (@(ViewBag.SimboloMoneda)) </label>
                 </div>
             </div>
             <div class="col-md-12">
