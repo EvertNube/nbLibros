@@ -1000,6 +1000,7 @@
     <Content Include="Views\Admin\ReportesPresupuestos.cshtml" />
     <Content Include="Views\Admin\ReportesGestion.cshtml" />
     <Content Include="Views\Admin\ReportesInventarios.cshtml" />
+    <Content Include="Views\Admin\Proforma.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

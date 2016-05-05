@@ -1,0 +1,111 @@
+﻿
+@{
+    //ViewBag.Title = "Proforma";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="app-content-body ">
+    <div class="bg-light lter b-b wrapper-md hidden-print">
+        <a href="#" class="btn btn-sm btn-info pull-right" onClick="window.print();">Imprimir</a>
+        <h1 class="m-n font-thin h3">Factura Proforma</h1>
+    </div>
+    <div class="wrapper-md">
+        <div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>Zanesco E.I.R.L.</h3>
+                    <h4>RUC: 2055712848</h4>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <h3>Proforma <strong>#9048392</strong></h3>
+                </div>
+            </div>
+            <div class="well m-t bg-light lt">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <p>Atención:</p>
+                        <p>Cargo:</p>
+                        <p>Email:</p>
+                        <p>Teléfono:</p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p><strong>Ricardo Alejos</strong></p>
+                        <p><strong>Administrador</strong></p>
+                        <p><strong>ricardo_alejos_p17@hotmail.com</strong></p>
+                        <p><strong>949300133</strong></p>
+                    </div>
+                    <div class="col-xs-2">
+                        <p>Fecha:</p>
+                        <p>Empresa:</p>
+                        <p>Dirección:</p>
+                        <p>Validez:</p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p><strong>15/03/15</strong></p>
+                        <p><strong>Antamina</strong></p>
+                        <p><strong>Ancash</strong></p>
+                        <p><strong>30 días</strong></p>
+                    </div>
+                </div>
+            </div>
+            <p>Método de Pago: <strong>Contado Adelantado</strong></p>
+            <p>Fecha de Entrega: <strong>A Coordinar</strong></p>
+            <p>Lugar de Entrega: <strong>En Lima</strong></p>
+            <div class="line"></div>
+            <table class="table table-striped bg-white b-a">
+                <thead>
+                    <tr>
+                        <th style="width: 60px">ÍTEM</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th style="width: 140px">CANTIDAD</th>
+                        <th style="width: 140px">PRECIO UNITARIO</th>
+                        <th style="width: 140px">MONTO TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center">
+                        <td>1</td>
+                        <td class="text-left">Máquina Espresso Marca Promac Modelo P161 02 Grupos Automatica 11 Lts.</td>
+                        <td>1</td>
+                        <td class="text-right">$561.00</td>
+                        <td class="text-right">$561.00</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>2</td>
+                        <td class="text-left">Molino de Cafe Marca Anfim Modelo Scody On Demand Display</td>
+                        <td>1</td>
+                        <td class="text-right">$429.00</td>
+                        <td class="text-right">$858.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" class="text-right"><strong>Sub Total</strong></td>
+                        <td class="text-right"><strong>$1,607.00</strong></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" class="text-right no-border"><strong>IGV</strong></td>
+                        <td class="text-right">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" class="text-right no-border"><strong>Total</strong></td>
+                        <td class="text-right"><strong>$1,607.00</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                <strong>DATOS BANCARIOS</strong><br>
+                Zanesco EIRL<br>
+                RUC: 2055712848
+            </p>
+            <p>
+                <strong>Banco de Crédito del Perú</strong><br>
+                CTE SOLES: 194-2145379-0-93<br>
+                CCI SOLES: 002-194-002145379093-99<br>
+                CTE DÓLARES: 194-2139878-1-37<br>
+                CCI DÓLARES: 002-194-002139878137-93<br>
+            </p>
+        </div>
+    </div>
+</div>
