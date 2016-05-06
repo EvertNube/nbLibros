@@ -4660,5 +4660,18 @@ namespace NubeBooks.Controllers
             }
             ViewBag.navbar = navbar;
         }
+
+        public ActionResult BuscarProforma()
+        {
+            UsuarioDTO currentUser = getCurrentUser();
+            var lista = new NubeBooks.Core.BL.ProformaBL().getProformaEnEmpresa(currentUser.IdEmpresa);
+
+            return View(lista);
+        }
+        public ActionResult Proforma(Int32 id)
+        {
+            var lista = new NubeBooks.Core.BL.ProformaBL().getProformaId(id); 
+            return View(lista);
+        }
     }
 }

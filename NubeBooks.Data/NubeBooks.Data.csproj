@@ -79,6 +79,9 @@
     <Compile Include="CuentaBancaria.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DetalleProforma.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Empresa.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -128,6 +131,9 @@
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Periodo.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Proforma.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

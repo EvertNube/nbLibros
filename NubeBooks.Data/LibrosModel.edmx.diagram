@@ -90,6 +90,14 @@
         <AssociationConnector Association="LibrosDBModel.FK_MovimientoInv_Ubicacion" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_MovimientoInv_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="LibrosDBModel.FK_Usuario_Rol" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LibrosDBModel.Proforma" Width="1.5" PointX="16.5" PointY="36.875" />
+        <EntityTypeShape EntityType="LibrosDBModel.DetalleProforma" Width="1.5" PointX="18.75" PointY="26.375" />
+        <AssociationConnector Association="LibrosDBModel.FK_Proforma_Empresa" />
+        <AssociationConnector Association="LibrosDBModel.FK_Proforma_EntidadResponsable" />
+        <AssociationConnector Association="LibrosDBModel.FK_DetalleProforma_Item" />
+        <AssociationConnector Association="LibrosDBModel.FK_DetalleProforma_Proforma" />
+        <AssociationConnector Association="LibrosDBModel.FK_Proforma_Responsable" />
+        <AssociationConnector Association="LibrosDBModel.FK_Proforma_Ubicacion" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

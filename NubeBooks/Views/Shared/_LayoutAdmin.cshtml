@@ -422,9 +422,15 @@
                             </li>
                             <li>
                             <li>
-                                <a href="@Url.Action("Proforma", "Admin")">
+                                <a href="@Url.Action("BuscarProforma", "Admin")">
                                     <i class="fa fa-file"></i>
                                     <span>Proformas</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Proforma",new { Area="Proformas"})">
+                                    <i class="fa fa-file"></i>
+                                    <span>Proformas Area</span>
                                 </a>
                             </li>
                         </ul>

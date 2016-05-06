@@ -103,6 +103,23 @@
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
     <Property Name="IdTipoCuenta" Type="int" />
   </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'LibrosDB.dbo.DetalleProforma' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="DetalleProforma">
+    <Key>
+      <PropertyRef Name="IdProforma" />
+      <PropertyRef Name="IdItem" />
+      <PropertyRef Name="Cantidad" />
+    </Key>
+    <Property Name="IdProforma" Type="int" Nullable="false" />
+    <Property Name="IdItem" Type="int" Nullable="false" />
+    <Property Name="Cantidad" Type="int" Nullable="false" />
+    <Property Name="PrecioUnudad" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="MontoTotal" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TipoCambio" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="PorcentajeIgv" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="IgV" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
   <EntityType Name="Empresa">
     <Key>
       <PropertyRef Name="IdEmpresa" />
@@ -264,6 +281,22 @@
     <Property Name="FechaFin" Type="datetime" Nullable="false" />
     <Property Name="Active" Type="bit" Nullable="false" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Proforma">
+    <Key>
+      <PropertyRef Name="IdProforma" />
+    </Key>
+    <Property Name="IdProforma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CodigoProforma" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+    <Property Name="IdResponsable" Type="int" Nullable="false" />
+    <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="IdUbicacion" Type="int" Nullable="false" />
+    <Property Name="FormaPago" Type="varchar" MaxLength="120" />
+    <Property Name="LugarEntrega" Type="varchar" MaxLength="150" />
+    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="FechaEntrega" Type="datetime" />
+    <Property Name="Estado" Type="int" />
   </EntityType>
   <EntityType Name="Proyecto">
     <Key>
@@ -637,6 +670,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_DetalleProforma_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="DetalleProforma" Type="Self.DetalleProforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="IdItem" />
+      </Principal>
+      <Dependent Role="DetalleProforma">
+        <PropertyRef Name="IdItem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleProforma_Proforma">
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="1" />
+    <End Role="DetalleProforma" Type="Self.DetalleProforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proforma">
+        <PropertyRef Name="IdProforma" />
+      </Principal>
+      <Dependent Role="DetalleProforma">
+        <PropertyRef Name="IdProforma" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Empresa_Moneda">
     <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
@@ -946,6 +1003,54 @@
       </Principal>
       <Dependent Role="MovimientoInv">
         <PropertyRef Name="UsuarioCreacion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proforma_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Proforma">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proforma_EntidadResponsable">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Proforma">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proforma_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="Proforma">
+        <PropertyRef Name="IdResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proforma_Ubicacion">
+    <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ubicacion">
+        <PropertyRef Name="IdUbicacion" />
+      </Principal>
+      <Dependent Role="Proforma">
+        <PropertyRef Name="IdUbicacion" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1342,6 +1447,7 @@
     <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MovimientoInv" EntityType="Self.MovimientoInv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Periodo" EntityType="Self.Periodo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proforma" EntityType="Self.Proforma" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
@@ -1355,6 +1461,18 @@
     <EntitySet Name="TipoMovimientoInv" EntityType="Self.TipoMovimientoInv" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Ubicacion" EntityType="Self.Ubicacion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DetalleProforma" EntityType="Self.DetalleProforma" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DetalleProforma].[IdProforma] AS [IdProforma], 
+    [DetalleProforma].[IdItem] AS [IdItem], 
+    [DetalleProforma].[Cantidad] AS [Cantidad], 
+    [DetalleProforma].[PrecioUnudad] AS [PrecioUnudad], 
+    [DetalleProforma].[MontoTotal] AS [MontoTotal], 
+    [DetalleProforma].[TipoCambio] AS [TipoCambio], 
+    [DetalleProforma].[PorcentajeIgv] AS [PorcentajeIgv], 
+    [DetalleProforma].[IgV] AS [IgV]
+    FROM [dbo].[DetalleProforma] AS [DetalleProforma]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_Area_Empresa" Association="Self.FK_Area_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Area" EntitySet="Area" />
@@ -1438,6 +1556,14 @@
     <AssociationSet Name="FK_CuentaBancaria_TipoCuenta" Association="Self.FK_CuentaBancaria_TipoCuenta">
       <End Role="TipoCuenta" EntitySet="TipoCuenta" />
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleProforma_Item" Association="Self.FK_DetalleProforma_Item">
+      <End Role="Item" EntitySet="Item" />
+      <End Role="DetalleProforma" EntitySet="DetalleProforma" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleProforma_Proforma" Association="Self.FK_DetalleProforma_Proforma">
+      <End Role="Proforma" EntitySet="Proforma" />
+      <End Role="DetalleProforma" EntitySet="DetalleProforma" />
     </AssociationSet>
     <AssociationSet Name="FK_Empresa_Moneda" Association="Self.FK_Empresa_Moneda">
       <End Role="Moneda" EntitySet="Moneda" />
@@ -1542,6 +1668,22 @@
     <AssociationSet Name="FK_MovimientoInv_Usuario" Association="Self.FK_MovimientoInv_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_Empresa" Association="Self.FK_Proforma_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Proforma" EntitySet="Proforma" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_EntidadResponsable" Association="Self.FK_Proforma_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Proforma" EntitySet="Proforma" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_Responsable" Association="Self.FK_Proforma_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
+      <End Role="Proforma" EntitySet="Proforma" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_Ubicacion" Association="Self.FK_Proforma_Ubicacion">
+      <End Role="Ubicacion" EntitySet="Ubicacion" />
+      <End Role="Proforma" EntitySet="Proforma" />
     </AssociationSet>
     <AssociationSet Name="FK_Proyecto_EntidadResponsable" Association="Self.FK_Proyecto_EntidadResponsable">
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />

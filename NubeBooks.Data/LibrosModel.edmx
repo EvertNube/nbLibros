@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LibrosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="IdArea" />
@@ -107,6 +107,23 @@
           <Property Name="IdMoneda" Type="int" />
           <Property Name="IdEmpresa" Type="int" Nullable="false" />
           <Property Name="IdTipoCuenta" Type="int" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'LibrosDB.dbo.DetalleProforma' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="DetalleProforma">
+          <Key>
+            <PropertyRef Name="IdProforma" />
+            <PropertyRef Name="IdItem" />
+            <PropertyRef Name="Cantidad" />
+          </Key>
+          <Property Name="IdProforma" Type="int" Nullable="false" />
+          <Property Name="IdItem" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="PrecioUnudad" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MontoTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TipoCambio" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PorcentajeIgv" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IgV" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Empresa">
           <Key>
@@ -269,6 +286,22 @@
           <Property Name="FechaFin" Type="datetime" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="IdEmpresa" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proforma">
+          <Key>
+            <PropertyRef Name="IdProforma" />
+          </Key>
+          <Property Name="IdProforma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodigoProforma" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" Nullable="false" />
+          <Property Name="IdResponsable" Type="int" Nullable="false" />
+          <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+          <Property Name="IdUbicacion" Type="int" Nullable="false" />
+          <Property Name="FormaPago" Type="varchar" MaxLength="120" />
+          <Property Name="LugarEntrega" Type="varchar" MaxLength="150" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="FechaEntrega" Type="datetime" />
+          <Property Name="Estado" Type="int" />
         </EntityType>
         <EntityType Name="Proyecto">
           <Key>
@@ -642,6 +675,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DetalleProforma_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="DetalleProforma" Type="Self.DetalleProforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
+            </Principal>
+            <Dependent Role="DetalleProforma">
+              <PropertyRef Name="IdItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleProforma_Proforma">
+          <End Role="Proforma" Type="Self.Proforma" Multiplicity="1" />
+          <End Role="DetalleProforma" Type="Self.DetalleProforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proforma">
+              <PropertyRef Name="IdProforma" />
+            </Principal>
+            <Dependent Role="DetalleProforma">
+              <PropertyRef Name="IdProforma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Empresa_Moneda">
           <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
@@ -951,6 +1008,54 @@
             </Principal>
             <Dependent Role="MovimientoInv">
               <PropertyRef Name="UsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_EntidadResponsable">
+          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="1" />
+          <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntidadResponsable">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_Responsable">
+          <End Role="Responsable" Type="Self.Responsable" Multiplicity="1" />
+          <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Responsable">
+              <PropertyRef Name="IdResponsable" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_Ubicacion">
+          <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="1" />
+          <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicacion">
+              <PropertyRef Name="IdUbicacion" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdUbicacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1347,6 +1452,7 @@
           <EntitySet Name="Movimiento" EntityType="Self.Movimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientoInv" EntityType="Self.MovimientoInv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Periodo" EntityType="Self.Periodo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proforma" EntityType="Self.Proforma" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
@@ -1360,6 +1466,18 @@
           <EntitySet Name="TipoMovimientoInv" EntityType="Self.TipoMovimientoInv" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ubicacion" EntityType="Self.Ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleProforma" EntityType="Self.DetalleProforma" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DetalleProforma].[IdProforma] AS [IdProforma], 
+    [DetalleProforma].[IdItem] AS [IdItem], 
+    [DetalleProforma].[Cantidad] AS [Cantidad], 
+    [DetalleProforma].[PrecioUnudad] AS [PrecioUnudad], 
+    [DetalleProforma].[MontoTotal] AS [MontoTotal], 
+    [DetalleProforma].[TipoCambio] AS [TipoCambio], 
+    [DetalleProforma].[PorcentajeIgv] AS [PorcentajeIgv], 
+    [DetalleProforma].[IgV] AS [IgV]
+    FROM [dbo].[DetalleProforma] AS [DetalleProforma]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Area_Empresa" Association="Self.FK_Area_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Area" EntitySet="Area" />
@@ -1443,6 +1561,14 @@
           <AssociationSet Name="FK_CuentaBancaria_TipoCuenta" Association="Self.FK_CuentaBancaria_TipoCuenta">
             <End Role="TipoCuenta" EntitySet="TipoCuenta" />
             <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleProforma_Item" Association="Self.FK_DetalleProforma_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="DetalleProforma" EntitySet="DetalleProforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleProforma_Proforma" Association="Self.FK_DetalleProforma_Proforma">
+            <End Role="Proforma" EntitySet="Proforma" />
+            <End Role="DetalleProforma" EntitySet="DetalleProforma" />
           </AssociationSet>
           <AssociationSet Name="FK_Empresa_Moneda" Association="Self.FK_Empresa_Moneda">
             <End Role="Moneda" EntitySet="Moneda" />
@@ -1548,6 +1674,22 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="MovimientoInv" EntitySet="MovimientoInv" />
           </AssociationSet>
+          <AssociationSet Name="FK_Proforma_Empresa" Association="Self.FK_Proforma_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proforma_EntidadResponsable" Association="Self.FK_Proforma_EntidadResponsable">
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proforma_Responsable" Association="Self.FK_Proforma_Responsable">
+            <End Role="Responsable" EntitySet="Responsable" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proforma_Ubicacion" Association="Self.FK_Proforma_Ubicacion">
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
           <AssociationSet Name="FK_Proyecto_EntidadResponsable" Association="Self.FK_Proyecto_EntidadResponsable">
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
             <End Role="Proyecto" EntitySet="Proyecto" />
@@ -1569,8 +1711,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LibrosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1738,6 +1879,7 @@
           <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
           <NavigationProperty Name="Ubicacion" Relationship="Self.FK_Ubicacion_Empresa" FromRole="Empresa" ToRole="Ubicacion" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
+          <NavigationProperty Name="Proforma" Relationship="LibrosDBModel.FK_Proforma_Empresa" FromRole="Empresa" ToRole="Proforma" />
         </EntityType>
         <EntityType Name="EntidadResponsable">
           <Key>
@@ -1765,6 +1907,7 @@
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
           <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_EntidadResponsable" FromRole="EntidadResponsable" ToRole="MovimientoInv" />
           <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Proyecto" />
+          <NavigationProperty Name="Proforma" Relationship="LibrosDBModel.FK_Proforma_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Proforma" />
         </EntityType>
         <EntityType Name="EstadoMovimiento">
           <Key>
@@ -1823,6 +1966,7 @@
           <NavigationProperty Name="CategoriaItm" Relationship="Self.FK_Item_CategoriaItm" FromRole="Item" ToRole="CategoriaItm" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Item_Empresa" FromRole="Item" ToRole="Empresa" />
           <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Item" FromRole="Item" ToRole="MovimientoInv" />
+          <NavigationProperty Name="DetalleProforma" Relationship="LibrosDBModel.FK_DetalleProforma_Item" FromRole="Item" ToRole="DetalleProforma" />
         </EntityType>
         <EntityType Name="LogUsuario">
           <Key>
@@ -1946,6 +2090,7 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Responsable_Empresa" FromRole="Responsable" ToRole="Empresa" />
+          <NavigationProperty Name="Proforma" Relationship="LibrosDBModel.FK_Proforma_Responsable" FromRole="Responsable" ToRole="Proforma" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -2041,6 +2186,7 @@
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Ubicacion_Empresa" FromRole="Ubicacion" ToRole="Empresa" />
           <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Ubicacion" FromRole="Ubicacion" ToRole="MovimientoInv" />
+          <NavigationProperty Name="Proforma" Relationship="LibrosDBModel.FK_Proforma_Ubicacion" FromRole="Ubicacion" ToRole="Proforma" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -2930,10 +3076,10 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="SP_ActualizarMontos">
-            <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
+          <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarMontos_Empresa">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+          <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ActualizarPresupuestoPadre">
             <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
@@ -2956,7 +3102,7 @@
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
-            <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
+          <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_CuentasPor_CobrarPagar" ReturnType="Collection(LibrosDBModel.SP_Get_CuentasPor_CobrarPagar_Result)">
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -2992,7 +3138,7 @@
             <Parameter Name="SerieLote" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Get_StockLotes_En_Empresa" ReturnType="Collection(LibrosDBModel.SP_Get_StockLotes_En_Empresa_Result)">
-            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+          <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetReporteDetalleMovimientos" ReturnType="Collection(LibrosDBModel.SP_GetReporteDetalleMovimientos_Result)">
             <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
@@ -3086,6 +3232,32 @@
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Proforma" EntityType="LibrosDBModel.Proforma" />
+          <EntitySet Name="DetalleProforma" EntityType="LibrosDBModel.DetalleProforma" />
+          <AssociationSet Name="FK_Proforma_Empresa" Association="LibrosDBModel.FK_Proforma_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proforma_EntidadResponsable" Association="LibrosDBModel.FK_Proforma_EntidadResponsable">
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleProforma_Item" Association="LibrosDBModel.FK_DetalleProforma_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="DetalleProforma" EntitySet="DetalleProforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleProforma_Proforma" Association="LibrosDBModel.FK_DetalleProforma_Proforma">
+            <End Role="Proforma" EntitySet="Proforma" />
+            <End Role="DetalleProforma" EntitySet="DetalleProforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proforma_Responsable" Association="LibrosDBModel.FK_Proforma_Responsable">
+            <End Role="Responsable" EntitySet="Responsable" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proforma_Ubicacion" Association="LibrosDBModel.FK_Proforma_Ubicacion">
+            <End Role="Ubicacion" EntitySet="Ubicacion" />
+            <End Role="Proforma" EntitySet="Proforma" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_Get_Arbol_Categoria_Result">
           <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -3373,6 +3545,116 @@
           <Property Type="Decimal" Name="Ingreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
           <Property Type="Decimal" Name="Egreso_SinIGV" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
+        <EntityType Name="Proforma">
+          <Key>
+            <PropertyRef Name="IdProforma" />
+          </Key>
+          <Property Name="IdProforma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodigoProforma" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="IdResponsable" Type="Int32" Nullable="false" />
+          <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
+          <Property Name="IdUbicacion" Type="Int32" Nullable="false" />
+          <Property Name="FormaPago" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="LugarEntrega" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
+          <Property Name="Estado" Type="Int32" />
+          <NavigationProperty Name="Empresa" Relationship="LibrosDBModel.FK_Proforma_Empresa" FromRole="Proforma" ToRole="Empresa" />
+          <NavigationProperty Name="EntidadResponsable" Relationship="LibrosDBModel.FK_Proforma_EntidadResponsable" FromRole="Proforma" ToRole="EntidadResponsable" />
+          <NavigationProperty Name="DetalleProforma" Relationship="LibrosDBModel.FK_DetalleProforma_Proforma" FromRole="Proforma" ToRole="DetalleProforma" />
+          <NavigationProperty Name="Responsable" Relationship="LibrosDBModel.FK_Proforma_Responsable" FromRole="Proforma" ToRole="Responsable" />
+          <NavigationProperty Name="Ubicacion" Relationship="LibrosDBModel.FK_Proforma_Ubicacion" FromRole="Proforma" ToRole="Ubicacion" />
+        </EntityType>
+        <EntityType Name="DetalleProforma">
+          <Key>
+            <PropertyRef Name="IdProforma" />
+            <PropertyRef Name="IdItem" />
+            <PropertyRef Name="Cantidad" />
+          </Key>
+          <Property Name="IdProforma" Type="Int32" Nullable="false" />
+          <Property Name="IdItem" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="PrecioUnudad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MontoTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PorcentajeIgv" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IgV" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Item" Relationship="LibrosDBModel.FK_DetalleProforma_Item" FromRole="DetalleProforma" ToRole="Item" />
+          <NavigationProperty Name="Proforma" Relationship="LibrosDBModel.FK_DetalleProforma_Proforma" FromRole="DetalleProforma" ToRole="Proforma" />
+        </EntityType>
+        <Association Name="FK_Proforma_Empresa">
+          <End Type="LibrosDBModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="LibrosDBModel.Proforma" Role="Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_EntidadResponsable">
+          <End Type="LibrosDBModel.EntidadResponsable" Role="EntidadResponsable" Multiplicity="1" />
+          <End Type="LibrosDBModel.Proforma" Role="Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntidadResponsable">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdEntidadResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleProforma_Item">
+          <End Type="LibrosDBModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="LibrosDBModel.DetalleProforma" Role="DetalleProforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
+            </Principal>
+            <Dependent Role="DetalleProforma">
+              <PropertyRef Name="IdItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleProforma_Proforma">
+          <End Type="LibrosDBModel.Proforma" Role="Proforma" Multiplicity="1" />
+          <End Type="LibrosDBModel.DetalleProforma" Role="DetalleProforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proforma">
+              <PropertyRef Name="IdProforma" />
+            </Principal>
+            <Dependent Role="DetalleProforma">
+              <PropertyRef Name="IdProforma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_Responsable">
+          <End Type="LibrosDBModel.Responsable" Role="Responsable" Multiplicity="1" />
+          <End Type="LibrosDBModel.Proforma" Role="Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Responsable">
+              <PropertyRef Name="IdResponsable" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdResponsable" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proforma_Ubicacion">
+          <End Type="LibrosDBModel.Ubicacion" Role="Ubicacion" Multiplicity="1" />
+          <End Type="LibrosDBModel.Proforma" Role="Proforma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicacion">
+              <PropertyRef Name="IdUbicacion" />
+            </Principal>
+            <Dependent Role="Proforma">
+              <PropertyRef Name="IdUbicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4193,6 +4475,37 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="LibrosDBModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Proforma">
+            <EntityTypeMapping TypeName="LibrosDBModel.Proforma">
+              <MappingFragment StoreEntitySet="Proforma">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="LugarEntrega" ColumnName="LugarEntrega" />
+                <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+                <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
+                <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+                <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="CodigoProforma" ColumnName="CodigoProforma" />
+                <ScalarProperty Name="IdProforma" ColumnName="IdProforma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleProforma">
+            <EntityTypeMapping TypeName="LibrosDBModel.DetalleProforma">
+              <MappingFragment StoreEntitySet="DetalleProforma">
+                <ScalarProperty Name="IgV" ColumnName="IgV" />
+                <ScalarProperty Name="PorcentajeIgv" ColumnName="PorcentajeIgv" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="PrecioUnudad" ColumnName="PrecioUnudad" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="IdProforma" ColumnName="IdProforma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

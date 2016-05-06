@@ -73,10 +73,12 @@
     <Compile Include="BL\HonorarioBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
     <Compile Include="BL\PeriodoBL.cs" />
+    <Compile Include="BL\ProformaBL.cs" />
     <Compile Include="BL\ProyectoBL.cs" />
     <Compile Include="BL\ReportesBL.cs" />
     <Compile Include="BL\ResponsableBL.cs" />
     <Compile Include="BL\TipoMovimientoBL.cs" />
+    <Compile Include="BL\UbicacionBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />
     <Compile Include="DTO\AreaDTO.cs" />
     <Compile Include="DTO\AreaNDTO.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="DTO\ContactoDTO.cs" />
     <Compile Include="DTO\CuentaBancariaDTO.cs" />
     <Compile Include="DTO\DateStartEndDTO.cs" />
+    <Compile Include="DTO\DetalleProformaDTO.cs" />
     <Compile Include="DTO\EmpresaDTO.cs" />
     <Compile Include="DTO\EntidadResponsableDTO.cs" />
     <Compile Include="DTO\EntidadResponsableR_DTO.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="DTO\MonedaDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\PeriodoDTO.cs" />
+    <Compile Include="DTO\ProformaDTO.cs" />
     <Compile Include="DTO\ProyectoDTO.cs" />
     <Compile Include="DTO\ResetPasswordDTO.cs" />
     <Compile Include="DTO\ResponsableDTO.cs" />
@@ -112,6 +116,7 @@
     <Compile Include="DTO\TipoEntidadDTO.cs" />
     <Compile Include="DTO\TipoIdentificacionDTO.cs" />
     <Compile Include="DTO\TipoMovimientoDTO.cs" />
+    <Compile Include="DTO\UbicacionDTO.cs" />
     <Compile Include="DTO\UsuarioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

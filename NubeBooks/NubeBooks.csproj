@@ -213,6 +213,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Proformas\Controllers\ProformaController.cs" />
+    <Compile Include="Areas\Proformas\ProformasAreaRegistration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -919,6 +921,8 @@
     <Content Include="Content\themes\admin-nb\libs\._angular" />
     <Content Include="Content\themes\admin-nb\libs\._assets" />
     <Content Include="Content\themes\admin-nb\libs\._jquery" />
+    <Content Include="Areas\Proformas\Views\web.config" />
+    <Content Include="Areas\Proformas\Views\Proforma\Index.cshtml" />
     <None Include="Properties\PublishProfiles\NubeBooks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1001,9 +1005,12 @@
     <Content Include="Views\Admin\ReportesGestion.cshtml" />
     <Content Include="Views\Admin\ReportesInventarios.cshtml" />
     <Content Include="Views\Admin\Proforma.cshtml" />
+    <Content Include="Views\Admin\BuscarProforma.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Proformas\Models\" />
+    <Folder Include="Areas\Proformas\Views\Shared\" />
     <Folder Include="Content\themes\admin\less\" />
     <Folder Include="Content\themes\admin\src\" />
   </ItemGroup>
