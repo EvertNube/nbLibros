@@ -47,6 +47,7 @@ namespace NubeBooks.Core.DTO
         public string NombreCategoria { get; set; }
         public string NombreProyecto { get; set; }
         public string NombreAreas { get; set; }
+        public string nHonorario { get; set; }
 
         //Montos Auxs
         public Decimal MontoIncompleto { get; set; }

@@ -101,7 +101,6 @@
 
         function ListarComprobantesEntidadXTipoDoc(cambio) {
             if ($('#IdEntidadResponsable').val() != '' && $('#IdTipoDocumento').val() != '') {
-
                 var identidad = parseInt($('#IdEntidadResponsable').val());
                 var idtdoc = parseInt($('#IdTipoDocumento').val());
                 //Se limpia el comprobante y la categoria si es que se cambia la entidad o el tipo de doc
@@ -114,8 +113,14 @@
                         BuscarCategoria($('#IdComprobante').val(), false);
                     }
                 }
-                if (@ViewBag.IdTipoCuenta != 2)
+                if (@ViewBag.IdTipoCuenta == 1)
                 {GetComprobantesAjax(identidad, idtdoc);}
+            }
+            else
+            {
+                $('#IdComprobante').select2("val", "");
+                $('#IdCategoria').select2("val", "");
+                $('#cmpMonto').val('');
             }
         }
 
@@ -248,13 +253,21 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Entidad</label>
                             @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })*@
-                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })*@
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" 
-                                    id="IdEntidadResponsable" name="IdEntidadResponsable">
+                                    id="IdEntidadResponsable" name="IdEntidadResponsable"
+                                    onchange="ListarComprobantesEntidadXTipoDoc(1)">
                                 @{ var miEntidad = Model != null ? Model.IdEntidadResponsable : 0;}
-                                <option value=""><option>
-                                    @foreach (var item in (List<EntidadResponsableDTO>)ViewBag.EntidadesResponsables)
-                                    {<option value="@item.IdEntidadResponsable" @(item.IdEntidadResponsable == miEntidad ? "selected=selected" : "")>@item.Nombre</option>}
+                                <option value=""></option>
+                                @foreach (var tipoEnt in (List<TipoEntidadDTO>)ViewBag.TipoEntidades)
+                                {
+                                    <optgroup label="@tipoEnt.Nombre">
+                                        @foreach (var item in (List<EntidadResponsableDTO>)ViewBag.EntidadesResponsables)
+                                        {
+                                            if (tipoEnt.IdTipoEntidad == item.IdTipoEntidad)
+                                            {<option value="@item.IdEntidadResponsable" @(item.IdEntidadResponsable == miEntidad ? "selected=selected" : "")>@item.Nombre</option>}
+                                        }
+                                    </optgroup>
+                                }
                             </select>
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                         </div>
