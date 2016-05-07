@@ -19,8 +19,10 @@
         var lstProyectos = JSON.parse('@Html.Raw(userInfoJson2)');
 
         var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var miBaseUrl = '';
 
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
             $('.miselect2').select2();
 
@@ -32,45 +34,6 @@
 
             $('#IdProyecto').select2({ data: lstProyectos })
 
-            $("#add-monto").click(function () {
-                var existe = false;
-                debugger;
-                //var AreaSel = $('#IdAreaX :selected');
-                var valorArea = $('#IdAreaX :selected').val();
-                if (valorArea > 0) {
-                    var txtArea = $('#IdAreaX :selected').text();
-                    //var txtMonto = parseFloat($('#MontoSinIGVX').val()).toFixed(2);
-                    var txtMonto = parseFloat($('#MontoX').val());
-                    $('#lstMontos option').each(function () {
-                        if ($(this).val() == valorArea) existe = true;
-                    });
-                    if (!existe) {
-                        $('#lstMontos').append($('<option>', {
-                            value: valorArea,
-                            text: txtArea + ' - ' + txtMonto
-                        }).attr('data-monto', txtMonto));
-
-                        $('#IdAreaX').select2("val", 0);
-                        $('#MontoX').val("");
-                        $('#MontoSinIGVX').val("");
-                        ActualizarMontos();
-                    } else {
-                        alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
-                    }
-                } else {
-                    alert("Por favor, seleccione otra área válido.");
-                }
-            });
-            $("#remove-monto").click(function () {
-                var val = $('#lstMontos :selected').val();
-                var text = $('#lstMontos :selected').text();
-
-                $('#lstMontos :selected').remove();
-                $('#MontoSinIGVX').val("");
-                $('#MontoX').val("");
-                ActualizarMontos();
-            });
-
             BloquearTDocumentos();
 
             ListarProyectos(0);
@@ -78,6 +41,46 @@
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
             });
+        });
+
+        $("#add-monto").click(function () {
+            var existe = false;
+            debugger;
+            //var AreaSel = $('#IdAreaX :selected');
+            var valorArea = $('#IdAreaX :selected').val();
+            if (valorArea > 0) {
+                var txtArea = $('#IdAreaX :selected').text();
+                //var txtMonto = parseFloat($('#MontoSinIGVX').val()).toFixed(2);
+                var txtMonto = parseFloat($('#MontoX').val());
+                $('#lstMontos option').each(function () {
+                    if ($(this).val() == valorArea) existe = true;
+                });
+                if (!existe) {
+                    $('#lstMontos').append($('<option>', {
+                        value: valorArea,
+                        text: txtArea + ' - ' + txtMonto
+                    }).attr('data-monto', txtMonto));
+
+                    $('#IdAreaX').select2("val", 0);
+                    $('#MontoX').val("");
+                    $('#MontoSinIGVX').val("");
+                    ActualizarMontos();
+                } else {
+                    alert("No se puede agregar el área " + txtArea + ", porque ya se encuentra agregado.");
+                }
+            } else {
+                alert("Por favor, seleccione otra área válido.");
+            }
+        });
+
+        $("#remove-monto").click(function () {
+            var val = $('#lstMontos :selected').val();
+            var text = $('#lstMontos :selected').text();
+
+            $('#lstMontos :selected').remove();
+            $('#MontoSinIGVX').val("");
+            $('#MontoX').val("");
+            ActualizarMontos();
         });
 
         function CheckNumericValue(e) {

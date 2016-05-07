@@ -15,7 +15,6 @@
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
             var userInfoJson2 = jss.Serialize(ViewBag.Comprobantes);
-
             //var lstFormaMovs = jss.Serialize(ViewBag.lstFormaMovs);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
@@ -28,7 +27,10 @@
         var montoMov = 0;
         var montoPen = 0;
 
+        var miBaseUrl = '';
+
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
             $('.miselect2').select2();
 
@@ -127,7 +129,7 @@
         function GetComprobantesAjax(identidad, idtdoc) {
             $.ajax({
                 type: "POST",
-                url: "/Admin/GetComprobantes",
+                url: miBaseUrl + "/GetComprobantes",
                 cache: false,
                 data: { idEntidad: identidad, idTipoDoc: idtdoc },
                 dataType: 'json',
@@ -150,7 +152,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/Admin/BuscarComprobante",
+                url: miBaseUrl + "/BuscarComprobante",
                 async: true,
                 cache: false,
                 data: { idComprobante: miIdComprobante, idCuentaBancaria: jIdCuentaBancaria },

@@ -31,12 +31,12 @@
             var sContacto = "", sProyecto = "";
             sContacto = $('#chkContacto').val() ? "inactivosC=" + $('#chkContacto').val() : "";
             sProyecto = $('#chkProyecto').val() ? "inactivosP=" + $('#chkProyecto').val() : "";
-            window.location.href = '@Url.Action("Entidad", "Admin", new { @id = Model.IdEntidadResponsable })' + "?" + sContacto + "&" + sProyecto;
+            window.location.href = '@Url.Action("Entidad", "Admin", new { @id = Model.IdEntidadResponsable.GetValueOrDefault() })' + "?" + sContacto + "&" + sProyecto;
         }
     </script>
 }
 @{var cadena = "";}
-@if (Model == null || Model.IdEntidadResponsable == 0) { cadena = "Nueva"; }
+@if (Model == null || Model.IdEntidadResponsable.GetValueOrDefault() == 0) { cadena = "Nueva"; }
 else { cadena = "Actualizar"; }
 <div class="bg-light lter b-b wrapper-md">
     <h1 class="m-n font-thin h3">@cadena Entidad</h1>
@@ -116,7 +116,7 @@ else { cadena = "Actualizar"; }
                         </div>
                     </div>
                 }
-                if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable > 0)
+                if (ViewBag.EsAdmin && Model != null && Model.IdEntidadResponsable.GetValueOrDefault() > 0)
                 {
                     <div class="line line-dashed line-lg pull-in"></div>
                     <div class="form-group">
@@ -140,19 +140,19 @@ else { cadena = "Actualizar"; }
                 <div class="line line-dashed b-b line-lg pull-in"></div>
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdTipoEntidad, new { @value = Model.IdTipoEntidad != 0 ? Model.IdTipoEntidad.ToString() : "", @type = "hidden" })
-                @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable.ToString() : "", @type = "hidden" })
-                var btnName = (Model != null && Model.IdEntidadResponsable > 0) ? "Guardar Cambios" : "Crear";
+                @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @value = (Model.IdEntidadResponsable.GetValueOrDefault() != 0) ? Model.IdEntidadResponsable.GetValueOrDefault() : 0, @type = "hidden" })
+                var btnName = (Model != null && Model.IdEntidadResponsable.GetValueOrDefault() > 0) ? "Guardar Cambios" : "Crear";
                 <button type="submit" class="btn btn-sm btn-success">@btnName</button>
                 var sTipoEntidad = Model.IdTipoEntidad == 1 ? "Clientes" : "Proveedores";
                 <a class="btn btn-default" href="@Url.Action("Entidades" + sTipoEntidad, "Admin")">Cancelar</a>
             }
         </div>
     </div>
-    @if (Model != null && Model.IdEntidadResponsable != 0)
+    @if (Model != null && Model.IdEntidadResponsable.GetValueOrDefault() != 0)
     {
         <div class="bg-light lter b-b wrapper-md">
             @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
-            {<a href="@Url.Action("Contacto", new { id = 0, idEntidad = Model.IdEntidadResponsable })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>}
+            {<a href="@Url.Action("Contacto", new { id = 0, idEntidad = Model.IdEntidadResponsable.GetValueOrDefault() })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>}
             <h1 class="m-n font-thin h4">Contactos</h1>
         </div>
         <div class="panel panel-default">
@@ -201,7 +201,7 @@ else { cadena = "Actualizar"; }
                                     <td class="text-center" style="color:@(eColor)">@(obj.Estado ? "Activo" : "Inactivo" )</td>
                                     @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
                                     {
-                                        <td class="text-right" width="10%"><a href="@Url.Action("Contacto", new { id = obj.IdContacto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                        <td class="text-right" width="10%"><a href="@Url.Action("Contacto", new { id = obj.IdContacto, idEntidad = Model.IdEntidadResponsable.GetValueOrDefault() })"><i class="fa fa-pencil" title="Editar"></i></a></td>
                                     }
                                 </tr>
                             }
@@ -216,11 +216,11 @@ else { cadena = "Actualizar"; }
             </label>
         </div>
                                         }
-    @if (Model != null && Model.IdEntidadResponsable != 0 && Model.IdTipoEntidad == 1)
+    @if (Model != null && Model.IdEntidadResponsable.GetValueOrDefault() != 0 && Model.IdTipoEntidad == 1)
             {
         <div class="bg-light lter b-b wrapper-md">
             @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
-            {<a href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>}
+            {<a href="@Url.Action("Proyecto", new { id = 0, idEntidad = Model.IdEntidadResponsable.GetValueOrDefault() })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>}
             <h1 class="m-n font-thin h4">Proyectos</h1>
         </div>
                 <div class="panel panel-default">
@@ -263,7 +263,7 @@ else { cadena = "Actualizar"; }
                                             <td class="text-center" style="color:@(eColor)">@(obj.Estado ? "Activo" : "Inactivo" )</td>
                                             @if (ViewBag.EsAdmin || ViewBag.EsUsuarioInterno)
                                             {
-                                                <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable })"><i class="fa fa-pencil" title="Editar"></i></a></td>
+                                                <td class="text-center" width="10%"><a href="@Url.Action("Proyecto", new { id = obj.IdProyecto, idEntidad = Model.IdEntidadResponsable.GetValueOrDefault() })"><i class="fa fa-pencil" title="Editar"></i></a></td>
                                             }
                                         </tr>
                                     }

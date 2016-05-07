@@ -18,6 +18,16 @@
         });
 
         function GenerarReporte(nrep) {
+            //Url Base
+            var listUrl = window.location.pathname.split('/');
+            listUrl.shift();
+            listUrl.pop();
+            var neleUrl = listUrl.length;
+            var miUrl = '';
+            for (var i = 0; i < neleUrl; i++) {
+                miUrl += ('/' + listUrl[i]);
+            }
+            
             var FechaInicio = $("#FechaInicio").val().split("/");
 
             FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
@@ -29,37 +39,37 @@
 
             switch (nrep) {
                 case 2:
-                    return "/Admin/GenerarRep_FacturacionPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_FacturacionPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 3:
-                    return "/Admin/GenerarRep_IngresosEgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_IngresosEgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 4:
-                    return "/Admin/GenerarRep_FacturacionPorCliente/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_FacturacionPorCliente/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 5:
-                    return "/Admin/GenerarRep_GastosPorProveedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_GastosPorProveedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 6:
-                    return "/Admin/GenerarRep_FacturacionPorVendedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_FacturacionPorVendedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 7:
-                    return "/Admin/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 1 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 1 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 8:
-                    return "/Admin/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 2 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 2 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 10:
-                    return "/Admin/GenerarRep_EgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_EgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 11:
-                    return "/Admin/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 12:
-                    return "/Admin/GenerarRep_Ventas_Gastos_Por_Mes/?year=" + jsYear;
+                    return miUrl + "/GenerarRep_Ventas_Gastos_Por_Mes/?year=" + jsYear;
                     break;
                 case 13:
-                    return "/Admin/GenerarRep_Ventas_Por_Mes/?year=" + jsYear;
+                    return miUrl + "/GenerarRep_Ventas_Por_Mes/?year=" + jsYear;
                     break;
             }
         }

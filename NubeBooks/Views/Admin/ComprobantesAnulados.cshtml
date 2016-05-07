@@ -6,62 +6,64 @@
 }
 @section scripts{
     <script type="text/javascript">
+        var miBaseUrl = '';
         $(function () {
-            $('#modal-form2').on('show.bs.modal', function (e) {
-                var button = $(e.relatedTarget);
-                var idElement = button.data('id');
-                var nroDocumento = button.data('nro');
-                var nombreDocumento = button.data('doc');
-                var modal = $(this);
-                modal.find('.modal-title').text('Restablecer Elemento: ' + nombreDocumento + " " + nroDocumento);
-                modal.find('.modal-body input').val(idElement);
-            });
-            $("input#restablecer").click(function () {
-                var idelement = $('form.element').serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/RestablecerComprobante",
-                    data: $('form.element').serialize(),
-                    success: function (msg) {
-                        $("#modal-form").modal('hide');
-                        window.location.href = "/Admin/ComprobantesAnulados";
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
-            });
-            $('#modal-form').on('show.bs.modal', function (e) {
-                var button = $(e.relatedTarget);
-                var idElement = button.data('id');
-                var nroDocumento = button.data('nro');
-                var nombreDocumento = button.data('doc');
-                var modal = $(this);
-                modal.find('.modal-title').text('Eliminar Elemento: ' + nombreDocumento + " " + nroDocumento);
-                modal.find('.modal-body input').val(idElement);
-            });
-            $("input#delete").click(function () {
-                var idelement = $('form.element').serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/DeleteComprobante",
-                    data: $('form.element').serialize(),
-                    success: function (msg) {
-                        $("#modal-form").modal('hide');
-                        window.location.href = "/Admin/ComprobantesIngreso";
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
-            });
+            miBaseUrl = baseURL(window.location.pathname);
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+        });
 
-            $("input#exportar").click(function () {
-                window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
-                $('#modal-form-exportar').modal('toggle');
+        $('#modal-form2').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var nombreDocumento = button.data('doc');
+            var modal = $(this);
+            modal.find('.modal-title').text('Restablecer Elemento: ' + nombreDocumento + " " + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+        $("input#restablecer").click(function () {
+            var idelement = $('form.element').serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RestablecerComprobante",
+                data: $('form.element').serialize(),
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = "/Admin/ComprobantesAnulados";
+                },
+                error: function () {
+                    alert("failure");
+                }
             });
+        });
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var nombreDocumento = button.data('doc');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nombreDocumento + " " + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+        $("input#delete").click(function () {
+            var idelement = $('form.element').serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteComprobante",
+                data: $('form.element').serialize(),
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = "/Admin/ComprobantesIngreso";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+        $("input#exportar").click(function () {
+            window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+            $('#modal-form-exportar').modal('toggle');
         });
 
         function exportarDetalle(fechaInicio, fechaFin) {

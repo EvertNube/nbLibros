@@ -212,8 +212,8 @@ namespace NubeBooks.Core.BL
                 {
                     CuentaBancaria nuevo = new CuentaBancaria();
                     nuevo.NombreCuenta = CuentaBancaria.NombreCuenta;
-                    nuevo.FechaConciliacion = Convert.ToDateTime(CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
-                    //nuevo.FechaConciliacion = CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd H:mm:ss");
+                    nuevo.FechaConciliacion = CuentaBancaria.FechaConciliacion;
+                    //nuevo.FechaConciliacion = Convert.ToDateTime(CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     nuevo.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     nuevo.SaldoBancario = CuentaBancaria.SaldoBancario;
                     nuevo.Estado = true;
@@ -242,8 +242,8 @@ namespace NubeBooks.Core.BL
                     //var miSaldoDisponible = context.SP_GetTotalIngresos(CuentaBancaria.IdCuentaBancaria).AsQueryable().First() as Decimal?;
                     var datoRow = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == CuentaBancaria.IdCuentaBancaria).SingleOrDefault();
                     datoRow.NombreCuenta = CuentaBancaria.NombreCuenta;
-                    //datoRow.FechaConciliacion = CuentaBancaria.FechaConciliacion;
-                    datoRow.FechaConciliacion = Convert.ToDateTime(CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
+                    datoRow.FechaConciliacion = CuentaBancaria.FechaConciliacion;
+                    //datoRow.FechaConciliacion = Convert.ToDateTime(CuentaBancaria.FechaConciliacion.ToString("yyyy-MM-dd hh:mm:ss tt"));
                     datoRow.SaldoDisponible = CuentaBancaria.SaldoDisponible;
                     datoRow.SaldoBancario = CuentaBancaria.SaldoBancario;
                     datoRow.Estado = CuentaBancaria.Estado;
@@ -271,7 +271,7 @@ namespace NubeBooks.Core.BL
                 {
                     var cuenta = context.CuentaBancaria.Where(x => x.IdCuentaBancaria == idCuentaB).SingleOrDefault();
                     
-                    if (cuenta.Empresa.FechaConciliacion < cuenta.FechaConciliacion) { cuenta.Empresa.FechaConciliacion = cuenta.FechaConciliacion; }
+                    if (cuenta.Empresa.FechaConciliacion.GetValueOrDefault() < cuenta.FechaConciliacion) { cuenta.Empresa.FechaConciliacion = cuenta.FechaConciliacion; }
 
                     context.SaveChanges();
                 }

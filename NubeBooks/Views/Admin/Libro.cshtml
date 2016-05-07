@@ -20,49 +20,12 @@
 @section Scripts{
     <script type="text/javascript">
         var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var miBaseUrl = '';
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
-            });
-
-            $('#idreporte').click(function () {
-                var idCuenta = $('#IdCuentaBancaria').val();
-                var miURL = "/Admin/Libro/" + idCuenta;
-                miURL = exportarDetalle(idCuenta);
-                this.href = miURL;
-            });
-
-            $('.mactivo').click(function () {
-                ActualizarEstadoEnMovimiento(this);
-            });
-
-            $('#modal-form').on('show.bs.modal', function (e) {
-                //if (!data) return e.preventDefault()
-                var button = $(e.relatedTarget);
-                var idElement = button.data('id');
-                var nroDocumento = button.data('nro');
-                var idCuentaBancaria = button.data('cuenta');
-                var modal = $(this);
-                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
-                modal.find('.modal-body input#id-element').val(idElement);
-                modal.find('.modal-body input#id-cuenta').val(idCuentaBancaria);
-                debugger;
-            });
-
-            $("input#delete").click(function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/DeleteMovimiento",
-                    data: $('form.element').serialize(),
-                    success: function (msg) {
-                        $("#modal-form").modal('hide');
-                        window.location.href = '@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria })';
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
             });
         });
 
@@ -74,11 +37,52 @@
             $('#modal-form-exportar').modal('toggle');
         });
 
+        $('#idreporte').click(function () {
+            var idCuenta = $('#IdCuentaBancaria').val();
+            //var miURL = "/Admin/Libro/" + idCuenta;
+            var miURL = miBaseUrl + "/Libro/" + idCuenta;
+            miURL = exportarDetalle(idCuenta);
+            this.href = miURL;
+        });
+
+        $('.mactivo').click(function () {
+            ActualizarEstadoEnMovimiento(this);
+        });
+
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var idCuentaBancaria = button.data('cuenta');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+            modal.find('.modal-body input#id-element').val(idElement);
+            modal.find('.modal-body input#id-cuenta').val(idCuentaBancaria);
+            debugger;
+        });
+
+        $("input#delete").click(function () {
+            $.ajax({
+                type: "POST",
+                //url: "/Admin/DeleteMovimiento",
+                url: miBaseUrl + "/DeleteMovimiento",
+                data: $('form.element').serialize(),
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = '@Url.Action("Libro", "Admin", new { id = Model.IdCuentaBancaria })';
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+
         function ActualizarEstadoEnMovimiento(e) {
             var jId = $(e).data('id');
             $.ajax({
                 type: "POST",
-                url: "/Admin/ActualizarEstadoEnMovimiento",
+                //url: "/Admin/ActualizarEstadoEnMovimiento",
+                url: miBaseUrl + "/ActualizarEstadoEnMovimiento",
                 cache: false,
                 data: { idMovimiento: jId },
                 dataType: "text",
@@ -104,8 +108,8 @@
         function exportarDetalle(idCuenta) {
             var FechaInicio = $("#fechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = $("#fechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
-
-            return "/Admin/ExportarMovimientos/?idLibro=" + idCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            //return "/Admin/ExportarMovimientos/?idLibro=" + idCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return miBaseUrl + "/ExportarMovimientos/?idLibro=" + idCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }
@@ -133,7 +137,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Fecha de conciliación</label>
                             <div class="input-group date">
-                                @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de conciliación", @type = "text", @readonly = "readonly" })
+                                @Html.TextBoxFor(u => u.FechaConciliacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de conciliación", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                 @*@Html.ValidationMessageFor(u => u.FechaConciliacion, "", new { @style = "color:red;" })*@
                             </div>

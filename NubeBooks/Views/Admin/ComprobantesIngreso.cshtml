@@ -6,71 +6,75 @@
 }
 @section scripts{
     <script type="text/javascript">
+        var miBaseUrl = '';
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
-            $('#modal-form2').on('show.bs.modal', function (e) {
-                var button = $(e.relatedTarget);
-                var idElement = button.data('id');
-                var nroDocumento = button.data('nro');
-                var nombreDocumento = button.data('doc');
-                var modal = $(this);
-                modal.find('.modal-title').text('Anular Elemento: ' + nombreDocumento + " " + nroDocumento);
-                modal.find('.modal-body input').val(idElement);
-            });
-            $("input#anular").click(function () {
-                var idelement = $('form#form-anular').serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/AnularComprobante",
-                    data: idelement,
-                    success: function (msg) {
-                        $("#modal-form").modal('hide');
-                        window.location.href = "/Admin/ComprobantesIngreso";
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
-            });
-            $('#modal-form').on('show.bs.modal', function (e) {
-                var button = $(e.relatedTarget);
-                var idElement = button.data('id');
-                var nroDocumento = button.data('nro');
-                var nombreDocumento = button.data('doc');
-                var modal = $(this);
-                modal.find('.modal-title').text('Eliminar Elemento: ' + nombreDocumento + " " + nroDocumento);
-                modal.find('.modal-body input').val(idElement);
-            });
-            $("input#delete").click(function () {
-                var idelement = $('form#form-delete').serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/DeleteComprobante",
-                    data: idelement,
-                    success: function (msg) {
-                        $("#modal-form").modal('hide');
-                        window.location.href = "/Admin/ComprobantesIngreso";
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
-            });
+            
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+        });
 
-            $("input#exportar").click(function () {
-                window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
-                $('#modal-form-exportar').modal('toggle');
+        $('#modal-form2').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var nombreDocumento = button.data('doc');
+            var modal = $(this);
+            modal.find('.modal-title').text('Anular Elemento: ' + nombreDocumento + " " + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+        $("input#anular").click(function () {
+            var idelement = $('form#form-anular').serialize();
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/AnularComprobante",
+                data: idelement,
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = miBaseUrl + "/ComprobantesIngreso";
+                },
+                error: function () {
+                    alert("failure");
+                }
             });
+        });
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var nombreDocumento = button.data('doc');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nombreDocumento + " " + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+        $("input#delete").click(function () {
+            var idelement = $('form#form-delete').serialize();
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/DeleteComprobante",
+                data: idelement,
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = miBaseUrl + "/ComprobantesIngreso";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
 
-            $('#addComment').click(function () {
-                $(this).children('i.fa-minus, i.fa-plus').toggleClass("fa-minus fa-plus");
-                $('#comentarioAnulado').toggle();
-                if ($(this).children('i.fa-minus')) { $('#comentarioAnulado').val(''); }
-                $(this).children('span').text(function (i, text) {
-                    return text === "Agregar Comentario" ? "Eliminar Comentario" : "Agregar Comentario";
-                });
+        $("input#exportar").click(function () {
+            window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+            $('#modal-form-exportar').modal('toggle');
+        });
+
+        $('#addComment').click(function () {
+            $(this).children('i.fa-minus, i.fa-plus').toggleClass("fa-minus fa-plus");
+            $('#comentarioAnulado').toggle();
+            if ($(this).children('i.fa-minus')) { $('#comentarioAnulado').val(''); }
+            $(this).children('span').text(function (i, text) {
+                return text === "Agregar Comentario" ? "Eliminar Comentario" : "Agregar Comentario";
             });
         });
 
@@ -78,7 +82,7 @@
             var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
-            return "/Admin/ExportarComprobantes/?idTipoComprobante=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return miBaseUrl + "/ExportarComprobantes/?idTipoComprobante=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }

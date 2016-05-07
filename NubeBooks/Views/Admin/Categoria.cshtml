@@ -15,13 +15,15 @@
             var userInfoJson = jss.Serialize(ViewBag.Categorias);
         }
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var miBaseUrl = '';
 
-        $(document).ready(function () {
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('#IdCategoriaPadre').select2({
                 placeholder: "Seleccione una categoría",
                 data: mydata,
                 allowClear: true
-            })
+            });
         });
 
         function format(res) {
@@ -47,7 +49,7 @@
 
         function obtenerCategorias() {
             $.ajax({
-                url: "/Admin/CategoriasJson",
+                url: miBaseUrl + "/CategoriasJson",
                 type: "POST",
                 dataType: 'json',
                 data: function () {

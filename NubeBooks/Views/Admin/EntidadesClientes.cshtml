@@ -5,9 +5,11 @@
 }
 @section scripts{
     <script type="text/javascript">
+        var miBaseUrl = '';
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('#exportar').click(function () {
-                window.location.href = "/Admin/ExportarClientesOProveedores/?tipo=" + 1
+                window.location.href = miBaseUrl + "/ExportarClientesOProveedores/?tipo=" + 1
                 $('.alert.alert-success').removeClass('hidden');
             });
         });

@@ -18,6 +18,16 @@
         });
 
         function GenerarReporte(nrep) {
+            //Url Base
+            var listUrl = window.location.pathname.split('/');
+            listUrl.shift();
+            listUrl.pop();
+            var neleUrl = listUrl.length;
+            var miUrl = '';
+            for (var i = 0; i < neleUrl; i++) {
+                miUrl += ('/' + listUrl[i]);
+            }
+
             var FechaInicio = $("#FechaInicio").val().split("/");
 
             FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
@@ -32,17 +42,17 @@
             debugger;
             switch (nrep) {
                 case 1:
-                    return "/Admin/GenerarRep_Movimiento_De_Inventarios/?idItem=" + jIdItem + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_Movimiento_De_Inventarios/?idItem=" + jIdItem + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 2:
-                    return "/Admin/GenerarRep_Inventarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_Inventarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 3:
-                    return "/Admin/GenerarRep_Items_Por_Vencimiento/?rFechaFin=" + encodeURIComponent(rFechaFin);
+                    return miUrl + "/GenerarRep_Items_Por_Vencimiento/?rFechaFin=" + encodeURIComponent(rFechaFin);
                     break;
                 case 4:
-                    //return "/Admin/GenerarRep_Stock_De_Items/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
-                    return "/Admin/GenerarRep_Stock_De_Items/?FechaFin=" + encodeURIComponent(rFechaFin);
+                    //return miUrl + "/GenerarRep_Stock_De_Items/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_Stock_De_Items/?FechaFin=" + encodeURIComponent(rFechaFin);
                     break;
             }
         }

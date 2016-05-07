@@ -6,49 +6,48 @@
 }
 @section scripts{
     <script type="text/javascript">
+        var miBaseUrl = '';
         $(function () {
-            $('#modal-form').on('show.bs.modal', function (e) {
-                //if (!data) return e.preventDefault()
-                var button = $(e.relatedTarget);
-                var idElement = button.data('id');
-                var nroDocumento = button.data('nro');
-                var modal = $(this);
-                modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
-                modal.find('.modal-body input').val(idElement);
-            });
-
-            $("input#delete").click(function () {
-                var idelement = $('form#form-delete').serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/Admin/DeleteMovimientoInv",
-                    data: idelement,
-                    success: function (msg) {
-                        //$("#thanks").html(msg)
-                        $("#modal-form").modal('hide');
-                        window.location.href = "/Admin/InventariosEgreso";
-                        //window.location.reload();
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
-            });
-
+            miBaseUrl = baseURL(window.location.pathname);
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
-
-            $("input#exportar").click(function () {
-                window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
-                $('#modal-form-exportar').modal('toggle');
-            });
         })
+
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+
+        $("input#delete").click(function () {
+            var idelement = $('form#form-delete').serialize();
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/DeleteMovimientoInv",
+                data: idelement,
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = miBaseUrl + "/InventariosEgreso";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+
+        $("input#exportar").click(function () {
+            window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+            $('#modal-form-exportar').modal('toggle');
+        });
 
         function exportarDetalle(fechaInicio, fechaFin) {
             var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
-            return "/Admin/ExportarMovimientosInv/?idTipo=2&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return miBaseUrl + "/ExportarMovimientosInv/?idTipo=2&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }

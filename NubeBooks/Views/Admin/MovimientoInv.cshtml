@@ -11,7 +11,9 @@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var miBaseUrl = '';
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
             $('.miselect2').select2();
             GetUnidadMedida($('#IdItem').val());
@@ -28,7 +30,7 @@
         function GetUnidadMedida(idItem) {
             $.ajax({
                 type: "POST",
-                url: "/Admin/GetUnidadDeMedidaEnItem",
+                url: miBaseUrl + "/GetUnidadDeMedidaEnItem",
                 cache: false,
                 data: { idItem: idItem },
                 dataType: 'text',

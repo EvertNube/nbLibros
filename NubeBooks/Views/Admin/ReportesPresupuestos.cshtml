@@ -28,6 +28,16 @@
         });
 
         function GenerarReporte(nrep) {
+            //Url Base
+            var listUrl = window.location.pathname.split('/');
+            listUrl.shift();
+            listUrl.pop();
+            var neleUrl = listUrl.length;
+            var miUrl = '';
+            for (var i = 0; i < neleUrl; i++) {
+                miUrl += ('/' + listUrl[i]);
+            }
+
             var FechaInicio = $("#FechaInicio").val().split("/");
 
             FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
@@ -39,10 +49,10 @@
 
             switch (nrep) {
                 case 1:
-                    return "/Admin/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
                 case 9:
-                    return "/Admin/GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto/?IdCategoria=" + jIdCategoria + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto/?IdCategoria=" + jIdCategoria + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
                     break;
             }
         }

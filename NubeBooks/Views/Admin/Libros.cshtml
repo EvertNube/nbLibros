@@ -19,13 +19,15 @@
         var totalConSoles = '';
         var totalConDolares = '';
         var timer = new Timer(function () { actualizarTipoCambio(); }, 1500);
+        var miBaseUrl = '';
 
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             timer.cancel();
             $('.dataTable').DataTable();
 
             $('#idreporte').click(function () {
-                var miURL = "/Admin/Libros";
+                var miURL = miBaseUrl + "/Libros";
                 $('.titulo').each(function(index){
                     if ($(this).hasClass('active'))
                     { miURL = exportarDetalle(index + 1); }
@@ -92,7 +94,7 @@
             var tipoCambio = parseFloat($("#idTipoCambio").val()) || 0;
             $.ajax({
                 type: "POST",
-                url: "/Admin/ActualizarTipoCambio",
+                url: miBaseUrl + "/ActualizarTipoCambio",
                 cache: false,
                 data: { tipoCambio: tipoCambio },
                 dataType: 'text'
@@ -103,7 +105,7 @@
             var FechaInicio = $("#FechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
             
-            return "/Admin/ExportarLibros/?idTipoCuenta=" + tipoCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return miBaseUrl + "/ExportarLibros/?idTipoCuenta=" + tipoCuenta + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }

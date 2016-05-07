@@ -7,8 +7,9 @@
 @section scripts{
     <script type="text/javascript">
         var inactivos = '@ViewBag.vbInactivos';
-
+        var miBaseUrl = '';
         $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
@@ -23,7 +24,7 @@
             var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
-            return "/Admin/ExportarLibros/?idTipoCuenta=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return miBaseUrl + "/ExportarLibros/?idTipoCuenta=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
 
         function handleClick(element)
