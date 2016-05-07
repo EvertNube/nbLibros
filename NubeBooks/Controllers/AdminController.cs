@@ -4661,6 +4661,7 @@ namespace NubeBooks.Controllers
             ViewBag.navbar = navbar;
         }
 
+        #region Proformas
         public ActionResult BuscarProforma()
         {
             UsuarioDTO currentUser = getCurrentUser();
@@ -4673,5 +4674,6 @@ namespace NubeBooks.Controllers
             var lista = new NubeBooks.Core.BL.ProformaBL().getProformaId(id); 
             return View(lista);
         }
+        #endregion
     }
 }
