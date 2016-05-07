@@ -26,12 +26,16 @@ namespace NubeBooks.Core.BL
                     LugarEntrega = x.LugarEntrega,
                     FechaEntrega = x.FechaEntrega,
                     FechaRegistro = x.FechaRegistro,
-                    Estado = x.Estado,
-                    /////EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(x.IdEmpresa, x.IdResponsable),
-                    //Empresa = new EmpresaBL().getEmpresa(x.IdEmpresa),
-                    //Ubicacion = new UbicacionBL().getUbicacionEnEmpresa(x.IdEmpresa, x.IdUbicacion),
-                    //Responsable = new ResponsableBL().getResponsableEnEmpresa(x.IdEmpresa, x.IdResponsable)
+                    Estado = x.Estado
                 }).OrderByDescending(x => x.FechaRegistro).ToList();
+
+                foreach (var pro in result)
+                {
+                    pro.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(pro.IdEmpresa, pro.IdResponsable);
+                    pro.Empresa = new EmpresaBL().getEmpresa(pro.IdEmpresa);
+                    pro.Ubicacion = new UbicacionBL().getUbicacionEnEmpresa(pro.IdEmpresa, pro.IdUbicacion);
+                    pro.Responsable = new ResponsableBL().getResponsableEnEmpresa(pro.IdEmpresa, pro.IdResponsable);
+                }
 
                 return result;
             }
@@ -52,13 +56,14 @@ namespace NubeBooks.Core.BL
                     LugarEntrega = x.LugarEntrega,
                     FechaEntrega = x.FechaEntrega,
                     FechaRegistro = x.FechaRegistro,
-                    Estado = x.Estado,
-                    EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(x.IdEmpresa, x.IdResponsable),
-                    Empresa = new EmpresaBL().getEmpresa(x.IdEmpresa),
-                    Ubicacion = new UbicacionBL().getUbicacionEnEmpresa(x.IdEmpresa, x.IdUbicacion),
-                    Responsable = new ResponsableBL().getResponsableEnEmpresa(x.IdEmpresa, x.IdResponsable),
-                    DetalleProforma = getDetalleProformaPorId(x.IdProforma)
+                    Estado = x.Estado
                 }).SingleOrDefault();
+
+                result.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(result.IdEmpresa, result.IdResponsable);
+                result.Empresa = new EmpresaBL().getEmpresa(result.IdEmpresa);
+                result.Ubicacion = new UbicacionBL().getUbicacionEnEmpresa(result.IdEmpresa, result.IdUbicacion);
+                result.Responsable = new ResponsableBL().getResponsableEnEmpresa(result.IdEmpresa, result.IdResponsable);
+                result.DetalleProforma = getDetalleProformaPorId(result.IdProforma);
                 return result;
             }
         }
@@ -74,8 +79,9 @@ namespace NubeBooks.Core.BL
                     PrecioUnudad = x.PrecioUnudad,
                     MontoTotal = x.MontoTotal,
                     TipoCambio = x.TipoCambio,
-                    NombreItem = context.Item.FirstOrDefault(i => i.IdItem == x.IdItem).Nombre
-
+                    NombreItem = context.Item.FirstOrDefault(i => i.IdItem == x.IdItem).Nombre,
+                    Igv=x.IgV,
+                    ProcentajeIgv=x.PorcentajeIgv
                 }).ToList();
                 return result;
             }

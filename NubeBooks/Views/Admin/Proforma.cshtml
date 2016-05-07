@@ -1,7 +1,7 @@
 ﻿@model NubeBooks.Core.DTO.ProformaDTO
 @{
-    //ViewBag.Title = "Proforma";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Proforma";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="app-content-body ">
@@ -13,11 +13,11 @@
         <div>
             <div class="row">
                 <div class="col-xs-6">
-                    <h3>Zanesco E.I.R.L.</h3>
-                    <h4>RUC: 2055712848</h4>
+                    <h3>@Model.Empresa.Nombre</h3>
+                    <h4>RUC: </h4>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <h3>Proforma <strong>#9048392</strong></h3>
+                    <h3>Proforma <strong>#@Model.CodigoProforma</strong></h3>
                 </div>
             </div>
             <div class="well m-t bg-light lt">
@@ -29,8 +29,8 @@
                         <p>Teléfono:</p>
                     </div>
                     <div class="col-xs-4">
-                        <p><strong>Ricardo Alejos</strong></p>
-                        <p><strong>Administrador</strong></p>
+                        <p><strong>@Model.Responsable.Nombre</strong></p>
+                        <p><strong>@Model.Responsable.Monto</strong></p>
                         <p><strong>ricardo_alejos_p17@hotmail.com</strong></p>
                         <p><strong>949300133</strong></p>
                     </div>
@@ -41,16 +41,16 @@
                         <p>Validez:</p>
                     </div>
                     <div class="col-xs-4">
-                        <p><strong>15/03/15</strong></p>
-                        <p><strong>Antamina</strong></p>
-                        <p><strong>Ancash</strong></p>
+                        <p><strong>@Model.FechaRegistro</strong></p>
+                        <p><strong>@Model.EntidadResponsable.Nombre</strong></p>
+                        <p><strong>@Model.EntidadResponsable.Direccion</strong></p>
                         <p><strong>30 días</strong></p>
                     </div>
                 </div>
             </div>
-            <p>Método de Pago: <strong>Contado Adelantado</strong></p>
-            <p>Fecha de Entrega: <strong>A Coordinar</strong></p>
-            <p>Lugar de Entrega: <strong>En Lima</strong></p>
+            <p>Método de Pago: <strong>@Model.FormaPago</strong></p>
+            <p>Fecha de Entrega: <strong>@Model.FechaEntrega</strong></p>
+            <p>Lugar de Entrega: <strong>@Model.LugarEntrega</strong></p>
             <div class="line"></div>
             <table class="table table-striped bg-white b-a">
                 <thead>
@@ -63,36 +63,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="text-center">
-                        <td>1</td>
-                        <td class="text-left">Máquina Espresso Marca Promac Modelo P161 02 Grupos Automatica 11 Lts.</td>
-                        <td>1</td>
-                        <td class="text-right">$561.00</td>
-                        <td class="text-right">$561.00</td>
-                    </tr>
-                    <tr class="text-center">
-                        <td>2</td>
-                        <td class="text-left">Molino de Cafe Marca Anfim Modelo Scody On Demand Display</td>
-                        <td>1</td>
-                        <td class="text-right">$429.00</td>
-                        <td class="text-right">$858.00</td>
-                    </tr>
+                    @{ decimal? total = 0; decimal? igv = 0;int cont = 0; }
+                    @foreach (var item in Model.DetalleProforma)
+                    {
+                        total += item.MontoTotal;
+                        igv += item.Igv;
+                        cont += 1;
+                        <tr class="text-center">
+                            <td>@cont</td>
+                            <td class="text-left">@item.NombreItem</td>
+                            <td>@item.Cantidad</td>
+                            <td class="text-right">@item.PrecioUnudad</td>
+                            <td class="text-right">@item.MontoTotal</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
                     <tr>
                         <td></td>
                         <td colspan="3" class="text-right"><strong>Sub Total</strong></td>
-                        <td class="text-right"><strong>$1,607.00</strong></td>
+                        <td class="text-right"><strong>@total</strong></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td colspan="3" class="text-right no-border"><strong>IGV</strong></td>
-                        <td class="text-right">$0.00</td>
+                        <td class="text-right">@igv</td>
                     </tr>
                     <tr>
                         <td></td>
                         <td colspan="3" class="text-right no-border"><strong>Total</strong></td>
-                        <td class="text-right"><strong>$1,607.00</strong></td>
+                        <td class="text-right"><strong>@(total+igv)</strong></td>
                     </tr>
-                </tbody>
+                </tfoot>
             </table>
             <p>
                 <strong>DATOS BANCARIOS</strong><br>

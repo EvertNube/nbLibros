@@ -2,7 +2,7 @@
 @model List<NubeBooks.Core.DTO.ProformaDTO>
 @{
     ViewBag.Title = "BuscarProforma";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <div class="wrapper-md">
     <div class="panel panel-default">
@@ -41,12 +41,12 @@
                         {
                             <tr>
                                 <td>@item.CodigoProforma</td>
-                                <td></td>
+                                <td>@item.EntidadResponsable.Nombre</td>
                                 <td>@item.FormaPago</td>
                                 <td>@item.LugarEntrega</td>
                                 <td>@(item.Estado==1 ? "Activo" : "Inactivo" )</td>
                                 <td>
-                                    <a href="@Url.Action("Proforma", "Admin", new { id = item.IdProforma})"><i class="fa fa-search" title="Visualizar"></i></a>
+                                    <a href="@Url.Action("Proforma", "Admin", new { id = item.IdProforma})"><i class="fa fa-search" title="Visualizar">adasdadad</i></a>
                                 </td>
                             </tr>
                                         }
