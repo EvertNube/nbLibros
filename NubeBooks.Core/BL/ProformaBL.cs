@@ -64,6 +64,7 @@ namespace NubeBooks.Core.BL
                 result.Ubicacion = new UbicacionBL().getUbicacionEnEmpresa(result.IdEmpresa, result.IdUbicacion);
                 result.Responsable = new ResponsableBL().getResponsableEnEmpresa(result.IdEmpresa, result.IdResponsable);
                 result.DetalleProforma = getDetalleProformaPorId(result.IdProforma);
+                result.CuentaBancaria = new CuentaBancariaBL().getCuentasBancariasActivasPorTipoEnEmpresa(result.IdEmpresa,1);
                 return result;
             }
         }

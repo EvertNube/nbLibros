@@ -4664,8 +4664,8 @@ namespace NubeBooks.Controllers
         #region Proformas
         public ActionResult BuscarProforma()
         {
-            UsuarioDTO currentUser = getCurrentUser();
-            var lista = new NubeBooks.Core.BL.ProformaBL().getProformaEnEmpresa(currentUser.IdEmpresa);
+            //UsuarioDTO currentUser = getCurrentUser();
+            var lista = new NubeBooks.Core.BL.ProformaBL().getProformaEnEmpresa(1);// currentUser.IdEmpresa);
 
             return View(lista);
         }
@@ -4673,6 +4673,17 @@ namespace NubeBooks.Controllers
         {
             var lista = new NubeBooks.Core.BL.ProformaBL().getProformaId(id); 
             return View(lista);
+        }
+        public ActionResult NuevaProforma()
+        {
+            UsuarioDTO currentUser = getCurrentUser();
+            ComprobanteBL objBL = new ComprobanteBL();
+            ViewBag.lstClientes = new SelectList(objBL.getListaClientesEnEmpresa(currentUser.IdEmpresa),"IdEntidadResponsable", "Nombre");
+            ViewBag.lstResponsables = new SelectList(objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa), "IdResponsable", "Nombre");
+            ViewBag.lstUbicacion = new SelectList(new UbicacionBL().getUbicacionsActivasEnEmpresa(currentUser.IdEmpresa), "IdUbicacion", "Nombre");
+            ViewBag.lstItem = new SelectList(new ItemBL().getItemsActivosEnEmpresa(currentUser.IdEmpresa), "IdItem", "Nombre");
+
+            return View();
         }
         #endregion
     }

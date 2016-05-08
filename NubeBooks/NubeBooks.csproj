@@ -1006,6 +1006,7 @@
     <Content Include="Views\Admin\ReportesInventarios.cshtml" />
     <Content Include="Views\Admin\Proforma.cshtml" />
     <Content Include="Views\Admin\BuscarProforma.cshtml" />
+    <Content Include="Views\Admin\NuevaProforma.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

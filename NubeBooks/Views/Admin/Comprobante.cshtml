@@ -114,11 +114,6 @@
 
         function ActualizarMontoConIGV() {
             var montoConIGV = 0;
-            /*var numTipoDoc = $('#IdTipoDocumento').select2("val");
-            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
-            { montoConIGV = ($('#MontoSinIGV').val() * 1.18).toFixed(2); }
-            else
-            { montoConIGV = ($('#MontoSinIGV').val() / 1).toFixed(2); }*/
             if($('#chkIGV').is(':checked'))
             { montoConIGV = Math.round(($('#MontoSinIGV').val() * 1.18) * 100) / 100; }
             else

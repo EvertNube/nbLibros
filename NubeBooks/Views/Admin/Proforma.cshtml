@@ -98,15 +98,19 @@
             </table>
             <p>
                 <strong>DATOS BANCARIOS</strong><br>
-                Zanesco EIRL<br>
+                @Model.Empresa.Nombre<br>
                 RUC: 2055712848
             </p>
             <p>
-                <strong>Banco de Crédito del Perú</strong><br>
-                CTE SOLES: 194-2145379-0-93<br>
+                <strong>Cuentas Bancarias</strong><br>
+                @foreach (var cuenta in Model.CuentaBancaria)
+                {
+                    @cuenta.NombreCuenta<br />
+                }
+                @*CTE SOLES: 194-2145379-0-93<br>
                 CCI SOLES: 002-194-002145379093-99<br>
                 CTE DÓLARES: 194-2139878-1-37<br>
-                CCI DÓLARES: 002-194-002139878137-93<br>
+                CCI DÓLARES: 002-194-002139878137-93<br>*@
             </p>
         </div>
     </div>
