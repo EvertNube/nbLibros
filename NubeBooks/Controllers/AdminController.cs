@@ -4685,6 +4685,17 @@ namespace NubeBooks.Controllers
 
             return View();
         }
+        public ActionResult SaveProforma()
+        {
+            UsuarioDTO currentUser = getCurrentUser();
+            ProformaDTO Proforma = new ProformaDTO();
+            TryUpdateModel(Proforma);
+
+            Proforma.IdEmpresa = currentUser.IdEmpresa;
+            if(Proforma.FechaRegistro==null){ Proforma.FechaRegistro = DateTime.Now; }
+            var lista = new ProformaBL().SaveProforma(Proforma);
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

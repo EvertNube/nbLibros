@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NubeBooks.Core.DTO;
-
+using NubeBooks.Data;
 
 namespace NubeBooks.Core.BL
 {
@@ -86,6 +86,49 @@ namespace NubeBooks.Core.BL
                 }).ToList();
                 return result;
             }
+        }
+        public bool SaveProforma(ProformaDTO proforma)
+        {
+            bool result = false;
+            using (var context = getContext())
+            {
+                try
+                {
+                    Proforma nuevo = new Proforma();
+                    nuevo.IdProforma = proforma.IdProforma;
+                    nuevo.IdEmpresa = proforma.IdEmpresa;
+                    nuevo.IdResponsable = proforma.IdResponsable;
+                    nuevo.IdEntidadResponsable = proforma.IdEntidadResponsable;
+                    nuevo.IdUbicacion = proforma.IdUbicacion;
+                    nuevo.FormaPago = proforma.FormaPago;
+                    nuevo.LugarEntrega = proforma.LugarEntrega;
+                    nuevo.FechaRegistro = proforma.FechaRegistro;
+                    nuevo.FechaEntrega = proforma.FechaEntrega;
+                    context.Proforma.Add(nuevo);
+                    context.SaveChanges();
+                    Int32 IdProforma = nuevo.IdProforma;
+                    foreach (var detalle in proforma.DetalleProforma)
+                    {
+                        DetalleProforma deta = new DetalleProforma();
+                        deta.IdProforma = IdProforma;
+                        deta.IdItem = detalle.IdItem;
+                        deta.Cantidad = detalle.Cantidad;
+                        deta.PrecioUnudad = detalle.PrecioUnudad;
+                        deta.TipoCambio = detalle.TipoCambio;
+                        deta.IgV = detalle.Igv;
+                        deta.MontoTotal = detalle.MontoTotal;
+                        deta.PorcentajeIgv = detalle.ProcentajeIgv;
+                        context.DetalleProforma.Add(deta);
+                        context.SaveChanges();
+                    }
+                    result = true;
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+            return result;
         }
     }
 }

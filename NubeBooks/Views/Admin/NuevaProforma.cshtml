@@ -112,6 +112,29 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModalWait" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div style="width: 50%;" class="modal-dialog modal-vertical-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="margin-bottom: -20px;">
+                <h2 style="text-align: center">Sistema Evolta &nbsp;&nbsp;&nbsp;</h2>
+            </div>
+            <div class="modal-body small" style="font-size: 12px; margin-bottom: -40px;">
+                <div class="row" style="text-align: center">
+                    <table style="width: 100%">
+                        <tr>
+                            <td>
+                                <h5>Se esta procesando la información</h5>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnClosePopup" class="btn btn-default" data-dismiss="modal" style="visibility: hidden">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts{
     <script type="text/javascript">
         var item = [];
@@ -134,6 +157,7 @@
                     items.Nombre = $('#ddlitem option:selected').text();
                     items.Cantidad = "";
                     items.PrecioUnidad = "";
+                    items.TipoCambio=$("#txttipocambio").val()
                     items.PorcentajeIgv = parseFloat($("#txtprocentajeigv").val());
                     items.Igv = "";
                     items.Total = "";
@@ -191,7 +215,47 @@
         function Save()
         {
             if ($("#tblitem tbody tr").length == 0) { alert('Debe registar al menos un item'); return false; }
+            var proforma = {};
+            proforma.IdResponsable = $("#ddlconsultor").val();
+            proforma.IdEntidadResponsable = $("#ddlcliente").val();
+            proforma.IdUbicacion = $("#ddlubicacion").val();
+            proforma.FormaPago = $("#txtformapago").val();
+            proforma.LugarEntrega = $("#txtlugarentrega").val();
+            //proforma.Estado = $("#").val();
+            proforma.FechaEntrega = $("#txtfechaentrega").val();
+            $.each(item,function (i, e) {
+                proforma["DetalleProforma[" + i + "].IdItem"] = e.IdItem;
+                proforma["DetalleProforma[" + i + "].NombreItem"] = e.Nombre;
+                proforma["DetalleProforma[" + i + "].Cantidad"] = e.Cantidad;
+                proforma["DetalleProforma[" + i + "].PrecioUnudad"] = e.PrecioUnidad;
+                proforma["DetalleProforma[" + i + "].MontoTotal"] = e.Total;
+                proforma["DetalleProforma[" + i + "].TipoCambio"] = e.TipoCambio;
+                proforma["DetalleProforma[" + i + "].ProcentajeIgv"] = e.PorcentajeIgv;
+                proforma["DetalleProforma[" + i + "].Igv"] = e.Igv;
+            });
+            myModalWait();
+            $.ajax({
+                url: '/Admin/SaveProforma',
+                type: "POST",
+                data: proforma,
+                success: function (data) {
+                    //var IdCotizador = data;
+                }
+            }).fail(function (jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                alert(err);
+            }).always(function () {
+                window.setTimeout(function () { $("#myModalWait").modal('hide'); }, 5000);
+            });
             return false;
+        }
+        function myModalWait() {
+            $('#myModalWait').modal(
+                {
+                    backdrop: 'static',
+                    keyboard: false
+                }
+                );
         }
     </script>
 }
