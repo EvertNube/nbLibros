@@ -827,8 +827,8 @@ namespace NubeBooks.Controllers
                     {
                         if (dto.IdComprobante.GetValueOrDefault() != 0)
                         {
-                            if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
-                            else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
+                            if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true, dto.Fecha); }
+                            else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado, dto.Fecha); }
                         }
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
@@ -840,12 +840,12 @@ namespace NubeBooks.Controllers
                     {
                         if (dto.IdComprobante.GetValueOrDefault() != 0)
                         {
-                            if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true); }
-                            else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado); }
+                            if (Decimal.Round(dto.cmpMontoPendiente.GetValueOrDefault(), 0) == 0) { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), true, dto.Fecha); }
+                            else { ActualizarEjecucionComprobante(dto.IdComprobante.GetValueOrDefault(), dto.cmpCancelado, dto.Fecha); }
                         }
                         //Si en la actualizacion se cambio el IdComprobante
                         if (dtoAnterior.IdComprobante != null && dtoAnterior.IdComprobante != dto.IdComprobante)
-                        { ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false); }
+                        { ActualizarEjecucionComprobante(dtoAnterior.IdComprobante.GetValueOrDefault(), false, dto.Fecha); }
 
                         createResponseMessage(CONSTANTES.SUCCESS);
                         return RedirectToAction("Libro", new { id = dto.IdCuentaBancaria, page = TempData["PagMovs"] });
@@ -1110,6 +1110,7 @@ namespace NubeBooks.Controllers
                 return View(obj);
             }
             obj = new EntidadResponsableDTO();
+            obj.IdEntidadResponsable = 0;
             obj.IdEmpresa = currentUser.IdEmpresa;
             if (idTipoEntidad != null && idTipoEntidad != 0) obj.IdTipoEntidad = idTipoEntidad;
 
@@ -2895,9 +2896,9 @@ namespace NubeBooks.Controllers
 
                 AddSuperHeader(gv, "Ejecucion de Presupuesto - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
-                AddWhiteHeader(gv, 1, "");
-                AddWhiteHeader(gv, 2, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+                //AddWhiteHeader(gv, 1, "");
+                AddWhiteHeader(gv, 1, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
+                AddWhiteHeader(gv, 2, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
 
                 PintarCategorias(gv);
 
@@ -3271,7 +3272,7 @@ namespace NubeBooks.Controllers
 
             string Entidad = IdTipoComprobante == 1 ? "Cliente" : "Entidad";
             string FechaEjecucion = IdTipoComprobante == 1 ? "Fecha Estimada de Cobro" : "Fecha Estimada de Pago";
-            int neleCols = 12;
+            int neleCols = 13;
 
             dt.Columns.Add("Numero");
             dt.Columns.Add("Documento");
@@ -3279,7 +3280,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Status");
             dt.Columns.Add(Entidad);
             if (IdTipoComprobante == 1)
-            { dt.Columns.Add("Proyecto"); neleCols = 13; }
+            { dt.Columns.Add("Proyecto"); neleCols = 14; }
             dt.Columns.Add("Moneda");
             dt.Columns.Add("Monto Sin IGV");
             dt.Columns.Add("Monto Total");
@@ -4638,12 +4639,12 @@ namespace NubeBooks.Controllers
         }
 
         [HttpPost]
-        public string ActualizarEjecucionComprobante(int idComprobante, bool ejecutado)
+        public string ActualizarEjecucionComprobante(int idComprobante, bool ejecutado, DateTime fecha)
         {
             if (!this.currentUser() || isUsuarioExterno()) { return "false"; }
 
             ComprobanteBL objBL = new ComprobanteBL();
-            if (objBL.actualizarEjecutado(idComprobante, ejecutado, getCurrentUser().IdEmpresa))
+            if (objBL.actualizarEjecutado(idComprobante, ejecutado, fecha, getCurrentUser().IdEmpresa))
             { return "true"; }
             return "false";
         }

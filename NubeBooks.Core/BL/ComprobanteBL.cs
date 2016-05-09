@@ -425,7 +425,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public bool actualizarEjecutado(int idComprobante, bool ejecutado, int idEmpresa)
+        public bool actualizarEjecutado(int idComprobante, bool ejecutado, DateTime fecha, int idEmpresa)
         {
             using (var context = getContext())
             {
@@ -433,7 +433,7 @@ namespace NubeBooks.Core.BL
                 {
                     var row = context.Comprobante.Where(x => x.IdComprobante == idComprobante && x.IdEmpresa == idEmpresa).SingleOrDefault();
                     row.Ejecutado = ejecutado;
-                    if (ejecutado) { row.FechaPago = DateTime.Now; }
+                    if (ejecutado) { row.FechaPago = fecha; }
                     else { row.FechaPago = null; }
 
                     context.SaveChanges();
