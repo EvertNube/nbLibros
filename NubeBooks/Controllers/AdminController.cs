@@ -2871,12 +2871,12 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
 
             //Suma de Padres de Nivel 0
-            Decimal SumaPadres0 = lstCatsMontos.Where(x => x.IdCategoriaPadre == null).Sum(x => x.Presupuesto.GetValueOrDefault());
-            Decimal SumaPresupuesto = arbolPresupuestos.Sum(x => x.Presupuesto.GetValueOrDefault());
+            //Decimal SumaPadres0 = lstCatsMontos.Where(x => x.IdCategoriaPadre == null).Sum(x => x.Presupuesto.GetValueOrDefault());
+            //Decimal SumaPresupuesto = arbolPresupuestos.Sum(x => x.Presupuesto.GetValueOrDefault());
 
-            System.Data.DataRow auxRow = dt.NewRow();
+            /*System.Data.DataRow auxRow = dt.NewRow();
             auxRow[0] = ""; auxRow[1] = ""; auxRow[2] = SumaPadres0.ToString("N2", CultureInfo.InvariantCulture); auxRow[3] = SumaPresupuesto.ToString("N2", CultureInfo.InvariantCulture); auxRow[4] = (SumaPresupuesto == 0) ? "0.00%" : (SumaPresupuesto / SumaPresupuesto).ToString("P2", CultureInfo.InvariantCulture);
-            dt.Rows.Add(auxRow);
+            dt.Rows.Add(auxRow);*/
 
             foreach (var obj in arbolPresupuestos)
             {
