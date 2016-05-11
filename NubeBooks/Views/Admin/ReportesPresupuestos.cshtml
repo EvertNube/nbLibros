@@ -16,6 +16,8 @@
 
         $(function () {
             $('.input-group.date').datepicker();
+            $('.miselect2').select2();
+
             $('#IdCategoria').select2({
                 placeholder: "Seleccione una categoría",
                 data: mydata,
@@ -46,10 +48,11 @@
             FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
             var jIdCategoria = $('#IdCategoria').select2("val");
+            var periodo = $('#periodo').select2("val");
 
             switch (nrep) {
                 case 1:
-                    return miUrl + "/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_AvanceDePresupuesto/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&FechaFin=" + encodeURIComponent(FechaFin) + "&periodo=" + periodo;
                     break;
                 case 9:
                     return miUrl + "/GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto/?IdCategoria=" + jIdCategoria + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
@@ -85,16 +88,17 @@
             <div class="line line-dashed line-lg pull-in"></div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">
-                        <label class="col-md-6 text-center">Ejecución de Presupuesto </label>
-                        <div class="col-md-6 text-center">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-center">Ejecución de Presupuesto </label>
+                        @Html.DropDownList("periodo", new SelectList(ViewBag.Periodos, "IdPeriodo", "Nombre"), new { @class = "col-xs-4 col-sm-4 col-md-4 no-padder miselect2" })
+                        <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-info reporte" data-idreporte="1">Generar Reporte</a>
                         </div>
                     </div>
-                    <div class="col-md-8">
-                        <label class="col-md-3 text-center">Partida de Presupuesto Movimientos</label>
-                        @Html.TextBox("IdCategoria", "", new { @class = "col-xs-6 col-sm-6 col-md-6 no-padder" })
-                        <div class="col-md-3 text-center">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-center">Partida de Presupuesto Movimientos</label>
+                        @Html.TextBox("IdCategoria", "", new { @class = "col-xs-4 col-sm-4 col-md-4 no-padder" })
+                        <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-info reporte" data-idreporte="9">Generar Reporte</a>
                         </div>
                     </div>

@@ -85,6 +85,33 @@ namespace NubeBooks.Core.BL
                 return categoriasTree;
             }
         }
+
+        public List<CategoriaDTO> getCategoriasPresupuestosTree_PorPeriodo_EnEmpresa(int idEmpresa, int nivel, int periodo, int? id = null)
+        {
+            using (var context = getContext())
+            {
+                var result = from r in context.Categoria
+                             where ((id == null ? r.IdCategoriaPadre == null : r.IdCategoriaPadre == id) && r.Estado && r.IdEmpresa == idEmpresa)
+                             select new CategoriaDTO
+                             {
+                                 IdCategoria = r.IdCategoria,
+                                 Nombre = r.Nombre,
+                                 Orden = r.Orden,
+                                 Estado = r.Estado,
+                                 IdCategoriaPadre = r.IdCategoriaPadre,
+                                 IdEmpresa = r.IdEmpresa,
+                                 Nivel = nivel,
+                                 Presupuesto = r.CategoriaPorPeriodo.Where(x => x.IdPeriodo == periodo).FirstOrDefault().Monto
+                             };
+                List<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
+
+                foreach (CategoriaDTO obj in categoriasTree)
+                {
+                    obj.Hijos = getCategoriasPresupuestosTree_PorPeriodo_EnEmpresa(idEmpresa, nivel + 1, periodo, obj.IdCategoria);
+                }
+                return categoriasTree;
+            }
+        }
         #endregion
 
         #region Facturacion por areas

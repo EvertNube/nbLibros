@@ -2769,6 +2769,8 @@ namespace NubeBooks.Controllers
 
             CuentaBancariaBL objBL = new CuentaBancariaBL();
             ViewBag.Categorias = CategoriasBucle(null, null);
+            PeriodoBL periodoBL = new PeriodoBL();
+            ViewBag.Periodos = periodoBL.getPeriodosActivosEnEmpresa(getCurrentUser().IdEmpresa);
 
             if (message != null)
             {
@@ -2840,7 +2842,7 @@ namespace NubeBooks.Controllers
         }
 
         #region Reportes
-        public ActionResult GenerarRep_AvanceDePresupuesto(DateTime? FechaInicio, DateTime? FechaFin)
+        public ActionResult GenerarRep_AvanceDePresupuesto(DateTime FechaInicio, DateTime FechaFin, int periodo)
         {
             if (FechaInicio == null || FechaFin == null)
             {
@@ -2848,6 +2850,7 @@ namespace NubeBooks.Controllers
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+            PeriodoDTO objPeriodo = (new PeriodoBL()).getPeriodoEnEmpresa(objEmpresa.IdEmpresa, periodo);
 
             ReportesBL repBL = new ReportesBL();
             List<CategoriaDTO> lstCatsMontos = repBL.AvanceDePresupuesto(objEmpresa.IdEmpresa, FechaInicio, FechaFin);
@@ -2856,7 +2859,8 @@ namespace NubeBooks.Controllers
             List<CategoriaDTO> lstCats = repBL.getCategoriasTreeEnEmpresa(lstCatsMontos, objEmpresa.IdEmpresa);
             //Arbol de presupuestos
             CategoriaBL catBL = new CategoriaBL();
-            List<CategoriaDTO> arbolPresupuestos = repBL.getCategoriasPresupuestosTreeEnEmpresa(objEmpresa.IdEmpresa, 0);
+            //List<CategoriaDTO> arbolPresupuestos = repBL.getCategoriasPresupuestosTreeEnEmpresa(objEmpresa.IdEmpresa, 0);
+            List<CategoriaDTO> arbolPresupuestos = repBL.getCategoriasPresupuestosTree_PorPeriodo_EnEmpresa(objEmpresa.IdEmpresa, 0, periodo);
 
             if (lstCats == null)
                 return RedirectToAction("ReportesPresupuestos", new { message = 2 });
@@ -2867,7 +2871,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Nivel");
             dt.Columns.Add("Partida");
             dt.Columns.Add("Total (" + objEmpresa.SimboloMoneda + ")");
-            dt.Columns.Add("PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")");
+            dt.Columns.Add("PRESUPUESTO SIN IGV (" + objEmpresa.SimboloMoneda + ")");
             dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
 
             //Suma de Padres de Nivel 0
@@ -2897,8 +2901,9 @@ namespace NubeBooks.Controllers
                 AddSuperHeader(gv, "Ejecucion de Presupuesto - Empresa:" + objEmpresa.Nombre);
                 //Cabecera principal
                 //AddWhiteHeader(gv, 1, "");
-                AddWhiteHeader(gv, 1, "PERIODO: " + FechaInicio.GetValueOrDefault().ToShortDateString() + " - " + FechaFin.GetValueOrDefault().ToShortDateString());
-                AddWhiteHeader(gv, 2, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+                AddWhiteHeader(gv, 1, "FECHAS: " + FechaInicio.ToShortDateString() + " - " + FechaFin.ToShortDateString());
+                AddWhiteHeader(gv, 2, "PERIODO: " + objPeriodo.Nombre + " (" + objPeriodo.FechaInicio.ToShortDateString() + " - " + objPeriodo.FechaFin.ToShortDateString() + ")");
+                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
 
                 PintarCategorias(gv);
 
@@ -4029,7 +4034,7 @@ namespace NubeBooks.Controllers
             row["Partida"] = obj.Nombre;
             Decimal pMonto = lstCatMontos.SingleOrDefault(x => x.IdCategoria == obj.IdCategoria).Presupuesto.GetValueOrDefault();
             row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
-            row["PRESUPUESTO ANUAL (" + objEmpresa.SimboloMoneda + ")"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+            row["PRESUPUESTO SIN IGV (" + objEmpresa.SimboloMoneda + ")"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
             Decimal porcentaje = obj.Presupuesto.GetValueOrDefault() != 0 ? pMonto / obj.Presupuesto.GetValueOrDefault() : 0;
             row["PRESUPUESTO EJECUTADO A LA FECHA %"] = Math.Abs(porcentaje).ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row);

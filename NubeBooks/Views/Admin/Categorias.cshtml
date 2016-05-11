@@ -160,7 +160,7 @@
             {
                 var classInactive = (ViewBag.EsAdmin && !obj.Estado) ? " inactive" : "";
                 var styleI = (ViewBag.EsAdmin && !obj.Estado) ? "style='display:none;'" : "";
-                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, nivel == nivelMax || obj.Hijos.Count == 0 ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
+                output.AppendFormat("<li class='dd-item dd3-item" + classInactive + "' data-id='{0}' " + styleI + "><div class='dd3-content row' style='{1}'><div class='col-md-6'>{2}<b class='badge bg-warning dot {3}'></b></div>", obj.IdCategoria, classInactive != "" ? "color: #f05050;" : (nivel == nivelMax || obj.Hijos.Count == 0) ? "color: #428BCA;" : "", obj.Nombre, obj.Estado ? "green" : "red");
 
                 output.Append("<div class='col-md-3 text-right'>");
                 if (obj.Hijos == null || obj.Hijos.Count == 0)
@@ -239,7 +239,7 @@
                     <label>Partida</label>
                 </div>
                 <div class="col-md-2 text-center">
-                    <label> Moneda (@(ViewBag.SimboloMoneda)) </label>
+                    <label> Monto Sin IGV (@(ViewBag.SimboloMoneda)) </label>
                 </div>
             </div>
             <div class="col-md-12">
