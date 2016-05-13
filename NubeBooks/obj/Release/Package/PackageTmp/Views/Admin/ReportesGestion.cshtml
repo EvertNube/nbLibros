@@ -1,0 +1,210 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.input-group.date').datepicker();
+            $('.miselect2').select2();
+
+            $('.reporte').click(function () {
+                this.href = GenerarReporte($(this).data("idreporte"));
+            })
+        });
+
+        function GenerarReporte(nrep) {
+            //Url Base
+            var listUrl = window.location.pathname.split('/');
+            listUrl.shift();
+            listUrl.pop();
+            var neleUrl = listUrl.length;
+            var miUrl = '';
+            for (var i = 0; i < neleUrl; i++) {
+                miUrl += ('/' + listUrl[i]);
+            }
+            
+            var FechaInicio = $("#FechaInicio").val().split("/");
+
+            FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+
+            var FechaFin = $("#FechaFin").val().split("/");
+            FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            var jsYear = $('#year option:selected').text();
+
+            switch (nrep) {
+                case 2:
+                    return miUrl + "/GenerarRep_FacturacionPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 3:
+                    return miUrl + "/GenerarRep_IngresosEgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 4:
+                    return miUrl + "/GenerarRep_FacturacionPorCliente/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 5:
+                    return miUrl + "/GenerarRep_GastosPorProveedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 6:
+                    return miUrl + "/GenerarRep_FacturacionPorVendedor/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 7:
+                    return miUrl + "/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 1 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 8:
+                    return miUrl + "/GenerarRep_DocumentosIngresoYEgresoPagadosYPorCobrar/?IdTipoComprobante=" + 2 + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 10:
+                    return miUrl + "/GenerarRep_EgresosPorAreas/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 11:
+                    return miUrl + "/GenerarRep_FacturacionPorHonorarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 12:
+                    return miUrl + "/GenerarRep_Ventas_Gastos_Por_Mes/?year=" + jsYear;
+                    break;
+                case 13:
+                    return miUrl + "/GenerarRep_Ventas_Por_Mes/?year=" + jsYear;
+                    break;
+            }
+        }
+    </script>
+}
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Reporte de Gestión</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaInicio" style="transform:translateY(30%)">Fecha Inicio:</label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaFin" style="transform:translateY(30%)">Fecha Fin:</label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ventas y Gastos por Áreas </label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="3">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ventas por Áreas - Clientes</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="2">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Gastos por Áreas - Proveedores</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="10">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ventas por Clientes</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="4">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Gastos por Proveedores</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="5">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ventas por Consultores</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="6">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Ventas por Modalidad de Pago</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="11">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Documentos Cobrados y por Cobrar</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="7">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-md-6 text-center">Documentos Pagados y por Pagar</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="8">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" style="transform:translateY(30%)">Año: </label>
+                        <select class="col-md-8 no-padder miselect2" name="year" id="year">
+                            @{ int myYear = 1990; }
+                            @for (int i = 0; i < 50; i++)
+                            {
+                                if (myYear + i == DateTime.Now.Year)
+                                {
+                                    <option value="@(myYear + i)" selected>@(myYear + i)</option>}
+                                else {
+                                    <option value="@(myYear + i)">@(myYear + i)</option>}
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-6 text-center">Ventas por Mes</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="13">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-6 text-center">Ventas-Gastos por Mes</label>
+                        <div class="col-md-6 text-center">
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="12">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

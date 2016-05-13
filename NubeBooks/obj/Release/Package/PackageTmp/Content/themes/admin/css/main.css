@@ -1,0 +1,328 @@
+body {
+    font-size: 14px;
+}
+a.btn-edit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 6px;
+    padding-right: 12px;
+    color: #717171;
+    -webkit-border-top-right-radius: 2px;
+    -webkit-border-bottom-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    -moz-border-radius-bottomright: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+a.btn-edit:hover,
+.dd-item:hover > a.btn-edit:hover  {
+    background-color: #428bca;
+    color: #fff;
+    }
+a.btn-edit .fa {
+    margin-right: 6px;
+    }
+.dd-item:hover > a.btn-edit {
+    color: #428bca;
+}
+.panel .table td, .panel .table th {
+    vertical-align: middle;
+}
+.btn-getlink {
+    font-size: 0.8em;
+}
+.panel .table > tbody > tr:hover .btn-getlink {
+    color: #fff !important;
+    background-color: #4cc0c1;
+    border-color: #4cc0c1;
+}
+.panel .table > tbody > tr:hover .btn-gettrack {
+    color: #fff !important;
+    background-color: #fb6b5b;
+    border-color: #fb6b5b;
+}
+.hide {
+    display: none;
+    opacity: 0;
+}
+.show {
+    display: block;
+    opacity: 1;
+}
+input.getLink {
+    font-size: 0.9em;
+}
+a.btn-add:hover,
+.dd-item:hover > a.btn-add:hover  {
+    background-color: #53b567;
+    color: #fff;
+    border-radius: 50%;
+    }
+.dd-item:hover > a.btn-add {
+    color:#ff6a00;
+}
+.dd-item > a.btn-add {
+    right: -28px;
+}
+a.btn-preview:hover,
+.dd-item:hover > a.btn-preview:hover  {
+    background-color: #ff6a00;
+    color: #fff;
+    border-radius: 50%;
+    }
+.dd-item:hover > a.btn-preview {
+    color:#ff6a00;
+}
+.dd-item > a.btn-preview {
+    right: -54px;
+}
+a.btn-preview,
+a.btn-add {
+    padding-left:6px;
+    padding-right:6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 4px;
+}
+h2 > a.btn-add {
+    padding: 8px;
+    padding-top: 1px;
+    padding-bottom: 0px;
+    position: relative;
+}
+a.btn-preview i.fa,
+a.btn-add i.fa{
+    margin-right:0;
+}
+
+.lines-2 {
+    overflow: hidden;
+    max-height: 38px;
+    display: block;
+    position: relative;
+}
+.label-lg {
+    font-size: 130%;
+    position: relative;
+    top: 0;
+    margin-left: 4px;
+}
+.thumb img {
+    width: 60px;
+    height: 60px;
+}
+.file-block {
+    position: relative;
+}
+.file-block .close {
+    position: absolute;
+    right: 19px;
+}
+.thumb-popup {
+    position:relative;
+    overflow:hidden;
+    width: 120px;
+    min-height: 120px;
+    max-height:120px;
+    border-radius: 3px;
+    background-color: #222;
+}
+
+.thumb-popup img {
+    width: 100%;
+}
+.table td > .popover {
+    top:-125px!important;
+}
+.table td {
+    position: relative;
+}
+.popover-content {
+    padding: 3px 3px;
+}
+.inactive {
+    display: none;
+}
+.btn-showInactive {
+    margin-top: 9px;
+    position: relative;
+    top: 2px;
+}
+#btn-showInactive {
+    margin-top: 9px;
+    margin-left: 13px;
+    position: relative;
+    top: 2px;
+}
+.old {
+    text-decoration:line-through;
+}
+
+.badge.dot {
+    width: 1px;
+    height: 1px;
+    padding: 3px;
+    border-radius: 40px;
+    display: inline-block;
+    background-color: #81ba53;
+    margin-left: 8px;
+    min-width: 0;
+    position: relative;
+    top: -1px;
+}
+.badge.dot.red {
+    background-color: #fb6b5b;
+}
+blockquote.leyend p{
+    font-size: 1em;
+}
+@media (min-width: 768px){
+    .form-horizontal .control-label {
+        text-align: left;
+    }
+}
+
+.modal-task .modal-title{
+    font-weight: bold;
+}
+.modal-task button + button {
+    margin-right: 6px;
+}
+.panel .fc-content {
+    
+}
+.fc-grid > table > tbody .fc-resourceName {
+    padding: 40px 0px 40px;
+    font-weight: bold;
+   
+}
+.fc-grid > table > thead .fc-widget-header {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.fc-header .fc-header-title h2 {
+    font-weight: bold;
+}
+
+.fc-ltr .fc-event-hori.fc-event-color-red {
+    background-color: #E63939;
+}
+.fc-ltr .fc-event-hori.fc-event-color-orange {
+    background-color: #FFBB00;
+}
+.fc-ltr .fc-event-hori.fc-event-color-yellow {
+    background-color: #FFF28F;
+    color:#857500;
+}
+.fc-ltr .fc-event-hori.fc-event-color-green {
+    background-color: #89cc97;
+}
+.fc-ltr .fc-event-hori.fc-event-color-blue {
+    background-color: #2d4984;
+}
+.fc-ltr .fc-event-hori.fc-event-color-undefined {
+    background-color: #e2e2e2;
+}
+.pagination.m-b-none {
+    margin-bottom: 0;
+}
+.pagination.m-t-none {
+    margin-top: 0;
+}
+.table.b-t {
+    border-top: 1px solid #cfcfcf;
+}
+.table.b-light {
+    border-color: #e4e4e4;
+}
+.table-responsive .table {
+    margin-bottom: 0;
+}
+.panel-footer .pagination > .active > a, 
+.panel-footer .pagination > .active > span, 
+.panel-footer .pagination > .active > a:hover, 
+.panel-footer .pagination > .active > span:hover, 
+.panel-footer .pagination > .active > a:focus,
+.panel-footer .pagination > .active > span:focus {
+    background-color: #bbb;
+    border-color: #bbb;
+}
+.input-s-sm {
+    width: 140px;
+}
+.nav-primary li > a > i {
+    font-size: 26px;
+}
+
+.navbar-brand {
+    padding: 0 8px;
+}
+.navbar-brand img {
+    max-height: 32px;
+    width: 204px;
+    height: 32px;    
+}
+.bg-gray.dk, .bg-gray .dk {
+    background-color: #ccc;
+    border-bottom: 1px solid #c2c2c2;
+}
+.panel-login{
+    border: 1px solid #ddd;
+    border-radius: 15px;
+}
+.m-t-90 {
+    margin-top: 90px;
+}
+.modal-backdrop {
+    background-color: #bbb;
+}
+#picker {
+	border-left:1px solid #ddd!important;
+    border-top:1px solid #ddd!important;
+    border-bottom:1px solid #ddd!important;
+	width:128px;
+	height:30px;
+	border-right:20px solid green;
+	line-height:20px;
+}
+.panel-header:after {
+    display: table;
+    content: " ";
+    clear: both;
+}
+.carousel-control {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    display: inline-block;
+    margin: 10px auto;
+    opacity: 0.8;
+}
+.carousel h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    display: inline-block;
+    top: -2px;
+    position: relative;
+}
+.panel-body .form-inline > .form-group {
+margin: 0;
+}
+.panel-login .recover{
+    font-size: 0.9em;
+    border-bottom: 1px dotted;
+    margin-left: 20px;
+}
+.panel-login .panel-heading {
+    -webkit-border-top-left-radius: 14px;
+    -webkit-border-top-right-radius: 14px;
+    -moz-border-radius-topleft: 14px;
+    -moz-border-radius-topright: 14px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    background-color: #e2e2e2;
+}

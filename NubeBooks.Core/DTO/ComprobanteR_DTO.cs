@@ -19,6 +19,7 @@ namespace NubeBooks.Core.DTO
         public string NroDocumento { get; set; }
         public string Moneda { get; set; }
         public Decimal Monto { get; set; }
+        public Decimal MontoSinIGV { get; set; }
         public string Areas { get; set; }
         public string Comentario { get; set; }
     }

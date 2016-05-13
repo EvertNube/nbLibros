@@ -445,12 +445,12 @@ namespace NubeBooks.Core.BL
                 switch (idMoneda)
                 {
                     case 1:
-                        Soles = lstCmp.Where(x => x.IdMoneda == 1).Sum(x => x.Monto);
-                        Dolares = lstCmp.Where(x => x.IdMoneda == 2).Sum(x => x.Monto * x.TipoCambio);
+                        Soles = lstCmp.Where(x => x.IdMoneda == 1).Sum(x => x.MontoSinIGV);
+                        Dolares = lstCmp.Where(x => x.IdMoneda == 2).Sum(x => x.MontoSinIGV * x.TipoCambio);
                         break;
                     default:
-                        Soles = lstCmp.Where(x => x.IdMoneda == 1).Sum(x => x.Monto / (x.TipoCambio != 0 ? x.TipoCambio : 1));
-                        Dolares = lstCmp.Where(x => x.IdMoneda == 2).Sum(x => x.Monto);
+                        Soles = lstCmp.Where(x => x.IdMoneda == 1).Sum(x => x.MontoSinIGV / (x.TipoCambio != 0 ? x.TipoCambio : 1));
+                        Dolares = lstCmp.Where(x => x.IdMoneda == 2).Sum(x => x.MontoSinIGV);
                         break;
                 }
 

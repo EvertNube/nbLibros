@@ -1,0 +1,198 @@
+﻿@using NubeBooks.Core.Logistics.DTO
+@model MovimientoInvDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('.input-group.date').datepicker();
+            $('.miselect2').select2();
+            GetUnidadMedida($('#IdItem').val());
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            });
+        });
+
+        $('#IdItem').on("change", function (e) {
+            var idItem = e.val;
+            GetUnidadMedida(idItem);
+        });
+
+        function GetUnidadMedida(idItem) {
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/GetUnidadDeMedidaEnItem",
+                cache: false,
+                data: { idItem: idItem },
+                dataType: 'text',
+                success: function (response) {
+                    $('#UnidadMedida').val(response);
+                }
+            });
+        }
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar caracteres numericos");
+                return false;
+            }
+        }
+    </script>
+}
+
+@{var cadena = "";
+    var tipoMovimiento = (Model.IdTipoMovimientoInv == 1) ? "Ingreso" : "Egreso";}
+@if (Model == null || Model.IdItem == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Movimiento de Inventario - @tipoMovimiento</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddMovimientoInv", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Fecha</label>
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaInicial, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                @Html.ValidationMessageFor(u => u.FechaInicial, "", new { @style = "color:red;" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Movimiento - Tipo</label>
+                            @Html.DropDownListFor(u => u.IdFormaMovimientoInv, new SelectList(ViewBag.lstFormaMovimiento, "IdFormaMovimientoInv", "Nombre", "nTipoMovimientoInv", Model != null ? (Model.IdFormaMovimientoInv != 0 ? Model.IdFormaMovimientoInv : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", autofocus = "" })
+                            @Html.ValidationMessageFor(u => u.IdFormaMovimientoInv, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-4">
+                            <label># Documento</label>
+                            @Html.TextBoxFor(u => u.NroDocumento, new { @class = "form-control", @placeholder = "Documento", @type = "text", @required = "" })
+                            @Html.ValidationMessageFor(u => u.NroDocumento, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Código - Item</label>
+                            @Html.DropDownListFor(u => u.IdItem, new SelectList(ViewBag.lstItems, "IdItem", "Codigo", Model != null ? (Model.IdItem != 0 ? Model.IdItem : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2" })
+                            @Html.ValidationMessageFor(u => u.IdItem, "", new { @style = "color:red;" })
+                        </div>
+                        @if (Model.IdTipoMovimientoInv == 1)
+                        {
+                            <div class="col-md-4">
+                                <label>Guía de Remisión</label>
+                                @Html.TextBoxFor(u => u.GuiaRemision, new { @class = "form-control", @placeholder = "Guía de Remisión", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.GuiaRemision, "", new { @style = "color:red;" })
+                            </div>
+                        }
+                        <div class="col-md-4">
+                            <label>Serie - Lote</label>
+                            @Html.TextBoxFor(u => u.SerieLote, new { @class = "form-control", @placeholder = "Serie / Lote", @type = "text", @required = "" })
+                            @Html.ValidationMessageFor(u => u.SerieLote, "", new { @style = "color:red;" })
+                        </div>
+                        @if (Model.IdTipoMovimientoInv != 1)
+                        {
+                            <div class="col-md-4">
+                                <label>Ubicación</label>
+                                @Html.DropDownListFor(u => u.IdUbicacion, new SelectList(ViewBag.lstUbicaciones, "IdUbicacion", "Nombre", Model != null ? (Model.IdUbicacion != 0 ? Model.IdUbicacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @Html.ValidationMessageFor(u => u.IdUbicacion, "", new { @style = "color:red;" })
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Cantidad</label>
+                            @Html.TextBoxFor(u => u.Cantidad, new { @class = "form-control", @placeholder = "Cantidad", @type = "text", @onkeypress = "return CheckNumericValue(event)", @required = "" })
+                            @Html.ValidationMessageFor(u => u.Cantidad, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-4">
+                            <label>Unidad de Medida</label>
+                            @Html.TextBoxFor(u => u.UnidadMedida, new { @class = "form-control", @placeholder = "Unidad de Medida", @type = "text", @readonly = "true" })
+                            @Html.ValidationMessageFor(u => u.UnidadMedida, "", new { @style = "color:red;" })
+                        </div>
+                        @if (Model.IdTipoMovimientoInv == 1)
+                        {
+                            <div class="col-md-4">
+                                <label>Fecha de Vencimiento</label>
+                                <div class="input-group date">
+                                    @Html.TextBoxFor(u => u.FechaFin, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Vencimiento", @type = "text", @readonly = "true" })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    @Html.ValidationMessageFor(u => u.FechaFin, "", new { @style = "color:red;" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <label>Comentario</label>
+                                @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Comentario", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.Comentario, "", new { @style = "color:red;" })
+                            </div>
+                        }
+                    </div>
+                </div>
+                if (Model.IdTipoMovimientoInv == 1)
+                {
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Proveedor</label>
+                                @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
+                            </div>
+                            <div class="col-md-4">
+                                <label>Ubicación</label>
+                                @Html.DropDownListFor(u => u.IdUbicacion, new SelectList(ViewBag.lstUbicaciones, "IdUbicacion", "Nombre", Model != null ? (Model.IdUbicacion != 0 ? Model.IdUbicacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @Html.ValidationMessageFor(u => u.IdUbicacion, "", new { @style = "color:red;" })
+                            </div>
+                            <div class="col-md-4">
+                                <label>Comentario</label>
+                                @Html.TextBoxFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Comentario", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.Comentario, "", new { @style = "color:red;" })
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
+                        @Html.TextBoxFor(u => u.IdMovimientoInv, new { @value = Model.IdMovimientoInv != 0 ? Model.IdMovimientoInv.ToString() : "", @type = "hidden" })
+                        @Html.TextBoxFor(u => u.IdTipoMovimientoInv, new { @value = Model.IdTipoMovimientoInv != 0 ? Model.IdTipoMovimientoInv.ToString() : "1", @type = "hidden" })
+                        @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                        @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            @{var btnName = (Model != null && Model.IdItem > 0) ? "Guardar Cambios" : "Crear";}
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                                <a class="btn btn-default" href="@Url.Action("Inventarios" + tipoMovimiento, "Admin")">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                                }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,264 @@
+﻿@using NubeBooks.Core.DTO
+@using PagedList;
+@using PagedList.Mvc;
+@using System.Globalization;
+@model List<PagedList.IPagedList<NubeBooks.Core.DTO.ComprobanteDTO>>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/fuelux/fuelux.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/css/dataTables.jqueryui.min.css")
+    @Styles.Render("~/Content/themes/admin/js/datatables/datatables.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/fuelux/fuelux.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/datatables/languageConf.js")
+
+    <script type="text/javascript">
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('.dataTable').DataTable();
+        });
+
+        $('#idreporte').click(function () {
+            //var miURL = "/Admin/Comprobantes";
+            var miURL = miBaseUrl + "/Comprobantes";
+            $('.titulo').each(function (index) {
+                if ($(this).hasClass('active'))
+                { miURL = exportarDetalle(index + 1); }
+            })
+            this.href = miURL;
+        });
+
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+
+        $("input#delete").click(function () {
+            var idelement = $('form.element').serialize();
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/DeleteComprobante",
+                data: $('form.element').serialize(),
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = miBaseUrl + "/Comprobantes";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+
+        function exportarDetalle(tipoComprobante) {
+            var FechaInicio = $("#FechaInicio").val().split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = $("#FechaFin").val().split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return miBaseUrl + "/ExportarComprobantes/?idTipoComprobante=" + tipoComprobante + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+
+        function getSectionActive() {
+            $("li.titulo").each(function (index) {
+                if ($(this).hasClass("active")) {
+                    return index + 1;
+                }
+            });
+        }
+    </script>
+}
+<section class="vbox">
+    <section class="scrollable padder">
+        <div class="row m-b">
+            <div class="col-xs-12">
+                <h2>Comprobantes</h2>
+                @Html.Partial("_showAlertMessages")
+                <section class="panel panel-default">
+                    <header class="panel-heading bg-light">
+                        <ul class="nav nav-tabs nav-justified">
+                            @{bool idnull1 = false;
+                            string cadena1 = "";}
+                            @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
+                            {
+                                if (ViewBag.idTipoComprobante != null)
+                                { cadena1 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
+                                else if (!idnull1)
+                                { idnull1 = true; cadena1 = "active"; }
+                                <li class="titulo @cadena1">
+                                    <a href="#@item.Nombre" data-toggle="tab">@item.Nombre</a>
+                                </li>
+                                if (idnull1) { cadena1 = ""; }
+                            }
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            @{bool idnull2 = false;
+                            string cadena2 = "";}
+                            @foreach (var item in (List<TipoComprobanteDTO>)ViewBag.lstTipoComprobantes)
+                            {
+                                if (ViewBag.idTipoComprobante != null)
+                                { cadena2 = ViewBag.idTipoComprobante == item.IdTipoComprobante ? "active" : ""; }
+                                else if (!idnull2)
+                                { idnull2 = true; cadena2 = "active"; }
+                                <div class="tab-pane @cadena2" id="@item.Nombre">
+                                    <section class="panel panel-default">
+                                        <header class="panel-heading">
+                                            <div class="row text-sm">
+                                                <div class="col-sm-6 col-xs-6">
+                                                    @using (Html.BeginForm("Comprobantes", "Admin", FormMethod.Get, new { @class = "pull-right" }))
+                                                    {
+                                                        <div class="input-group search datagrid-search">
+                                                            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "input-sm form-control", @placeholder = "Buscar" })
+                                                            @Html.TextBox("idTipoComprobante", item.IdTipoComprobante, new { @value = item.IdTipoComprobante != 0 ? item.IdTipoComprobante.ToString() : "1", @type = "hidden" })
+                                                            @Html.TextBox("sortOrder", "", new { @type = "hidden" })
+                                                            @Html.TextBox("currentFilter", "", new { @type = "hidden" })
+                                                            <div class="input-group-btn">
+                                                                <input type="submit" value="Buscar" class="btn btn-default btn-sm" />
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="col-sm-6 col-xs-6">
+                                                    @if (!ViewBag.EsUsuarioExterno)
+                                                    {<a class="btn btn-sm btn-success pull-right" href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = item.IdTipoComprobante })"><i class="fa fa-plus"></i> Crear nuevo @item.Nombre</a>}
+                                                </div>
+                                            </div>
+                                        </header>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-striped m-b-none no-footer">
+                                                <thead>
+                                                    @{var columns = item.IdTipoComprobante == 1 ? 11 : 10;}
+                                                    <tr>
+                                                        @{
+                                                    var rFechaFin = item.IdTipoComprobante == 1 ? "Cobro" : "Pago";
+                                                    var strEntidad = item.IdTipoComprobante == 1 ? "Cliente" : "Proveedor";
+                                                        }
+                                                        <th class="text-center" width="7%">@Html.ActionLink("Fecha", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbFecha, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="10%">@Html.ActionLink("Docum.", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbDocumento, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="10%">@Html.ActionLink("Numero", "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbNumero, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        <th class="text-center" width="14%">@Html.ActionLink(strEntidad, "Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbEntidad, currentFilter = ViewBag.CurrentFilter }, null)</th>
+                                                        @if (item.IdTipoComprobante == 1)
+                                                        {
+                                                            <th class="text-center" width="10%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbProyecto, currentFilter = ViewBag.CurrentFilter })">Proy</a></th>
+                                                        }
+                                                        @*<th class="text-center" width="15%">Monto<br />&nbsp;Sin IGV</th>*@
+                                                        <th class="text-center" width="15%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbMontoSinIGV, currentFilter = ViewBag.CurrentFilter })">Monto<br />&nbsp;Sin IGV</a></th>
+                                                        <th class="text-center" width="14%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbCategoria, currentFilter = ViewBag.CurrentFilter })">Partida<br />&nbsp;Presupuesto</a></th>
+                                                        <th class="text-center" width="7%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbFechaFin, currentFilter = ViewBag.CurrentFilter })">Fecha<br />&nbsp;@rFechaFin</a></th>
+                                                        <th class="text-center" width="5%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbUsuario, currentFilter = ViewBag.CurrentFilter })">Usuario</a></th>
+                                                        <th class="text-center" width="4%"><a href="@Url.Action("Comprobantes", "Admin", new { idTipoComprobante = item.IdTipoComprobante, sortOrder = ViewBag.vbEstado, currentFilter = ViewBag.CurrentFilter })">E.</a></th>
+                                                        <th class="text-center" width="4%">Opc.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                                                                        @if (Model.Count > 0)
+                                                    {
+                                                        foreach (var obj in Model[item.IdTipoComprobante - 1])
+                                                        {
+                                                            //var classInactive = ((ViewBag.EsAdmin || ViewBag.EsUsuarioInterno) && !obj.Estado) ? "class='inactive'" : "";
+                                                            @*<tr @Html.Raw(classInactive)>*@
+                                                            <tr>
+                                                                <td class="text-center" width="7%">@obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                                                <td class="text-center" width="10%">@obj.NombreTipoDocumento</td>
+                                                                <td class="text-center" width="10%">@obj.NroDocumento</td>
+                                                                <td class="text-center" width="14%">@obj.NombreEntidad</td>
+                                                                @if (item.IdTipoComprobante == 1)
+                                                                {
+                                                                    <td class="text-center" width="10%">@(obj.NombreProyecto == null ? "N/A" : obj.NombreProyecto)</td>}
+                                                                <td class="text-center" width="15%">@obj.SimboloMoneda @obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                                                <td class="text-center" width="14%">@obj.NombreCategoria</td>
+                                                                <td class="text-center" width="7%">@(obj.FechaConclusion == null ? " - " : obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")))</td>
+                                                                <td class="text-center" width="5%">@obj.NombreUsuario</td>
+                                                                @if (!obj.Ejecutado)
+                                                                {
+                                                                    <td class="text-center" width="4%" style="color:red">P</td>}
+                                                                else
+                                                                {
+                                                                    <td class="text-center" width="4%" style="color:#8EC100;">R</td> }
+                                                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                                                <td align="center">
+                                                                    <a href="@Url.Action("Comprobante", "Admin", new { id = obj.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
+                                                                    @if (!ViewBag.EsUsuarioExterno)
+                                                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdComprobante" data-nro="@obj.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="@columns">
+                                                            <div class="row">
+                                                                <div class="col-sm-4"></div>
+                                                                <div class="col-sm-4 text-center">
+                                                                    <small class="text-muted inline m-t-sm m-b-sm">Página @(Model[item.IdTipoComprobante - 1].PageCount < Model[item.IdTipoComprobante - 1].PageNumber ? 0 : Model[item.IdTipoComprobante - 1].PageNumber) de @Model[item.IdTipoComprobante - 1].PageCount</small>
+                                                                </div>
+                                                                <div class="col-sm-4 text-right text-center-xs">
+                                                                    @Html.PagedListPager(Model[item.IdTipoComprobante - 1], page => Url.Action("Comprobantes", new { idTipoComprobante = item.IdTipoComprobante, page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions { UlElementClasses = new[] { "m-b-none", "m-t-none", "pagination-sm", "pagination" }, ContainerDivClasses = new[] { "" } })
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </div>
+                                                    if (idnull2) { cadena2 = ""; }
+                            }
+                        </div>
+                    </div>
+                    <footer class="panel-footer">
+                        <div class="row col-md-offset-6">
+                            <div class="col-xs-4 col-md-4">
+                                @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <a class="btn btn-s-md btn-success" id="idreporte">
+                                    Exportar
+                                </a>
+                            </div>
+                        </div>
+                    </footer>
+                </section>
+
+            </div>
+        </div>
+    </section>
+</section>
+
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de eliminar este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element" >
+                    @*<label for="id-element" class="control-label">Elemento</label>*@
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                @*<a href="#" class="btn" data-dismiss="modal">Cancelar</a>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+                @*<a id="delete" class="btn btn-danger btn-ok">Delete</a>*@
+            </div>
+        </div>
+    </div>
+</div>

@@ -2869,10 +2869,10 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Nivel");
-            dt.Columns.Add("Partida");
-            dt.Columns.Add("Total (" + objEmpresa.SimboloMoneda + ")");
-            dt.Columns.Add("PRESUPUESTO SIN IGV (" + objEmpresa.SimboloMoneda + ")");
-            dt.Columns.Add("PRESUPUESTO EJECUTADO A LA FECHA %");
+            dt.Columns.Add("Partida de Presupuesto");
+            dt.Columns.Add("TOTAL SIN IGV");
+            dt.Columns.Add("PRESUPUESTO SIN IGV");
+            dt.Columns.Add("EJECUCION DEL PRESUPUESTO");
 
             //Suma de Padres de Nivel 0
             //Decimal SumaPadres0 = lstCatsMontos.Where(x => x.IdCategoriaPadre == null).Sum(x => x.Presupuesto.GetValueOrDefault());
@@ -2903,7 +2903,7 @@ namespace NubeBooks.Controllers
                 //AddWhiteHeader(gv, 1, "");
                 AddWhiteHeader(gv, 1, "FECHAS: " + FechaInicio.ToShortDateString() + " - " + FechaFin.ToShortDateString());
                 AddWhiteHeader(gv, 2, "PERIODO: " + objPeriodo.Nombre + " (" + objPeriodo.FechaInicio.ToShortDateString() + " - " + objPeriodo.FechaFin.ToShortDateString() + ")");
-                AddWhiteHeader(gv, 3, "Moneda: (" + objEmpresa.SimboloMoneda + ")");
+                AddWhiteHeader(gv, 3, "MONEDA: (" + objEmpresa.SimboloMoneda + ")");
 
                 PintarCategorias(gv);
 
@@ -3387,7 +3387,7 @@ namespace NubeBooks.Controllers
                 row["Documento"] = obj.NombreDocumento;
                 row["# Documento"] = obj.NroDocumento;
                 row["Moneda"] = obj.Moneda;
-                row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Total"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 row["Area(s)"] = obj.Areas;
                 row["Comentario"] = obj.Comentario;
 
@@ -4031,12 +4031,12 @@ namespace NubeBooks.Controllers
         {
             System.Data.DataRow row = dt.NewRow();
             row["Nivel"] = obj.Nivel;
-            row["Partida"] = obj.Nombre;
+            row["Partida de Presupuesto"] = obj.Nombre;
             Decimal pMonto = lstCatMontos.SingleOrDefault(x => x.IdCategoria == obj.IdCategoria).Presupuesto.GetValueOrDefault();
-            row["Total (" + objEmpresa.SimboloMoneda + ")"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
-            row["PRESUPUESTO SIN IGV (" + objEmpresa.SimboloMoneda + ")"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+            row["TOTAL SIN IGV"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
+            row["PRESUPUESTO SIN IGV"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
             Decimal porcentaje = obj.Presupuesto.GetValueOrDefault() != 0 ? pMonto / obj.Presupuesto.GetValueOrDefault() : 0;
-            row["PRESUPUESTO EJECUTADO A LA FECHA %"] = Math.Abs(porcentaje).ToString("P2", CultureInfo.InvariantCulture);
+            row["EJECUCION DEL PRESUPUESTO"] = Math.Abs(porcentaje).ToString("P2", CultureInfo.InvariantCulture);
             dt.Rows.Add(row);
             foreach (var hijo in obj.Hijos)
             {
@@ -4671,14 +4671,16 @@ namespace NubeBooks.Controllers
         public ActionResult BuscarProforma()
         {
             //UsuarioDTO currentUser = getCurrentUser();
-            var lista = new NubeBooks.Core.BL.ProformaBL().getProformaEnEmpresa(1);// currentUser.IdEmpresa);
+            //var lista = new NubeBooks.Core.BL.ProformaBL().getProformaEnEmpresa(1);
 
-            return View(lista);
+            //return View(lista);
+            return View();
         }
         public ActionResult Proforma(Int32 id)
         {
-            var lista = new NubeBooks.Core.BL.ProformaBL().getProformaId(id); 
-            return View(lista);
+            /*var lista = new NubeBooks.Core.BL.ProformaBL().getProformaId(id); 
+            return View(lista);*/
+            return View();
         }
         public ActionResult NuevaProforma()
         {
@@ -4693,14 +4695,15 @@ namespace NubeBooks.Controllers
         }
         public ActionResult SaveProforma()
         {
-            UsuarioDTO currentUser = getCurrentUser();
+            /*UsuarioDTO currentUser = getCurrentUser();
             ProformaDTO Proforma = new ProformaDTO();
             TryUpdateModel(Proforma);
 
             Proforma.IdEmpresa = currentUser.IdEmpresa;
             if(Proforma.FechaRegistro==null){ Proforma.FechaRegistro = DateTime.Now; }
             var lista = new ProformaBL().SaveProforma(Proforma);
-            return Json(lista, JsonRequestBehavior.AllowGet);
+            return Json(lista, JsonRequestBehavior.AllowGet);*/
+            return View();
         }
         #endregion
     }

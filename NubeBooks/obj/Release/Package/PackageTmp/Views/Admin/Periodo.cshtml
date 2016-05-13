@@ -1,0 +1,64 @@
+﻿@using NubeBooks.Core.DTO
+@model PeriodoDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{var cadena = "";}
+@if (Model == null || Model.IdPeriodo == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Periodo</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddPeriodo", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Nombre del Periodo</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del Periodo", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Fecha de Inicio</label>
+                            @Html.TextBoxFor(u => u.FechaInicio, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                            @Html.ValidationMessageFor(u => u.FechaInicio, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Fecha de Fin</label>
+                            @Html.TextBoxFor(u => u.FechaFin, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "true" })
+                            @Html.ValidationMessageFor(u => u.FechaFin, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            @if (ViewBag.EsAdmin && Model != null && Model.IdPeriodo > 0)
+                            {
+                                <label>Estado</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="Active" name="Active" type="checkbox" value="@(Model.Active ? "true" : "false")" checked="@Model.Active" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
+                                </div>
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(u => u.Active, new { @value = Model != null ? Model.Active : false, @type = "hidden" })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdPeriodo, new { @value = Model.IdPeriodo != 0 ? Model.IdPeriodo.ToString() : "", @type = "hidden" })
+                var btnName = (Model != null && Model.IdPeriodo > 0) ? "Guardar Cambios" : "Crear";
+                <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                <a class="btn btn-default" href="@Url.Action("Periodos", "Admin")">Cancelar</a>
+            }
+        </div>
+    </div>
+</div>

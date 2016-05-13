@@ -10,6 +10,7 @@ namespace NubeBooks.Core.BL
 {
     public class ProformaBL : Base
     {
+        /*
         public List<ProformaDTO> getProformaEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())
@@ -129,6 +130,6 @@ namespace NubeBooks.Core.BL
                 }
             }
             return result;
-        }
+        }*/
     }
 }

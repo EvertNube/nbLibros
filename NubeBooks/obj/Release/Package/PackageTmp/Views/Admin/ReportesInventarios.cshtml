@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        $(function () {
+            $('.input-group.date').datepicker();
+            $('.miselect2').select2();
+
+            $('.reporte').click(function () {
+                this.href = GenerarReporte($(this).data("idreporte"));
+            })
+        });
+
+        function GenerarReporte(nrep) {
+            //Url Base
+            var listUrl = window.location.pathname.split('/');
+            listUrl.shift();
+            listUrl.pop();
+            var neleUrl = listUrl.length;
+            var miUrl = '';
+            for (var i = 0; i < neleUrl; i++) {
+                miUrl += ('/' + listUrl[i]);
+            }
+
+            var FechaInicio = $("#FechaInicio").val().split("/");
+
+            FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+
+            var FechaFin = $("#FechaFin").val().split("/");
+            FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            var rFechaFin = $("#rFechaFin").val().split("/");
+            rFechaFin = rFechaFin[2] + "/" + rFechaFin[1] + "/" + rFechaFin[0];
+
+            var jIdItem = $('#IdItem').select2("val");
+            debugger;
+            switch (nrep) {
+                case 1:
+                    return miUrl + "/GenerarRep_Movimiento_De_Inventarios/?idItem=" + jIdItem + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 2:
+                    return miUrl + "/GenerarRep_Inventarios/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    break;
+                case 3:
+                    return miUrl + "/GenerarRep_Items_Por_Vencimiento/?rFechaFin=" + encodeURIComponent(rFechaFin);
+                    break;
+                case 4:
+                    //return miUrl + "/GenerarRep_Stock_De_Items/?FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+                    return miUrl + "/GenerarRep_Stock_De_Items/?FechaFin=" + encodeURIComponent(rFechaFin);
+                    break;
+            }
+        }
+    </script>
+}
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Reporte de Inventarios</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaInicio" style="transform:translateY(30%)">Fecha Inicio:</label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaInicio", new DateTime(DateTime.Now.Year, 1, 1), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de inicio", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" for="FechaFin" style="transform:translateY(30%)">Fecha Fin:</label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("FechaFin", new DateTime(DateTime.Now.Year, 12, 31), "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @readonly = "readonly" })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-center">Movimientos por Item</label>
+                        @Html.DropDownList("IdItem", new SelectList(ViewBag.lstItems, "IdItem", "Nombre", 0), new { @class = "col-md-4 no-padder miselect2" })
+                        <div class="col-md-4 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="1">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-8 text-center">Movimiento de todos los Items</label>
+                        <div class="col-md-4 text-center">
+                            <a class="btn btn-sm btn-info reporte" data-idreporte="2">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-4 text-right" style="transform:translateY(30%)">Fecha de corte: </label>
+                        <div class="input-group date col-md-8">
+                            @Html.TextBox("rFechaFin", DateTime.Now, "{0:dd/MM/yyyy}", new { @class = "form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @readonly = "readonly" })
+                            @*@Html.TextBox("rFechaFin", DateTime.Now, "{0:dd/MM/yyyy}", new { @class = "datepicker-input form-control", @placeholder = "Ingrese la fecha de fin", @type = "text", @data_provide = "datepicker", @readonly = "readonly" })*@
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line line-dashed line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="col-md-8 text-center">Stock de Items con Fecha de Vencimiento</label>
+                        <div class="col-md-4 text-center">
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="3">Generar Reporte</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-8 text-center">Stock Por Items</label>
+                        <div class="col-md-4 text-center">
+                            <a class="btn btn-sm btn-primary reporte" data-idreporte="4">Generar Reporte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

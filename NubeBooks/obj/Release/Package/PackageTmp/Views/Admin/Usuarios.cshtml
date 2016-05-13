@@ -1,0 +1,73 @@
+﻿@model IList<NubeBooks.Core.DTO.UsuarioDTO>
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        function handleClick(element) {
+            window.location.href = '@Url.Action("Usuarios", "Admin")' + "?inactivos=" + element.checked;
+        }
+    </script>
+}
+<div class="bg-light lter b-b wrapper-md">
+    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>*@
+    <a href="@Url.Action("Usuario")" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+@Html.Partial("_showAlertMessages")
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    }
+}" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th >Nombre</th>
+                        <th class="text-center">Tipo de Usuario</th>
+                        <th class="text-center">Cuenta</th>
+                        <th class="text-center">Estado</th>
+                        <th style="width:8%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td >@item.Nombre</td>
+                                <td class="text-center">@item.NombreRol</td>
+                                <td class="text-center">@item.Cuenta</td>
+                                @{ var eColor = item.Active ? "#27c24c" : "red"; }
+                                <td class="text-center" style="color:@(eColor)">@(item.Active ? "Activo" : "Inactivo" )</td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("Usuario", new { id = item.IdUsuario })"><i class="fa fa-pencil"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="checkbox">
+        <label class="i-checks">
+            <input type="checkbox" value="@(ViewBag.vbInactivos == true ? "true" : "false")" checked="@ViewBag.vbInactivos" onclick="handleClick(this);"><i></i> Mostrar Inactivos
+        </label>
+    </div>
+</div>

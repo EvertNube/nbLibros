@@ -1,0 +1,224 @@
+﻿@using NubeBooks.Core.DTO
+@using System.Globalization;
+@model List<ComprobanteDTO>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
+            $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+        });
+
+        $('#modal-form2').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var nombreDocumento = button.data('doc');
+            var modal = $(this);
+            modal.find('.modal-title').text('Restablecer Elemento: ' + nombreDocumento + " " + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+        $("input#restablecer").click(function () {
+            var idelement = $('form.element').serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RestablecerComprobante",
+                data: $('form.element').serialize(),
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = "/Admin/ComprobantesAnulados";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var nombreDocumento = button.data('doc');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nombreDocumento + " " + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+        $("input#delete").click(function () {
+            var idelement = $('form.element').serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteComprobante",
+                data: $('form.element').serialize(),
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = "/Admin/ComprobantesIngreso";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+        $("input#exportar").click(function () {
+            window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+            $('#modal-form-exportar').modal('toggle');
+        });
+
+        function exportarDetalle(fechaInicio, fechaFin) {
+            var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return "/Admin/ExportarComprobantes/?idTipoComprobante=3&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+    </script>
+}
+
+<div class="bg-light lter b-b wrapper-md">
+    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>*@
+    @*<a href="@Url.Action("Comprobante", "Admin", new { id = 0, idTipoComprobante = 3 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>*@
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+@Html.Partial("_showAlertMessages")
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    },
+    aaSorting: [[0,'desc']]
+}" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Fecha</th>
+                        <th style="width:10%">Documento</th>
+                        <th style="width:10%">Número</th>
+                        <th style="width:35%">Cliente</th>
+                        <th class="text-center" style="width:10%">Monto Total</th>
+                        @*<th class="text-center" style="width:5%">Estado</th>*@
+                        <th style="width:8%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                <td>@item.NombreTipoDocumento</td>
+                                <td>@item.NroDocumento</td>
+                                <td>@item.NombreEntidad</td>
+                                <td class="text-right">@item.SimboloMoneda @item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                @*<td class="text-center" style=@(item.Ejecutado ? "color:#8EC100;" : "color:red;")>@(item.Ejecutado ? "R" : "P" )</td>*@
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "eye"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Detalle"; }
+                                <td class="text-center">
+                                    <a href="@Url.Action("Comprobante", "Admin", new { id = item.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i>&nbsp;&nbsp;</a>
+                                    @if (!ViewBag.EsUsuarioExterno)
+                                    {
+                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form2" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-undo" title="Restablecer"></i>&nbsp;&nbsp;</a>
+                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-trash" title="Eliminar"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                                        }
+                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Restablecer Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro de restablecer este comprobante?</p>
+                <form class="element" name="element">
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-info" type="submit" value="Restablecer" id="restablecer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>Estas a punto de eliminar este comprobante, al hacerlo también eliminaras los Movimientos asociados a este comprobante. ¿Estás seguro de proseguir?</p>
+                <form class="element" name="element">
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form-exportar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Exportar Comprobantes</h4>
+            </div>
+            <div class="modal-body">
+                <form class="element" name="element">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin">Fecha Fin:</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))"> <span class="input-group-addon"><i class="fa icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-success" type="submit" value="Exportar" id="exportar">
+            </div>
+        </div>
+    </div>
+</div>
+

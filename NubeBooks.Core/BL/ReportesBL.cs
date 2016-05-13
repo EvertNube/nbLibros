@@ -513,6 +513,7 @@ namespace NubeBooks.Core.BL
                         NroDocumento = x.NroDocumento,
                         Moneda = x.Moneda,
                         Monto = x.Monto,
+                        MontoSinIGV = x.MontoSinIGV,
                         Areas = x.Areas,
                         Comentario = x.Comentario
                     }).ToList<ComprobanteR_DTO>();

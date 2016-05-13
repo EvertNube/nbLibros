@@ -1,0 +1,354 @@
+﻿@using NubeBooks.Core.DTO
+@model MovimientoDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        @{
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var userInfoJson = jss.Serialize(ViewBag.Categorias);
+            var userInfoJson2 = jss.Serialize(ViewBag.Comprobantes);
+            //var lstFormaMovs = jss.Serialize(ViewBag.lstFormaMovs);
+        }
+        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var lstComps = JSON.parse('@Html.Raw(userInfoJson2)');
+
+        @*var lstFormaMovs = JSON.parse('@Html.Raw(lstFormaMovs)');*@
+
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
+        var montoActual = 0, jIdComprobante = 0;
+        var montoMov = 0;
+        var montoPen = 0;
+
+        var miBaseUrl = '';
+
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('.input-group.date').datepicker();
+            $('.miselect2').select2();
+
+            $('.miselect2_clear').select2({ 
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
+
+            $('#IdCategoria').select2({
+                placeholder: "Seleccione una categoría",
+                data: mydata,
+                allowClear: true
+            })
+
+            $('#IdComprobante').select2({ data: lstComps })
+
+            //$('#IdFormaMovimiento').select2({ data: lstFormaMovs })
+
+            ListarComprobantesEntidadXTipoDoc(0);
+
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            });
+
+            jIdComprobante = $('#IdComprobante').val();
+            montoMov = montoActual = parseFloat($('#Monto').val());
+        });
+
+        function format(res) {
+            var markup = null;
+            if (res.children == null)
+                markup = '<font color="#27ae60">' + res.text + '</font>';
+            else
+                markup = '<font color="black">' + res.text + '</font>';
+            return markup;
+        }
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar caracteres numericos");
+                return false;
+            }
+        }
+
+        function ModificarCombos() {
+            if ($('#Nombre').val() == 'INGRESOS' || $('#Nombre').val() == 'ingresos') {
+                $('#IdTipoMovimiento').prop('selectedIndex', 1);
+                $('#IdEstadoMovimiento').prop('selectedIndex', 1);
+            }
+        }
+
+        function ActualizarMontoSinIGV() {
+            var montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2);
+            $('#MontoSinIGV').val(montoSinIGV);
+        }
+
+        function ActualizarMontoPendiente() {
+            if ($('#IdComprobante').val() != 0 && $('#IdComprobante').val() != null) {
+                var jmonto = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;
+                $('#cmpMonto').val((montoPen - jmonto).toFixed(2));
+
+                if ($('#cmpMonto').val() == 0) { $('#cmpCancelado').prop("checked", true); }
+                else { $('#cmpCancelado').prop("checked", false); }
+            }
+        }
+
+        function ListarComprobantesEntidadXTipoDoc(cambio) {
+            if ($('#IdEntidadResponsable').val() != '' && $('#IdTipoDocumento').val() != '') {
+                var identidad = parseInt($('#IdEntidadResponsable').val());
+                var idtdoc = parseInt($('#IdTipoDocumento').val());
+                //Se limpia el comprobante y la categoria si es que se cambia la entidad o el tipo de doc
+                if (cambio == 1) {
+                    $('#IdComprobante').select2("val", "");
+                    $('#IdCategoria').select2("val", "");
+                    $('#cmpMonto').val('');
+                } else {
+                    if ($('#IdComprobante').val() != null && $('#IdComprobante').val() != 0) {
+                        BuscarCategoria($('#IdComprobante').val(), false);
+                    }
+                }
+                if (@ViewBag.IdTipoCuenta == 1)
+                {GetComprobantesAjax(identidad, idtdoc);}
+            }
+            else
+            {
+                $('#IdComprobante').select2("val", "");
+                $('#IdCategoria').select2("val", "");
+                $('#cmpMonto').val('');
+            }
+        }
+
+        function GetComprobantesAjax(identidad, idtdoc) {
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/GetComprobantes",
+                cache: false,
+                data: { idEntidad: identidad, idTipoDoc: idtdoc },
+                dataType: 'json',
+                success: function (data) {
+                    $('#IdComprobante').select2({
+                        data: data.listaComp
+                    })
+                    //$('#cmpMonto').val('');
+                }
+            });
+        }
+
+        function BuscarCategoria(sel, reset) {
+            if (reset == true) {
+                $('#Monto').val(0);
+            }
+
+            var jIdCuentaBancaria = $('#IdCuentaBancaria').val();
+            var miIdComprobante = sel;
+
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/BuscarComprobante",
+                async: true,
+                cache: false,
+                data: { idComprobante: miIdComprobante, idCuentaBancaria: jIdCuentaBancaria },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.comprobante.IdCategoria != null) {
+                        $('#IdCategoria').select2("val", data.comprobante.IdCategoria);
+                    } else {
+                        $('#IdCategoria').select2("val", "");
+                    }
+                    if (jIdComprobante == data.comprobante.IdComprobante) {
+                        $('#Monto').val(montoActual);
+                    } else {
+                        montoMov = $('#Monto').val() != '' ? parseFloat($('#Monto').val()) : 0;;
+                    }
+                    montoPen = data.comprobante.MontoIncompleto + montoMov;
+
+                    $('#cmpMonto').val((data.comprobante.MontoIncompleto).toFixed(2));
+                    $('#cmpCancelado').prop("checked", data.comprobante.Ejecutado);
+                }
+            });
+        }
+
+        function ActualizarEjecucionDeComprobante() {
+            var jMontoFaltante = $('#cmpMonto').val();
+            if (jMontoFaltante < 0) {
+                alert("No se puede pagar un monto mayor al monto pendiente");
+                return false;
+            }
+            var jCheck = $('#cmpCancelado').prop("checked");
+            var jIdComprobante = $('#IdComprobante').val();
+
+            if (jIdComprobante != null && jIdComprobante != 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/ActualizarEjecucionComprobante',
+                    cache: false,
+                    data: { idComprobante: jIdComprobante, ejecutado: jCheck },
+                    dataType: 'text'
+                });
+            }
+        }
+
+
+    </script>
+}
+@{var cadena = "";}
+@if (Model == null || Model.IdMovimiento == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Movimiento</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddMovimiento", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Fecha</label>
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @readonly = "true" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                @*@Html.ValidationMessageFor(u => u.Fecha, "", new { @style = "color:red;" })*@
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Tipo de Movimiento</label>
+                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                            @*@Html.TextBoxFor(u => u.IdFormaMovimiento, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })*@
+                            @Html.ValidationMessageFor(u => u.IdFormaMovimiento, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Detalle</label>
+                            @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
+                            @Html.ValidationMessageFor(u => u.NroOperacion, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Estado de Movimiento</label>
+                            @Html.DropDownListFor(u => u.IdEstadoMovimiento, new SelectList(ViewBag.EstadosMovimientos, "IdEstadoMovimiento", "Nombre", Model != null ? (Model.IdEstadoMovimiento != 0 ? Model.IdEstadoMovimiento : 0) : 0), new { @class = "form-control parsley-validated rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdEstadoMovimiento, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Monto</label>
+                            @Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Ingrese el monto del movimiento", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoPendiente()" })
+                            @Html.ValidationMessageFor(u => u.Monto, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Tipo de Cambio</label>
+                            @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                            @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Entidad</label>
+                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(ViewBag.EntidadesResponsables, "IdEntidadResponsable", "Nombre", "NombreTipoEntidad", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" 
+                                    id="IdEntidadResponsable" name="IdEntidadResponsable"
+                                    onchange="ListarComprobantesEntidadXTipoDoc(1)">
+                                @{ var miEntidad = Model != null ? Model.IdEntidadResponsable : 0;}
+                                <option value=""></option>
+                                @foreach (var tipoEnt in (List<TipoEntidadDTO>)ViewBag.TipoEntidades)
+                                {
+                                    <optgroup label="@tipoEnt.Nombre">
+                                        @foreach (var item in (List<EntidadResponsableDTO>)ViewBag.EntidadesResponsables)
+                                        {
+                                            if (tipoEnt.IdTipoEntidad == item.IdTipoEntidad)
+                                            {<option value="@item.IdEntidadResponsable" @(item.IdEntidadResponsable == miEntidad ? "selected=selected" : "")>@item.Nombre</option>}
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            @if (ViewBag.IdTipoCuenta != 2)
+                            {
+                                <label>Tipo de Documento</label>
+                                @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTiposDeDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "form-control parsley-validated rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })
+                                @Html.ValidationMessageFor(u => u.IdTipoDocumento, "", new { @style = "color:red;" })
+                            }
+                            else
+                            {
+                                <label>Documento</label>
+                                @Html.TextBoxFor(u => u.NumeroDocumento, new { @class = "form-control rol-accs", @placeholder = "Número del comprobante", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.NumeroDocumento, "", new { @style = "color:red;" })
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        @if (ViewBag.IdTipoCuenta != 2)
+                        {
+                            <div class="col-md-3">
+                                <label>Número de Documento</label>
+                                @Html.TextBoxFor(u => u.IdComprobante, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "BuscarCategoria(this.value, true)" })
+                                @Html.ValidationMessageFor(u => u.IdComprobante, "", new { @style = "color:red;" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>Monto Pendiente</label>
+                                @Html.TextBoxFor(u => u.cmpMontoPendiente, new { @id = "cmpMonto", @class = "form-control rol-accs", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(u => u.cmpMontoPendiente, "", new { @style = "color:red;" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>Estado del comprobante</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="cmpCancelado" name="cmpCancelado" type="checkbox" value="@Model.cmpCancelado" checked="@Model.cmpCancelado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-3">
+                            <label>Partida de Presupuesto</label>
+                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdCategoria, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Comentario</label>
+                            @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Comentario del movimiento", @type = "text", @cols = "3", @style = "resize:none;" })
+                            @Html.ValidationMessageFor(u => u.Comentario, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdMovimiento, new { @value = Model != null ? Model.IdMovimiento.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdCuentaBancaria, new { @value = Model != null ? Model.IdCuentaBancaria.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.UsuarioCreacion, new { @value = Model != null ? Model.UsuarioCreacion.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.FechaCreacion, new { @value = Model != null ? Model.FechaCreacion.ToString() : "", @type = "hidden" })
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @{var btnName = (Model != null && Model.IdMovimiento > 0) ? "Guardar Cambios" : "Crear";}
+                            @if (!ViewBag.EsUsuarioExterno)
+                            {
+                                //onclick = "ActualizarEjecucionDeComprobante()"
+                                <button type="submit" class="btn btn-success">@btnName</button>}
+                            @{string tipo = (Model.IdMovimiento == 1) ? "Ingreso" : "Egreso"; }
+                            <a class="btn btn-default" href="@Url.Action("Libro", new { id = Model.IdCuentaBancaria })">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

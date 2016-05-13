@@ -1,0 +1,57 @@
+﻿@using NubeBooks.Core.DTO
+@model EmpresaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Scripts{
+    <script type="text/javascript">
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar un numero decimal");
+                return false;
+            }
+        }
+    </script>
+}
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Actualizar Empresa</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddEmpresa", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la Empresa", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Tipo de Cambio</label>
+                            @Html.TextBoxFor(u => u.TipoCambio, new { @class = "form-control", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                            @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Moneda</label>
+                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "form-control miselect2 rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdMoneda, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa != 0 ? Model.IdEmpresa.ToString() : "", @type = "hidden" })
+                <button type="submit" class="btn btn-sm btn-success">Guardar Cambios</button>
+                <a class="btn btn-default" href="@Url.Action("Index", "Admin")">Cancelar</a>
+            }
+        </div>
+    </div>
+</div>

@@ -79,9 +79,6 @@
     <Compile Include="CuentaBancaria.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DetalleProforma.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Empresa.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -133,9 +130,6 @@
     <Compile Include="Periodo.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Proforma.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proyecto.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
@@ -182,12 +176,6 @@
     <Compile Include="SP_Get_StockLote_De_Lote_En_Empresa_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="SP_Rep_AvanceDePresupuesto_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
@@ -222,9 +210,6 @@
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_Rep_IngresosEgresos_PorMes_EnEmpresa_Result.cs">
-      <DependentUpon>LibrosModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoComprobante.cs">

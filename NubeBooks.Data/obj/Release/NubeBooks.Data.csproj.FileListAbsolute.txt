@@ -1,0 +1,10 @@
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\NubeBooks.Data.dll.config
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\NubeBooks.Data.dll
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\NubeBooks.Data.pdb
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\EntityFramework.dll
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\EntityFramework.SqlServer.dll
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\EntityFramework.xml
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Release\EntityFramework.SqlServer.xml
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Release\NubeBooks.Data.csprojResolveAssemblyReference.cache
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Release\NubeBooks.Data.dll
+C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\obj\Release\NubeBooks.Data.pdb

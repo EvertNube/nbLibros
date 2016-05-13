@@ -1,0 +1,20 @@
+{ "aaData": [
+	{
+		"fecha": "2016-01-13",
+		"documento": "Factura",
+		"numero": "788",
+		"cliente": "Cliente 4",
+		"monto": "S/ 2,500",
+		"partida": "Ventas",
+		"estado": "P"
+	},
+	{
+		"fecha": "2015-12-29",
+		"documento": "Boleta de Venta",
+		"numero": "432",
+		"cliente": "Cliente 2",
+		"monto": "S/ 2,000",
+		"partida": "Ventas",
+		"estado": "P"
+	}
+] }

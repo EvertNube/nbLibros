@@ -1,0 +1,92 @@
+﻿@using NubeBooks.Core.DTO
+@model List<EntidadResponsableDTO>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('#exportar').click(function () {
+                window.location.href = miBaseUrl + "/ExportarClientesOProveedores/?tipo=" + 2
+                $('.alert.alert-success').removeClass('hidden');
+            });
+        });
+        function handleClick(element) {
+            window.location.href = '@Url.Action("EntidadesProveedores", "Admin")' + "?inactivos=" + element.checked;
+        }
+    </script>
+}
+
+<div class="bg-light lter b-b wrapper-md">
+    <button id="exportar" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <a href="@Url.Action("Entidad", "Admin", new { id = 0, idTipoEntidad = 2 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+<div class="alert alert-success hidden">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <i class="fa fa-ok-sign"></i> <strong>Success.</strong> Archivo generado exitosamente
+</div>
+@Html.Partial("_showAlertMessages")
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        },
+    },
+    pageLength: 50,
+}" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:25%">Nombre</th>
+                        <th class="text-center" style="width:25%">Tipo Documento</th>
+                        <th class="text-center">Detracción</th>
+                        <th class="text-center">Bien o Servicio</th>
+                        <th class="text-center" style="width:10%">Estado</th>
+                        <th style="width:8%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center">@item.Nombre</td>
+                                <td class="text-center">@item.NombreIdentificacion</td>
+                                <td class="text-center">@item.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
+                                <td class="text-center">@item.Tipo</td>
+                                @{ var eColor = item.Estado ? "#27c24c" : "red"; }
+                                <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                <td class="text-center">
+                                    <a href="@Url.Action("Entidad", "Admin", new { id = item.IdEntidadResponsable })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
+                                </td>
+                            </tr>
+                                        }
+                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="checkbox">
+        <label class="i-checks">
+            <input type="checkbox" value="@(ViewBag.vbInactivos == true ? "true" : "false")" checked="@ViewBag.vbInactivos" onclick="handleClick(this);"><i></i> Mostrar Inactivos
+        </label>
+    </div>
+</div>
+

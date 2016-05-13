@@ -1,0 +1,131 @@
+﻿@using NubeBooks.Core.DTO
+@model CategoriaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        @{
+            var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+            var userInfoJson = jss.Serialize(ViewBag.Categorias);
+        }
+        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var miBaseUrl = '';
+
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('#IdCategoriaPadre').select2({
+                placeholder: "Seleccione una categoría",
+                data: mydata,
+                allowClear: true
+            });
+        });
+
+        function format(res) {
+            var markup = null;
+            if (res.children == null)
+                markup = '<font color="#27ae60">' + res.text + '</font>';
+            else
+                markup = '<font color="black">' + res.text + '</font>';
+            return markup;
+        }
+
+        function validarCategoria() {
+            var myIdSelect2 = document.getElementById('IdCategoriaPadre').value;
+
+            var myId = $('#IdCategoria').val();
+            if (myId == 0)
+                return true;
+            if (myIdSelect2 == myId) {
+                alert("El padre de la categoría no puede ser él mismo");
+                return false;
+            }
+        }
+
+        function obtenerCategorias() {
+            $.ajax({
+                url: miBaseUrl + "/CategoriasJson",
+                type: "POST",
+                dataType: 'json',
+                data: function () {
+                    return JSON.stringify();
+                },
+                results: function (data, page) {
+                    return { results: data.listaCat };
+                },
+            });
+        }
+    </script>
+}
+
+@{var cadena = "";}
+@if (Model == null || Model.IdCategoria == 0) { cadena = "Nueva"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Partida de Presupuesto</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddCategoria", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre de Categoria</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la categoría", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-6">
+                            @if (Model != null && Model.IdCategoria == 0 && Model.IdCategoriaPadre != 0 && Model.IdCategoriaPadre != null)
+                            {
+                                <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
+                                @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @value = Model != null ? Model.IdCategoriaPadre : 0, @type = "hidden" })
+                            }
+                            else
+                            {
+                                <label>Categoria Padre : <font color="#3498db">@ViewBag.NombreCategoria</font></label>
+                                @Html.TextBoxFor(u => u.IdCategoriaPadre, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder" })
+                                @Html.ValidationMessageFor(u => u.IdCategoriaPadre, "", new { @style = "color:red;" })
+                            }
+                        </div>
+                    </div>
+                </div>
+                if (ViewBag.EsAdmin && Model != null && Model.IdCategoria > 0)
+                {
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Estado</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="Estado" name="Estado" type="checkbox" value="@(Model.Estado ? "true" : "false")" checked="@Model.Estado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                }
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdCategoria, new { @value = Model.IdCategoria != 0 ? Model.IdCategoria.ToString() : "", @type = "hidden" })
+                var btnName = (Model != null && Model.IdCategoria > 0) ? "Guardar Cambios" : "Crear";
+                <button type="submit" class="btn btn-sm btn-success" onclick="return validarCategoria()">@btnName</button>
+                <a class="btn btn-default" href="@Url.Action("Categorias", "Admin")">Cancelar</a>
+            }
+        </div>
+    </div>
+</div>

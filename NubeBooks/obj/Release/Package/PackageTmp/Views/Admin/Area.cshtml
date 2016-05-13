@@ -1,0 +1,68 @@
+﻿@using NubeBooks.Core.DTO
+@model AreaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{var cadena = "";}
+@if (Model == null || Model.IdArea == 0) { cadena = "Nueva"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Área</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddArea", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Nombre del Área</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Ingrese el nombre del área", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Descripción</label>
+                            @Html.TextAreaFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Ingrese la descripción", @type = "text", @rows = "6", @style = "resize: none;" })
+                            @Html.ValidationMessageFor(u => u.Descripcion, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                if (ViewBag.EsAdmin && Model != null && Model.IdArea > 0)
+                {
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Estado</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="Estado" name="Estado" type="checkbox" value="@(Model.Estado ? "true" : "false")" checked="@Model.Estado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : false, @type = "hidden" })
+                }
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdArea, new { @value = Model.IdArea != 0 ? Model.IdArea.ToString() : "", @type = "hidden" })
+                var btnName = (Model != null && Model.IdArea > 0) ? "Guardar Cambios" : "Crear";
+                <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                    <a class="btn btn-default" href="@Url.Action("Areas", "Admin")">Cancelar</a>
+            }
+        </div>
+    </div>
+</div>

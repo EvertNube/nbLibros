@@ -1,0 +1,580 @@
+﻿@using NubeBooks.Core.DTO
+@using System.Globalization;
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.tooltip.min.js")
+    @Scripts.Render("~/Content/themes/admin/js/flot-chart/jquery.flot.axislabels.js")
+    @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot-spline/js/jquery.flot.spline.min.js")
+    @Scripts.Render("~/Content/themes/admin-nb/libs/jquery/flot/jquery.flot.pie.js")
+    <script type="text/javascript">
+        @*var jsTotalConsolidado = @ViewBag.TotalConsolidado;*@
+        var jsTotalSoles = parseFloat('@ViewBag.TotalSoles');
+        var jsTotalDolares = parseFloat('@ViewBag.TotalDolares');
+        var jsTipoCambio = parseFloat('@ViewBag.TipoCambio');
+
+        $(function () {
+            PintarGraficaLiquidez();
+            PintarGraficaFacturacion();
+            PintarPieIngresos();
+            PintarPieEgresos();
+            //ObtenerTipoCambio();
+            $('#pie_consolidado').click(function(){ Moneda_Consolidado($(this)); });
+        });
+
+        function Moneda_Consolidado(item)
+        {
+            $(item).toggleClass('bg-success bg-warning');
+
+            if($(item).hasClass('bg-success'))
+            {
+                var sTotal = jsTotalDolares + (jsTotalSoles / jsTipoCambio)
+                @*var sTotal = jsTotalSoles @ViewBag.TotalConsolidado / @ViewBag.TipoCambio;*@
+                var sCadena = '$ ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+                $('#total_consolidado span').text(sCadena);
+                
+                //$(item).val(sTotal);
+            }
+            else if($(item).hasClass('bg-warning'))
+            {
+                var sTotal = jsTotalSoles + (jsTotalDolares * jsTipoCambio)
+                
+                var sCadena = 'S/. ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+                $('#total_consolidado span').text(sCadena);
+
+                //$(item).val(sTotal);
+            }
+        }
+
+        function PintarGraficaLiquidez() {
+            var listSoles = @Html.Raw(Json.Encode(ViewBag.lstLiquidezSoles));
+            var listDolares = @Html.Raw(Json.Encode(ViewBag.lstLiquidezDolares));
+
+            var lstchart1 = [];
+            var lstchart2 = [];
+
+            var jsMeses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            var jsSortMeses = [];
+
+            /*for (var i = 0; i < 12; i++) {
+                lstchart1.push([12 - i, listSoles[i].Monto]);
+                lstchart2.push([12 - i, listDolares[i].Monto]);
+            }*/
+
+            for (var i = 0; i < 12; i++) {
+                lstchart1.push([12 - i, listSoles[i].Monto]);
+                lstchart2.push([12 - i, listDolares[i].Monto]);
+                jsSortMeses.push([12 - i, jsMeses[listSoles[i].Mes - 1]]);
+            }
+
+            //jsSortMeses.push([i+1, jsMeses[listSoles[i].Mes - 1]]);
+            //[[ 1, 'Ene' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Abr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Ago' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dic' ]]
+
+            $.plot($("#flot-chart"), [ {
+                data:lstchart1,
+                label:'Soles',
+                points: { show: true, radius: 1},
+                splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 }}, {
+                    data:lstchart2,
+                    label:'Dólares',
+                    points: { show: true, radius: 1},
+                    splines: { show: true, tension: 0.4, lineWidth: 1, fill: 0.8 }}], {
+                        colors: ['#23b7e5', '#7266ba'],
+                        series: { shadowSize: 3 },
+                        xaxis:{
+                            font: { color: '#a1a7ac' },
+                            position: 'bottom',
+                            ticks: jsSortMeses
+                        },
+                        yaxis:{ font: { color: '#a1a7ac' } },
+                        grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                        tooltip: true,
+                        tooltipOpts: { content: '%y.2',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+                    });
+        }
+
+        function PintarGraficaRentabilidad() {
+            var list = @Html.Raw(Json.Encode(ViewBag.lstRentabilidad));
+
+            var lstchart = [];
+            for (var i = 0; i < 12; i++) {
+                lstchart.push([12 - i, list[i].Monto]);
+            }
+
+            $.plot($("#flot-chart2"), [{
+                data:lstchart,
+                lines: { show: true, lineWidth: 1, fill:true, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
+            }], {
+                colors: ['#e8eff0'],
+                series: { shadowSize: 3 },
+                xaxis:{ font: { color: '#a1a7ac' } },
+                yaxis:{ font: { color: '#a1a7ac' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                tooltip: true,
+                tooltipOpts: { content: '%y',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+            });
+        }
+
+        function PintarGraficaFacturacion() {
+            var list1 = @Html.Raw(Json.Encode(ViewBag.lstFacturacion));
+            var list2 = @Html.Raw(Json.Encode(ViewBag.lstFacturacionLastYear));
+
+            var lstchart1 = [], lstchart2 = [];
+            //Mes Actual
+            var facMes = (new Date()).getMonth() + 1;
+
+            for (var i = 0; i < 12; i++) {
+                if(list1[i].Mes <= facMes)
+                { lstchart1.push([12 - i, list1[i].Monto]); }
+                lstchart2.push([12 - i, list2[i].Monto]);
+            }
+
+            $.plot($("#flot-chart2"), [{
+                data:lstchart1,
+                lines: { show: true, lineWidth: 2, fill: false, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
+            },
+            {
+                data:lstchart2,
+                lines: { show: true, lineWidth: 2, fill: false, fillColor: { colors: [{opacity: 0.2}, {opacity: 0.8}] } }
+            }], {
+                colors: ['#7f8c8d', '#e8eff0'],
+                series: { shadowSize: 0 },
+                xaxis:{
+                    font: { color: '#a1a7ac' },
+                    position: 'bottom',
+                    ticks: [
+                      [ 1, 'Ene' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Abr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Ago' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dic' ]
+                    ]
+                },
+                yaxis:{ font: { color: '#a1a7ac' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' },
+                tooltip: true,
+                tooltipOpts: { content: '%y',  defaultTheme: false, shifts: { x: 10, y: -25 } }
+            });
+        }
+
+        function PintarPieIngresos()
+        {
+            var list = @Html.Raw(Json.Encode(ViewBag.topIngAreas));
+
+            var lstchart = [];
+            var sPie = "";
+
+            var maxAreas = Object.size(list);
+            if (maxAreas <= 0) {
+                return 0;
+            }
+
+            for (var i = 0; i < maxAreas; i++) {
+                //sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
+                var obj = {label:list[i].Nombre, data:(list[i].Porcentaje * 100).toFixed(2).toString()};
+                lstchart.push(obj);
+                //if (i != maxAreas - 1) { sPie += ","; }
+            }
+
+            $.plot($("#pie-chart"), lstchart,
+                { series:
+                          { pie:
+                            { show: true,
+                                innerRadius: 0.5,
+                                stroke: { width: 0 },
+                                label: { show: true, threshold: 0.05 }
+                            }
+                          },
+                    colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                    tooltip: true,
+                    tooltipOpts: { content: '%s: %p.0%' }
+                });
+        };
+
+        function PintarPieEgresos()
+        {
+            var list = @Html.Raw(Json.Encode(ViewBag.topEgrAreas));
+
+            var lstchart = [];
+            var sPie = "";
+
+            var maxAreas = Object.size(list);
+            if (maxAreas <= 0) {
+                return 0;
+            }
+
+            for (var i = 0; i < maxAreas; i++) {
+                //sPie += "{'label':'" + list[i].Nombre + "','data':" + (list[i].Porcentaje * 100).toFixed(2).toString() + "}";
+                var obj = {label:list[i].Nombre, data:(list[i].Porcentaje * 100).toFixed(2).toString()};
+                lstchart.push(obj);
+                //if (i != maxAreas - 1) { sPie += ","; }
+            }
+
+            $.plot($("#pie-chart2"), lstchart,
+                { series:
+                          { pie:
+                            { show: true,
+                                innerRadius: 0.5,
+                                stroke: { width: 0 },
+                                label: { show: true, threshold: 0.05 }
+                            }
+                          },
+                    colors: ['#7266ba','#23b7e5','#27c24c','#fad733','#f05050','#2f3342'],
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                    tooltip: true,
+                    tooltipOpts: { content: '%s: %p.0%' }
+                });
+        }
+
+        Object.size = function(obj){
+            var size = 0, key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) size++;
+            }
+            return size;
+        }
+
+        function ObtenerTipoCambio()
+        {
+            var todayDate = new Date($.now());
+            var todayMonth = todayDate.getMonth() + 1;
+            var todayYear = todayDate.getFullYear();
+
+            var tcUrl = 'http://code.staffsystems.us/webservices/tipo-de-cambio/serverside.php?work=get_sunat&mes=' + (todayDate.getMonth() + 1) + '&anho=' + todayDate.getFullYear();
+
+            jQuery.support.cors = true;
+            $.ajax({
+                url: tcUrl,
+                type: 'GET',
+                //crossDomain: true,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (message) {
+                    //alert(x + '\n' + y + '\n' + z);
+                    //alert(message);
+                    console.log(message);
+                }
+            });
+            /*$.ajax({
+                type: "GET",
+                url: tcUrl,
+                beforeSend: function (request) {
+                    request.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (message) {
+                    console.log(data);
+                }
+            });*/
+        }
+
+    </script>
+}
+
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="app.settings.asideFolded=false;app.settings.asideDock=false;">
+    <div class="col">
+        <!-- main header -->
+        <div class="bg-light lter b-b wrapper-md">
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <h1 class="m-n font-thin h3 text-black">Dashboard</h1>
+                    <small class="text-muted">Bienvenido a Nube Books.</small>
+                </div>
+                <div class="col-sm-6 text-right hidden-xs">
+                    @*@{
+                        int totalMovs = ((List<int>)ViewBag.contMovimientos).Sum(x => x);
+                        int totalCmps = ((List<int>)ViewBag.contComprobantes).Sum(x => x);
+                        string vMovs = "[", vCmps = "[";
+                        int contTMC = 0;
+                        foreach (var item in (List<int>)ViewBag.contMovimientos)
+                        {
+                            if (contTMC != 11) { vMovs += item.ToString() + ","; }
+                            else { vMovs += item.ToString() + "]"; }
+                            contTMC++;
+                        }
+                        contTMC = 0;
+                        foreach (var item in (List<int>)ViewBag.contComprobantes)
+                        {
+                            if (contTMC != 11) { vCmps += item.ToString() + ","; }
+                            else { vCmps += item.ToString() + "]"; }
+                            contTMC++;
+                        }
+                    }*@
+                    @*<div class="inline m-r text-left">
+                        <div class="m-b-xs">@totalMovs <span class="text-muted">movimientos</span></div>
+                        <div ng-init=@("d3_1=" + vMovs)
+                             ui-jq="sparkline"
+                             ui-options="@(vMovs), {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
+                             class="sparkline inline">
+                            cargando...
+                        </div>
+                    </div>
+                    <div class="inline text-left">
+                        <div class="m-b-xs">@totalCmps <span class="text-muted">comprobantes</span></div>
+                        <div ng-init=@("d3_2=" + vCmps)
+                             ui-jq="sparkline"
+                             ui-options="@(vCmps), {type:'bar', height:20, barWidth:5, barSpacing:1, barColor:'#dce5ec'}"
+                             class="sparkline inline">
+                            cargando...
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <!-- / main header -->
+        <div class="wrapper-md" ng-controller="FlotChartDemoCtrl">
+            <!-- stats -->
+            <div class="row">
+                @Html.Partial("_showAlertMessages")
+                <div class="col-md-5">
+                    <div class="row row-sm text-center">
+                        <div class="col-xs-6">
+                            <div class="panel padder-v bg-info item">
+                                <div class="h1 text-white font-thin h1">@ViewBag.FechaConciliacion</div>
+                                <span class="text-muted text-xs">Última fecha de conciliación</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" class="block panel padder-v bg-primary item">
+                                <span class="text-white font-thin h1 block" id="tipoCambio">@ViewBag.TipoCambio</span>
+                                <span class="text-muted text-xs">Tipo de Cambio</span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" class="block panel padder-v item">
+                                <span class="font-thin h3 block">S/ @ViewBag.TotalSoles.ToString("N2", CultureInfo.InvariantCulture)</span>
+                                <span class="text-muted text-xs">SOLES</span>
+                                @{ var arrow1 = ViewBag.TotalSoles >= ViewBag.TotalSolesOld ? "up" : "down";
+                                    var color1 = arrow1 == "up" ? "success" : "danger";}
+                                <span class="bottom text-left">
+                                    <i class="fa fa-caret-@arrow1 text-@color1 m-l-sm"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" class="block panel padder-v item">
+                                <span class="font-thin h3 block">$ @ViewBag.TotalDolares.ToString("N2", CultureInfo.InvariantCulture)</span>
+                                <span class="text-muted text-xs">DÓLARES</span>
+                                @{ var arrow2 = ViewBag.TotalDolares >= ViewBag.TotalDolaresOld ? "up" : "down";
+                                    var color2 = arrow2 == "up" ? "success" : "danger"; }
+                                <span class="bottom text-left">
+                                    <i class="fa fa-caret-@arrow2 text-@color2 m-l-sm"></i>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 m-b-md">
+                            <div class="r bg-light dker item hbox no-border">
+                                <div class="col w-xs v-middle hidden-md">
+                                    @{
+                                        var pSoles = ViewBag.TotalConsolidado != 0 ? ViewBag.TotalSoles / ViewBag.TotalConsolidado : 0;
+                                        var pDolares = ViewBag.TotalConsolidado != 0 ? (ViewBag.TotalConsolidado - ViewBag.TotalSoles) / ViewBag.TotalConsolidado : 0;
+                                    }
+                                    <div ng-init="d3_3=[@pDolares,@pSoles]" ui-jq="sparkline" ui-options="[@pDolares,@pSoles], {type:'pie', height:60,  tooltipFormat: '{{offset:offset}} ({{percent.1}}%)', tooltipValueLookups: {'offset': {0:'Dólares',1:'Soles'}}, sliceColors:['#1a9c39','#fad733']}" class="sparkline inline"></div>
+                                </div>
+                                <div class="col dk padder-v r-r">
+                                    <div id="total_consolidado" class="text-primary-dk font-thin h1"><span>@ViewBag.sMoneda @ViewBag.TotalConsolidado.ToString("N2", CultureInfo.InvariantCulture)</span></div>
+                                    <span class="text-muted text-xs">CONSOLIDADO</span>
+                                </div>
+                                @{ 
+                                    var colorTMoneda = ViewBag.TipoMoneda == 1 ? "warning" : "success";
+                                }
+                                <div id="pie_consolidado" class="col w-xs v-middle hidden-md bg-@colorTMoneda dker">
+                                    <a href="#"><i class="fa fa-money fa-3x"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="panel wrapper">
+                        <h4 class="font-thin m-t-none m-b text-muted">Liquidez de la Empresa</h4>
+                        <div id="flot-chart" style="height:246px"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- / stats -->
+            <!-- service -->
+            <div class="panel hbox hbox-auto-xs no-border">
+                <div class="col wrapper">
+                    <h4 class="font-thin m-t-none m-b-none text-primary-lt h3">Facturación (@(ViewBag.sMoneda))</h4>
+                    @*<span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>*@
+                    <span class="m-b block text-sm text-muted">Información actualizada al @System.DateTime.Now.ToShortDateString()</span>
+                    <div id="flot-chart2" style="height:240px"></div>
+                </div>
+                <div class="col wrapper-lg w-lg bg-light dk r-r">
+                    <h4 class="font-thin m-t-none m-b">Variación Porcentual</h4>
+                    <div>
+                        @{ var sColor = ""; int mesActual = DateTime.Now.Month;
+                            List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
+                        @foreach (var mes in lstVPorcentualDesc)
+                        {
+                            
+                                sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
+                                <div>
+                                    @if (mes.Mes <= mesActual) {
+                                        <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "-" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
+                                    }
+                                    <span>@mes.nombreMes</span>
+                                </div>
+                            
+                        }
+                    </div>
+                    @*<div class="">
+                        <div class="">
+                            @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
+                                Decimal PreEgr = ViewBag.EjecucionEgresos * 100;}
+                            <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionIngresos)</span>
+                            <span>Ingresos</span>
+                        </div>
+                        <div class="progress progress-xs m-t-sm bg-white">
+                            <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="@(PreIng.ToString() + "%")" style="width: @(PreIng.ToString() + "%")"></div>
+                        </div>
+                        <div class="">
+                            <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionEgresos)</span>
+                            <span>Egresos</span>
+                        </div>
+                        <div class="progress progress-xs m-t-sm bg-white">
+                            <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="@(PreEgr.ToString() + "%")" style="width: @(PreEgr.ToString() + "%")"></div>
+                        </div>
+                    </div>
+                    <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>*@
+                </div>
+            </div>
+            <!-- / service -->
+            <!-- Ingresos y Egresos -->
+            <div class="panel wrapper">
+                <h4 class="font-thin m-t-none m-b text-muted">Avance de Presupuesto</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row row-sm">
+                            @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
+                                Decimal PreEgr = ViewBag.EjecucionEgresos * 100; }
+                            <div class="col-xs-6 text-center">
+                                <div ui-jq="easyPieChart" ui-options="{
+                          percent: @PreIng,
+                          lineWidth: 4,
+                          trackColor: '#e8eff0',
+                          barColor: '#27c24c',
+                          scaleColor: false,
+                          size: 115,
+                          rotate: 90,
+                          lineCap: 'butt'
+                        }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
+                                    <div>
+                                        <span class="text-dark h4">@String.Format("{0:P2}", ViewBag.EjecucionIngresos)</span>
+                                    </div>
+                                    <canvas width="230" height="230" style="width: 115px; height: 115px;"></canvas>
+                                </div>
+                                <div class="text-muted font-bold text-xs m-t m-b">Ingresos</div>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <div ui-jq="easyPieChart" ui-options="{
+                          percent: @PreEgr,
+                          lineWidth: 4,
+                          trackColor: '#e8eff0',
+                          barColor: '#fad733',
+                          scaleColor: false,
+                          size: 115,
+                          rotate: 180,
+                          lineCap: 'butt'
+                        }" class="inline m-t easyPieChart" style="width: 115px; height: 115px; line-height: 115px;">
+                                    <div>
+                                        <span class="h4">@String.Format("{0:P2}", ViewBag.EjecucionEgresos)</span>
+                                    </div>
+                                    <canvas width="230" height="230" style="width: 115px; height: 115px;"></canvas>
+                                </div>
+                                <div class="text-muted font-bold text-xs m-t m-b">Egresos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel wrapper-md bg-white-only b-b">
+                <div class="row text-center">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Cobrar</h4>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXCobrar_Soles.ToString("N2", CultureInfo.InvariantCulture)</i></div>
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXCobrar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Pagar</h4>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXPagar_Soles.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXPagar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tasks -->
+            <div class="panel wrapper">
+                <div class="row">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <a href="#" class="text-muted pull-right text-lg"><i class="icon-arrow-right"></i></a>
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Principales Clientes</h4>
+                        <div class=" m-b">
+                            @{ int contador1 = 0; }
+                            @foreach (var item in (List<EntidadResponsableR_DTO>)ViewBag.top5Clientes)
+                            {
+                                <div class="m-b">
+                                    <span class="label text-base bg-@(contador1 < 2 ? "success" : "light") pos-rlt m-r"> @String.Format("{0:P2}", item.Porcentaje)</span>
+                                    <a href="#">@item.Nombre</a>
+                                </div>
+                                contador1++;
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <a href="#" class="text-muted pull-right text-lg"><i class="icon-arrow-right"></i></a>
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Principales Proveedores</h4>
+                        <div class=" m-b">
+                            @{ int contador2 = 0; }
+                            @foreach (var item in (List<EntidadResponsableR_DTO>)ViewBag.top5Proveedores)
+                            {
+                                <div class="m-b">
+                                    <span class="label text-base bg-@(contador2 < 2 ? "warning" : "light") pos-rlt m-r"> @String.Format("{0:P2}", item.Porcentaje)</span>
+                                    <a href="#">@item.Nombre</a>
+                                </div>
+                                contador2++;
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / tasks -->
+            <!-- tasks -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading font-bold">Ingresos por Área</div>
+                        <div class="panel-body">
+                            <div id="pie-chart" style="height: 240px; padding: 0px; position: relative;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading font-bold">Egresos por Área</div>
+                        <div class="panel-body">
+                            <div id="pie-chart2" style="height: 240px; padding: 0px; position: relative;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / tasks -->
+        </div>
+    </div>
+</div>

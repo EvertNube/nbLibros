@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "NuevaProforma";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">Registro de proforma</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form onsubmit="return Save();">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3 col-lg-3">
+                            <label>Consultor</label>
+                            @*@Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                            @Html.DropDownList("ddlconsultor", (SelectList)ViewBag.lstResponsables, "--Seleccione--", new { id = "ddlconsultor", @class = "form-control", @required= "required" })
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-lg-3">
+                            <label class="control-label">Cliente</label>
+                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })*@
+                            @Html.DropDownList("ddlcliente", (SelectList)ViewBag.lstClientes, "--Seleccione--", new { id = "ddlcliente", @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-lg-3">
+                            <label class="control-label">Forma de Pago</label>
+                            <input class="form-control" type="text" id="txtformapago"/>
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-lg-3">
+                            <label class="control-label">Lugar de Entrega</label>
+                            <input class="form-control" type="text" id="txtlugarentrega"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3 col-lg-3">
+                            <label>Fecha Entrega</label>
+                            <div class="input-group date">
+                                <input type="text" id="txtfechaentrega" class="form-control" placeholder="Fecha de entrega" required/>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3 col-lg-3">
+                            <label class="control-label">Tipo de cambio</label>
+                            <input class="form-control" id="txttipocambio" value="3.362" placeholder="Ingrese el tipo de cambió" required />
+                        </div>
+                        <div class="col-xs-12 col-md-2 col-lg-3">
+                            <label class="control-label">Porcentaje IGV</label>
+                            <input class="form-control" id="txtprocentajeigv" value="18" placeholder="Ingrese el porcentaje de igv" required />
+                        </div>
+                        <div class="col-xs-12 col-md-2 col-lg-3">
+                            <label class="control-label">Ubicación</label>
+                            @Html.DropDownList("ddlubicacion", (SelectList)ViewBag.lstUbicacion, "--Seleccione--", new { id = "ddlubicacion", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6 col-lg-6">
+                            <label class="control-label">Selecciona Item</label>
+                            @Html.DropDownList("ddlitem", (SelectList)ViewBag.lstItem, "--Seleccione--", new { id = "ddlitem", @class = "form-control"})
+                        </div>
+                        <div class="col-xs-12 col-md-6 col-lg-6"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="table-responsive">
+                                <table id="tblitem" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                            <td>P. Unidad</td>
+                                            <th>Igv</th>
+                                            <th>Total</th>
+                                            <td>Eliminar</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5" class="text-right"><strong>Total IGV</strong></td>
+                                            <td><span class="totaligv"></span></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right"><strong>Total</strong></td>
+                                            <td class=""><span class="total"></span></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-save"></span>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalWait" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div style="width: 50%;" class="modal-dialog modal-vertical-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="margin-bottom: -20px;">
+                <h2 style="text-align: center">Sistema Evolta &nbsp;&nbsp;&nbsp;</h2>
+            </div>
+            <div class="modal-body small" style="font-size: 12px; margin-bottom: -40px;">
+                <div class="row" style="text-align: center">
+                    <table style="width: 100%">
+                        <tr>
+                            <td>
+                                <h5>Se esta procesando la información</h5>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnClosePopup" class="btn btn-default" data-dismiss="modal" style="visibility: hidden">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        var item = [];
+        Number.prototype.round = function (places) {
+            return +(Math.round(this + "e+" + places) + "e-" + places);
+        }
+        $(function () {
+            //$('.input-group.date').datepicker();
+            $("#ddlitem").on('change', function () {
+                var ele = $(this).val();
+                if (ele != "")
+                {
+                    if ($("#txtprocentajeigv").val() == "") { alert('Debe de ingresar un porcentage de igv'); return; }
+                    var itembus = $.grep(item, function (e, i) { return (e.IdItem == ele); })[0];
+                    if (itembus != undefined) { alert('El Item ' + itembus.Nombre + ', ya esta en la proforma seleccione otro'); return; }
+                    //var cantidad = $("#tblitem tbody tr").lenght;
+                    $("#tblitem tbody").empty();
+                    var items = {};
+                    items.IdItem = ele;
+                    items.Nombre = $('#ddlitem option:selected').text();
+                    items.Cantidad = "";
+                    items.PrecioUnidad = "";
+                    items.TipoCambio=$("#txttipocambio").val()
+                    items.PorcentajeIgv = parseFloat($("#txtprocentajeigv").val());
+                    items.Igv = "";
+                    items.Total = "";
+                    item.push(items);
+
+                    $.each(item, function (i, e) {
+                        $("#tblitem tbody").append('<tr><td>' + (i+1) + '</td><td>' + e.Nombre + '</td><td><input type="text" class="form-control cantidad" data-id="' + e.IdItem + '" value="' + e.Cantidad
+                            + '" /></td><td><input type="text" class="form-control precio" data-id="' + e.IdItem + '" value="' + e.PrecioUnidad + '" /></td><td>' + e.Igv +
+                            '</td><td>' + e.Total + '</td><td><span class="glyphicon glyphicon-remove" data-id="' + i + '" style="cursor:pointer"></span></td></tr>');
+                    });
+                    $(".cantidad").on('keyup', function () {
+                        var id = $(this).data('id'), valor = $(this).val();
+                        var tr = $(this).parents('tr');
+                        if (valor != "") {
+                            var items = $.grep(item, function (e, i) { return (e.IdItem == id) })[0];
+                            if (items != undefined) {
+                                items.Cantidad = parseInt(valor);
+                                if (items.PrecioUnidad != "" && items.PrecioUnidad != 0)
+                                {
+                                    items.Igv = ((items.Cantidad * items.PrecioUnidad) * (items.PorcentajeIgv / 100)).round(2);
+                                    items.Total = ((items.Cantidad * items.PrecioUnidad) + items.Igv).round(2);
+                                    tr.find('td:eq(4)').text(items.Igv);
+                                    tr.find('td:eq(5)').text(items.Total);
+                                }
+                            }
+                        }
+                        var total = 0, igv = 0;
+                        $.each(item, function (i, e) { total += e.Total; igv += e.Igv;});
+                        $(".totaligv").text(igv.round(2));
+                        $(".total").text(total.round(2));
+                    });
+                    $(".precio").on('keyup', function () {
+                        var id = $(this).data('id'), valor = $(this).val();
+                        var tr = $(this).parents('tr');
+                        if (valor != "") {
+                            var items = $.grep(item, function (e, i) { return (e.IdItem == id) })[0];
+                            if (items != undefined) {
+                                items.PrecioUnidad = parseInt(valor);
+                                if (items.Cantidad != "" && items.Cantidad != 0) {
+                                    items.Igv = ((items.Cantidad * items.PrecioUnidad) * (items.PorcentajeIgv / 100)).round(2);
+                                    items.Total = ((items.Cantidad * items.PrecioUnidad) + items.Igv).round(2);
+                                    tr.find('td:eq(4)').text(items.Igv);
+                                    tr.find('td:eq(5)').text(items.Total);
+                                }
+                            }
+                        }
+                        var total = 0, igv = 0;
+                        $.each(item, function (i, e) { total += e.Total; igv += e.Igv; });
+                        $(".totaligv").text(igv.round(2));
+                        $(".total").text(total.round(2));
+                    });
+                }
+            });
+        });
+        function Save()
+        {
+            if ($("#tblitem tbody tr").length == 0) { alert('Debe registar al menos un item'); return false; }
+            var proforma = {};
+            proforma.IdResponsable = $("#ddlconsultor").val();
+            proforma.IdEntidadResponsable = $("#ddlcliente").val();
+            proforma.IdUbicacion = $("#ddlubicacion").val();
+            proforma.FormaPago = $("#txtformapago").val();
+            proforma.LugarEntrega = $("#txtlugarentrega").val();
+            //proforma.Estado = $("#").val();
+            proforma.FechaEntrega = $("#txtfechaentrega").val();
+            $.each(item,function (i, e) {
+                proforma["DetalleProforma[" + i + "].IdItem"] = e.IdItem;
+                proforma["DetalleProforma[" + i + "].NombreItem"] = e.Nombre;
+                proforma["DetalleProforma[" + i + "].Cantidad"] = e.Cantidad;
+                proforma["DetalleProforma[" + i + "].PrecioUnudad"] = e.PrecioUnidad;
+                proforma["DetalleProforma[" + i + "].MontoTotal"] = e.Total;
+                proforma["DetalleProforma[" + i + "].TipoCambio"] = e.TipoCambio;
+                proforma["DetalleProforma[" + i + "].ProcentajeIgv"] = e.PorcentajeIgv;
+                proforma["DetalleProforma[" + i + "].Igv"] = e.Igv;
+            });
+            myModalWait();
+            $.ajax({
+                url: '/Admin/SaveProforma',
+                type: "POST",
+                data: proforma,
+                success: function (data) {
+                    //var IdCotizador = data;
+                }
+            }).fail(function (jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                alert(err);
+            }).always(function () {
+                window.setTimeout(function () { $("#myModalWait").modal('hide'); }, 5000);
+            });
+            return false;
+        }
+        function myModalWait() {
+            $('#myModalWait').modal(
+                {
+                    backdrop: 'static',
+                    keyboard: false
+                }
+                );
+        }
+    </script>
+}

@@ -1,0 +1,183 @@
+﻿@using NubeBooks.Core.Logistics.DTO
+@using System.Globalization;
+@model List<MovimientoInvDTO>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
+            $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+        })
+
+        $('#modal-form').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var idElement = button.data('id');
+            var nroDocumento = button.data('nro');
+            var modal = $(this);
+            modal.find('.modal-title').text('Eliminar Elemento: ' + nroDocumento);
+            modal.find('.modal-body input').val(idElement);
+        });
+
+        $("input#delete").click(function () {
+            var idelement = $('form#form-delete').serialize();
+            $.ajax({
+                type: "POST",
+                url: miBaseUrl + "/DeleteMovimientoInv",
+                data: idelement,
+                success: function (msg) {
+                    $("#modal-form").modal('hide');
+                    window.location.href = miBaseUrl + "/InventariosIngreso";
+                },
+                error: function () {
+                    alert("failure");
+                }
+            });
+        });
+
+        $("input#exportar").click(function () {
+            window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+            $('#modal-form-exportar').modal('toggle');
+        });
+
+        function exportarDetalle(fechaInicio, fechaFin) {
+            var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return miBaseUrl + "/ExportarMovimientosInv/?idTipo=1&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+    </script>
+}
+
+<div class="bg-light lter b-b wrapper-md">
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <a href="@Url.Action("MovimientoInv", "Admin", new { id = 0, idTipo = 1 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+@Html.Partial("_showAlertMessages")
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    },
+    aaSorting: [[0,'desc']]
+}" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th style="width:7%">Fecha</th>
+                        <th>Movimiento</th>
+                        <th>Código Item</th>
+                        <th>Documento</th>
+                        <th>Cantidad</th>
+                        <th class="text-center">Unidad de<br />Medida</th>
+                        <th class="text-center">Lote</th>
+                        <th class="text-center">Stock<br />Lote</th>
+                        <th style="width:7%">Vencimiento</th>
+                        <th style="width:8%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                <td>@item.nForma</td>
+                                <td>@item.nItem</td>
+                                <td>@item.NroDocumento</td>
+                                <td>@item.Cantidad</td>
+                                <td>@item.UnidadMedida</td>
+                                <td class="text-center">@item.SerieLote</td>
+                                <td class="text-center">@item.StockLote</td>
+                                <td>@(item.FechaFin != null ? item.FechaFin.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE")) : "-")</td>
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                <td class="text-center">
+                                    <a href="@Url.Action("MovimientoInv", "Admin", new { id = item.IdMovimientoInv, idTipo = item.IdTipoMovimientoInv })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;&nbsp;
+                                    @if (!ViewBag.EsUsuarioExterno)
+                                    {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdMovimientoInv" data-nro="@item.NroDocumento"><i class="fa fa-times" title="Eliminar"></i></a>}
+                                </td>
+                            </tr>
+                                        }
+                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-task" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Eliminar Elemento: </h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de eliminar este elemento?</p>
+                <form id="form-delete" class="element" name="element">
+                    <input type="hidden" class="form-control" name="id" id="id-element">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="delete">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form-exportar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Exportar Inventarios</h4>
+            </div>
+            <div class="modal-body">
+                <form class="element" name="element">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <div class="form-group">
+                                <div class="input-group date">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin">Fecha Fin:</label>
+                            <div class="form-group">
+                                <div class="input-group date">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-success" type="submit" value="Exportar" id="exportar">
+            </div>
+        </div>
+    </div>
+</div>

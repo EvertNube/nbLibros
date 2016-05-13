@@ -1,0 +1,136 @@
+﻿@using NubeBooks.Core.DTO
+@using System.Globalization;
+@model IList<NubeBooks.Core.DTO.CuentaBancariaDTO>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('.input-group.date').datepicker();
+            $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
+            $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+
+            $("input#exportar").click(function () {
+                window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+                $('#modal-form-exportar').modal('toggle');
+            });
+        });
+
+        function exportarDetalle(fechaInicio, fechaFin) {
+            var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+
+            return miBaseUrl + "/ExportarLibros/?idTipoCuenta=2&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+
+        function handleClick(element) {
+            window.location.href = '@Url.Action("LibrosAdministrativos", "Admin")' + "?inactivos=" + element.checked;
+        }
+    </script>
+}
+
+<div class="bg-light lter b-b wrapper-md">
+    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <a href="@Url.Action("Libro", "Admin", new { id = 0, idTipoCuenta = 2 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
+</div>
+@Html.Partial("_showAlertMessages")
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    }
+}" class="table table-striped b-t b-b dataTable">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:25%">Nombre</th>
+                        <th class="text-center" style="width:25%">Fecha</th>
+                        <th class="text-center">Saldo Total</th>
+                        <th class="text-center" style="width:10%">Estado</th>
+                        <th style="width:8%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td >@item.NombreCuenta</td>
+                                <td class="text-center">@item.FechaConciliacion.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                <td class="text-center">@item.SimboloMoneda @item.SaldoDisponible.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                @{ var eColor = item.Estado ? "#27c24c" : "red"; }
+                                <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                <td class="text-center">
+                                    <a href="@Url.Action("Libro", "Admin", new { id = item.IdCuentaBancaria, idTipoCuenta = 2 })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>
+                                </td>
+                            </tr>
+                                        }
+                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="checkbox">
+        <label class="i-checks">
+            <input type="checkbox" value="@(ViewBag.vbInactivos == true ? "true" : "false")" checked="@ViewBag.vbInactivos" onclick="handleClick(this);"><i></i> Mostrar Inactivos
+        </label>
+    </div>
+</div>
+
+<div class="modal fade modal-task" id="modal-form-exportar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Exportar Comprobantes</h4>
+            </div>
+            <div class="modal-body">
+                <form class="element" name="element">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <div class="form-group">
+                                <div class="input-group date">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin">Fecha Fin:</label>
+                            <div class="form-group">
+                                <div class="input-group date">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control clsDatePicker" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-success" type="submit" value="Exportar" id="exportar">
+            </div>
+        </div>
+    </div>
+</div>
