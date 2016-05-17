@@ -545,7 +545,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public List<AreaNDTO> getListaAreasEnEmpresa(int idEmpresa, bool? esNull = false)
+        public List<AreaNDTO> getListaAreasEnEmpresa(int idEmpresa, bool esNull = true)
         {
             //SOLO ACTIVOS
             using (var context = getContext())
@@ -557,7 +557,7 @@ namespace NubeBooks.Core.BL
                     Estado = x.Estado
                 }).OrderBy(x => x.Nombre).ToList();
 
-                if (esNull != null)
+                if (esNull)
                 {
                     result.Insert(0, new AreaNDTO() { IdArea = null, Nombre = "Seleccione un área" });
                 }

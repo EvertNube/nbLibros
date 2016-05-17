@@ -65,19 +65,6 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public IList<EntidadResponsableDTO> getEntidadesResponsablesPorTipo_VB_EnEmpresa(int idEmpresa, int pTipoEntidad, bool AsSelectList = false)
-        {
-            if (!AsSelectList)
-                return getEntidadesResponsablesPorTipo_Activos_EnEmpresa(idEmpresa, pTipoEntidad);
-            else
-            {
-                var lista = getEntidadesResponsablesPorTipo_Activos_EnEmpresa(idEmpresa, pTipoEntidad);
-                lista.Insert(0, new EntidadResponsableDTO() { IdEntidadResponsable = null, Nombre = "Seleccione la Entidad Responsable" });
-                return lista;
-            }
-        }
-
-
         public List<EntidadResponsableDTO> getEntidadesResponsablesActivasPorTipoEnEmpresa(int idEmpresa, int pTipoEntidad)
         {
             using (var context = getContext())

@@ -78,7 +78,6 @@
     <Compile Include="BL\ReportesBL.cs" />
     <Compile Include="BL\ResponsableBL.cs" />
     <Compile Include="BL\TipoMovimientoBL.cs" />
-    <Compile Include="BL\UbicacionBL.cs" />
     <Compile Include="BL\UsuariosBL.cs" />
     <Compile Include="DTO\AreaDTO.cs" />
     <Compile Include="DTO\AreaNDTO.cs" />
@@ -116,7 +115,6 @@
     <Compile Include="DTO\TipoEntidadDTO.cs" />
     <Compile Include="DTO\TipoIdentificacionDTO.cs" />
     <Compile Include="DTO\TipoMovimientoDTO.cs" />
-    <Compile Include="DTO\UbicacionDTO.cs" />
     <Compile Include="DTO\UsuarioDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

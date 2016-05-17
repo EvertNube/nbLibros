@@ -753,14 +753,11 @@ namespace NubeBooks.Controllers
 
             ViewBag.IdTipoCuenta = objLibro.IdTipoCuenta;
             ViewBag.lstTipoMovs = objBL.getTiposMovimientos();
-            ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta != 2 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
-            //ViewBag.lstFormaMovs = objBL.Select2_lstFormaDeMovimientos();
+            ViewBag.lstFormaMovs = ViewBag.IdTipoCuenta == 1 ? objBL.getListaFormaDeMovimientos() : objBL.getListaFormaDeMovimientosBasic();
 
             EntidadResponsableBL entBL = new EntidadResponsableBL();
             ViewBag.TipoEntidades = entBL.getTipoDeEntidades();
             ViewBag.EntidadesResponsables = objBL.getEntidadesResponsablesEnEmpresa(miUsuario.IdEmpresa, false);
-            //EntidadResponsableBL EntidadBL = new EntidadResponsableBL();
-            //ViewBag.EntidadesResponsables = EntidadBL.getEntidadesResponsablesPorTipo_VB_EnEmpresa(miUsuario.IdEmpresa, 1, true);
 
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true);
             ViewBag.NombreCategoria = "Sin Categoría";
@@ -1400,7 +1397,7 @@ namespace NubeBooks.Controllers
             ViewBag.lstClientes = objBL.getListaClientesEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstProveedores = objBL.getListaProveedoresEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstMonedas = objBL.getListaMonedas();
-            ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa, true);
+            ViewBag.lstAreas = objBL.getListaAreasEnEmpresa(currentUser.IdEmpresa, false);
             ViewBag.lstResponsables = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstHonorarios = objBL.getListaHonorariosEnEmpresa(currentUser.IdEmpresa);
             ViewBag.Proyectos = new List<ProyectoDTO>();
@@ -1646,6 +1643,7 @@ namespace NubeBooks.Controllers
 
             MovimientoInvBL objBL = new MovimientoInvBL();
 
+            ViewBag.lstTipoMovimientoInv = objBL.getTipoMovimientoInv();
             ViewBag.lstFormaMovimiento = objBL.getFormaMovimientoInvPorTipo(tipo);
             ViewBag.lstItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
             ViewBag.lstProveedores = objBL.getProveedoresEnEmpresa(user.IdEmpresa);
@@ -2242,7 +2240,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Honorarios";
-            MenuNavBarSelected(7, 0);
+            MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -2266,7 +2264,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Honorario";
-            MenuNavBarSelected(7, 0);
+            MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -2643,14 +2641,17 @@ namespace NubeBooks.Controllers
         }
 
         [HttpPost]
-        public string ActualizarEstadoEnMovimiento(int idMovimiento)
+        public JsonResult ActualizarEstadoEnMovimiento(int idMovimiento)
         {
-            if (!this.currentUser() || isUsuarioExterno()) return "false";
+            Decimal SaldoBancario = 0;
+            if (!this.currentUser() || isUsuarioExterno()) return Json(new { SaldoBancario }, JsonRequestBehavior.AllowGet);
 
             UsuarioDTO miUsuario = getCurrentUser();
             MovimientoBL obj = new MovimientoBL();
             obj.ActualizarEstadoMovimiento(idMovimiento);
-            return "true";
+            SaldoBancario = obj.ActualizarSaldoBancarioEnMovimiento_Decimal(idMovimiento);
+            //ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
+            return Json(new { SaldoBancario }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -2870,7 +2871,7 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Nivel");
             dt.Columns.Add("Partida de Presupuesto");
-            dt.Columns.Add("TOTAL SIN IGV");
+            dt.Columns.Add("MONTO SIN IGV");
             dt.Columns.Add("PRESUPUESTO SIN IGV");
             dt.Columns.Add("EJECUCION DEL PRESUPUESTO");
 
@@ -3347,7 +3348,7 @@ namespace NubeBooks.Controllers
         }
         public ActionResult GenerarRep_DetalleIngresosYGastosPorPartidaDePresupuesto(int IdCategoria, DateTime? FechaInicio, DateTime? FechaFin)
         {
-            if (FechaInicio == null || FechaFin == null)
+            if (FechaInicio == null || FechaFin == null || IdCategoria == 0)
             {
                 return RedirectToAction("ReportesPresupuestos", new { message = 1 });
             }
@@ -3371,7 +3372,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Documento");
             dt.Columns.Add("# Documento");
             dt.Columns.Add("Moneda");
-            dt.Columns.Add("Monto Total");
+            dt.Columns.Add("Monto Sin IGV");
             dt.Columns.Add("Area(s)");
             dt.Columns.Add("Comentario");
 
@@ -3387,7 +3388,7 @@ namespace NubeBooks.Controllers
                 row["Documento"] = obj.NombreDocumento;
                 row["# Documento"] = obj.NroDocumento;
                 row["Moneda"] = obj.Moneda;
-                row["Monto Total"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 row["Area(s)"] = obj.Areas;
                 row["Comentario"] = obj.Comentario;
 
@@ -3395,7 +3396,7 @@ namespace NubeBooks.Controllers
             }
             PintarGastoPorPartidaPresupuesto(catArbol.Hijos.ToList(), dt);
 
-            GenerarPdf2(dt, "Partida de Presupuesto Movimientos", "PartidaDePresupuestos_Movimientos", objEmpresa, FechaInicio, FechaFin, Response);
+            GenerarPdf2(dt, "Movimientos por Partida de Presupuesto", "Movimientos_porPartidaDePresupuesto", objEmpresa, FechaInicio, FechaFin, Response);
 
             return RedirectToAction("ReportesPresupuestos", new { message = 2 });
         }
@@ -3504,6 +3505,12 @@ namespace NubeBooks.Controllers
                 row["Monto Sin IGV"] = obj.Ingreso_SinIGV.ToString("N2", CultureInfo.InvariantCulture);
                 dt.Rows.Add(row);
             }
+
+            DataRow rowFinal = dt.NewRow();
+            rowFinal["Mes"] = "TOTAL";
+            rowFinal["Monto Con IGV"] = lista.Sum(x => x.Ingreso).ToString("N2", CultureInfo.InvariantCulture);
+            rowFinal["Monto Sin IGV"] = lista.Sum(x => x.Ingreso_SinIGV).ToString("N2", CultureInfo.InvariantCulture);
+            dt.Rows.Add(rowFinal);
 
             GenerarPdf6(dt, "Ventas por Mes", "Ventas_por_Mes", objEmpresa, Response);
 
@@ -4018,7 +4025,7 @@ namespace NubeBooks.Controllers
                     row2["Documento"] = com.NombreDocumento;
                     row2["# Documento"] = com.NroDocumento;
                     row2["Moneda"] = com.Moneda;
-                    row2["Monto Total"] = com.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                    row2["Monto Sin IGV"] = com.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
                     row2["Area(s)"] = com.Areas;
                     row2["Comentario"] = com.Comentario;
 
@@ -4033,7 +4040,7 @@ namespace NubeBooks.Controllers
             row["Nivel"] = obj.Nivel;
             row["Partida de Presupuesto"] = obj.Nombre;
             Decimal pMonto = lstCatMontos.SingleOrDefault(x => x.IdCategoria == obj.IdCategoria).Presupuesto.GetValueOrDefault();
-            row["TOTAL SIN IGV"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
+            row["MONTO SIN IGV"] = pMonto.ToString("N2", CultureInfo.InvariantCulture);
             row["PRESUPUESTO SIN IGV"] = obj.Presupuesto.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
             Decimal porcentaje = obj.Presupuesto.GetValueOrDefault() != 0 ? pMonto / obj.Presupuesto.GetValueOrDefault() : 0;
             row["EJECUCION DEL PRESUPUESTO"] = Math.Abs(porcentaje).ToString("P2", CultureInfo.InvariantCulture);
@@ -4226,6 +4233,7 @@ namespace NubeBooks.Controllers
                 return RedirectToAction("Index", "Admin");
             }
 
+            string sTipoComprobante = idTipoComprobante == 1 ? "Ingreso" : "Egreso";
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             ReportesBL repBL = new ReportesBL();
@@ -4264,7 +4272,7 @@ namespace NubeBooks.Controllers
             foreach (var obj in lstComprobantes)
             {
                 System.Data.DataRow row = dt.NewRow();
-                row["Fecha"] = obj.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row["Fecha"] = obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
                 row["Documento"] = obj.NombreTipoDocumento;
                 row["Numero"] = obj.NroDocumento;
                 row[strEntidad] = obj.NombreEntidad;
@@ -4275,7 +4283,7 @@ namespace NubeBooks.Controllers
                 row["Monto Total (ME)"] = obj.IdMoneda != 1 ? obj.Monto.ToString("N2", CultureInfo.InvariantCulture) : "";
                 row["Tipo Cambio"] = obj.TipoCambio.ToString("N2", CultureInfo.InvariantCulture);
                 row["Partida de Presupuesto"] = obj.NombreCategoria;
-                row[rFechaFin] = obj.FechaConclusion.GetValueOrDefault().ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+                row[rFechaFin] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
                 row["Usuario"] = obj.NombreUsuario;
                 row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
                 row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
@@ -4286,7 +4294,81 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Detalle de Comprobantes", "DetalleComprobantes", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("Comprobantes", "Admin");
+            return RedirectToAction("Comprobantes" + sTipoComprobante, "Admin");
+        }
+
+        public ActionResult ExportarComprobantesAnulados(DateTime FechaInicio, DateTime FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<ComprobanteDTO> listaTipo3 = repBL.getComprobantesEnEmpresa(objEmpresa.IdEmpresa, 3, FechaInicio, FechaFin);
+            List<ComprobanteDTO> listaTipo4 = repBL.getComprobantesEnEmpresa(objEmpresa.IdEmpresa, 4, FechaInicio, FechaFin);
+
+            listaTipo3.AddRange(listaTipo4);
+
+            if (listaTipo3 == null || listaTipo3.Count == 0)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_EMPTY);
+                return RedirectToAction("ComprobantesAnulados", "Admin");
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            var rFechaFin = "Fecha de Cobro / Pago";
+            var strEntidad = "Cliente / Proveedor";
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Numero");
+            dt.Columns.Add(strEntidad);
+            /*if (idTipoComprobante == 3)
+            { dt.Columns.Add("Proyecto"); }*/
+            dt.Columns.Add("Moneda");
+            dt.Columns.Add("Monto Sin IGV");
+            dt.Columns.Add("Monto Total (MN)");
+            dt.Columns.Add("Monto Total (ME)");
+            dt.Columns.Add("Tipo Cambio");
+            dt.Columns.Add("Partida de Presupuesto");
+            dt.Columns.Add(rFechaFin);
+            dt.Columns.Add("Usuario");
+            dt.Columns.Add("Estado");
+            dt.Columns.Add("Status");
+            dt.Columns.Add("Comentario");
+
+            foreach (var obj in listaTipo3)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Documento"] = obj.NombreTipoDocumento;
+                row["Numero"] = obj.NroDocumento;
+                row[strEntidad] = obj.NombreEntidad;
+                /*if (idTipoComprobante == 1) { row["Proyecto"] = obj.NombreProyecto; }*/
+                row["Moneda"] = obj.SimboloMoneda;
+                row["Monto Sin IGV"] = obj.MontoSinIGV.ToString("N2", CultureInfo.InvariantCulture);
+                row["Monto Total (MN)"] = obj.IdMoneda == 1 ? obj.Monto.ToString("N2", CultureInfo.InvariantCulture) : "";
+                row["Monto Total (ME)"] = obj.IdMoneda != 1 ? obj.Monto.ToString("N2", CultureInfo.InvariantCulture) : "";
+                row["Tipo Cambio"] = obj.TipoCambio.ToString("N2", CultureInfo.InvariantCulture);
+                row["Partida de Presupuesto"] = obj.NombreCategoria;
+                row[rFechaFin] = obj.FechaConclusion != null ? obj.FechaConclusion.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                row["Usuario"] = obj.NombreUsuario;
+                row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
+                row["Status"] = obj.Ejecutado ? "Cancelado" : "Pendiente";
+                row["Comentario"] = obj.Comentario;
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf(dt, "Detalle de Comprobantes Anulados", "DetalleComprobantesAnulados", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("ComprobantesAnulados", "Admin");
         }
 
         public ActionResult ExportarClientesOProveedores(int tipo)

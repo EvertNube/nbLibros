@@ -24,7 +24,7 @@ namespace NubeBooks.Core.DTO
         public EmpresaDTO Empresa { get; set; }
         public ResponsableDTO Responsable { get; set; }
         public EntidadResponsableDTO EntidadResponsable { get; set; }
-        public UbicacionDTO Ubicacion { get; set; }
+        //public UbicacionDTO Ubicacion { get; set; }
         public List<CuentaBancariaDTO> CuentaBancaria { get; set; }
     }
 }

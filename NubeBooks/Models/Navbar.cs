@@ -37,7 +37,7 @@ namespace NubeBooks.Models
             lstOptions[6].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[6].lstOptions.Add(new Option() { cadena = "" });
             //7 - Pagos
-            lstOptions[7].lstOptions.Add(new Option() { cadena = "" });
+            //lstOptions[7].lstOptions.Add(new Option() { cadena = "" });
             //8 - Presupuesto
             lstOptions[8].lstOptions.Add(new Option() { cadena = "" });
             lstOptions[8].lstOptions.Add(new Option() { cadena = "" });

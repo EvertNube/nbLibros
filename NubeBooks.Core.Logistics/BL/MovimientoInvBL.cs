@@ -225,6 +225,19 @@ namespace NubeBooks.Core.Logistics.BL
                 }
             }
         }
+        public List<TipoMovimientoInvDTO> getTipoMovimientoInv()
+        {
+            using (var context = getContext())
+            {
+                var result = context.TipoMovimientoInv.Select(x => new TipoMovimientoInvDTO
+                {
+                    IdTipoMovimientoInv = x.IdTipoMovimientoInv,
+                    Nombre = x.Nombre,
+                    Estado = x.Estado
+                }).ToList();
+                return result;
+            }
+        }
         public List<FormaMovimientoInvDTO> getFormaMovimientoInvPorTipo(int tipo)
         {
             using (var context = getContext())
@@ -232,6 +245,7 @@ namespace NubeBooks.Core.Logistics.BL
                 var result = context.FormaMovimientoInv.Where(x => x.IdTipoMovimientoInv == tipo).Select(x => new FormaMovimientoInvDTO
                 {
                     IdFormaMovimientoInv = x.IdFormaMovimientoInv,
+                    IdTipoMovimientoInv = x.IdTipoMovimientoInv,
                     nTipoMovimientoInv = x.TipoMovimientoInv.Nombre,
                     Nombre = x.Nombre,
                     Estado = x.Estado

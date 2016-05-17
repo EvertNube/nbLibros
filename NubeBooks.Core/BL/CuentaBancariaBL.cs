@@ -197,7 +197,8 @@ namespace NubeBooks.Core.BL
                             FechaCreacion = x.FechaCreacion,
                             NombreEntidadR = x.EntidadResponsable.Nombre,
                             NombreCategoria = x.Categoria.Nombre ?? "",
-                            NombreUsuario = x.Usuario.Cuenta
+                            NombreUsuario = x.Usuario.Cuenta,
+                            SaldoBancario = x.SaldoBancario
                             //NumeroDocumento2 = x.NumeroDocumento
                         }).OrderByDescending(x => x.Fecha).ToList()
                     }).SingleOrDefault();

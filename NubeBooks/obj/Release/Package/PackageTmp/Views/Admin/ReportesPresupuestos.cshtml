@@ -48,6 +48,8 @@
             FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
 
             var jIdCategoria = $('#IdCategoria').select2("val");
+            debugger;
+            jIdCategoria = jIdCategoria == '' ? 0 : jIdCategoria;
             var periodo = $('#periodo').select2("val");
 
             switch (nrep) {
@@ -96,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="col-md-4 text-center">Movimientos de Partida de Presupuesto</label>
+                        <label class="col-md-4 text-center">Movimientos por Partida de Presupuesto</label>
                         @Html.TextBox("IdCategoria", "", new { @class = "col-xs-4 col-sm-4 col-md-4 no-padder" })
                         <div class="col-md-4 text-center">
                             <a class="btn btn-sm btn-info reporte" data-idreporte="9">Generar Reporte</a>

@@ -26,6 +26,11 @@
             $('.input-group.date').datepicker();
             $('.miselect2').select2();
 
+            $('.miselect2_clear').select2({
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
+
             $('#IdCategoria').select2({
                 placeholder: "Seleccione una categoría",
                 data: mydata,
@@ -302,7 +307,16 @@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Tipo de Documento</label>
-                            @Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != 0 ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ActualizarMontoConIGV();" })
+                            @*@Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != 0 ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ActualizarMontoConIGV();" })*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange = "ActualizarMontoConIGV();"
+                                    id="IdTipoDocumento" name="IdTipoDocumento" required>
+                                @{ var pTipoDoc = Model != null ? Model.IdTipoDocumento : 0;}
+                                <option value=""></option>
+                                @foreach (var iTipo in (List<TipoDocumentoDTO>)ViewBag.lstTipoDocumento)
+                                {
+                                    <option value="@iTipo.IdTipoDocumento" @(iTipo.IdTipoDocumento == pTipoDoc ? "selected=selected" : "")>@iTipo.Nombre</option>
+                                }
+                            </select>
                             @Html.ValidationMessageFor(u => u.IdTipoDocumento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
@@ -315,7 +329,6 @@
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaConclusion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha de cancelación", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @*@Html.ValidationMessageFor(u => u.FechaConclusion, "", new { @style = "color:red;" })*@
                             </div>
                         </div>
                     </div>
@@ -325,7 +338,18 @@
                         @{var columnas = 3; if (Model.IdTipoComprobante != 1 && Model.IdTipoComprobante != 3) { columnas = 3; }}
                         <div class="col-md-@columnas">
                             <label class="control-label">@strEntidad</label>
-                            @Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })
+                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange = "ListarProyectos(1)"
+                                    id="IdEntidadResponsable" name="IdEntidadResponsable" required>
+                                @{ var pEntidad = Model != null ? Model.IdEntidadResponsable : 0;
+                                    List<EntidadResponsableDTO> listaEnt = Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores;
+                                    }
+                                <option value=""></option>
+                                @foreach (var ent in listaEnt)
+                                {
+                                    <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pEntidad ? "selected=selected" : "")>@ent.Nombre</option>
+                                }
+                            </select>
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3)
@@ -337,7 +361,16 @@
                             </div>
                             <div class="col-md-3">
                                 <label>Consultor</label>
-                                @Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @*@Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                        id="IdResponsable" name="IdResponsable">
+                                    @{ var pResponsable = Model != null ? Model.IdResponsable : 0; }
+                                    <option value=""></option>
+                                    @foreach (var resp in (List<ResponsableDTO>)ViewBag.lstResponsables)
+                                    {
+                                        <option value="@resp.IdResponsable" @(resp.IdResponsable == pResponsable ? "selected=selected" : "")>@resp.Nombre</option>
+                                    }
+                                </select>
                                 @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
                             </div>
                         }
@@ -377,13 +410,31 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="control-label">Modalidad de Pago</label>
-                                @Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                                @*@Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                        id="IdHonorario" name="IdHonorario">
+                                    @{ var pHon = Model != null ? Model.IdHonorario : 0; }
+                                    <option value=""></option>
+                                    @foreach (var hon in (List<HonorarioDTO>)ViewBag.lstHonorarios)
+                                    {
+                                        <option value="@hon.IdHonorario" @(hon.IdHonorario == pHon ? "selected=selected" : "")>@hon.Nombre</option>
+                                    }
+                                </select>
                                 @Html.ValidationMessageFor(u => u.IdHonorario, "", new { @style = "color:red;" })
                             </div>
                         }
                         <div class="col-md-3">
                             <label class="control-label">Área</label>
-                            @Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                            @*@Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                    id="IdArea" name="IdArea">
+                                @{ var pArea = Model != null ? Model.IdArea : 0; }
+                                <option value=""></option>
+                                @foreach (var area in (List<AreaNDTO>)ViewBag.lstAreas)
+                                {
+                                    <option value="@area.IdArea" @(area.IdArea == pArea ? "selected=selected" : "")>@area.Nombre</option>
+                                }
+                            </select>
                             @Html.ValidationMessageFor(u => u.IdArea, "", new { @style = "color:red;" })
                             <div class="text-left">
                                 <a class="text-info" onclick="$('#Area_X_Monto').show();$('#IdArea').select2('val', 0);$('#IdArea').prop('disabled', true);">¿Desea ingresar más de un área?</a>

@@ -207,6 +207,7 @@ namespace NubeBooks.Core.BL
                     dataRow.IdEstadoMovimiento = dataRow.IdEstadoMovimiento == 1 ? 2 : 1;
                     context.SaveChanges();
                     ActualizarSaldos(dataRow.IdCuentaBancaria);
+                    //return ActualizarSaldoBancarioEnMovimiento_Decimal(dataRow.IdMovimiento);
                 }
                 catch (Exception e)
                 {
@@ -323,6 +324,24 @@ namespace NubeBooks.Core.BL
                     var obj = context.Movimiento.Where(x => x.IdMovimiento == idMovimiento).SingleOrDefault();
                     obj.SaldoBancario = obj.CuentaBancaria.SaldoBancario;
                     context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public Decimal ActualizarSaldoBancarioEnMovimiento_Decimal(int idMovimiento)
+        {
+            using (var context = getContext())
+            {
+                try
+                {
+                    var obj = context.Movimiento.Where(x => x.IdMovimiento == idMovimiento).SingleOrDefault();
+                    obj.SaldoBancario = obj.CuentaBancaria.SaldoBancario;
+                    context.SaveChanges();
+                    return obj.SaldoBancario.GetValueOrDefault();
                 }
                 catch (Exception e)
                 {
