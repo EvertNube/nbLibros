@@ -301,10 +301,11 @@ else { cadena = "Actualizar"; }
                         }
                     </div>
                 </div>
+                var nexo_activo = Model == null ? "hidden" : Model.IdComprobante > 0 ? "" : "hidden";
                 if (ViewBag.IdTipoCuenta == 1)
                 {
-                    <div class="line line-dashed b-b line-lg pull-in hidden"></div>
-                    <div class="form-group hidden" id="nexo_comprobante">
+                    <div class="line line-dashed b-b line-lg pull-in @nexo_activo"></div>
+                    <div class="form-group @nexo_activo" id="nexo_comprobante">
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Tipo de Documento</label>
@@ -349,7 +350,7 @@ else { cadena = "Actualizar"; }
                             </div>
                         </div>
                     </div>
-                    <div class="line line-dashed b-b line-lg pull-in hidden"></div>
+                    <div class="line line-dashed b-b line-lg pull-in @nexo_activo"></div>
                 }
                 if (ViewBag.IdTipoCuenta != 1)
                 {

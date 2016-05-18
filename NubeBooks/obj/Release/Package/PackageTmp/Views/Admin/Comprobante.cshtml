@@ -166,16 +166,19 @@
             switch(pTipoDocumento)
             {
                 case 1: case 5: case 6: case 8:
-                    $('#chkIGV').attr('checked', true);
-                    $('#chkIGV').attr('aria-cheked', true);
-                    $('#chkIGV').val('TRUE');
-                    $('#chkIGV').show();
+                    $('#chkIGV').attr("checked", true);
+                    $('#chkIGV').checked = true;
+                    //$('#chkIGV').attr('aria-cheked', true);
+                    //$('#chkIGV').val('TRUE');
+                    //$('#chkIGV').show();
                     break;
                 default:
-                    $('#chkIGV').attr('checked', false);
-                    $('#chkIGV').attr('aria-cheked', false);
-                    $('#chkIGV').val('FALSE');
-                    $('#chkIGV').hide();
+                    //$('#chkIGV').attr('checked', false);
+                    //$('#chkIGV').attr('aria-cheked', false);
+                    $('#chkIGV').removeAttr( "checked" );
+                    $('#chkIGV').checked = false;
+                    //$('#chkIGV').val('FALSE');
+                    //$('#chkIGV').hide();
                     break;
             }
         }*/

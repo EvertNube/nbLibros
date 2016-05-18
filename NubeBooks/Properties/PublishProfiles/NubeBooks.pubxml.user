@@ -111,7 +111,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/17/2016 14:19:57</publishTime>
     </File>
     <File Include="bin/NubeBooks.dll">
-      <publishTime>05/17/2016 14:20:02</publishTime>
+      <publishTime>05/17/2016 20:12:13</publishTime>
     </File>
     <File Include="bin/NubeBooks.Helpers.dll">
       <publishTime>05/17/2016 14:19:57</publishTime>
@@ -2328,7 +2328,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/12/2016 15:22:02</publishTime>
     </File>
     <File Include="Views/Admin/Comprobante.cshtml">
-      <publishTime>05/16/2016 17:55:26</publishTime>
+      <publishTime>05/17/2016 19:03:18</publishTime>
     </File>
     <File Include="Views/Admin/Comprobantes.cshtml">
       <publishTime>05/09/2016 12:12:40</publishTime>
@@ -2400,7 +2400,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/09/2016 12:12:40</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
-      <publishTime>05/16/2016 17:03:06</publishTime>
+      <publishTime>05/17/2016 20:24:36</publishTime>
     </File>
     <File Include="Views/Admin/MovimientoInv.cshtml">
       <publishTime>05/17/2016 12:14:44</publishTime>
@@ -2475,7 +2475,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/09/2016 12:12:40</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutAdmin.cshtml">
-      <publishTime>05/13/2016 16:32:52</publishTime>
+      <publishTime>05/17/2016 16:45:34</publishTime>
     </File>
     <File Include="Views/Shared/_showAlertMessages.cshtml">
       <publishTime>05/09/2016 12:12:40</publishTime>
