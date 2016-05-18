@@ -587,7 +587,8 @@ namespace NubeBooks.Core.BL
                 var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && x.Estado && x.IdTipoComprobante < 3).Select(x => new Select2DTO_B
                 {
                     id = x.IdComprobante,
-                    text = x.NroDocumento
+                    text = x.NroDocumento,
+                    ejecutado = x.Ejecutado
                 }).OrderBy(x => x.text).ToList();
                 return result;
             }

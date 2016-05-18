@@ -11,5 +11,6 @@ namespace NubeBooks.Core.DTO
     {
         public int? id { get; set; }
         public string text { get; set; }
+        public bool ejecutado { get; set; }
     }
 }

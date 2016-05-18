@@ -128,11 +128,20 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#IdComprobante').select2({
-                        data: data.listaComp
+                        data: data.listaComp,
+                        formatResult: formatCmp,
                     })
                     //$('#cmpMonto').val('');
                 }
             });
+        }
+
+        function formatCmp(o) {
+            //style='color:#27c24c;'
+            if(o.ejecutado)
+                return "<span class='text-success-dker'>" + o.text + "</span>";
+            else
+                return "<span>" + o.text + "</span>";
         }
 
         function BuscarCategoria(sel, reset) {
@@ -288,7 +297,7 @@ else { cadena = "Actualizar"; }
                         {
                             <div class="col-md-3">
                                 <label class="control-label">&nbsp;</label>
-                                <button type="button" class="form-control btn m-b-xs btn-md btn-default btn-addon" onclick="$('#nexo_comprobante').toggleClass('hidden'); $('.line-dashed').toggleClass('hidden');"><i class="fa fa-plus"></i>Asociar movimiento a comprobante</button>
+                                <button type="button" class="form-control btn m-b-xs btn-md btn-default btn-addon" onclick="$('#nexo_comprobante').toggleClass('hidden'); $('.line-dashed').toggleClass('hidden');" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fa fa-plus"></i><span>Asociar a comprobante</span></button>
                             </div>
                         }
                         else
@@ -338,6 +347,7 @@ else { cadena = "Actualizar"; }
                             </div>
 
                         </div>
+                        <br />
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Estado del comprobante</label>
@@ -355,10 +365,12 @@ else { cadena = "Actualizar"; }
                 if (ViewBag.IdTipoCuenta != 1)
                 {
                     <div class="form-group">
-                        <div class="col-md-3">
-                            <label>Partida de Presupuesto</label>
-                            @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                            @Html.ValidationMessageFor(u => u.IdCategoria, "", new { @style = "color:red;" })
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Partida de Presupuesto</label>
+                                @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                                @Html.ValidationMessageFor(u => u.IdCategoria, "", new { @style = "color:red;" })
+                            </div>
                         </div>
                     </div>
                 }

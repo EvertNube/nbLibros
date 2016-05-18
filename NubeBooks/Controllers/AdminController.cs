@@ -2723,7 +2723,8 @@ namespace NubeBooks.Controllers
                     Select2DTO selectItem = new Select2DTO();
                     selectItem.id = item.IdCategoria;
                     selectItem.text = item.Nombre;
-                    if (item.Hijos != null && item.Hijos.Count != 0)
+                    
+                    if (item.Hijos != null && item.Hijos.Count > 0)
                     {
                         selectItem.children = CategoriasBucle(item.IdCategoria, item.Hijos);
                     }
