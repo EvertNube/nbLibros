@@ -87,13 +87,13 @@
                 data: { idMovimiento: jId },
                 dataType: "json",
                 success: function (data) {
-                    
                     $("i", e).toggleClass("fa-square-o fa-check-square-o").toggleClass("red green");
                     if ($("i", e).hasClass("fa-square-o")) { $(e).find('span').text('P'); }
                     else { $(e).find('span').text('R'); }
-                    debugger;
-                    var jsSaldoD = data.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-                    $('#spSaldoB').text(data);
+                    
+                    var jsSaldoB = data.SaldoBancario.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                    
+                    $('#spSaldoB').text(jsSaldoB);
                 }
             });
         }
@@ -246,7 +246,7 @@ else { cadena = "Actualizar"; }
                             @*<th class="text-center">Movimiento</th>*@
                             <th >Detalle</th>
                             <th class="text-center">Monto</th>
-                            <th class="text-center">Saldo Bancario</th>
+                            @*<th class="text-center">Saldo Bancario</th>*@
                             <th >Partida</th>
                             <th >Entidad</th>
                             <th >Documento</th>
@@ -271,7 +271,7 @@ else { cadena = "Actualizar"; }
                                         var signo = obj.IdTipoMovimiento == 1 ? "" : "-";  }
                                     <td>@obj.NroOperacion</td>
                                     <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                                    <td class="text-right">@Model.SimboloMoneda @obj.SaldoBancario.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</td>
+                                    @*<td class="text-right">@Model.SimboloMoneda @obj.SaldoBancario.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</td>*@
                                     @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
                                     <td style="color:#428bca;">@nCategoria</td>
                                     <td><strong>@obj.NombreEntidadR</strong></td>

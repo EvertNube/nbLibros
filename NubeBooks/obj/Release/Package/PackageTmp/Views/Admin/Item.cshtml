@@ -13,6 +13,10 @@
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         $(function () {
             $('.miselect2').select2();
+            $('.miselect2_clear').select2({
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
 
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
@@ -62,7 +66,16 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label>Categoría</label>
-                            @Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})
+                            @*@Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                    id="IdCategoriaItm" name="IdCategoriaItm" required>
+                                @{ var pCatItem = Model != null ? Model.IdCategoriaItm : 0; }
+                                <option value=""></option>
+                                @foreach (var nCItem in (List<CategoriaItmDTO>)ViewBag.lstCategoriaItm)
+                                {
+                                    <option value="@nCItem.IdCategoriaItm" @(nCItem.IdCategoriaItm == pCatItem ? "selected=selected" : "")>@nCItem.Nombre</option>
+                                }
+                            </select>
                             @Html.ValidationMessageFor(u => u.IdCategoriaItm, "", new { @style = "color:red;" })
                         </div>
                     </div>

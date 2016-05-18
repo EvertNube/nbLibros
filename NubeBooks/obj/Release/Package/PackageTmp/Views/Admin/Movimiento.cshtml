@@ -34,7 +34,7 @@
             $('.input-group.date').datepicker();
             $('.miselect2').select2();
 
-            $('.miselect2_clear').select2({ 
+            $('.miselect2_clear').select2({
                 allowClear: true,
                 placeholder: "Seleccionar"
             });
@@ -76,13 +76,6 @@
             else {
                 alert("Solo ingresar caracteres numericos");
                 return false;
-            }
-        }
-
-        function ModificarCombos() {
-            if ($('#Nombre').val() == 'INGRESOS' || $('#Nombre').val() == 'ingresos') {
-                $('#IdTipoMovimiento').prop('selectedIndex', 1);
-                $('#IdEstadoMovimiento').prop('selectedIndex', 1);
             }
         }
 
@@ -219,18 +212,32 @@ else { cadena = "Actualizar"; }
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.Fecha, "{0:dd/MM/yyyy}", new { @id = "Fecha", @class = "form-control rol-accs", @placeholder = "Ingrese la fecha del movimiento", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @*@Html.ValidationMessageFor(u => u.Fecha, "", new { @style = "color:red;" })*@
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label>Tipo de Movimiento</label>
-                            @Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
-                            @*@Html.TextBoxFor(u => u.IdFormaMovimiento, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })*@
+                            @*@Html.DropDownListFor(u => u.IdFormaMovimiento, new SelectList(ViewBag.lstFormaMovs, "IdFormaMovimiento", "Nombre", "NombreTipo", Model != null ? (Model.IdFormaMovimiento != 0 ? Model.IdFormaMovimiento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                    id="IdFormaMovimiento" name="IdFormaMovimiento" required>
+                                @{ var pFormaMov = Model != null ? Model.IdFormaMovimiento : 0;}
+                                <option value=""></option>
+                                @foreach (var tipoMov in (List<TipoMovimientoDTO>)ViewBag.lstTipoMovs)
+                                {
+                                    <optgroup label="@tipoMov.Nombre">
+                                        @foreach (var item in (List<FormaMovimientoDTO>)ViewBag.lstFormaMovs)
+                                        {
+                                            if (tipoMov.IdTipoMovimiento == item.IdTipoMovimiento)
+                                            {
+                                        <option value="@item.IdFormaMovimiento" @(item.IdFormaMovimiento == pFormaMov ? "selected=selected" : "")>@item.Nombre</option>}
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
                             @Html.ValidationMessageFor(u => u.IdFormaMovimiento, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">
                             <label>Detalle</label>
-                            @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text", @onkeyup = "ModificarCombos()" })
+                            @Html.TextBoxFor(u => u.NroOperacion, new { @class = "form-control rol-accs", @placeholder = "Ingrese el nombre del movimiento", @type = "text" })
                             @Html.ValidationMessageFor(u => u.NroOperacion, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">

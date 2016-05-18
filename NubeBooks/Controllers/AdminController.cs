@@ -743,6 +743,9 @@ namespace NubeBooks.Controllers
             MenuNavBarSelected(1);
             UsuarioDTO miUsuario = getCurrentUser();
 
+            EmpresaBL empBL = new EmpresaBL();
+            ViewBag.SimboloMoneda = empBL.getEmpresa(miUsuario.IdEmpresa).SimboloMoneda;
+
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
             ViewBag.EstadosMovimientos = objBL.getEstadosMovimientos(false);

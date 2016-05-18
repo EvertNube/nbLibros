@@ -12,7 +12,11 @@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         $(function () {
-            $('.miselect2').select2()
+            $('.miselect2').select2();
+            $('.miselect2_clear').select2({
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
 
             $("#btnChangePassword").click(function () {
                 $("#boxPassword").removeClass("hide");
@@ -20,11 +24,11 @@
                 $("#passUser").focus();
                 //$("#passChange").removeClass("hide");
                 $("#boxPassButton").addClass("hide");
-            })
+            });
 
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
-            })
+            });
         });
     </script>
 }
@@ -70,11 +74,20 @@ else { cadena = "Actualizar"; }
                                 }
 
                                 <label>Rol</label>
-                                <select class="form-control parsley-validated" data-val="true" data-val-number="The field IdRol must be a number." data-val-required="The IdRol field is required." id="IdRol" name="IdRol">
+                                @*<select class="form-control parsley-validated" data-val="true" data-val-number="The field IdRol must be a number." data-val-required="The IdRol field is required." id="IdRol" name="IdRol">
                                     @{var rRol = Model != null ? Model.IdRol : 0; }
                                     @foreach (var item in (List<RolDTO>)ViewBag.vbRls)
                                     {
                                         <option value="@item.IdRol" @(item.IdRol == rRol ? "selected=selected" : "")>@item.Nombre</option>
+                                    }
+                                </select>*@
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                    id="IdRol" name="IdRol" required>
+                                    @{ var pRol = Model != null ? Model.IdRol : 0; }
+                                    <option value=""></option>
+                                    @foreach (var nRol in (List<RolDTO>)ViewBag.vbRls)
+                                    {
+                                        <option value="@nRol.IdRol" @(nRol.IdRol == pRol ? "selected=selected" : "")>@nRol.Nombre</option>
                                     }
                                 </select>
                                 @Html.ValidationMessageFor(u => u.IdRol, "", new { @style = "color:red;" })
