@@ -627,9 +627,9 @@ namespace NubeBooks.Controllers
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.Periodos = objBL.GetPeriodosEnEmpresaViewBag(miUsuario.IdEmpresa);
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
-            if (miUsuario.IdEmpresa > 0)
+            if (empresa.IdEmpresa > 0 && empresa.IdPeriodo > 0)
             {
-                listaCategorias = objBL.getCategoriasTreeEnEmpresa(miUsuario.IdEmpresa);
+                listaCategorias = objBL.getCategoriasPorPeriodo_ArbolEnEmpresa(empresa.IdEmpresa, (int)empresa.IdPeriodo);
             }
 
             return View(listaCategorias);
@@ -643,11 +643,12 @@ namespace NubeBooks.Controllers
 
             MenuNavBarSelected(8, 0);
             UsuarioDTO miUsuario = getCurrentUser();
+            EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(miUsuario.IdEmpresa);
 
             CategoriaBL objBL = new CategoriaBL();
             ViewBag.IdCategoria = id;
 
-            ViewBag.Categorias = CategoriasBucle(null, null);
+            ViewBag.Categorias = CategoriasBucle(empresa.IdEmpresa, (int)empresa.IdPeriodo, null, null);
 
             ViewBag.NombreCategoria = "Sin Categoría";
             var objSent = TempData["Categoria"];
@@ -744,7 +745,9 @@ namespace NubeBooks.Controllers
             UsuarioDTO miUsuario = getCurrentUser();
 
             EmpresaBL empBL = new EmpresaBL();
-            ViewBag.SimboloMoneda = empBL.getEmpresa(miUsuario.IdEmpresa).SimboloMoneda;
+            EmpresaDTO empresa = empBL.getEmpresa(miUsuario.IdEmpresa);
+
+            ViewBag.SimboloMoneda = empresa.SimboloMoneda;
 
             MovimientoBL objBL = new MovimientoBL();
             ViewBag.IdMovimiento = id;
@@ -764,7 +767,7 @@ namespace NubeBooks.Controllers
 
             ViewBag.lstTiposDeDocumento = objBL.getListaTiposDeDocumentoVB(true);
             ViewBag.NombreCategoria = "Sin Categoría";
-            ViewBag.Categorias = CategoriasBucle(null, null);
+            ViewBag.Categorias = CategoriasBucle(empresa.IdEmpresa, (int)empresa.IdPeriodo, null, null);
             ViewBag.Comprobantes = objBL.getComprobantesPendientesEnEmpresa(miUsuario.IdEmpresa);
 
             var objSent = TempData["Movimiento"];
@@ -1394,6 +1397,7 @@ namespace NubeBooks.Controllers
             MenuNavBarSelected(3, tipoComprobante - 1);
             //MenuNavBarSelected(2);
             UsuarioDTO currentUser = getCurrentUser();
+            EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(currentUser.IdEmpresa);
 
             ComprobanteBL objBL = new ComprobanteBL();
             ViewBag.lstTipoDocumento = objBL.getTipoDeDocumentos();
@@ -1404,7 +1408,7 @@ namespace NubeBooks.Controllers
             ViewBag.lstResponsables = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
             ViewBag.lstHonorarios = objBL.getListaHonorariosEnEmpresa(currentUser.IdEmpresa);
             ViewBag.Proyectos = new List<ProyectoDTO>();
-            ViewBag.Categorias = CategoriasBucle(null, null);
+            ViewBag.Categorias = CategoriasBucle(empresa.IdEmpresa, (int)empresa.IdPeriodo, null, null);
 
             var objSent = TempData["Comprobante"];
             if (objSent != null) { TempData["Comprobante"] = null; return View(objSent); }
@@ -2612,9 +2616,10 @@ namespace NubeBooks.Controllers
         #region APIs adicionales
         public JsonResult CategoriasJson()
         {
-            //List<Select2DTO> ListaCategorias = new List<Select2DTO>();
+            EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+            
             CategoriaBL objBL = new CategoriaBL();
-            var listaCat = CategoriasBucle(null, null);
+            var listaCat = CategoriasBucle(empresa.IdEmpresa, (int)empresa.IdPeriodo, null, null);
 
             return Json(new { listaCat }, JsonRequestBehavior.AllowGet);
         }
@@ -2706,13 +2711,14 @@ namespace NubeBooks.Controllers
             return Json(new { comprobante }, JsonRequestBehavior.AllowGet);
         }
 
-        public List<Select2DTO> CategoriasBucle(int? id = null, IList<CategoriaDTO> lista = null)
+        public List<Select2DTO> CategoriasBucle(int idEmpresa, int idPeriodo, int? id = null, IList<CategoriaDTO> lista = null)
         {
             var listaCat = lista;
             if (id == null && lista == null)
             {
                 CategoriaBL objBL = new CategoriaBL();
-                listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa);
+                //listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa);
+                listaCat = objBL.getCategoriasPorPeriodo_ArbolEnEmpresa(idEmpresa, idPeriodo);
             }
             List<Select2DTO> selectTree = new List<Select2DTO>();
 
@@ -2726,7 +2732,7 @@ namespace NubeBooks.Controllers
                     
                     if (item.Hijos != null && item.Hijos.Count > 0)
                     {
-                        selectItem.children = CategoriasBucle(item.IdCategoria, item.Hijos);
+                        selectItem.children = CategoriasBucle(idEmpresa, idPeriodo, item.IdCategoria, item.Hijos);
                     }
                     selectTree.Add(selectItem);
                 }
@@ -2735,34 +2741,6 @@ namespace NubeBooks.Controllers
         }
 
         #endregion
-        public ActionResult ReporteCategorias(int? message = null)
-        {
-            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            //No hay reportes para usuarios internos
-            if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
-
-            MenuNavBarSelected(1);
-
-            CuentaBancariaBL objBL = new CuentaBancariaBL();
-            ViewBag.Categorias = CategoriasBucle(null, null);
-            //ViewBag.Libros = objBL.getCuentasBancariasEnEmpresaBag((int)getCurrentUser().IdEmpresa, true);
-
-            if (message != null)
-            {
-                switch (message)
-                {
-                    case 1:
-                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_MESSAGE);
-                        break;
-                    case 2:
-                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_REPORTE_NO_MOVS);
-                        break;
-                }
-            }
-
-            return View();
-        }
-
         public ActionResult ReportesPresupuestos(int? message = null)
         {
             if(!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -2772,8 +2750,10 @@ namespace NubeBooks.Controllers
             ViewBag.Title += " - Reportes de Presupuesto";
             MenuNavBarSelected(1, 0);
 
+            EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
             CuentaBancariaBL objBL = new CuentaBancariaBL();
-            ViewBag.Categorias = CategoriasBucle(null, null);
+            ViewBag.Categorias = CategoriasBucle(empresa.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault(), null, null);
             PeriodoBL periodoBL = new PeriodoBL();
             ViewBag.Periodos = periodoBL.getPeriodosActivosEnEmpresa(getCurrentUser().IdEmpresa);
 

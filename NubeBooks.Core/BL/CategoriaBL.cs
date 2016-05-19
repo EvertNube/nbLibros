@@ -55,6 +55,34 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public List<CategoriaDTO> getCategoriasPorPeriodo_ArbolEnEmpresa(int idEmpresa, int idPeriodo, int? id = null)
+        {
+            using (var context = getContext())
+            {
+                var result = from cp in context.CategoriaPorPeriodo
+                              join ct in context.Categoria on cp.IdCategoria equals ct.IdCategoria
+                              where ((id == null ? ct.IdCategoriaPadre == null : ct.IdCategoriaPadre == id) && cp.IdPeriodo == idPeriodo && ct.IdEmpresa == idEmpresa)
+                              select new CategoriaDTO
+                              {
+                                  IdCategoria = ct.IdCategoria,
+                                  Nombre = ct.Nombre,
+                                  Orden = ct.Orden,
+                                  Estado = ct.Estado,
+                                  IdCategoriaPadre = ct.IdCategoriaPadre,
+                                  IdEmpresa = ct.IdEmpresa,
+                                  Presupuesto = cp.Monto
+                              };
+
+                List<CategoriaDTO> categoriasTree = result.AsEnumerable<CategoriaDTO>().OrderBy(x => x.Orden).ToList<CategoriaDTO>();
+
+                foreach (CategoriaDTO obj in categoriasTree)
+                {
+                    obj.Hijos = getCategoriasPorPeriodo_ArbolEnEmpresa(idEmpresa, idPeriodo, obj.IdCategoria);
+                }
+                return categoriasTree;
+            }
+        }
+
         public IList<CategoriaDTO> getCategoriasTree(int? id = null)
         {
             using (var context = getContext())

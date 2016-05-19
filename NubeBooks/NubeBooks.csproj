@@ -973,7 +973,6 @@
     <Content Include="Views\Admin\Periodo.cshtml" />
     <Content Include="Views\Admin\Periodos.cshtml" />
     <Content Include="Views\Admin\Proyecto.cshtml" />
-    <Content Include="Views\Admin\ReporteCategorias.cshtml" />
     <Content Include="Views\Admin\ResetPassword.cshtml" />
     <Content Include="Views\Admin\Responsable.cshtml" />
     <Content Include="Views\Admin\Responsables.cshtml" />

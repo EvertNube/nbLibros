@@ -280,7 +280,7 @@ else { cadena = "Actualizar"; }
                                     <td class="text-center">
                                         <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;
                                         @if (!ViewBag.EsUsuarioExterno)
-                                        {<a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-trash" title="Eliminar"></i></a>}
+                                        {<a class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@obj.IdMovimiento" data-cuenta="@obj.IdCuentaBancaria" data-nro="@obj.NroOperacion"><i class="fa fa-trash" title="Eliminar"></i></a>}
                                     </td>
                                 </tr>
                                             }

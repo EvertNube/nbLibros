@@ -11,7 +11,6 @@ namespace NubeBooks.Core.DTO
     public class CategoriaDTO
     {
         public int IdCategoria { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")]
         public string Nombre { get; set; }
         public int Orden { get; set; }
         public bool Estado { get; set; }
