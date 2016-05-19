@@ -190,6 +190,7 @@ namespace NubeBooks.Core.BL
                             NroOperacion = x.NroOperacion ?? "",
                             Fecha = x.Fecha,
                             Monto = x.Monto,
+                            nTipoDocumento = x.TipoDocumento.Nombre,
                             NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : (x.NumeroDocumento ?? ""),
                             Comentario = x.Comentario,
                             Estado = x.Estado,

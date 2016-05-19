@@ -24,6 +24,7 @@ namespace NubeBooks.Core.DTO
         public Decimal Monto { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
         public Decimal TipoCambio { get; set; }
+        public string nTipoDocumento { get; set; }
         public string NumeroDocumento { get; set; }
         public string Comentario { get; set; }
         public bool Estado { get; set; }

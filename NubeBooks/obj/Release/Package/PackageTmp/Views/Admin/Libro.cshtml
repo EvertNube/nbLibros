@@ -243,14 +243,14 @@ else { cadena = "Actualizar"; }
                     <thead>
                         <tr>
                             <th width="7%">Fecha</th>
-                            @*<th class="text-center">Movimiento</th>*@
                             <th >Detalle</th>
                             @*<th class="text-center">Saldo Bancario</th>*@
-                            <th >Entidad</th>
-                            <th >Documento</th>
-                            <th>Partida</th>
-                            <th class="text-center">Monto</th>
+                            <th >Partida</th>
+                            <th>Documento</th>
+                            <th>Número</th>
+                            <th>Entidad</th>
                             <th class="text-center">Estado</th>
+                            <th class="text-center">Monto</th>
                             <th style="width:30px"></th>
                         </tr>
                     </thead>
@@ -261,26 +261,21 @@ else { cadena = "Actualizar"; }
                                 {
                                 <tr>
                                     <td class="text-center">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                    @*@if (obj.IdTipoMovimiento == 1)
-                                    {
-                                        <td class="text-center" width="12%" style="color:#8EC100;">Entrada</td>}
-                                    else
-                                    {
-                                        <td class="text-center" width="12%" style="color:red">Salida</td> }*@
                                     @{ var colorTipoMov = obj.IdTipoMovimiento == 1 ? "text-success-dker" : "red";
                                         var signo = obj.IdTipoMovimiento == 1 ? "" : "-";  }
                                     <td>@obj.NroOperacion</td>
                                     @*<td class="text-right">@Model.SimboloMoneda @obj.SaldoBancario.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</td>*@
                                     @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
                                     <td>@nCategoria</td>
+                                    <td>@obj.nTipoDocumento</td>
                                     @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
                                     <td>@rNumDoc</td>
                                     <td>@obj.NombreEntidadR</td>
-                                    <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                     @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
                                         var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";
                                         var rEstadoTexto = obj.IdEstadoMovimiento == 1 ? "P" : "R";}
                                     <td class="text-center"><a class="mactivo" data-id="@obj.IdMovimiento"><span hidden>@rEstadoTexto</span><i class="fa @rEstado @rColor"></i></a></td>
+                                    <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                     @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
                                     <td class="text-center">
                                         <a href="@Url.Action("Movimiento", new { id = obj.IdMovimiento, idLibro = Model.IdCuentaBancaria })"><i class="fa fa-@rIcon" title="@rTitle"></i></a>&nbsp;

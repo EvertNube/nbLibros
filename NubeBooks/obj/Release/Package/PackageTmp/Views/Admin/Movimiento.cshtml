@@ -317,7 +317,7 @@ else { cadena = "Actualizar"; }
                     <div class="form-group @nexo_activo" id="nexo_comprobante">
                         <div class="row">
                             <div class="col-md-3">
-                                <label>Tipo de Documento</label>
+                                <label>Documento</label>
                                 @*@Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTiposDeDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != null ? Model.IdTipoDocumento : 0) : 0), new { @class = "form-control parsley-validated rol-accs", @onchange = "ListarComprobantesEntidadXTipoDoc(1)" })*@
                                 <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarComprobantesEntidadXTipoDoc(1)"
                                         id="IdTipoDocumento" name="IdTipoDocumento">
