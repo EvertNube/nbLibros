@@ -245,11 +245,11 @@ else { cadena = "Actualizar"; }
                             <th width="7%">Fecha</th>
                             @*<th class="text-center">Movimiento</th>*@
                             <th >Detalle</th>
-                            <th class="text-center">Monto</th>
                             @*<th class="text-center">Saldo Bancario</th>*@
-                            <th >Partida</th>
                             <th >Entidad</th>
                             <th >Documento</th>
+                            <th>Partida</th>
+                            <th class="text-center">Monto</th>
                             <th class="text-center">Estado</th>
                             <th style="width:30px"></th>
                         </tr>
@@ -270,13 +270,13 @@ else { cadena = "Actualizar"; }
                                     @{ var colorTipoMov = obj.IdTipoMovimiento == 1 ? "text-success-dker" : "red";
                                         var signo = obj.IdTipoMovimiento == 1 ? "" : "-";  }
                                     <td>@obj.NroOperacion</td>
-                                    <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                     @*<td class="text-right">@Model.SimboloMoneda @obj.SaldoBancario.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</td>*@
                                     @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
-                                    <td style="color:#428bca;">@nCategoria</td>
-                                    <td><strong>@obj.NombreEntidadR</strong></td>
+                                    <td>@nCategoria</td>
                                     @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
                                     <td>@rNumDoc</td>
+                                    <td>@obj.NombreEntidadR</td>
+                                    <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                                     @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
                                         var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";
                                         var rEstadoTexto = obj.IdEstadoMovimiento == 1 ? "P" : "R";}
