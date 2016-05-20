@@ -1541,6 +1541,16 @@ namespace NubeBooks.Controllers
             if (dto != null) { cadena = dto.IdTipoComprobante == 1 ? "Ingreso" : "Egreso"; }
             return RedirectToAction("Comprobantes" + cadena, "Admin");
         }
+
+        [HttpPost]
+        public ActionResult DeleteCategoria(int id)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Categorias", "Admin"); }
+
+
+        }
+
         [HttpPost]
         public ActionResult AnularComprobante(int id, string comentario)
         {
