@@ -594,6 +594,20 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public List<Select2DTO_B> getComprobantes_EntidadXDocumento_Pendientes(int idEmpresa, int idEntidad, int idTipoDoc)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.IdTipoDocumento == idTipoDoc && !x.Ejecutado && x.Estado && x.IdTipoComprobante < 3).Select(x => new Select2DTO_B
+                {
+                    id = x.IdComprobante,
+                    text = x.NroDocumento,
+                    ejecutado = x.Ejecutado
+                }).OrderBy(x => x.text).ToList();
+                return result;
+            }
+        }
+
         public List<HonorarioDTO> getListaHonorariosEnEmpresa(int idEmpresa)
         {
             HonorarioBL objBL = new HonorarioBL();

@@ -96,6 +96,7 @@
 
         function ListarComprobantesEntidadXTipoDoc(cambio) {
             if ($('#IdEntidadResponsable').val() != '' && $('#IdTipoDocumento').val() != '') {
+                var idMovimiento = @Model.IdMovimiento;
                 var identidad = parseInt($('#IdEntidadResponsable').val());
                 var idtdoc = parseInt($('#IdTipoDocumento').val());
                 //Se limpia el comprobante y la categoria si es que se cambia la entidad o el tipo de doc
@@ -109,7 +110,7 @@
                     }
                 }
                 if (@ViewBag.IdTipoCuenta == 1)
-                {GetComprobantesAjax(identidad, idtdoc);}
+                {GetComprobantesAjax(idMovimiento, identidad, idtdoc);}
             }
             else
             {
@@ -119,17 +120,17 @@
             }
         }
 
-        function GetComprobantesAjax(identidad, idtdoc) {
+        function GetComprobantesAjax(idMovimiento, identidad, idtdoc) {
             $.ajax({
                 type: "POST",
                 url: miBaseUrl + "/GetComprobantes",
                 cache: false,
-                data: { idEntidad: identidad, idTipoDoc: idtdoc },
+                data: { idMovimiento: idMovimiento, idEntidad: identidad, idTipoDoc: idtdoc },
                 dataType: 'json',
                 success: function (data) {
                     $('#IdComprobante').select2({
-                        data: data.listaComp,
-                        formatResult: formatCmp,
+                        data: data.lista,
+                        //formatResult: formatCmp,
                     })
                     //$('#cmpMonto').val('');
                 }

@@ -629,7 +629,8 @@ namespace NubeBooks.Controllers
             List<CategoriaDTO> listaCategorias = new List<CategoriaDTO>();
             if (empresa.IdEmpresa > 0 && empresa.IdPeriodo > 0)
             {
-                listaCategorias = objBL.getCategoriasPorPeriodo_ArbolEnEmpresa(empresa.IdEmpresa, (int)empresa.IdPeriodo);
+                //listaCategorias = objBL.getCategoriasPorPeriodo_ArbolEnEmpresa(empresa.IdEmpresa, (int)empresa.IdPeriodo);
+                listaCategorias = objBL.getCategoriasTreeEnEmpresa(empresa.IdEmpresa);
             }
 
             return View(listaCategorias);
@@ -1548,7 +1549,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (getCurrentUser().IdRol == 4) { return RedirectToAction("Categorias", "Admin"); }
 
-
+            return View();
         }
 
         [HttpPost]
@@ -2643,11 +2644,24 @@ namespace NubeBooks.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetComprobantes(int idEntidad, int idTipoDoc)
+        public JsonResult GetComprobantes(int idMovimiento, int idEntidad, int idTipoDoc)
         {
             ComprobanteBL objBL = new ComprobanteBL();
-            var listaComp = objBL.getComprobantesPorEntXTDoc(getCurrentUser().IdEmpresa, idEntidad, idTipoDoc);
-            return Json(new { listaComp }, JsonRequestBehavior.AllowGet);
+
+            //var listaComp = objBL.getComprobantesPorEntXTDoc(getCurrentUser().IdEmpresa, idEntidad, idTipoDoc);
+            List<Select2DTO_B> lista = objBL.getComprobantes_EntidadXDocumento_Pendientes(getCurrentUser().IdEmpresa, idEntidad, idTipoDoc);
+            if(idMovimiento > 0)
+            {
+                MovimientoDTO mov = (new MovimientoBL()).getMovimiento(idMovimiento);
+                if(mov != null && mov.IdComprobante != null && mov.IdComprobante > 0 && mov.IdEntidadResponsable == idEntidad && mov.IdTipoDocumento == idTipoDoc)
+                {
+                    ComprobanteDTO item = objBL.getComprobanteEnEmpresa(getCurrentUser().IdEmpresa, mov.IdComprobante.GetValueOrDefault());
+                    Select2DTO_B aux = new Select2DTO_B() { id = item.IdComprobante, text = item.NroDocumento, ejecutado = item.Ejecutado };
+                    lista.Insert(0, aux);
+                }
+                
+            }
+            return Json(new { lista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -2656,6 +2670,48 @@ namespace NubeBooks.Controllers
             ProyectoBL objBL = new ProyectoBL();
             var listaProyectos = objBL.getProyectosPorEntidad(idEntidad, true);
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Buscar_Elementos(string texto)
+        {
+            string palabra = "Hola Mundo";
+
+            EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            MovimientoBL movimientoBL = new MovimientoBL();
+            ComprobanteBL comprobanteBL = new ComprobanteBL();
+            MovimientoInvBL movimientoInvBL = new MovimientoInvBL();
+
+            List<MovimientoDTO> lstMovimientos = movimientoBL.getMovimientos_EnEmpresa(empresa.IdEmpresa);
+            List<ComprobanteDTO> lstComprobantes = comprobanteBL.getComprobantesEnEmpresa(empresa.IdEmpresa);
+            List<MovimientoInvDTO> lstMovimientoInv = movimientoInvBL.getMovimientoInvsEnEmpresa(empresa.IdEmpresa);
+
+            List<sItem> ListaS1, ListaS2, ListaS3;
+
+            ListaS1 = lstMovimientos.Where(x => (x.NroOperacion.ToLower() ?? "").Contains(texto)
+                            || (x.Monto.ToString()).Contains(texto)).Select(x => new sItem {
+                                id = x.IdMovimiento,
+                                nombre = x.NroOperacion,
+                                monto = x.Monto
+                            }).ToList();
+
+            ListaS2 = lstComprobantes.Where(x => (x.NroDocumento).Contains(texto)
+                            || (x.Monto.ToString()).Contains(texto)).Select(x => new sItem
+                            {
+                                id = x.IdComprobante,
+                                nombre = x.NroDocumento,
+                                monto = x.Monto
+                            }).ToList();
+
+            ListaS3 = lstMovimientoInv.Where(x => (x.NroDocumento.ToLower()).Contains(texto)
+                            || (x.Cantidad.ToString()).Contains(texto)).Select(x => new sItem
+                            {
+                                id = x.IdMovimientoInv,
+                                nombre = x.NroDocumento,
+                                monto = x.Cantidad
+                            }).ToList();
+
+            return Json(new { palabra }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -2727,8 +2783,8 @@ namespace NubeBooks.Controllers
             if (id == null && lista == null)
             {
                 CategoriaBL objBL = new CategoriaBL();
-                //listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa);
-                listaCat = objBL.getCategoriasPorPeriodo_ArbolEnEmpresa(idEmpresa, idPeriodo);
+                listaCat = objBL.getCategoriasTreeEnEmpresa(getCurrentUser().IdEmpresa);
+                //listaCat = objBL.getCategoriasPorPeriodo_ArbolEnEmpresa(idEmpresa, idPeriodo);
             }
             List<Select2DTO> selectTree = new List<Select2DTO>();
 

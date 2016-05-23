@@ -197,7 +197,7 @@
                 if (obj.IdCategoriaPadre != null || ViewBag.EsAdmin)
                 {
                     output.AppendFormat("<a class='btn-add' href='{0}'><i class='fa fa-pencil'></i>&nbsp;</a>", Url.Action("Categoria", new { id = obj.IdCategoria }));
-                    output.AppendFormat("<a class='btn-add open-modal' data-toggle='modal' data-target='#modal-form' data-id='{0}' data-nombre='{1}'><i class='fa fa-trash'></i>&nbsp;</a>", obj.IdCategoria, obj.Nombre);
+                    //output.AppendFormat("<a class='btn-add open-modal' data-toggle='modal' data-target='#modal-form' data-id='{0}' data-nombre='{1}'><i class='fa fa-trash'></i>&nbsp;</a>", obj.IdCategoria, obj.Nombre);
                 }
                 if (nivel < nivelMax) { output.AppendFormat("<a class='btn-add' href='{0}' title='Nueva Categoría Interna'>&nbsp;<i class='fa fa-plus'></i></a>", Url.Action("Categoria", new { id = 0, idPadre = obj.IdCategoria })); }
                 output.Append("</div></div></div>");

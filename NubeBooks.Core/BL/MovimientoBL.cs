@@ -15,6 +15,38 @@ namespace NubeBooks.Core.BL
 {
     public class MovimientoBL : Base
     {
+        public List<MovimientoDTO> getMovimientos_EnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                List<int> listaCuentas = context.CuentaBancaria.Where(x => x.IdEmpresa == idEmpresa).Select(x => x.IdCuentaBancaria).ToList();
+
+                var result = context.Movimiento.Where(x => listaCuentas.Contains(x.IdCuentaBancaria)).Select(x => new MovimientoDTO
+                {
+                    IdMovimiento = x.IdMovimiento,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoMovimiento = x.FormaMovimiento.IdTipoMovimiento,
+                    IdFormaMovimiento = x.IdFormaMovimiento,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdCategoria = x.IdCategoria,
+                    IdEstadoMovimiento = x.IdEstadoMovimiento,
+                    NroOperacion = x.NroOperacion,
+                    Fecha = x.Fecha,
+                    Monto = x.Monto,
+                    TipoCambio = x.TipoCambio,
+                    NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    FechaCreacion = x.FechaCreacion,
+                    MontoSinIGV = x.MontoSinIGV,
+                    IdComprobante = x.IdComprobante
+                }).ToList();
+                return result;
+            }
+        }
+
         public List<MovimientoDTO> getMovimientos()
         {
             using (var context = getContext())

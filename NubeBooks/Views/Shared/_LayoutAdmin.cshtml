@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/font.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/app.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/admin-nb/css/custom.css" type="text/css" />
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
     @RenderSection("styles", required: false)
 
     <!-- Angular -->
@@ -52,7 +54,7 @@
                 </div>
                 <!-- / buttons -->
                 <!-- search form -->
-                <!--<form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+                @*<form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Buscar...">
@@ -61,7 +63,7 @@
                             </span>
                         </div>
                     </div>
-                </form>-->
+                </form>*@
                 <!-- / search form -->
                 <!-- nabar right -->
                 <ul class="nav navbar-nav navbar-right">
@@ -149,12 +151,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            @*<li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                    <a href="@Url.Action("ReporteCategorias", "Admin")">
-                                        <i class="fa fa-download"></i>
-                                        <span class="font-bold">Reportes</span>
-                                    </a>
-                                </li>*@
 
                             <li class="line dk"></li>
 
@@ -449,6 +445,10 @@
     <script src="~/Content/themes/admin-nb/js/ui-client.js"></script>
     @Scripts.Render("~/Content/themes/admin/js/datepicker/bootstrap-datepicker.js")
     @Scripts.Render("~/Content/themes/admin/js/main.js")
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+
+    <script type="text/javascript">
+    </script>
 
     @RenderSection("scripts", required: false)
 
