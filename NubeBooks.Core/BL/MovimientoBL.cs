@@ -31,7 +31,7 @@ namespace NubeBooks.Core.BL
                     IdTipoDocumento = x.IdTipoDocumento,
                     IdCategoria = x.IdCategoria,
                     IdEstadoMovimiento = x.IdEstadoMovimiento,
-                    NroOperacion = x.NroOperacion,
+                    NroOperacion = x.NroOperacion ?? "",
                     Fecha = x.Fecha,
                     Monto = x.Monto,
                     TipoCambio = x.TipoCambio,

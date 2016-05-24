@@ -2672,10 +2672,9 @@ namespace NubeBooks.Controllers
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Buscar_Elementos(string texto)
+        [HttpGet]
+        public JsonResult Buscar_Elementos(string texto, int page = 0)
         {
-            string palabra = "Hola Mundo";
-
             EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             MovimientoBL movimientoBL = new MovimientoBL();
@@ -2711,7 +2710,15 @@ namespace NubeBooks.Controllers
                                 monto = x.Cantidad
                             }).ToList();
 
-            return Json(new { palabra }, JsonRequestBehavior.AllowGet);
+            ListaS1.AddRange(ListaS2);
+            ListaS1.AddRange(ListaS3);
+
+            InfoSItem elem = new InfoSItem();
+            elem.total_count = ListaS1.Count();
+            //elem.items = ListaS1.Skip(5 * page).Take(5).ToList();
+            elem.items = ListaS1;
+
+            return Json(new { elem }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

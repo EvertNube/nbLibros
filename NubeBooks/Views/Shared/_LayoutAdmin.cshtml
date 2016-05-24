@@ -64,6 +64,20 @@
                         </div>
                     </div>
                 </form>*@
+                <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+                    <div class="form-group">
+                        <div class="input-group">
+                            @*<input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Buscar...">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
+                            </span>*@
+                            <input type="hidden" class="js-data-example-ajax" style="width:300px;"/>
+                            @*<select class="js-data-example-ajax">
+                                <option value="3620194" selected="selected">Buscar palabra...</option>
+                            </select>*@
+                        </div>
+                    </div>
+                </form>
                 <!-- / search form -->
                 <!-- nabar right -->
                 <ul class="nav navbar-nav navbar-right">
@@ -448,6 +462,92 @@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
 
     <script type="text/javascript">
+        $(function () {
+            var jsBuscador = $(".js-data-example-ajax").select2({
+                ajax: {
+                    type: 'GET',
+                    url: "/Admin/Buscar_Elementos",
+                    dataType: 'json',
+                    delay: 500,
+                    data: function (term, page) {
+                        return {
+                            texto: term, // search term
+                            page: page
+                        };
+                    },
+                    processResults: function (data, page) {
+                        page = page || 1;
+                        //console.log(data.elem.items);
+
+                        var myResults = [];
+                        $.each(data.elem.items, function (index, item) {
+                            myResults.push({
+                                'id': item.id,
+                                'text': item.nombre,
+                                'data': item
+                            });
+                        });
+
+                        return {
+                            results: myResults,
+                            pagination: {
+                                more: (page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                minimumInputLength: 1,
+                templateResult: function (response) {
+                    data = response.data;
+                    console.log(data);
+                    console.log(data.elem.items);
+                    this.description = '<div>' + data.text + " ---> " + data.monto + "<i class='fa icon-link' title='enlace'></i></div>";
+                    return this.description;
+                },
+                templateSelection: function (response) {
+                    data = response.data;
+                    return data.nombre + " ||| " + data.monto;
+                },
+            });
+
+            jsBuscador.onSelect = (function (fn) {
+                return function (data, options) {
+                    var target;
+
+                    if (options != null) {
+                        target = $(options.target);
+                    }
+
+                    if (target && target.hasClass('icon-link')) {
+                        alert('click!');
+                    } else {
+                        return fn.apply(this, arguments);
+                    }
+                }
+            });
+        });
+
+        function formatRepo(state) {
+            //if (repo.loading) return repo.text;
+
+            /*var markup = "<div class='select2-result-repository clearfix'>" +
+              "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'>" + repo.text + "</div>";*/
+
+            var markup = state.text + "<i class='fa icon-link' title='enlace'></i>";
+
+            /*markup += "<div class='select2-result-repository__statistics'>" +
+              "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.text + " Cantidad</div>" +
+            "</div>" +
+            "</div></div>";*/
+
+            return markup;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.full_name || repo.text;
+        }
     </script>
 
     @RenderSection("scripts", required: false)
