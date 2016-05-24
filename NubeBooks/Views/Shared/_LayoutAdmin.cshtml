@@ -498,16 +498,16 @@
                     cache: true
                 },
                 minimumInputLength: 1,
-                templateResult: function (response) {
+                formatResult: function (response) {
                     data = response.data;
                     console.log(data);
-                    console.log(data.elem.items);
-                    this.description = '<div>' + data.text + " ---> " + data.monto + "<i class='fa icon-link' title='enlace'></i></div>";
+                    //console.log(data.elem.items);
+                    this.description = '<div>' + data.nombre + " | " + data.monto + "<i class='fa icon-link' title='enlace'></i></div>";
                     return this.description;
                 },
-                templateSelection: function (response) {
+                formatSelection: function (response) {
                     data = response.data;
-                    return data.nombre + " ||| " + data.monto;
+                    return data.nombre + " | " + data.monto;
                 },
             });
 
