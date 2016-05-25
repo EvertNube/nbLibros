@@ -71,7 +71,7 @@
                             <span class="input-group-btn">
                                 <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
                             </span>*@
-                            <input type="hidden" class="js-data-example-ajax" style="width:300px;"/>
+                            <input id="miBuscador" type="hidden" style="width:300px;"/>
                             @*<select class="js-data-example-ajax">
                                 <option value="3620194" selected="selected">Buscar palabra...</option>
                             </select>*@
@@ -462,8 +462,10 @@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
 
     <script type="text/javascript">
+        var miBaseUrl = '';
         $(function () {
-            var jsBuscador = $(".js-data-example-ajax").select2({
+            miBaseUrl = baseURL(window.location.pathname);
+            $("#miBuscador").select2({
                 ajax: {
                     type: 'GET',
                     url: "/Admin/Buscar_Elementos",
@@ -477,7 +479,6 @@
                     },
                     processResults: function (data, page) {
                         page = page || 1;
-                        //console.log(data.elem.items);
 
                         var myResults = [];
                         $.each(data.elem.items, function (index, item) {
@@ -500,54 +501,33 @@
                 minimumInputLength: 1,
                 formatResult: function (response) {
                     data = response.data;
-                    console.log(data);
-                    //console.log(data.elem.items);
-                    this.description = '<div>' + data.nombre + " | " + data.monto + "<i class='fa icon-link' title='enlace'></i></div>";
+                    this.description = '<div>' + data.elemento + ' - Nombre:' + data.nombre + " | Cantidad:" + data.monto + "</div>";
                     return this.description;
                 },
                 formatSelection: function (response) {
                     data = response.data;
-                    return data.nombre + " | " + data.monto;
+                    return data.elemento + " - " + data.nombre + " | " + data.monto;
                 },
-            });
-
-            jsBuscador.onSelect = (function (fn) {
-                return function (data, options) {
-                    var target;
-
-                    if (options != null) {
-                        target = $(options.target);
-                    }
-
-                    if (target && target.hasClass('icon-link')) {
-                        alert('click!');
-                    } else {
-                        return fn.apply(this, arguments);
-                    }
-                }
-            });
+            }); 
         });
 
-        function formatRepo(state) {
-            //if (repo.loading) return repo.text;
+        $("#miBuscador").on('select2-selecting', function (e) {
+            console.log(e.object.data);
+            //window.location.href = miBaseUrl + "/LibrosBancarios";
+            var jsObj = e.object.data;
+            var jsTipoElemento = "";
+            switch (jsObj.idElemento)
+            {
+                case 1: jsTipoElemento = "/Movimiento/" + jsObj.id + "?idLibro=" + jsObj.tipo;
+                    break;
+                case 2: jsTipoElemento = "/Comprobante/" + jsObj.id + "?idTipoComprobante=" + jsObj.tipo;
+                    break;
+                case 3: jsTipoElemento = "/MovimientoInv/" + jsObj.id + "?idTipo=" + jsObj.tipo;
+                    break;
+            }
+            window.location.href = miBaseUrl + jsTipoElemento;
+        });
 
-            /*var markup = "<div class='select2-result-repository clearfix'>" +
-              "<div class='select2-result-repository__meta'>" +
-                "<div class='select2-result-repository__title'>" + repo.text + "</div>";*/
-
-            var markup = state.text + "<i class='fa icon-link' title='enlace'></i>";
-
-            /*markup += "<div class='select2-result-repository__statistics'>" +
-              "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.text + " Cantidad</div>" +
-            "</div>" +
-            "</div></div>";*/
-
-            return markup;
-        }
-
-        function formatRepoSelection(repo) {
-            return repo.full_name || repo.text;
-        }
     </script>
 
     @RenderSection("scripts", required: false)

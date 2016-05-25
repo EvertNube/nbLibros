@@ -11,5 +11,8 @@ namespace NubeBooks.Models
         public int id { get; set; }
         public string nombre { get; set; }
         public Decimal monto { get; set; }
+        public int idElemento { get; set; }
+        public string elemento { get; set; }
+        public string tipo { get; set; }
     }
 }

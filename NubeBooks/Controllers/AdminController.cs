@@ -2691,7 +2691,10 @@ namespace NubeBooks.Controllers
                             || (x.Monto.ToString()).Contains(texto)).Select(x => new sItem {
                                 id = x.IdMovimiento,
                                 nombre = x.NroOperacion,
-                                monto = x.Monto
+                                monto = x.Monto,
+                                idElemento = 1,
+                                elemento = "Movimiento",
+                                tipo = x.IdCuentaBancaria.ToString() //LibroBancario
                             }).ToList();
 
             ListaS2 = lstComprobantes.Where(x => (x.NroDocumento).Contains(texto)
@@ -2699,7 +2702,10 @@ namespace NubeBooks.Controllers
                             {
                                 id = x.IdComprobante,
                                 nombre = x.NroDocumento,
-                                monto = x.Monto
+                                monto = x.Monto,
+                                idElemento = 2,
+                                elemento = "Comprobante",
+                                tipo = x.IdTipoComprobante.ToString()
                             }).ToList();
 
             ListaS3 = lstMovimientoInv.Where(x => (x.NroDocumento.ToLower()).Contains(texto)
@@ -2707,7 +2713,10 @@ namespace NubeBooks.Controllers
                             {
                                 id = x.IdMovimientoInv,
                                 nombre = x.NroDocumento,
-                                monto = x.Cantidad
+                                monto = x.Cantidad,
+                                idElemento = 3,
+                                elemento = "Movimiento Inv.",
+                                tipo = x.IdTipoMovimientoInv.ToString()
                             }).ToList();
 
             ListaS1.AddRange(ListaS2);
