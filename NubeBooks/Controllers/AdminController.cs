@@ -2687,36 +2687,62 @@ namespace NubeBooks.Controllers
 
             List<sItem> ListaS1, ListaS2, ListaS3;
 
-            ListaS1 = lstMovimientos.Where(x => (x.NroOperacion.ToLower() ?? "").Contains(texto)
-                            || (x.Monto.ToString()).Contains(texto)).Select(x => new sItem {
+            ListaS1 = lstMovimientos.Where(x => 
+                            (x.NroOperacion.ToLower() ?? "").Contains(texto)||
+                            (x.Monto.ToString()).Contains(texto)||
+                            (x.NombreCategoria.ToLower() ?? "").Contains(texto)||
+                            x.nTipoDocumento.ToLower().Contains(texto)||
+                            x.NumeroDocumento.ToLower().Contains(texto)||
+                            x.NombreEntidadR.ToLower().Contains(texto)
+                            ).Select(x => new sItem {
                                 id = x.IdMovimiento,
                                 nombre = x.NroOperacion,
                                 monto = x.Monto,
                                 idElemento = 1,
                                 elemento = "Movimiento",
-                                tipo = x.IdCuentaBancaria.ToString() //LibroBancario
+                                tipo = x.IdCuentaBancaria.ToString(), //LibroBancario
+                                s1 = x.NombreCategoria,
+                                s2 = x.nTipoDocumento,
+                                s3 = x.NumeroDocumento,
+                                s4 = x.NombreEntidadR
                             }).ToList();
 
-            ListaS2 = lstComprobantes.Where(x => (x.NroDocumento).Contains(texto)
-                            || (x.Monto.ToString()).Contains(texto)).Select(x => new sItem
+            ListaS2 = lstComprobantes.Where(x => 
+                            (x.NroDocumento).Contains(texto)||
+                            (x.MontoSinIGV.ToString()).Contains(texto)||
+                            x.NombreTipoDocumento.ToLower().Contains(texto)||
+                            x.NombreEntidad.ToLower().Contains(texto)
+                            ).Select(x => new sItem
                             {
                                 id = x.IdComprobante,
                                 nombre = x.NroDocumento,
-                                monto = x.Monto,
+                                monto = x.MontoSinIGV,
                                 idElemento = 2,
                                 elemento = "Comprobante",
-                                tipo = x.IdTipoComprobante.ToString()
+                                tipo = x.IdTipoComprobante.ToString(),
+                                s1 = x.NombreTipoDocumento,
+                                s2 = x.NombreEntidad
                             }).ToList();
 
-            ListaS3 = lstMovimientoInv.Where(x => (x.NroDocumento.ToLower()).Contains(texto)
-                            || (x.Cantidad.ToString()).Contains(texto)).Select(x => new sItem
+            ListaS3 = lstMovimientoInv.Where(x => 
+                            (x.NroDocumento.ToLower()).Contains(texto)||
+                            (x.Cantidad.ToString()).Contains(texto)||
+                            x.nItem.ToLower().Contains(texto)||
+                            x.UnidadMedida.ToLower().Contains(texto)||
+                            x.nForma.ToLower().Contains(texto)||
+                            x.SerieLote.ToLower().Contains(texto)
+                            ).Select(x => new sItem
                             {
                                 id = x.IdMovimientoInv,
                                 nombre = x.NroDocumento,
                                 monto = x.Cantidad,
                                 idElemento = 3,
                                 elemento = "Movimiento Inv.",
-                                tipo = x.IdTipoMovimientoInv.ToString()
+                                tipo = x.IdTipoMovimientoInv.ToString(),
+                                s1 = x.nItem,
+                                s2 = x.UnidadMedida,
+                                s3 = x.nForma,
+                                s4 = x.SerieLote
                             }).ToList();
 
             ListaS1.AddRange(ListaS2);

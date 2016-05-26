@@ -34,14 +34,19 @@ namespace NubeBooks.Core.BL
                     NroOperacion = x.NroOperacion ?? "",
                     Fecha = x.Fecha,
                     Monto = x.Monto,
-                    TipoCambio = x.TipoCambio,
+                    nTipoDocumento = x.TipoDocumento.Nombre,
                     NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento,
+                    TipoCambio = x.TipoCambio,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
                     UsuarioCreacion = x.UsuarioCreacion,
                     FechaCreacion = x.FechaCreacion,
                     MontoSinIGV = x.MontoSinIGV,
-                    IdComprobante = x.IdComprobante
+                    IdComprobante = x.IdComprobante,
+                    NombreCategoria = x.Categoria.Nombre ?? "",
+                    NombreEntidadR = x.EntidadResponsable.Nombre,
+                    NombreUsuario = x.Usuario.Cuenta,
+                    SaldoBancario = x.SaldoBancario
                 }).ToList();
                 return result;
             }
