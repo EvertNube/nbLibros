@@ -67,14 +67,7 @@
                 <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
                     <div class="form-group">
                         <div class="input-group">
-                            @*<input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Buscar...">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
-                            </span>*@
-                            <input id="miBuscador" type="hidden" style="width:300px;"/>
-                            @*<select class="js-data-example-ajax">
-                                <option value="3620194" selected="selected">Buscar palabra...</option>
-                            </select>*@
+                            <input id="miBuscador" type="hidden" style="width:350px;"/>
                         </div>
                     </div>
                 </form>
@@ -470,7 +463,7 @@
                     type: 'GET',
                     url: "/Admin/Buscar_Elementos",
                     dataType: 'json',
-                    delay: 500,
+                    delay: 750,
                     data: function (term, page) {
                         return {
                             texto: term, // search term
@@ -501,12 +494,13 @@
                 minimumInputLength: 1,
                 formatResult: function (response) {
                     data = response.data;
-                    this.description = '<div>' + data.elemento + ' - Nombre:' + data.nombre + " | Cantidad:" + data.monto + "</div>";
+                    //this.description = '<div class="padder"><div class="row"><strong>' + data.elemento + ':</strong> ' + data.nombre + '</div><div class="row">Cantidad:' + data.monto + '</div></div>';
+                    this.description = datosElemento(data);
                     return this.description;
                 },
                 formatSelection: function (response) {
                     data = response.data;
-                    return data.elemento + " - " + data.nombre + " | " + data.monto;
+                    return '<strong>' + data.elemento + ':</strong> ' + data.nombre + ' - ' + data.monto;
                 },
             }); 
         });
@@ -527,6 +521,29 @@
             }
             window.location.href = miBaseUrl + jsTipoElemento;
         });
+
+        function datosElemento(data) {
+            var jsCadena = '<div class="padder">';
+            switch (data.idElemento) {
+                case 1:
+                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> Nro: ' + data.nombre + ' M: ' + data.monto + '</div>';
+                    jsCadena += '<div class="row">PP.: ' + data.s1 + ' TDoc: ' + data.s2 + ' </div>'
+                    jsCadena += '<div class="row">NDoc:' + data.s3 + ' Ent:' + data.s4 + ' </div>'
+                    break;
+                case 2:
+                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> NroDoc: ' + data.nombre + ' M(SinIGV): ' + data.monto + '</div>';
+                    jsCadena += '<div class="row">TDoc: ' + data.s1 + ' Ent: ' + data.s2 + ' </div>'
+                    break;
+                case 3:
+                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> NroDoc: ' + data.nombre + ' C: ' + data.monto + '</div>';
+                    jsCadena += '<div class="row">Item: ' + data.s1 + ' U. Med: ' + data.s2 + ' </div>'
+                    jsCadena += '<div class="row">Forma: ' + data.s3 + ' Lote: ' + data.s4 + ' </div>'
+                    break;
+            }
+            jsCadena += '</div>';
+
+            return jsCadena;
+        }
 
     </script>
 

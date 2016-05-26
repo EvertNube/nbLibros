@@ -2675,6 +2675,7 @@ namespace NubeBooks.Controllers
         [HttpGet]
         public JsonResult Buscar_Elementos(string texto, int page = 0)
         {
+            texto = texto.ToLower();
             EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
             MovimientoBL movimientoBL = new MovimientoBL();
@@ -2692,7 +2693,7 @@ namespace NubeBooks.Controllers
                             (x.Monto.ToString()).Contains(texto)||
                             (x.NombreCategoria.ToLower() ?? "").Contains(texto)||
                             x.nTipoDocumento.ToLower().Contains(texto)||
-                            x.NumeroDocumento.ToLower().Contains(texto)||
+                            (x.NumeroDocumento.ToLower() ?? "").Contains(texto)||
                             x.NombreEntidadR.ToLower().Contains(texto)
                             ).Select(x => new sItem {
                                 id = x.IdMovimiento,

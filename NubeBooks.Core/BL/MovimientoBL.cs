@@ -34,8 +34,8 @@ namespace NubeBooks.Core.BL
                     NroOperacion = x.NroOperacion ?? "",
                     Fecha = x.Fecha,
                     Monto = x.Monto,
-                    nTipoDocumento = x.TipoDocumento.Nombre,
-                    NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento,
+                    nTipoDocumento = x.TipoDocumento.Nombre ?? "",
+                    NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento ?? "",
                     TipoCambio = x.TipoCambio,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
@@ -44,7 +44,7 @@ namespace NubeBooks.Core.BL
                     MontoSinIGV = x.MontoSinIGV,
                     IdComprobante = x.IdComprobante,
                     NombreCategoria = x.Categoria.Nombre ?? "",
-                    NombreEntidadR = x.EntidadResponsable.Nombre,
+                    NombreEntidadR = x.EntidadResponsable.Nombre ?? "",
                     NombreUsuario = x.Usuario.Cuenta,
                     SaldoBancario = x.SaldoBancario
                 }).ToList();
@@ -195,9 +195,7 @@ namespace NubeBooks.Core.BL
                     //Actualizar saldos del Libro
                     ActualizarSaldos(Movimiento.IdCuentaBancaria);
                     //Actualizar saldo Bancario en Movimiento
-                    ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
-                    //Actualizar Fecha de Ultima Fecha de Conciliacion en la Empresa
-                    //ActualizarFechaConciliacionEnEmpresa(Movimiento.IdCuentaBancaria);
+                    //ActualizarSaldoBancarioEnMovimiento(Movimiento.IdMovimiento);
                     return true;
                 }
                 catch (Exception e)
@@ -347,8 +345,6 @@ namespace NubeBooks.Core.BL
                 {
                     throw e;
                 }
-
-
             }
         }
 

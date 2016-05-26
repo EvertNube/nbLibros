@@ -25,15 +25,19 @@ namespace NubeBooks.Core.Logistics.BL
                     IdUbicacion = x.IdUbicacion,
                     NroDocumento = x.NroDocumento,
                     GuiaRemision = x.GuiaRemision,
-                    SerieLote = x.SerieLote,
+                    SerieLote = x.SerieLote ?? "",
                     Cantidad = x.Cantidad,
-                    UnidadMedida = x.UnidadMedida,
+                    UnidadMedida = x.UnidadMedida ?? "",
                     FechaInicial = x.FechaInicial,
                     FechaFin = x.FechaFin,
                     Comentario = x.Comentario,
                     Estado = x.Estado,
                     UsuarioCreacion = x.UsuarioCreacion,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    nForma = x.FormaMovimientoInv.Nombre ?? "",
+                    nItem = x.Item.Codigo + " - " + x.Item.Nombre,
+                    nTipo = x.FormaMovimientoInv.TipoMovimientoInv.Nombre,
+                    nUsuario = x.Usuario.Nombre
                 }).ToList();
                 return result;
             }
