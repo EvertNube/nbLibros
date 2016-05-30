@@ -1669,7 +1669,7 @@ namespace NubeBooks.Controllers
             ViewBag.lstFormaMovimiento = objBL.getFormaMovimientoInvPorTipo(tipo);
             ViewBag.lstItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
             ViewBag.lstProveedores = objBL.getProveedoresEnEmpresa(user.IdEmpresa);
-            ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
+            //ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
 
             var objSent = TempData["MovimientoInv"];
             if (objSent != null) { TempData["MovimientoInv"] = null; return View(objSent); }
@@ -1682,6 +1682,15 @@ namespace NubeBooks.Controllers
                 if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("MovimientoInvs");
                 obj.UsuarioCreacion = user.IdUsuario;
 
+                if (idTipo.GetValueOrDefault() == 1)
+                {
+                    ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
+                }
+                else if (idTipo.GetValueOrDefault() == 2)
+                {
+                    ViewBag.lstUbicaciones = objBL.getUbicaciones_EnLote_EnEmpresa(user.IdEmpresa, obj.SerieLote);
+                }
+
                 return View(obj);
             }
             obj = new MovimientoInvDTO();
@@ -1689,6 +1698,15 @@ namespace NubeBooks.Controllers
             obj.IdEmpresa = user.IdEmpresa;
             obj.UsuarioCreacion = user.IdUsuario;
             obj.FechaInicial = DateTime.Now;
+
+            if (idTipo.GetValueOrDefault() == 1)
+            {
+                ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
+            }
+            else if (idTipo.GetValueOrDefault() == 2)
+            {
+                ViewBag.lstUbicaciones = new List<Select2DTO_B>();
+            }
 
             return View(obj);
         }
@@ -2665,6 +2683,15 @@ namespace NubeBooks.Controllers
                 }
                 
             }
+            return Json(new { lista }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetUbicaciones_EnLote(string serieLote)
+        {
+            MovimientoInvBL objBL = new MovimientoInvBL();
+
+            List<UbicacionDTO> lista = objBL.getUbicaciones_EnLote_EnEmpresa(getCurrentUser().IdEmpresa, serieLote);
             return Json(new { lista }, JsonRequestBehavior.AllowGet);
         }
 

@@ -283,6 +283,45 @@ namespace NubeBooks.Core.Logistics.BL
             }
         }
 
+        public List<UbicacionDTO> getUbicaciones_Lotes_EnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                //var lstStockLotes = context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList();
+                var result = (from mov in context.MovimientoInv
+                             join ubi in context.Ubicacion on mov.IdUbicacion equals ubi.IdUbicacion
+                             join form in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals form.IdFormaMovimientoInv
+                             where mov.IdEmpresa == idEmpresa && form.IdTipoMovimientoInv == 1
+                             select new UbicacionDTO
+                             {
+                                 SerieLote = mov.SerieLote,
+                                 IdUbicacion = mov.IdUbicacion ?? 0,
+                                 Nombre = ubi.Nombre
+                             }).Distinct().ToList();
+
+                return result;
+            }
+        }
+
+        public List<UbicacionDTO> getUbicaciones_EnLote_EnEmpresa(int idEmpresa, string serieLote)
+        {
+            using (var context = getContext())
+            {
+                var result = (from mov in context.MovimientoInv
+                              join ubi in context.Ubicacion on mov.IdUbicacion equals ubi.IdUbicacion
+                              join form in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals form.IdFormaMovimientoInv
+                              where mov.IdEmpresa == idEmpresa && mov.SerieLote == serieLote && form.IdTipoMovimientoInv == 1
+                              select new UbicacionDTO
+                              {
+                                  SerieLote = mov.SerieLote,
+                                  IdUbicacion = mov.IdUbicacion ?? 0,
+                                  Nombre = ubi.Nombre
+                              }).Distinct().ToList();
+
+                return result;
+            }
+        }
+
         public List<ItemDTO> getItemsEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())

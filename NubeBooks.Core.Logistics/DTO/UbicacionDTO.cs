@@ -11,9 +11,11 @@ namespace NubeBooks.Core.Logistics.DTO
     public class UbicacionDTO
     {
         public int IdUbicacion { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")]
+        
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
+
+        public string SerieLote { get; set; }
     }
 }

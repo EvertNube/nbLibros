@@ -129,10 +129,8 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#IdComprobante').select2({
-                        data: data.lista,
-                        //formatResult: formatCmp,
+                        data: data.lista
                     })
-                    //$('#cmpMonto').val('');
                 }
             });
         }
