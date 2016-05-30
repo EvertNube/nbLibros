@@ -507,5 +507,39 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+        public List<MovimientoDTO> getMovimientos_Asoc_Comprobante(int idComprobante)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Movimiento.Where(x => x.IdComprobante == idComprobante).Select(x => new MovimientoDTO
+                {
+                    IdMovimiento = x.IdMovimiento,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoMovimiento = x.FormaMovimiento.IdTipoMovimiento,
+                    IdFormaMovimiento = x.IdFormaMovimiento,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdCategoria = x.IdCategoria,
+                    IdEstadoMovimiento = x.IdEstadoMovimiento,
+                    NroOperacion = x.NroOperacion ?? "",
+                    Fecha = x.Fecha,
+                    Monto = x.Monto,
+                    nTipoDocumento = x.TipoDocumento.Nombre ?? "",
+                    NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento ?? "",
+                    TipoCambio = x.TipoCambio,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    FechaCreacion = x.FechaCreacion,
+                    MontoSinIGV = x.MontoSinIGV,
+                    IdComprobante = x.IdComprobante,
+                    NombreCategoria = x.Categoria.Nombre ?? "",
+                    NombreEntidadR = x.EntidadResponsable.Nombre ?? "",
+                    NombreUsuario = x.Usuario.Cuenta,
+                    SaldoBancario = x.SaldoBancario
+                }).ToList();
+                return result;
+            }
+        }
     }
 }

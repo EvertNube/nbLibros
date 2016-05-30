@@ -1423,6 +1423,10 @@ namespace NubeBooks.Controllers
                 obj.UsuarioCreacion = currentUser.IdUsuario;
                 ViewBag.Montos = obj.lstMontos;
 
+                //Movimientos asociados
+                MovimientoBL objMov = new MovimientoBL();
+                ViewBag.Movimientos = objMov.getMovimientos_Asoc_Comprobante(obj.IdComprobante);
+
                 return View(obj);
             }
             obj = new ComprobanteDTO();

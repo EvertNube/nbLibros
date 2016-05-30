@@ -2322,7 +2322,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 20:22:37</publishTime>
     </File>
     <File Include="Views/Admin/CategoriaItms.cshtml">
-      <publishTime>05/18/2016 20:22:37</publishTime>
+      <publishTime>05/27/2016 00:57:10</publishTime>
     </File>
     <File Include="Views/Admin/Categorias.cshtml">
       <publishTime>05/25/2016 19:41:36</publishTime>
@@ -2385,7 +2385,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 20:22:37</publishTime>
     </File>
     <File Include="Views/Admin/Items.cshtml">
-      <publishTime>05/18/2016 20:22:37</publishTime>
+      <publishTime>05/27/2016 00:56:30</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
       <publishTime>05/23/2016 23:18:50</publishTime>
@@ -2448,7 +2448,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 20:22:37</publishTime>
     </File>
     <File Include="Views/Admin/Ubicaciones.cshtml">
-      <publishTime>05/18/2016 20:22:37</publishTime>
+      <publishTime>05/27/2016 00:58:36</publishTime>
     </File>
     <File Include="Views/Admin/Usuario.cshtml">
       <publishTime>05/18/2016 20:22:37</publishTime>
