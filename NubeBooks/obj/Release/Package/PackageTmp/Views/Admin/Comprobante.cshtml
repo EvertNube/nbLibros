@@ -579,4 +579,45 @@
                                                         }
         </div>
     </div>
+    @*@if (Model != null && Model.IdComprobante > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">Movimientos Asociados</div>
+            <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>first name</th>
+                        <th>last name</th>
+                        <th>birth date</th>
+                        <th>balance</th>
+                        <th>email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ngRepeat: row in rowCollectionBasic -->
+                    <tr ng-repeat="row in rowCollectionBasic" st-select-row="row" class="ng-scope ng-isolate-scope">
+                        <td class="ng-binding">Laurent</td>
+                        <td class="ng-binding">Renard</td>
+                        <td class="ng-binding">"1987-05-21T00:00:00.000Z"</td>
+                        <td class="ng-binding">102</td>
+                        <td class="ng-binding">whatever@gmail.com</td>
+                    </tr><!-- end ngRepeat: row in rowCollectionBasic -->
+                    <tr ng-repeat="row in rowCollectionBasic" st-select-row="row" class="ng-scope ng-isolate-scope">
+                        <td class="ng-binding">Blandine</td>
+                        <td class="ng-binding">Faivre</td>
+                        <td class="ng-binding">"1987-04-25T00:00:00.000Z"</td>
+                        <td class="ng-binding">-2323.22</td>
+                        <td class="ng-binding">oufblandou@gmail.com</td>
+                    </tr><!-- end ngRepeat: row in rowCollectionBasic -->
+                    <tr ng-repeat="row in rowCollectionBasic" st-select-row="row" class="ng-scope ng-isolate-scope">
+                        <td class="ng-binding">Francoise</td>
+                        <td class="ng-binding">Frere</td>
+                        <td class="ng-binding">"1955-08-27T00:00:00.000Z"</td>
+                        <td class="ng-binding">42343</td>
+                        <td class="ng-binding">raymondef@gmail.com</td>
+                    </tr><!-- end ngRepeat: row in rowCollectionBasic -->
+                </tbody>
+            </table>
+        </div>
+    }*@
 </div>
