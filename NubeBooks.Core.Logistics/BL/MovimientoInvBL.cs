@@ -270,40 +270,93 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
-        public List<UbicacionDTO> getUbicacionesEnEmpresa(int idEmpresa)
+        public List<Select2DTO_B> getLotesEnEmpresa(int idEmpresa, int conIdItem = 0, string conLote = null)
         {
             using (var context = getContext())
             {
-                var result = context.Ubicacion.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new UbicacionDTO
+                if (conIdItem == 0 && conLote == null)
                 {
-                    IdUbicacion = x.IdUbicacion,
-                    Nombre = x.Nombre
-                }).OrderBy(x => x.Nombre).ToList();
-                return result;
+                    var result = context.SP_Get_StockLotes_En_Empresa(idEmpresa).Where(x => x.StockLote.GetValueOrDefault() > 0).Select(x => new Select2DTO_B
+                    {
+                        text = x.SerieLote
+                    }).ToList();
+                    return result;
+                }
+                else
+                {
+                    var lstStockLotes = context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList();
+
+                    var result = (from mov in context.MovimientoInv
+                                  join form in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals form.IdFormaMovimientoInv
+                                  //join stk in context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList() on mov.SerieLote equals stk.SerieLote
+                                  where mov.IdEmpresa == idEmpresa && mov.IdItem == conIdItem && form.IdTipoMovimientoInv == 1
+                                  select new MovimientoInvDTO { SerieLote = mov.SerieLote }).ToList();
+
+                    foreach (var item in result)
+                    {
+                        item.StockLote = lstStockLotes.Where(x => x.SerieLote == item.SerieLote).SingleOrDefault().StockLote.GetValueOrDefault();
+                    }
+
+                    List<Select2DTO_B> lista = result.Where(x => x.StockLote > 0).Select(x => new Select2DTO_B { text = x.SerieLote }).Distinct().ToList();
+
+                    if(!lista.Any(x => x.text == conLote)) { lista.Add(new Select2DTO_B() { text = conLote }); }
+                    return lista;
+                }
             }
         }
 
-        public List<UbicacionDTO> getUbicaciones_Lotes_EnEmpresa(int idEmpresa)
+        public List<Select2DTO_B> getLotes_PorItem_EnEmpresa(int idEmpresa, int idItem)
         {
             using (var context = getContext())
             {
-                //var lstStockLotes = context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList();
-                var result = (from mov in context.MovimientoInv
-                             join ubi in context.Ubicacion on mov.IdUbicacion equals ubi.IdUbicacion
-                             join form in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals form.IdFormaMovimientoInv
-                             where mov.IdEmpresa == idEmpresa && form.IdTipoMovimientoInv == 1
-                             select new UbicacionDTO
-                             {
-                                 SerieLote = mov.SerieLote,
-                                 IdUbicacion = mov.IdUbicacion ?? 0,
-                                 Nombre = ubi.Nombre
-                             }).Distinct().ToList();
+                var lstStockLotes = context.SP_Get_StockLotes_En_Empresa(idEmpresa).ToList();
 
-                return result;
+                var result = (from mov in context.MovimientoInv
+                              join form in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals form.IdFormaMovimientoInv
+                              where mov.IdEmpresa == idEmpresa && mov.IdItem == idItem && form.IdTipoMovimientoInv == 1
+                              select new MovimientoInvDTO { SerieLote = mov.SerieLote }).ToList();
+
+                foreach (var item in result)
+                {
+                    item.StockLote = lstStockLotes.Where(x => x.SerieLote == item.SerieLote).SingleOrDefault().StockLote.GetValueOrDefault();
+                }
+
+                List<Select2DTO_B> lista = result.Where(x => x.StockLote > 0).Select(x => new Select2DTO_B { text = x.SerieLote }).Distinct().ToList();
+                return lista;
             }
         }
 
-        public List<UbicacionDTO> getUbicaciones_EnLote_EnEmpresa(int idEmpresa, string serieLote)
+        public List<UbicacionDTO> getUbicacionesEnEmpresa(int idEmpresa, string conLote = null)
+        {
+            using (var context = getContext())
+            {
+                if (conLote == null)
+                {
+                    var result = context.Ubicacion.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new UbicacionDTO
+                    {
+                        IdUbicacion = x.IdUbicacion,
+                        Nombre = x.Nombre
+                    }).OrderBy(x => x.Nombre).ToList();
+                    return result;
+                }
+                else
+                {
+                    var result = (from mov in context.MovimientoInv
+                                  join ubi in context.Ubicacion on mov.IdUbicacion equals ubi.IdUbicacion
+                                  join form in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals form.IdFormaMovimientoInv
+                                  where mov.IdEmpresa == idEmpresa && mov.SerieLote == conLote && form.IdTipoMovimientoInv == 1
+                                  select new UbicacionDTO
+                                  {
+                                      IdUbicacion = mov.IdUbicacion ?? 0,
+                                      Nombre = ubi.Nombre
+                                  }).Distinct().ToList();
+                    return result;
+                }
+
+            }
+        }
+
+        /*public List<UbicacionDTO> getUbicaciones_EnLote_EnEmpresa(int idEmpresa, string serieLote)
         {
             using (var context = getContext())
             {
@@ -313,14 +366,12 @@ namespace NubeBooks.Core.Logistics.BL
                               where mov.IdEmpresa == idEmpresa && mov.SerieLote == serieLote && form.IdTipoMovimientoInv == 1
                               select new UbicacionDTO
                               {
-                                  SerieLote = mov.SerieLote,
                                   IdUbicacion = mov.IdUbicacion ?? 0,
                                   Nombre = ubi.Nombre
                               }).Distinct().ToList();
-
                 return result;
             }
-        }
+        }*/
 
         public List<ItemDTO> getItemsEnEmpresa(int idEmpresa)
         {
@@ -332,6 +383,35 @@ namespace NubeBooks.Core.Logistics.BL
                     Codigo = x.Codigo + " - " + x.Nombre
                 }).OrderBy(x => x.Codigo).ToList();
                 return result;
+            }
+        }
+
+        public List<ItemDTO> getItemsEnEmpresa_PorTipoMov(int idEmpresa, int idTipo)
+        {
+            using (var context = getContext())
+            {
+                if (idTipo == 1)
+                {
+                    var result = context.Item.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ItemDTO
+                    {
+                        IdItem = x.IdItem,
+                        Codigo = x.Codigo + " - " + x.Nombre
+                    }).OrderBy(x => x.Codigo).ToList();
+                    return result;
+                }
+                else
+                {
+                    var result = (from mov in context.MovimientoInv
+                                   join fmv in context.FormaMovimientoInv on mov.IdFormaMovimientoInv equals fmv.IdFormaMovimientoInv
+                                   join itm in context.Item on mov.IdItem equals itm.IdItem
+                                   where mov.IdEmpresa == idEmpresa && fmv.IdTipoMovimientoInv == 1
+                                   select new ItemDTO
+                                   {
+                                       IdItem = mov.IdItem,
+                                       Codigo = itm.Codigo + " - " + itm.Nombre
+                                   }).Distinct().ToList();
+                    return result;
+                }
             }
         }
     }

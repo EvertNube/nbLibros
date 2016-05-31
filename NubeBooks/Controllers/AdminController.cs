@@ -1667,9 +1667,13 @@ namespace NubeBooks.Controllers
 
             ViewBag.lstTipoMovimientoInv = objBL.getTipoMovimientoInv();
             ViewBag.lstFormaMovimiento = objBL.getFormaMovimientoInvPorTipo(tipo);
-            ViewBag.lstItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
+            //ViewBag.lstItems = objBL.getItemsEnEmpresa(user.IdEmpresa);
+            ViewBag.lstItems = objBL.getItemsEnEmpresa_PorTipoMov(user.IdEmpresa, (int)idTipo);
             ViewBag.lstProveedores = objBL.getProveedoresEnEmpresa(user.IdEmpresa);
-            //ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
+            //Lotes de salida Lista
+            ViewBag.lstLotes = objBL.getLotesEnEmpresa(user.IdEmpresa);
+            //Ubicaciones
+            ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
 
             var objSent = TempData["MovimientoInv"];
             if (objSent != null) { TempData["MovimientoInv"] = null; return View(objSent); }
@@ -1682,14 +1686,11 @@ namespace NubeBooks.Controllers
                 if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("MovimientoInvs");
                 obj.UsuarioCreacion = user.IdUsuario;
 
-                if (idTipo.GetValueOrDefault() == 1)
-                {
-                    ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
-                }
-                else if (idTipo.GetValueOrDefault() == 2)
-                {
-                    ViewBag.lstUbicaciones = objBL.getUbicaciones_EnLote_EnEmpresa(user.IdEmpresa, obj.SerieLote);
-                }
+                //lstLotes.Add(new Select2DTO_B() { text = obj.SerieLote });
+                ViewBag.lstLotes = objBL.getLotesEnEmpresa(user.IdEmpresa, obj.IdItem, obj.SerieLote);
+                
+                if (idTipo.GetValueOrDefault() == 1) { ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa); }
+                else if (idTipo.GetValueOrDefault() == 2) { ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa, obj.SerieLote); }
 
                 return View(obj);
             }
@@ -1699,14 +1700,8 @@ namespace NubeBooks.Controllers
             obj.UsuarioCreacion = user.IdUsuario;
             obj.FechaInicial = DateTime.Now;
 
-            if (idTipo.GetValueOrDefault() == 1)
-            {
-                ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa);
-            }
-            else if (idTipo.GetValueOrDefault() == 2)
-            {
-                ViewBag.lstUbicaciones = new List<Select2DTO_B>();
-            }
+            //if (idTipo.GetValueOrDefault() == 1) { ViewBag.lstUbicaciones = objBL.getUbicacionesEnEmpresa(user.IdEmpresa); }
+            //else if (idTipo.GetValueOrDefault() == 2) { ViewBag.lstUbicaciones = new List<Select2DTO_B>(); }
 
             return View(obj);
         }
@@ -2687,11 +2682,20 @@ namespace NubeBooks.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetLotes_EnItem(int idItem)
+        {
+            MovimientoInvBL objBL = new MovimientoInvBL();
+
+            List<Select2DTO_B> lista = objBL.getLotes_PorItem_EnEmpresa(getCurrentUser().IdEmpresa, idItem);
+            return Json(new { lista }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult GetUbicaciones_EnLote(string serieLote)
         {
             MovimientoInvBL objBL = new MovimientoInvBL();
 
-            List<UbicacionDTO> lista = objBL.getUbicaciones_EnLote_EnEmpresa(getCurrentUser().IdEmpresa, serieLote);
+            List<UbicacionDTO> lista = objBL.getUbicacionesEnEmpresa(getCurrentUser().IdEmpresa, serieLote);
             return Json(new { lista }, JsonRequestBehavior.AllowGet);
         }
 

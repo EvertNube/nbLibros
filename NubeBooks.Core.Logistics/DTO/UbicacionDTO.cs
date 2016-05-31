@@ -15,7 +15,5 @@ namespace NubeBooks.Core.Logistics.DTO
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
-
-        public string SerieLote { get; set; }
     }
 }
