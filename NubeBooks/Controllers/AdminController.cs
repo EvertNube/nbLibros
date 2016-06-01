@@ -1090,6 +1090,7 @@ namespace NubeBooks.Controllers
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             ViewBag.TipoIdentificacion = objBL.getTiposDeIdentificaciones();
+            ViewBag.lstComprobantes = objBL.getComprobantes_ConEntidad(currentUser.IdEmpresa, id.GetValueOrDefault());
 
             ViewBag.vbInactivosC = inactivosC;
             ViewBag.vbInactivosP = inactivosP;
@@ -2210,6 +2211,7 @@ namespace NubeBooks.Controllers
             UsuarioDTO currentUser = getCurrentUser();
 
             ResponsableBL objBL = new ResponsableBL();
+            ViewBag.lstComprobantes = objBL.getComprobantes_ConResponsable(currentUser.IdEmpresa, id.GetValueOrDefault());
 
             var objSent = TempData["Responsable"];
             if (objSent != null) { TempData["Responsable"] = null; return View(objSent); }
@@ -2220,6 +2222,9 @@ namespace NubeBooks.Controllers
                 obj = objBL.getResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Responsables");
                 if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Responsables");
+
+                //ViewBag.lstComprobantes = objBL.getComprobantes_ConResponsable(currentUser.IdEmpresa, id.GetValueOrDefault());
+
                 return View(obj);
             }
             obj = new ResponsableDTO();
@@ -2380,6 +2385,7 @@ namespace NubeBooks.Controllers
 
             ProyectoBL objBL = new ProyectoBL();
             ViewBag.IdProyecto = id;
+            ViewBag.lstComprobantes = objBL.getComprobantes_ConProyecto(miUsuario.IdEmpresa, id.GetValueOrDefault());
 
             EntidadResponsableBL objEntidadBL = new EntidadResponsableBL();
             EntidadResponsableDTO objEntidad = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, idEntidad.GetValueOrDefault());
@@ -2484,21 +2490,18 @@ namespace NubeBooks.Controllers
                 nuevo.Estado = true;
                 return View(nuevo);
             }
-            else
+            else if (id != null)
             {
-                if (id != null)
-                {
-                    ContactoDTO obj = objBL.getContacto((int)id);
+                ContactoDTO obj = objBL.getContacto((int)id);
 
-                    if (obj == null) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
-                    if (obj.IdEntidadResponsable != objEntidad.IdEntidadResponsable) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
+                if (obj == null) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
+                if (obj.IdEntidadResponsable != objEntidad.IdEntidadResponsable) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
 
-                    EntidadResponsableDTO objEntidadProy = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, obj.IdEntidadResponsable);
-                    if (objEntidadProy == null) return RedirectToAction("Entidades", "Admin");
-                    if (objEntidadProy.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Entidades", "Admin");
+                EntidadResponsableDTO objEntidadProy = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, obj.IdEntidadResponsable);
+                if (objEntidadProy == null) return RedirectToAction("Entidades", "Admin");
+                if (objEntidadProy.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Entidades", "Admin");
 
-                    return View(obj);
-                }
+                return View(obj);
             }
             return View();
         }

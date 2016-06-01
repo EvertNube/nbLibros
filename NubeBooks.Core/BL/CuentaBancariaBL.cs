@@ -224,8 +224,9 @@ namespace NubeBooks.Core.BL
                     nuevo.IdTipoCuenta = CuentaBancaria.IdTipoCuenta;
                     context.CuentaBancaria.Add(nuevo);
                     context.SaveChanges();
-
-                    ActualizarFechaConciliacionEnEmpresa(nuevo.IdCuentaBancaria);
+                    //Solo hacer la conciliacion de Libros BANCARIOS
+                    if ((int)nuevo.IdTipoCuenta == 1)
+                    { ActualizarFechaConciliacionEnEmpresa(nuevo.IdCuentaBancaria); }
 
                     return true;
                 }
@@ -253,8 +254,9 @@ namespace NubeBooks.Core.BL
                     datoRow.IdEmpresa = CuentaBancaria.IdEmpresa;
                     datoRow.IdTipoCuenta = CuentaBancaria.IdTipoCuenta;
                     context.SaveChanges();
-
-                    ActualizarFechaConciliacionEnEmpresa(datoRow.IdCuentaBancaria);
+                    //Solo hacer la conciliacion de Libros BANCARIOS
+                    if ((int)datoRow.IdTipoCuenta == 1)
+                    { ActualizarFechaConciliacionEnEmpresa(datoRow.IdCuentaBancaria); }
 
                     return true;
                 }

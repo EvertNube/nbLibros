@@ -19,7 +19,6 @@
         var jsLstLotes = JSON.parse('@Html.Raw(infoLotes)');
         var jsLstUbicaciones = JSON.parse('@Html.Raw(infoUbicaciones)');
 
-
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         var miBaseUrl = '';
         $(function () {
@@ -43,14 +42,14 @@
 
                 var auxUbicaciones = []; //Ubicaciones
                 $.each(jsLstUbicaciones, function (index, item) {
-                    auxLotes.push({
+                    auxUbicaciones.push({
                         'id': item.IdUbicacion,
                         'text': item.Nombre,
                     });
                 });
                 $('#IdUbicacion').select2({ data: auxUbicaciones });
 
-                GetUbicacion();
+                //GetUbicacion();
             }
 
             GetUnidadMedida($('#IdItem').val());
@@ -85,7 +84,6 @@
             var jsTipoMovInv = '@Model.IdTipoMovimientoInv';
             if(jsTipoMovInv == 2 && $('#IdUbicacion').val() != '' && $('#IdUbicacion').val() > 0)
             {
-                //console.log($('#IdUbicacion'));
                 ActualizarUbicaciones();
             }
             else if (jsTipoMovInv == 2)
@@ -125,16 +123,15 @@
                     dataType: 'json',
                     delay: 750,
                     success: function (data) {
-                        var myResults = [];
+                        var pLotes = [];
                         $.each(data.lista, function (index, item) {
-                            myResults.push({
+                            pLotes.push({
                                 'id': item.text,
                                 'text': item.text,
                             });
                         });
-
                         $('#SerieLote').select2({
-                            data: myResults
+                            data: pLotes
                         })
                     }
                 });
@@ -150,7 +147,7 @@
             {
                 $('#IdUbicacion').select2("val", "")
 
-                var jsSerieLote = $('#SerieLote').val();
+                var jsSerieLote = $('#SerieLote').select2("val");
                 if (jsSerieLote != "")
                 {
                     $.ajax({
@@ -161,17 +158,16 @@
                         dataType: 'json',
                         delay: 750,
                         success: function (data) {
-                            var myResults = [];
+                            var pUbicaciones = [];
                             $.each(data.lista, function (index, item) {
-                                myResults.push({
+                                pUbicaciones.push({
                                     'id': item.IdUbicacion,
                                     'text': item.Nombre,
                                     'data': item
                                 });
                             });
-
                             $('#IdUbicacion').select2({
-                                data: myResults
+                                data: pUbicaciones
                             })
                         }
                     });

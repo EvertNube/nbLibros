@@ -13,9 +13,11 @@
     <script type="text/javascript">
         @{
             var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
-            var userInfoJson = jss.Serialize(ViewBag.lstUbicaciones);
+            var infoLotes = jss.Serialize(ViewBag.lstLotes);
+            var infoUbicaciones = jss.Serialize(ViewBag.lstUbicaciones);
          }
-        var mydata = JSON.parse('@Html.Raw(userInfoJson)');
+        var jsLstLotes = JSON.parse('@Html.Raw(infoLotes)');
+        var jsLstUbicaciones = JSON.parse('@Html.Raw(infoUbicaciones)');
 
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         var miBaseUrl = '';
@@ -27,11 +29,31 @@
                 allowClear: true,
                 placeholder: "Seleccionar"
             });
-            if ('@Model.IdMovimientoInv' == 0 && '@Model.IdTipoMovimientoInv' == 2)
-            { $('#IdUbicacion').select2({ data: mydata }); }
+            if ('@Model.IdTipoMovimientoInv' == 2)
+            {
+                var auxLotes = []; //Lotes
+                $.each(jsLstLotes, function (index, item) {
+                    auxLotes.push({
+                        'id': item.text,
+                        'text': item.text,
+                    });
+                });
+                $('#SerieLote').select2({ data: auxLotes });
+
+                var auxUbicaciones = []; //Ubicaciones
+                $.each(jsLstUbicaciones, function (index, item) {
+                    auxUbicaciones.push({
+                        'id': item.IdUbicacion,
+                        'text': item.Nombre,
+                    });
+                });
+                $('#IdUbicacion').select2({ data: auxUbicaciones });
+
+                //GetUbicacion();
+            }
 
             GetUnidadMedida($('#IdItem').val());
-            GetUbicacion();
+            
 
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
@@ -62,11 +84,11 @@
             var jsTipoMovInv = '@Model.IdTipoMovimientoInv';
             if(jsTipoMovInv == 2 && $('#IdUbicacion').val() != '' && $('#IdUbicacion').val() > 0)
             {
-                //console.log($('#IdUbicacion'));
                 ActualizarUbicaciones();
             }
             else if (jsTipoMovInv == 2)
             {
+                //$('#IdUbicacion').select2({ data: mydata });
                 $('#IdUbicacion').select2("val", "");
             }
         }
@@ -83,34 +105,74 @@
             }
         }
 
+        function ActualizarLotes()
+        {
+            var jsTipoMov = '@Model.IdTipoMovimientoInv';
+            if(jsTipoMov == 2)
+            {
+                $('#SerieLote').select2("val", "");
+                $('#IdUbicacion').select2("val", "");
+
+                var jsIdItem = $('#IdItem').select2("val");
+
+                $.ajax({
+                    type: "POST",
+                    url: miBaseUrl + "/GetLotes_EnItem",
+                    cache: false,
+                    data: { idItem: jsIdItem },
+                    dataType: 'json',
+                    delay: 750,
+                    success: function (data) {
+                        var pLotes = [];
+                        $.each(data.lista, function (index, item) {
+                            pLotes.push({
+                                'id': item.text,
+                                'text': item.text,
+                            });
+                        });
+                        $('#SerieLote').select2({
+                            data: pLotes
+                        })
+                    }
+                });
+            }
+
+        }
+
         function ActualizarUbicaciones()
         {
-            //console.log($(elem).val());
-            //debugger;
-            var jsSerieLote = $('#SerieLote').val();
+            var jsTipoMov = '@Model.IdTipoMovimientoInv';
 
-            $.ajax({
-                type: "POST",
-                url: miBaseUrl + "/GetUbicaciones_EnLote",
-                cache: false,
-                data: { serieLote: jsSerieLote },
-                dataType: 'json',
-                delay: 750,
-                success: function (data) {
-                    var myResults = [];
-                    $.each(data.lista, function (index, item) {
-                        myResults.push({
-                            'id': item.IdUbicacion,
-                            'text': item.Nombre,
-                            'data': item
-                        });
+            if (jsTipoMov == 2)
+            {
+                $('#IdUbicacion').select2("val", "")
+
+                var jsSerieLote = $('#SerieLote').select2("val");
+                if (jsSerieLote != "")
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: miBaseUrl + "/GetUbicaciones_EnLote",
+                        cache: false,
+                        data: { serieLote: jsSerieLote },
+                        dataType: 'json',
+                        delay: 750,
+                        success: function (data) {
+                            var pUbicaciones = [];
+                            $.each(data.lista, function (index, item) {
+                                pUbicaciones.push({
+                                    'id': item.IdUbicacion,
+                                    'text': item.Nombre,
+                                    'data': item
+                                });
+                            });
+                            $('#IdUbicacion').select2({
+                                data: pUbicaciones
+                            })
+                        }
                     });
-
-                    $('#IdUbicacion').select2({
-                        data: myResults
-                    })
                 }
-            });
+            };
         }
     </script>
 }
@@ -173,7 +235,7 @@ else { cadena = "Actualizar"; }
                             <label>Código - Item</label>
                             @*@Html.DropDownListFor(u => u.IdItem, new SelectList(ViewBag.lstItems, "IdItem", "Codigo", Model != null ? (Model.IdItem != 0 ? Model.IdItem : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2" })*@
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2_clear rol-accs"
-                                    id="IdItem" name="IdItem" required>
+                                    id="IdItem" name="IdItem" onchange="ActualizarLotes()" required>
                                 @{ var pItem = Model != null ? Model.IdItem : 0;}
                                 <option value=""></option>
                                 @foreach (var nItem in (List<ItemDTO>)ViewBag.lstItems)
@@ -193,7 +255,14 @@ else { cadena = "Actualizar"; }
                         }
                         <div class="col-md-4">
                             <label>Serie - Lote</label>
-                            @Html.TextBoxFor(u => u.SerieLote, new { @class = "form-control", @placeholder = "Serie / Lote", @type = "text", @required = "", @onkeyup = "ActualizarUbicaciones()" })
+                            @if (Model.IdTipoMovimientoInv == 1)
+                            {
+                                @Html.TextBoxFor(u => u.SerieLote, new { @class = "form-control rol-accs", @placeholder = "Serie / Lote", @type = "text", @required = "" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(u => u.SerieLote, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @type = "text", @required = "", @onchange = "ActualizarUbicaciones()" })
+                            }
                             @Html.ValidationMessageFor(u => u.SerieLote, "", new { @style = "color:red;" })
                         </div>
                         @if (Model.IdTipoMovimientoInv != 1)
