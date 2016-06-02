@@ -613,5 +613,42 @@ namespace NubeBooks.Core.BL
             HonorarioBL objBL = new HonorarioBL();
             return objBL.getHonorariosEnEmpresaViewBag(idEmpresa);
         }
+
+        public List<MovimientoDTO> getMovimientos_AsocComprobante(int idEmpresa, int idComprobante)
+        {
+            using (var context = getContext())
+            {
+                List<int> listaCuentas = context.CuentaBancaria.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoCuenta == 1).Select(x => x.IdCuentaBancaria).ToList();
+
+                var result = context.Movimiento.Where(x => listaCuentas.Contains(x.IdCuentaBancaria) && x.IdComprobante == idComprobante).Select(x => new MovimientoDTO
+                {
+                    IdMovimiento = x.IdMovimiento,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdTipoMovimiento = x.FormaMovimiento.IdTipoMovimiento,
+                    IdFormaMovimiento = x.IdFormaMovimiento,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdCategoria = x.IdCategoria,
+                    IdEstadoMovimiento = x.IdEstadoMovimiento,
+                    NroOperacion = x.NroOperacion ?? "",
+                    Fecha = x.Fecha,
+                    Monto = x.Monto,
+                    nTipoDocumento = x.TipoDocumento.Nombre ?? "",
+                    NumeroDocumento = x.IdComprobante != null ? x.Comprobante.NroDocumento : x.NumeroDocumento ?? "",
+                    TipoCambio = x.TipoCambio,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    FechaCreacion = x.FechaCreacion,
+                    MontoSinIGV = x.MontoSinIGV,
+                    IdComprobante = x.IdComprobante,
+                    NombreCategoria = x.Categoria.Nombre ?? "",
+                    NombreEntidadR = x.EntidadResponsable.Nombre ?? "",
+                    NombreUsuario = x.Usuario.Cuenta,
+                    SaldoBancario = x.SaldoBancario
+                }).ToList();
+                return result;
+            }
+        }
     }
 }

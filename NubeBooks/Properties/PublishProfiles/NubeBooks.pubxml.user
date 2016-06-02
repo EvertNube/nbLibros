@@ -102,16 +102,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/19/2016 13:17:09</publishTime>
     </File>
     <File Include="bin/NubeBooks.Core.dll">
-      <publishTime>06/01/2016 15:14:02</publishTime>
+      <publishTime>06/02/2016 17:58:19</publishTime>
     </File>
     <File Include="bin/NubeBooks.Core.Logistics.dll">
-      <publishTime>06/01/2016 15:14:02</publishTime>
+      <publishTime>06/02/2016 17:58:19</publishTime>
     </File>
     <File Include="bin/NubeBooks.Data.dll">
       <publishTime>06/01/2016 15:14:01</publishTime>
     </File>
     <File Include="bin/NubeBooks.dll">
-      <publishTime>06/01/2016 15:14:06</publishTime>
+      <publishTime>06/02/2016 17:58:24</publishTime>
     </File>
     <File Include="bin/NubeBooks.Helpers.dll">
       <publishTime>06/01/2016 15:14:01</publishTime>
@@ -2328,13 +2328,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2016 13:09:30</publishTime>
     </File>
     <File Include="Views/Admin/Comprobante.cshtml">
-      <publishTime>05/30/2016 12:50:09</publishTime>
+      <publishTime>06/02/2016 17:41:55</publishTime>
     </File>
     <File Include="Views/Admin/Comprobantes.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/ComprobantesAnulados.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/01/2016 16:59:19</publishTime>
     </File>
     <File Include="Views/Admin/ComprobantesEgreso.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
@@ -2349,7 +2349,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/Entidad.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/02/2016 15:02:21</publishTime>
     </File>
     <File Include="Views/Admin/Entidades.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
@@ -2415,13 +2415,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/Periodos.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/02/2016 16:23:47</publishTime>
     </File>
     <File Include="Views/Admin/Proforma.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/Proyecto.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/02/2016 15:42:59</publishTime>
     </File>
     <File Include="Views/Admin/ReporteCategorias.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
@@ -2439,7 +2439,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/Responsable.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/02/2016 15:21:00</publishTime>
     </File>
     <File Include="Views/Admin/Responsables.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>

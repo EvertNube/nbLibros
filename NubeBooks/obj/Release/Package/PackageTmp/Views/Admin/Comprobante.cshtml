@@ -1,4 +1,5 @@
 ﻿@using NubeBooks.Core.DTO
+@using System.Globalization
 @model ComprobanteDTO
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -579,45 +580,50 @@
                                                         }
         </div>
     </div>
-    @*@if (Model != null && Model.IdComprobante > 0)
+    @if (Model != null && Model.IdComprobante > 0)
     {
+        <div class="line line-dashed line-lg pull-in"></div>
         <div class="panel panel-default">
             <div class="panel-heading">Movimientos Asociados</div>
             <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>first name</th>
-                        <th>last name</th>
-                        <th>birth date</th>
-                        <th>balance</th>
-                        <th>email</th>
+                        <th width="7%">Fecha</th>
+                        <th>Detalle</th>
+                        <th>Partida</th>
+                        <th>Documento</th>
+                        <th>Número</th>
+                        <th>Entidad</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Monto</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- ngRepeat: row in rowCollectionBasic -->
-                    <tr ng-repeat="row in rowCollectionBasic" st-select-row="row" class="ng-scope ng-isolate-scope">
-                        <td class="ng-binding">Laurent</td>
-                        <td class="ng-binding">Renard</td>
-                        <td class="ng-binding">"1987-05-21T00:00:00.000Z"</td>
-                        <td class="ng-binding">102</td>
-                        <td class="ng-binding">whatever@gmail.com</td>
-                    </tr><!-- end ngRepeat: row in rowCollectionBasic -->
-                    <tr ng-repeat="row in rowCollectionBasic" st-select-row="row" class="ng-scope ng-isolate-scope">
-                        <td class="ng-binding">Blandine</td>
-                        <td class="ng-binding">Faivre</td>
-                        <td class="ng-binding">"1987-04-25T00:00:00.000Z"</td>
-                        <td class="ng-binding">-2323.22</td>
-                        <td class="ng-binding">oufblandou@gmail.com</td>
-                    </tr><!-- end ngRepeat: row in rowCollectionBasic -->
-                    <tr ng-repeat="row in rowCollectionBasic" st-select-row="row" class="ng-scope ng-isolate-scope">
-                        <td class="ng-binding">Francoise</td>
-                        <td class="ng-binding">Frere</td>
-                        <td class="ng-binding">"1955-08-27T00:00:00.000Z"</td>
-                        <td class="ng-binding">42343</td>
-                        <td class="ng-binding">raymondef@gmail.com</td>
-                    </tr><!-- end ngRepeat: row in rowCollectionBasic -->
+                    @if (((List<MovimientoDTO>)ViewBag.lstMovimientos).Count > 0)
+                    {
+                        foreach (var obj in (List<MovimientoDTO>)ViewBag.lstMovimientos)
+                        {
+                            <tr>
+                                <td class="text-center">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                @{ var colorTipoMov = obj.IdTipoMovimiento == 1 ? "text-success-dker" : "red";
+                                    var signo = obj.IdTipoMovimiento == 1 ? "" : "-";  }
+                                <td>@obj.NroOperacion</td>
+                                @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
+                                <td>@nCategoria</td>
+                                <td>@obj.nTipoDocumento</td>
+                                @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
+                                <td>@rNumDoc</td>
+                                <td>@obj.NombreEntidadR</td>
+                                @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
+                                    var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";
+                                    var rEstadoTexto = obj.IdEstadoMovimiento == 1 ? "P" : "R";}
+                                <td class="text-center"><a class="mactivo" data-id="@obj.IdMovimiento"><span hidden>@rEstadoTexto</span><i class="fa @rEstado @rColor"></i></a></td>
+                                <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                            </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>
-    }*@
+    }
 </div>

@@ -23,7 +23,7 @@ namespace NubeBooks.Core.BL
                     FechaFin = x.FechaFin,
                     Active = x.Active,
                     IdEmpresa = x.IdEmpresa
-                }).ToList();
+                }).OrderByDescending(x => x.FechaInicio).ToList();
                 return result;
             }
         }
@@ -39,7 +39,7 @@ namespace NubeBooks.Core.BL
                     FechaFin = x.FechaFin,
                     Active = x.Active,
                     IdEmpresa = x.IdEmpresa
-                }).ToList();
+                }).OrderByDescending(x => x.FechaInicio).ToList();
                 return result;
             }
         }
@@ -55,7 +55,7 @@ namespace NubeBooks.Core.BL
                     FechaFin = x.FechaFin,
                     Active = x.Active,
                     IdEmpresa = x.IdEmpresa
-                }).OrderBy(x => x.Nombre).ToList();
+                }).OrderByDescending(x => x.FechaInicio).ToList();
                 return result;
             }
         }

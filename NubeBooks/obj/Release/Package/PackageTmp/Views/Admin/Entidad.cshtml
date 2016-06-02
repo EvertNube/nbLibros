@@ -1,4 +1,5 @@
 ﻿@using NubeBooks.Core.DTO
+@using System.Globalization
 @model EntidadResponsableDTO
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -278,4 +279,38 @@ else { cadena = "Actualizar"; }
                     </label>
                 </div>
                                                 }
+    @if (Model != null && Model.IdEntidadResponsable > 0)
+    {
+        <div class="line line-dashed line-lg pull-in"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Comprobantes Asociados</div>
+            <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Fecha</th>
+                        <th style="width:10%">Documento</th>
+                        <th style="width:10%">Número</th>
+                        <th style="width:35%">Cliente</th>
+                        <th class="text-center" style="width:10%">Monto Total</th>
+                        @*<th style="width:8%"></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (((List<ComprobanteDTO>)ViewBag.lstComprobantes).Count > 0)
+                    {
+                        foreach (var item in (List<ComprobanteDTO>)ViewBag.lstComprobantes)
+                        {
+                            <tr>
+                                <td>@item.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                <td>@item.NombreTipoDocumento</td>
+                                <td>@item.NroDocumento</td>
+                                <td>@item.NombreEntidad</td>
+                                <td class="text-right">@item.SimboloMoneda @item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>

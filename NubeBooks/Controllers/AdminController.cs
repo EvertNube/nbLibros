@@ -1412,6 +1412,9 @@ namespace NubeBooks.Controllers
             ViewBag.Proyectos = new List<ProyectoDTO>();
             ViewBag.Categorias = CategoriasBucle(empresa.IdEmpresa, (int)empresa.IdPeriodo, null, null);
 
+            //Lista de Movimientos Asociados al comprobante
+            ViewBag.lstMovimientos = objBL.getMovimientos_AsocComprobante(empresa.IdEmpresa, id.GetValueOrDefault());
+
             var objSent = TempData["Comprobante"];
             if (objSent != null) { TempData["Comprobante"] = null; return View(objSent); }
 
