@@ -288,9 +288,10 @@ else { cadena = "Actualizar"; }
                 <thead>
                     <tr>
                         <th style="width:10%">Fecha</th>
-                        <th style="width:10%">Documento</th>
-                        <th style="width:10%">Número</th>
-                        <th style="width:35%">Cliente</th>
+                        <th style="width:20%">Documento</th>
+                        <th style="width:20%">Número</th>
+                        <th style="width:20%">Proyecto</th>
+                        <th style="width:20%">Modalidad</th>
                         <th class="text-center" style="width:10%">Monto Total</th>
                         @*<th style="width:8%"></th>*@
                     </tr>
@@ -304,7 +305,9 @@ else { cadena = "Actualizar"; }
                                 <td>@item.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
                                 <td>@item.NombreTipoDocumento</td>
                                 <td>@item.NroDocumento</td>
-                                <td>@item.NombreEntidad</td>
+                                <td>@item.NombreProyecto</td>
+                                @{ var eColor = item.IdTipoComprobante == 1 ? "#27c24c" : "red"; }
+                                <td style="color:@(eColor)">@(item.IdTipoComprobante == 1 ? "Ingreso" : "Egreso")</td>
                                 <td class="text-right">@item.SimboloMoneda @item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
                             </tr>
                         }

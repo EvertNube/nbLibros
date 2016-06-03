@@ -2751,14 +2751,14 @@ namespace NubeBooks.Controllers
 
             ListaS2 = lstComprobantes.Where(x => 
                             (x.NroDocumento).Contains(texto)||
-                            (x.MontoSinIGV.ToString()).Contains(texto)||
+                            (x.Monto.ToString()).Contains(texto)||
                             x.NombreTipoDocumento.ToLower().Contains(texto)||
                             x.NombreEntidad.ToLower().Contains(texto)
                             ).Select(x => new sItem
                             {
                                 id = x.IdComprobante,
                                 nombre = x.NroDocumento,
-                                monto = x.MontoSinIGV,
+                                monto = x.Monto,
                                 idElemento = 2,
                                 elemento = "Comprobante",
                                 tipo = x.IdTipoComprobante.ToString(),
