@@ -167,7 +167,7 @@
             //debugger;
             switch(pTipoDocumento)
             {
-                case 2: case 3: case 4: case 7:
+                case 3: case 4: case 7:
                     $('#chkIGV').prop('checked', false);
                     $('#chkIGV').checked = false;
                     $('#chkIGV').val('FALSE');
@@ -302,12 +302,10 @@
                             <div class="input-group date">
                                 @Html.TextBoxFor(u => u.FechaEmision, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                @*@Html.ValidationMessageFor(u => u.FechaEmision, "", new { @style = "color:red;" })*@
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Documento</label>
-                            @*@Html.DropDownListFor(u => u.IdTipoDocumento, new SelectList(ViewBag.lstTipoDocumento, "IdTipoDocumento", "Nombre", Model != null ? (Model.IdTipoDocumento != 0 ? Model.IdTipoDocumento : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ActualizarMontoConIGV();" })*@
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange = "ActualizarIGV(); ActualizarMontoConIGV();"
                                     id="IdTipoDocumento" name="IdTipoDocumento" required>
                                 @{ var pTipoDoc = Model != null ? Model.IdTipoDocumento : 0;}
@@ -583,47 +581,59 @@
     @if (Model != null && Model.IdComprobante > 0)
     {
         <div class="line line-dashed line-lg pull-in"></div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Movimientos Asociados</div>
-            <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th width="7%">Fecha</th>
-                        <th>Detalle</th>
-                        <th>Partida</th>
-                        <th>Documento</th>
-                        <th>Número</th>
-                        <th>Entidad</th>
-                        <th class="text-center">Estado</th>
-                        <th class="text-center">Monto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (((List<MovimientoDTO>)ViewBag.lstMovimientos).Count > 0)
-                    {
-                        foreach (var obj in (List<MovimientoDTO>)ViewBag.lstMovimientos)
-                        {
-                            <tr>
-                                <td class="text-center">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                @{ var colorTipoMov = obj.IdTipoMovimiento == 1 ? "text-success-dker" : "red";
-                                    var signo = obj.IdTipoMovimiento == 1 ? "" : "-";  }
-                                <td>@obj.NroOperacion</td>
-                                @{var nCategoria = obj.NombreCategoria == null ? "N/A" : obj.NombreCategoria;}
-                                <td>@nCategoria</td>
-                                <td>@obj.nTipoDocumento</td>
-                                @{var rNumDoc = obj.NumeroDocumento != null ? obj.NumeroDocumento : "N/A";}
-                                <td>@rNumDoc</td>
-                                <td>@obj.NombreEntidadR</td>
-                                @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
-                                    var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";
-                                    var rEstadoTexto = obj.IdEstadoMovimiento == 1 ? "P" : "R";}
-                                <td class="text-center"><a class="mactivo" data-id="@obj.IdMovimiento"><span hidden>@rEstadoTexto</span><i class="fa @rEstado @rColor"></i></a></td>
-                                <td class="text-right @colorTipoMov" width="13%">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+        <div class="bg-light lter b-b wrapper-md">
+            <h1 class="m-n font-thin h4">Movimientos Asociados de cuentas bancarias</h1>
         </div>
-    }
+        <div class="panel panel-default">
+            <div class="table-responsive">
+                <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    },
+}" class="table table-striped b-t b-b dataTable">
+                    <thead>
+                        <tr>
+                            <th width="7%">Fecha</th>
+                            <th>Cuenta Bancaria</th>
+                            <th>Detalle</th>
+                            <th class="text-center">Monto</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (((List<MovimientoDTO>)ViewBag.lstMovimientos).Count > 0)
+                        {
+                            foreach (var obj in (List<MovimientoDTO>)ViewBag.lstMovimientos)
+                            {
+                                <tr>
+                                    <td class="text-center">@obj.Fecha.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                    @{ var colorTipoMov = obj.IdTipoMovimiento == 1 ? "#27c24c" : "red";
+                                        var signo = obj.IdTipoMovimiento == 1 ? "" : "-";  }
+                                    <td>@obj.NombreCuenta</td>
+                                    <td>@obj.NroOperacion</td>
+                                    <td class="text-right" width="13%" style="color:@(colorTipoMov)">@(signo)@Model.SimboloMoneda @obj.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                    @{var rEstado = obj.IdEstadoMovimiento == 1 ? "fa-square-o" : "fa-check-square-o";
+                                        var rColor = obj.IdEstadoMovimiento == 1 ? "red" : "green";
+                                        var rEstadoTexto = obj.IdEstadoMovimiento == 1 ? "P" : "R";}
+                                    <td class="text-center"><a class="mactivo" data-id="@obj.IdMovimiento"><span hidden>@rEstadoTexto</span><i class="fa @rEstado @rColor"></i></a></td>
+                                </tr>
+                                            }
+                                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+                                        }
 </div>

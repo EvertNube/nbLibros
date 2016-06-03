@@ -14,6 +14,7 @@ namespace NubeBooks.Models
         public int idElemento { get; set; }
         public string elemento { get; set; }
         public string tipo { get; set; }
+        public string simboloMoneda { get; set; }
         public string s1 { get; set; }
         public string s2 { get; set; }
         public string s3 { get; set; }

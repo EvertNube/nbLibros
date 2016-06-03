@@ -549,6 +549,49 @@ namespace NubeBooks.Core.BL
 
 
         #endregion
-        
+
+        #region Exportar Comprobantes Asociados En Entidad
+        public List<ComprobanteDTO> getComprobantes_ConEntidad(int idEmpresa, int idEntidad, DateTime fechaInicio, DateTime fechaFin)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad && x.FechaEmision >= fechaInicio && x.FechaEmision <= fechaFin).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    IdTipoComprobante = x.IdTipoComprobante,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    NroDocumento = x.NroDocumento,
+                    Monto = x.Monto,
+                    IdArea = x.IdArea,
+                    IdResponsable = x.IdResponsable,
+                    IdCategoria = x.IdCategoria,
+                    IdProyecto = x.IdProyecto,
+                    FechaEmision = x.FechaEmision,
+                    FechaConclusion = x.FechaConclusion,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    Ejecutado = x.Ejecutado,
+                    IdHonorario = x.IdHonorario,
+                    NombreEntidad = x.EntidadResponsable.Nombre ?? "",
+                    NombreMoneda = x.Moneda.Nombre,
+                    NombreTipoComprobante = x.TipoComprobante.Nombre,
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    FechaPago = x.FechaPago,
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre ?? "",
+                    NombreProyecto = x.Proyecto.Nombre ?? ""
+                }).ToList();
+
+                return result;
+            }
+        }
+        #endregion
     }
 }

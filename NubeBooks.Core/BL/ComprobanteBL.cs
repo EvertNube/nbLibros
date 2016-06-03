@@ -645,6 +645,7 @@ namespace NubeBooks.Core.BL
                     NombreCategoria = x.Categoria.Nombre ?? "",
                     NombreEntidadR = x.EntidadResponsable.Nombre ?? "",
                     NombreUsuario = x.Usuario.Cuenta,
+                    NombreCuenta = x.CuentaBancaria.NombreCuenta,
                     SaldoBancario = x.SaldoBancario
                 }).ToList();
                 return result;

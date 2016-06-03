@@ -34,10 +34,11 @@ namespace NubeBooks.Core.DTO
         public int? IdComprobante { get; set; }
         public Decimal? SaldoBancario { get; set; }
 
-
         public string NombreEntidadR { get; set; }
         public string NombreCategoria { get; set; }
         public string NombreUsuario { get; set; }
+        public string NombreCuenta { get; set; }
+        public string SimboloMoneda { get; set; }
         //Variables del comprobante
         public Decimal? cmpMontoPendiente { get; set; }
         public bool cmpCancelado { get; set; }

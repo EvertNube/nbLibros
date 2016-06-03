@@ -69,35 +69,58 @@ else { cadena = "Actualizar"; }
     @if (Model != null && Model.IdProyecto > 0)
     {
         <div class="line line-dashed line-lg pull-in"></div>
+        <div class="bg-light lter b-b wrapper-md">
+            <h1 class="m-n font-thin h4">Comprobantes Asociados</h1>
+        </div>
         <div class="panel panel-default">
-            <div class="panel-heading">Comprobantes Asociados</div>
-            <table st-table="rowCollectionBasic" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th style="width:10%">Fecha</th>
-                        <th style="width:10%">Documento</th>
-                        <th style="width:10%">Número</th>
-                        <th style="width:35%">Cliente</th>
-                        <th class="text-center" style="width:10%">Monto Total</th>
-                        @*<th style="width:8%"></th>*@
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (((List<ComprobanteDTO>)ViewBag.lstComprobantes).Count > 0)
-                    {
-                        foreach (var item in (List<ComprobanteDTO>)ViewBag.lstComprobantes)
+            <div class="table-responsive">
+                <table ui-jq="dataTable" ui-options="{
+    oLanguage: {
+        sLengthMenu: 'Mostrar _MENU_ registros',
+        sSearch: 'Buscar:',
+        sZeroRecords: 'No se encontraron registros que cumplan los términos de búsqueda.',
+        sLoadingRecords: 'Cargando...',
+        sInfo: 'Mostrando _START_-_END_ de _TOTAL_ registros.',
+        sInfoEmpty: 'Mostrando _END_ de _TOTAL_ registros',
+        sInfoFiltered: '(filtrados de un total _MAX_).',
+        sEmptyTable: 'No hay información disponible para mostrar.',
+        sProcessing: 'DataTables is currently busy',
+        oPaginate: {
+            sPrevious: 'Anterior',
+            sNext: 'Siguiente'
+        }
+    },
+    pageLength: 25,
+}" class="table table-striped b-t b-b dataTable">
+                    <thead>
+                        <tr>
+                            <th style="width:10%">Fecha</th>
+                            <th style="width:20%">Documento</th>
+                            <th style="width:20%">Número</th>
+                            <th style="width:20%">Cliente</th>
+                            <th style="width:20%">Modalidad</th>
+                            <th class="text-center" style="width:10%">Monto Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (((List<ComprobanteDTO>)ViewBag.lstComprobantes).Count > 0)
                         {
-                            <tr>
-                                <td>@item.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
-                                <td>@item.NombreTipoDocumento</td>
-                                <td>@item.NroDocumento</td>
-                                <td>@item.NombreEntidad</td>
-                                <td class="text-right">@item.SimboloMoneda @item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+                            foreach (var item in (List<ComprobanteDTO>)ViewBag.lstComprobantes)
+                            {
+                                <tr>
+                                    <td>@item.FechaEmision.ToString("yyyy/MM/dd", CultureInfo.CreateSpecificCulture("es-PE"))</td>
+                                    <td>@item.NombreTipoDocumento</td>
+                                    <td>@item.NroDocumento</td>
+                                    <td>@item.NombreEntidad</td>
+                                    @{ var eColor = item.IdTipoComprobante == 1 ? "#27c24c" : "red"; }
+                                    <td style="color:@(eColor)">@(item.IdTipoComprobante == 1 ? "Ingreso" : "Egreso")</td>
+                                    <td class="text-right">@item.SimboloMoneda @item.Monto.ToString("N2", CultureInfo.InvariantCulture)</td>
+                                </tr>
+                                            }
+                                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 </div>

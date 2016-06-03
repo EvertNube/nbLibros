@@ -2743,6 +2743,7 @@ namespace NubeBooks.Controllers
                                 idElemento = 1,
                                 elemento = "Movimiento",
                                 tipo = x.IdCuentaBancaria.ToString(), //LibroBancario
+                                simboloMoneda = x.SimboloMoneda,
                                 s1 = x.NombreCategoria,
                                 s2 = x.nTipoDocumento,
                                 s3 = x.NumeroDocumento,
@@ -2762,6 +2763,7 @@ namespace NubeBooks.Controllers
                                 idElemento = 2,
                                 elemento = "Comprobante",
                                 tipo = x.IdTipoComprobante.ToString(),
+                                simboloMoneda = x.SimboloMoneda,
                                 s1 = x.NombreTipoDocumento,
                                 s2 = x.NombreEntidad
                             }).ToList();
@@ -4599,6 +4601,46 @@ namespace NubeBooks.Controllers
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Inventarios" + sTipo, "Admin");
+        }
+
+        public ActionResult ExportarComprobantesAsociados_EnEntidad(int idEntidad, DateTime FechaInicio, DateTime FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Entidad", "Admin", new { id = idEntidad });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<ComprobanteDTO> lista = repBL.getComprobantes_ConEntidad(objEmpresa.IdEmpresa, idEntidad, FechaInicio, FechaFin);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Modalidad");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Numero");
+            dt.Columns.Add("Proyecto");
+            dt.Columns.Add("Monto Total");
+
+            foreach (var obj in lista)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Modalidad"] = obj.IdTipoComprobante == 1 ? "Ingreso" : "Egreso";
+                row["Documento"] = obj.NombreTipoDocumento;
+                row["Numero"] = obj.NroDocumento;
+                row["Proyecto"] = obj.NombreProyecto;
+                row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+            GenerarPdf(dt, "Comprobantes Asociados a Entidad", "ComprobantesAsociados_A_Entidad", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Entidad", "Admin", new { id = idEntidad });
         }
         #endregion
         private static void AddSuperHeader(GridView gridView, string text = null)

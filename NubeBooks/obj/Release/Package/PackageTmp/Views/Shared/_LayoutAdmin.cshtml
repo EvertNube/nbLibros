@@ -526,16 +526,16 @@
             var jsCadena = '<div class="padder">';
             switch (data.idElemento) {
                 case 1:
-                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> Nro: ' + data.nombre + ' M: ' + data.monto + '</div>';
-                    jsCadena += '<div class="row">PP.: ' + data.s1 + ' TDoc: ' + data.s2 + ' </div>'
+                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> Nro: ' + data.nombre + ' Monto: ' + data.simboloMoneda + ' ' + data.monto + '</div>';
+                    jsCadena += '<div class="row">TDoc: ' + data.s2 + ' PP: ' + data.s1 + ' </div>'
                     jsCadena += '<div class="row">NDoc:' + data.s3 + ' Ent:' + data.s4 + ' </div>'
                     break;
                 case 2:
-                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> NroDoc: ' + data.nombre + ' M(SinIGV): ' + data.monto + '</div>';
+                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> NroDoc: ' + data.nombre + ' Monto: ' + data.simboloMoneda + ' ' + data.monto + '</div>';
                     jsCadena += '<div class="row">TDoc: ' + data.s1 + ' Ent: ' + data.s2 + ' </div>'
                     break;
                 case 3:
-                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> NroDoc: ' + data.nombre + ' C: ' + data.monto + '</div>';
+                    jsCadena += '<div class="row"><strong>' + data.elemento + ' </strong> NroDoc: ' + data.nombre + ' Cantidad: ' + data.monto + '</div>';
                     jsCadena += '<div class="row">Item: ' + data.s1 + ' U. Med: ' + data.s2 + ' </div>'
                     jsCadena += '<div class="row">Forma: ' + data.s3 + ' Lote: ' + data.s4 + ' </div>'
                     break;
