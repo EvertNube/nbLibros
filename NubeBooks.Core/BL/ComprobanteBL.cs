@@ -29,7 +29,7 @@ namespace NubeBooks.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
+                    IdProyecto = x.Proyecto.FirstOrDefault().IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -47,7 +47,7 @@ namespace NubeBooks.Core.BL
                     FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
-                    NombreProyecto = x.Proyecto.Nombre ?? ""
+                    NombreProyecto = x.Proyecto.FirstOrDefault().Nombre ?? ""
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -69,7 +69,7 @@ namespace NubeBooks.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
+                    IdProyecto = x.Proyecto.FirstOrDefault().IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -87,7 +87,7 @@ namespace NubeBooks.Core.BL
                     FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
-                    NombreProyecto = x.Proyecto.Nombre ?? ""
+                    NombreProyecto = x.Proyecto.FirstOrDefault().Nombre ?? ""
                 }).OrderBy(x => x.FechaEmision).ToList();
                 return result;
             }
@@ -109,7 +109,7 @@ namespace NubeBooks.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
+                    IdProyecto = x.Proyecto.FirstOrDefault().IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -127,7 +127,7 @@ namespace NubeBooks.Core.BL
                     FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
-                    NombreProyecto = x.Proyecto.Nombre
+                    NombreProyecto = x.Proyecto.FirstOrDefault().Nombre
                 }).OrderBy(x => x.NroDocumento).ToList();
                 return result;
             }
@@ -150,7 +150,7 @@ namespace NubeBooks.Core.BL
                         IdArea = r.IdArea,
                         IdResponsable = r.IdResponsable,
                         IdCategoria = r.IdCategoria,
-                        IdProyecto = r.IdProyecto,
+                        IdProyecto = r.Proyecto.FirstOrDefault().IdProyecto,
                         FechaEmision = r.FechaEmision,
                         FechaConclusion = r.FechaConclusion,
                         Comentario = r.Comentario,
@@ -168,7 +168,7 @@ namespace NubeBooks.Core.BL
                         FechaPago = r.FechaPago,
                         NombreUsuario = r.Usuario.Cuenta,
                         NombreCategoria = r.Categoria.Nombre ?? "",
-                        NombreProyecto = r.Proyecto.Nombre,
+                        NombreProyecto = r.Proyecto.FirstOrDefault().Nombre,
                         lstMontos = r.AreaPorComprobante.Select(x => new AreaPorComprobanteDTO
                         {
                             IdArea = x.IdArea,
@@ -200,7 +200,7 @@ namespace NubeBooks.Core.BL
                         IdArea = r.IdArea,
                         IdResponsable = r.IdResponsable,
                         IdCategoria = r.IdCategoria,
-                        IdProyecto = r.IdProyecto,
+                        //IdProyecto = r.IdProyecto,
                         FechaEmision = r.FechaEmision,
                         FechaConclusion = r.FechaConclusion,
                         Comentario = r.Comentario,
@@ -232,7 +232,12 @@ namespace NubeBooks.Core.BL
                     nuevo.IdArea = Comprobante.IdArea;
                     nuevo.IdResponsable = Comprobante.IdResponsable;
                     nuevo.IdCategoria = Comprobante.IdCategoria;
-                    nuevo.IdProyecto = Comprobante.IdProyecto;
+                    //nuevo.IdProyecto = Comprobante.IdProyecto;
+                    if (Comprobante.IdProyecto > 0)
+                    {
+                        var pProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                        nuevo.Proyecto.Add(pProyecto);
+                    }
                     nuevo.FechaEmision = Comprobante.FechaEmision;
                     nuevo.FechaConclusion = Comprobante.FechaConclusion;
                     nuevo.Comentario = Comprobante.Comentario;
@@ -242,6 +247,7 @@ namespace NubeBooks.Core.BL
                     nuevo.MontoSinIGV = Comprobante.MontoSinIGV;
                     nuevo.TipoCambio = Comprobante.TipoCambio;
                     nuevo.UsuarioCreacion = Comprobante.UsuarioCreacion;
+                    
                     context.Comprobante.Add(nuevo);
 
                     foreach (var item in Comprobante.lstMontos)
@@ -279,7 +285,21 @@ namespace NubeBooks.Core.BL
                     row.IdArea = Comprobante.IdArea;
                     row.IdResponsable = Comprobante.IdResponsable;
                     row.IdCategoria = Comprobante.IdCategoria;
-                    row.IdProyecto = Comprobante.IdProyecto;
+                    //row.IdProyecto = Comprobante.IdProyecto;
+                    if (row.Proyecto.FirstOrDefault() != null && row.Proyecto.FirstOrDefault().IdProyecto != Comprobante.IdProyecto)
+                    {
+                        var zProyecto = row.Proyecto.FirstOrDefault();
+                        row.Proyecto.Remove(zProyecto);
+                        if (Comprobante.IdProyecto > 0)
+                        {
+                            var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                            row.Proyecto.Add(xProyecto);
+                        }
+                    } else if (row.Proyecto.FirstOrDefault() == null)
+                    {
+                        var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                        row.Proyecto.Add(xProyecto);
+                    }
                     row.FechaEmision = Comprobante.FechaEmision;
                     row.FechaConclusion = Comprobante.FechaConclusion;
                     row.Comentario = Comprobante.Comentario;

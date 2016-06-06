@@ -82,7 +82,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public List<Select2DTO_B> getProyectosPorEntidad(int idEntidad, bool? esNull = false)
+        public List<Select2DTO_B> getProyectosPorEntidad(int idEntidad, bool esNull = false)
         {
             using (var context = getContext())
             {
@@ -92,9 +92,9 @@ namespace NubeBooks.Core.BL
                     text = x.Nombre
                 }).ToList();
 
-                if(esNull != null)
+                if(esNull)
                 {
-                    result.Insert(0, new Select2DTO_B() { id = null, text = "Vacio" });
+                    result.Insert(0, new Select2DTO_B() { id = null, text = "" });
                 }
 
                 return result;
@@ -105,7 +105,7 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdProyecto == idProyecto).Select(x => new ComprobanteDTO
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.Proyecto.FirstOrDefault().IdProyecto == idProyecto).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
                     IdTipoComprobante = x.IdTipoComprobante,
@@ -118,7 +118,7 @@ namespace NubeBooks.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
+                    IdProyecto = x.Proyecto.FirstOrDefault().IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -136,7 +136,7 @@ namespace NubeBooks.Core.BL
                     FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
-                    NombreProyecto = x.Proyecto.Nombre ?? ""
+                    NombreProyecto = x.Proyecto.FirstOrDefault().Nombre ?? ""
                 }).ToList();
 
                 return result;

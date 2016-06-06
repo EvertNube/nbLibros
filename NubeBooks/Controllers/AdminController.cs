@@ -2709,7 +2709,7 @@ namespace NubeBooks.Controllers
         public JsonResult GetProyectos(int idEntidad)
         {
             ProyectoBL objBL = new ProyectoBL();
-            var listaProyectos = objBL.getProyectosPorEntidad(idEntidad, true);
+            var listaProyectos = objBL.getProyectosPorEntidad(idEntidad);
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
         }
 

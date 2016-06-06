@@ -477,7 +477,7 @@ namespace NubeBooks.Core.BL
                     IdArea = x.IdArea,
                     IdResponsable = x.IdResponsable,
                     IdCategoria = x.IdCategoria,
-                    IdProyecto = x.IdProyecto,
+                    IdProyecto = x.Proyecto.FirstOrDefault().IdProyecto,
                     FechaEmision = x.FechaEmision,
                     FechaConclusion = x.FechaConclusion,
                     Comentario = x.Comentario,
@@ -495,7 +495,7 @@ namespace NubeBooks.Core.BL
                     FechaPago = x.FechaPago,
                     NombreUsuario = x.Usuario.Cuenta,
                     NombreCategoria = x.Categoria.Nombre ?? "",
-                    NombreProyecto = x.Proyecto.Nombre ?? ""
+                    NombreProyecto = x.Proyecto.FirstOrDefault().Nombre ?? ""
                 }).ToList();
 
                 return result;

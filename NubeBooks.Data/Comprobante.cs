@@ -19,6 +19,7 @@ namespace NubeBooks.Data
         {
             this.AreaPorComprobante = new HashSet<AreaPorComprobante>();
             this.Movimiento = new HashSet<Movimiento>();
+            this.Proyecto = new HashSet<Proyecto>();
         }
     
         public int IdComprobante { get; set; }
@@ -34,7 +35,6 @@ namespace NubeBooks.Data
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdResponsable { get; set; }
         public Nullable<int> IdCategoria { get; set; }
-        public Nullable<int> IdProyecto { get; set; }
         public System.DateTime FechaEmision { get; set; }
         public Nullable<System.DateTime> FechaConclusion { get; set; }
         public string Comentario { get; set; }
@@ -53,11 +53,12 @@ namespace NubeBooks.Data
         public virtual Honorario Honorario { get; set; }
         public virtual LogUsuario LogUsuario { get; set; }
         public virtual Moneda Moneda { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
         public virtual TipoComprobante TipoComprobante { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proyecto> Proyecto { get; set; }
     }
 }

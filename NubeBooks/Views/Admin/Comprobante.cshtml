@@ -52,13 +52,12 @@
 
         $("#add-monto").click(function () {
             var existe = false;
-            //debugger;
-            //var AreaSel = $('#IdAreaX :selected');
+            
             var valorArea = $('#IdAreaX :selected').val();
             if (valorArea > 0) {
                 var txtArea = $('#IdAreaX :selected').text();
-                //var txtMonto = parseFloat($('#MontoSinIGVX').val()).toFixed(2);
                 var txtMonto = parseFloat($('#MontoX').val());
+
                 $('#lstMontos option').each(function () {
                     if ($(this).val() == valorArea) existe = true;
                 });
@@ -104,13 +103,7 @@
 
         function ActualizarMontoSinIGV() {
             var montoSinIGV = 0;
-            /*var numTipoDoc = $('#IdTipoDocumento').select2("val");
-            if (numTipoDoc != 3 && numTipoDoc != 4 && numTipoDoc != 7)
-            { montoSinIGV = ($('#Monto').val() / 1.18).toFixed(2); }
-            else
-            { montoSinIGV = ($('#Monto').val() / 1).toFixed(2); }*/
-
-            //var chkIGV = ;
+            
             if($('#chkIGV').is(':checked'))
             { montoSinIGV = Math.round(($('#Monto').val() / 1.18) * 100) / 100;}
             else
@@ -229,7 +222,9 @@
 
                 GetProyectosAjax(idEntidad);
                 $('#IdProyecto').select2({
-                    data: lstProyectos
+                    allowClear: true,
+                    data: lstProyectos,
+                    placeholder: "Seleccionar"
                 })
             }
         }
@@ -247,6 +242,23 @@
                     lstProyectos = data.listaProyectos;
                 }
             });
+        }
+
+        function AsociarProyecto()
+        {
+            if($('#IdProyecto').parent().hasClass('hidden'))
+            {
+                $('#IdProyecto').parent().toggleClass('hidden');
+                $('#btn_proyecto span').text('Remover Proyecto');
+                $('#btn_proyecto i').toggleClass('fa-plus fa-minus');
+            }
+            else
+            {
+                $('#IdProyecto').select2("val", "");
+                $('#IdProyecto').parent().toggleClass('hidden');
+                $('#btn_proyecto span').text('Asociar a Proyecto');
+                $('#btn_proyecto i').toggleClass('fa-plus fa-minus');
+            }
         }
     </script>
 }
@@ -336,7 +348,6 @@
                         @{var columnas = 3; if (Model.IdTipoComprobante != 1 && Model.IdTipoComprobante != 3) { columnas = 3; }}
                         <div class="col-md-@columnas">
                             <label class="control-label">@strEntidad</label>
-                            @*@Html.DropDownListFor(u => u.IdEntidadResponsable, new SelectList(Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores, "IdEntidadResponsable", "Nombre", Model != null ? (Model.IdEntidadResponsable != 0 ? Model.IdEntidadResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs", @onchange = "ListarProyectos(1)" })*@
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange = "ListarProyectos(1)"
                                     id="IdEntidadResponsable" name="IdEntidadResponsable" required>
                                 @{ var pEntidad = Model != null ? Model.IdEntidadResponsable : 0;
@@ -353,13 +364,7 @@
                         @if (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3)
                         {
                             <div class="col-md-3">
-                                <label class="control-label">Proyecto</label>
-                                @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
-                                @Html.ValidationMessageFor(u => u.IdProyecto, "", new { @style = "color:red;" })
-                            </div>
-                            <div class="col-md-3">
                                 <label>Consultor</label>
-                                @*@Html.DropDownListFor(u => u.IdResponsable, new SelectList(ViewBag.lstResponsables, "IdResponsable", "Nombre", Model != null ? (Model.IdResponsable != null ? Model.IdResponsable : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
                                 <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
                                         id="IdResponsable" name="IdResponsable">
                                     @{ var pResponsable = Model != null ? Model.IdResponsable : 0; }
@@ -371,7 +376,20 @@
                                 </select>
                                 @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
                             </div>
-                        }
+                            <div class="col-md-3">
+                                <label class="control-label">Modalidad de Pago</label>
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                        id="IdHonorario" name="IdHonorario">
+                                    @{ var pHon = Model != null ? Model.IdHonorario : 0; }
+                                    <option value=""></option>
+                                    @foreach (var hon in (List<HonorarioDTO>)ViewBag.lstHonorarios)
+                                    {
+                                        <option value="@hon.IdHonorario" @(hon.IdHonorario == pHon ? "selected=selected" : "")>@hon.Nombre</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(u => u.IdHonorario, "", new { @style = "color:red;" })
+                            </div>
+                                        }
                         <div class="col-md-3">
                             <label class="control-label">Partida de Presupuesto</label>
                             @Html.TextBoxFor(u => u.IdCategoria, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
@@ -406,24 +424,9 @@
                                 @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                                 @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
                             </div>
-                            <div class="col-md-3">
-                                <label class="control-label">Modalidad de Pago</label>
-                                @*@Html.DropDownListFor(u => u.IdHonorario, new SelectList(ViewBag.lstHonorarios, "IdHonorario", "Nombre", Model != null ? (Model.IdHonorario != null ? Model.IdHonorario : 1) : 1), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
-                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
-                                        id="IdHonorario" name="IdHonorario">
-                                    @{ var pHon = Model != null ? Model.IdHonorario : 0; }
-                                    <option value=""></option>
-                                    @foreach (var hon in (List<HonorarioDTO>)ViewBag.lstHonorarios)
-                                    {
-                                        <option value="@hon.IdHonorario" @(hon.IdHonorario == pHon ? "selected=selected" : "")>@hon.Nombre</option>
-                                    }
-                                </select>
-                                @Html.ValidationMessageFor(u => u.IdHonorario, "", new { @style = "color:red;" })
-                            </div>
-                        }
+                                        }
                         <div class="col-md-3">
                             <label class="control-label">Área</label>
-                            @*@Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
                                     id="IdArea" name="IdArea">
                                 @{ var pArea = Model != null ? Model.IdArea : 0; }
@@ -457,7 +460,7 @@
                             <label class="control-label">Afecto al IGV</label>
                             @{ 
                                 bool miChk = true;
-                                if(Model.IdComprobante != 0)
+                                if (Model.IdComprobante != 0)
                                 {
                                     miChk = Model.Monto == Model.MontoSinIGV ? false : true;
                                 }
@@ -482,7 +485,6 @@
                                         <label>Área</label>
                                     </div>
                                     <div class="col-md-9">
-                                        @*@Html.DropDownListFor(u => u.IdArea, new SelectList(ViewBag.lstAreas, "IdArea", "Nombre", Model != null ? (Model.IdArea != null ? Model.IdArea : 0) : 0), new { @id = "IdAreaX", @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })*@
                                         @Html.DropDownList("IdAreaX", new SelectList(ViewBag.lstAreas, "IdArea", "Nombre"), new { @id = "IdAreaX", @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
                                     </div>
                                 </div>
@@ -493,7 +495,6 @@
                                         <label>Monto (sin IGV)</label>
                                     </div>
                                     <div class="col-md-9">
-                                        @*@Html.TextBoxFor(u => u.MontoSinIGV, "{0:#.00}", new { @id = "MontoSinIGVX", @class = "form-control rol-accs", @placeholder = "Monto Sin IGV", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoConIGV_X()" })*@
                                         <input id="MontoSinIGVX" type="text" class="form-control rol-accs" placeholder="0.00" onkeypress="return CheckNumericValue(event)" onkeyup="ActualizarMontoConIGV_X()">
                                     </div>
                                 </div>
@@ -504,7 +505,6 @@
                                         <label>Monto Total</label>
                                     </div>
                                     <div class="col-md-9">
-                                        @*@Html.TextBoxFor(u => u.Monto, "{0:#.00}", new { @id = "MontoX", @class = "form-control rol-accs", @placeholder = "Ingrese el monto", @type = "text", @onkeypress = "return CheckNumericValue(event)", @onkeyup = "ActualizarMontoSinIGV_X()" })*@
                                         <input id="MontoX" type="text" class="form-control rol-accs" placeholder="0.00" onkeypress="return CheckNumericValue(event)" onkeyup="ActualizarMontoSinIGV_X()">
                                     </div>
                                 </div>
@@ -549,14 +549,41 @@
 
                 <div class="form-group">
                     <div class="row">
+                        @{ var eProyecto = ""; var textProyecto = "";
+                            if (Model.IdProyecto > 0)
+                            {
+                                textProyecto = "Remover Proyecto";
+                            }
+                            else
+                            {
+                                eProyecto = "hidden";
+                                textProyecto = "Asociar a Proyecto";
+                            }
+                        }
+                        <div class="col-md-3 @eProyecto">
+                            <label class="control-label">Proyecto</label>
+                            @Html.TextBoxFor(u => u.IdProyecto, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" })
+                            @Html.ValidationMessageFor(u => u.IdProyecto, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">&nbsp;</label>
+                            <button type="button" id="btn_proyecto" class="form-control btn m-b-xs btn-md btn-default btn-addon" onclick="AsociarProyecto()"><i class="fa fa-@(eProyecto == "" ? "minus" : "plus")"></i><span>@textProyecto</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group">
+                    <div class="row">
                         <div class="col-sm-12">
                             <label>Comentarios</label>
-                            @*<textarea class="form-control" cols="20" id="comentario" name="comentario" rows="3" style="resize: none;" type="text"></textarea>*@
                             @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control rol-accs", @placeholder = "Comentario", @type = "text", @rows = "3", @style = "resize: none;" })
                             @Html.ValidationMessageFor(u => u.Comentario)
                         </div>
                     </div>
                 </div>
+
                 @Html.TextBoxFor(u => u.Estado, new { @value = true, @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdTipoComprobante, new { @value = Model.IdTipoComprobante != 0 ? Model.IdTipoComprobante.ToString() : "", @type = "hidden" })

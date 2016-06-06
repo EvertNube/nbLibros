@@ -26,7 +26,6 @@ namespace NubeBooks.Data
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdResponsable { get; set; }
         public Nullable<int> IdCategoria { get; set; }
-        public Nullable<int> IdProyecto { get; set; }
         public System.DateTime FechaEmision { get; set; }
         public Nullable<System.DateTime> FechaConclusion { get; set; }
         public string Comentario { get; set; }
