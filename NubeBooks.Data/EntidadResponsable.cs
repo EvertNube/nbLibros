@@ -18,6 +18,7 @@ namespace NubeBooks.Data
         public EntidadResponsable()
         {
             this.Comprobante = new HashSet<Comprobante>();
+            this.Comprobante1 = new HashSet<Comprobante>();
             this.Contacto = new HashSet<Contacto>();
             this.Movimiento = new HashSet<Movimiento>();
             this.MovimientoInv = new HashSet<MovimientoInv>();
@@ -41,6 +42,8 @@ namespace NubeBooks.Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comprobante> Comprobante1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacto> Contacto { get; set; }
         public virtual Empresa Empresa { get; set; }

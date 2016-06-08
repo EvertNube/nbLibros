@@ -464,7 +464,7 @@ namespace NubeBooks.Core.BL
         {
             using (var context = getContext())
             {
-                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdEntidadResponsable == idEntidad).Select(x => new ComprobanteDTO
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && (x.IdEntidadResponsable == idEntidad || x.IdEntidadResponsable2 == idEntidad)).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
                     IdTipoComprobante = x.IdTipoComprobante,

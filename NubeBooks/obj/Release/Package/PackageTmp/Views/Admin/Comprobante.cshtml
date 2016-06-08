@@ -19,6 +19,7 @@
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
         var lstProyectos = JSON.parse('@Html.Raw(userInfoJson2)');
 
+        var jsTipoCmp = '@Model.IdTipoComprobante';
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         var miBaseUrl = '';
 
@@ -43,7 +44,12 @@
             ActualizarIGV();
             BloquearTDocumentos();
 
-            ListarProyectos(0);
+            if(jsTipoCmp == 1 || jsTipoCmp == 3) {
+                ListarProyectos(0); 
+            } else {
+                ListarProyectos2(0);
+            }
+            
 
             $('.rol-accs').each(function () {
                 if (jUserExt == 'True') $(this).prop('disabled', true);
@@ -228,6 +234,24 @@
                 })
             }
         }
+        //Solo para Comprobantes de tipo 2 y 4
+        function ListarProyectos2(cambio) {
+            if ($('#IdEntidadResponsable2').val() != 0)
+            {
+                var idEntidad = parseInt($('#IdEntidadResponsable2').val());
+                if(cambio == 1)
+                {
+                    $('#IdProyecto').select2("val", "");
+                }
+
+                GetProyectosAjax(idEntidad);
+                $('#IdProyecto').select2({
+                    allowClear: true,
+                    data: lstProyectos,
+                    placeholder: "Seleccionar"
+                })
+            }
+        }
 
         function GetProyectosAjax(idEntidad)
         {
@@ -248,15 +272,34 @@
         {
             if($('#IdProyecto').parent().hasClass('hidden'))
             {
+                if(jsTipoCmp == 2 || jsTipoCmp == 4)
+                {
+                    $('#IdEntidadResponsable2').parent().toggleClass('hidden');
+                    $('#btn_proyecto span').text('Remover Cliente');
+                }
+                else
+                {
+                    $('#btn_proyecto span').text('Remover Proyecto');
+                }
+
                 $('#IdProyecto').parent().toggleClass('hidden');
-                $('#btn_proyecto span').text('Remover Proyecto');
                 $('#btn_proyecto i').toggleClass('fa-plus fa-minus');
             }
             else
             {
+                if(jsTipoCmp == 2 || jsTipoCmp == 4)
+                {
+                    $('#IdEntidadResponsable2').select2("val", "");
+                    $('#IdEntidadResponsable2').parent().toggleClass('hidden');
+                    $('#btn_proyecto span').text('Asociar a Cliente');
+                }
+                else
+                {
+                    $('#btn_proyecto span').text('Asociar a Proyecto');
+                }
+
                 $('#IdProyecto').select2("val", "");
                 $('#IdProyecto').parent().toggleClass('hidden');
-                $('#btn_proyecto span').text('Asociar a Proyecto');
                 $('#btn_proyecto i').toggleClass('fa-plus fa-minus');
             }
         }
@@ -550,15 +593,33 @@
                 <div class="form-group">
                     <div class="row">
                         @{ var eProyecto = ""; var textProyecto = "";
-                            if (Model.IdProyecto > 0)
+                            if (Model.IdProyecto > 0 || Model.IdEntidadResponsable2 > 0)
                             {
-                                textProyecto = "Remover Proyecto";
+                                eProyecto = "";
+                                textProyecto = (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3) ? "Remover Proyecto" : "Remover Cliente";
                             }
                             else
                             {
                                 eProyecto = "hidden";
-                                textProyecto = "Asociar a Proyecto";
+                                textProyecto = (Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3) ? "Asociar a Proyecto" : "Asociar a Cliente";
                             }
+                        }
+                        @if (Model.IdTipoComprobante == 2 || Model.IdTipoComprobante == 4)
+                        {
+                            <div class="col-md-3 @eProyecto">
+                                <label class="control-label">Cliente</label>
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarProyectos2(1)"
+                                        id="IdEntidadResponsable2" name="IdEntidadResponsable2">
+                                    @{ var pCliente = Model != null ? Model.IdEntidadResponsable2.GetValueOrDefault() : 0;
+                                        List<EntidadResponsableDTO> listaClientes = ViewBag.lstClientes;
+                                    }
+                                    <option value=""></option>
+                                    @foreach (var ent in listaClientes)
+                                    {
+                                        <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pCliente ? "selected=selected" : "")>@ent.Nombre</option>
+                                    }
+                                </select>
+                            </div>
                         }
                         <div class="col-md-3 @eProyecto">
                             <label class="control-label">Proyecto</label>

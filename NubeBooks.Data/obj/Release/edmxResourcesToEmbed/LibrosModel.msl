@@ -59,6 +59,7 @@
           <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
           <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdEntidadResponsable2" ColumnName="IdEntidadResponsable2" />
           <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />
@@ -458,6 +459,7 @@
           <ScalarProperty Name="IdTipoComprobante" ColumnName="IdTipoComprobante" />
           <ScalarProperty Name="IdTipoDocumento" ColumnName="IdTipoDocumento" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdEntidadResponsable2" ColumnName="IdEntidadResponsable2" />
           <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
           <ScalarProperty Name="NroDocumento" ColumnName="NroDocumento" />

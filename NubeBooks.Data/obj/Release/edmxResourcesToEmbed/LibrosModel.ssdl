@@ -56,6 +56,7 @@
     <Property Name="IdTipoComprobante" Type="int" Nullable="false" />
     <Property Name="IdTipoDocumento" Type="int" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="IdEntidadResponsable2" Type="int" />
     <Property Name="IdMoneda" Type="int" Nullable="false" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
     <Property Name="NroDocumento" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -509,6 +510,18 @@
       </Principal>
       <Dependent Role="Comprobante">
         <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comprobante_EntidadResponsable1">
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntidadResponsable">
+        <PropertyRef Name="IdEntidadResponsable" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdEntidadResponsable2" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1412,6 +1425,10 @@
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
     <AssociationSet Name="FK_Comprobante_EntidadResponsable" Association="Self.FK_Comprobante_EntidadResponsable">
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_EntidadResponsable1" Association="Self.FK_Comprobante_EntidadResponsable1">
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>

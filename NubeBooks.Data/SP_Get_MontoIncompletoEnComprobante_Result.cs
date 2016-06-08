@@ -17,6 +17,7 @@ namespace NubeBooks.Data
         public int IdTipoComprobante { get; set; }
         public int IdTipoDocumento { get; set; }
         public int IdEntidadResponsable { get; set; }
+        public Nullable<int> IdEntidadResponsable2 { get; set; }
         public int IdMoneda { get; set; }
         public int IdEmpresa { get; set; }
         public string NroDocumento { get; set; }

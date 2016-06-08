@@ -14,6 +14,7 @@ namespace NubeBooks.Core.DTO
         public int IdTipoComprobante { get; set; }
         public int IdTipoDocumento { get; set; }
         public int IdEntidadResponsable { get; set; }
+        public int? IdEntidadResponsable2 { get; set; }
         public int IdMoneda { get; set; }
         public int IdEmpresa { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]

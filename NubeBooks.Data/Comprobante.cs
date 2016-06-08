@@ -26,6 +26,7 @@ namespace NubeBooks.Data
         public int IdTipoComprobante { get; set; }
         public int IdTipoDocumento { get; set; }
         public int IdEntidadResponsable { get; set; }
+        public Nullable<int> IdEntidadResponsable2 { get; set; }
         public int IdMoneda { get; set; }
         public int IdEmpresa { get; set; }
         public string NroDocumento { get; set; }
@@ -50,6 +51,7 @@ namespace NubeBooks.Data
         public virtual Categoria Categoria { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
+        public virtual EntidadResponsable EntidadResponsable1 { get; set; }
         public virtual Honorario Honorario { get; set; }
         public virtual LogUsuario LogUsuario { get; set; }
         public virtual Moneda Moneda { get; set; }

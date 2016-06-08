@@ -143,6 +143,7 @@ namespace NubeBooks.Core.BL
                         IdTipoComprobante = r.IdTipoComprobante,
                         IdTipoDocumento = r.IdTipoDocumento,
                         IdEntidadResponsable = r.IdEntidadResponsable,
+                        IdEntidadResponsable2 = r.IdEntidadResponsable2,
                         IdMoneda = r.IdMoneda,
                         IdEmpresa = r.IdEmpresa,
                         NroDocumento = r.NroDocumento,
@@ -225,6 +226,7 @@ namespace NubeBooks.Core.BL
                     nuevo.IdTipoComprobante = Comprobante.IdTipoComprobante;
                     nuevo.IdTipoDocumento = Comprobante.IdTipoDocumento;
                     nuevo.IdEntidadResponsable = Comprobante.IdEntidadResponsable;
+                    nuevo.IdEntidadResponsable2 = Comprobante.IdEntidadResponsable2;
                     nuevo.IdMoneda = Comprobante.IdMoneda;
                     nuevo.IdEmpresa = Comprobante.IdEmpresa;
                     nuevo.NroDocumento = Comprobante.NroDocumento;
@@ -233,10 +235,21 @@ namespace NubeBooks.Core.BL
                     nuevo.IdResponsable = Comprobante.IdResponsable;
                     nuevo.IdCategoria = Comprobante.IdCategoria;
                     //nuevo.IdProyecto = Comprobante.IdProyecto;
-                    if (Comprobante.IdProyecto > 0)
+                    if(Comprobante.IdTipoComprobante == 1 || Comprobante.IdTipoComprobante == 3)
+                    { 
+                        if (Comprobante.IdProyecto > 0)
+                        {
+                            var pProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                            nuevo.Proyecto.Add(pProyecto);
+                        }
+                    }
+                    else if(Comprobante.IdEntidadResponsable2 > 0)
                     {
-                        var pProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
-                        nuevo.Proyecto.Add(pProyecto);
+                        if (Comprobante.IdProyecto > 0)
+                        {
+                            var pProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                            nuevo.Proyecto.Add(pProyecto);
+                        }
                     }
                     nuevo.FechaEmision = Comprobante.FechaEmision;
                     nuevo.FechaConclusion = Comprobante.FechaConclusion;
@@ -278,6 +291,7 @@ namespace NubeBooks.Core.BL
                     row.IdTipoComprobante = Comprobante.IdTipoComprobante;
                     row.IdTipoDocumento = Comprobante.IdTipoDocumento;
                     row.IdEntidadResponsable = Comprobante.IdEntidadResponsable;
+                    row.IdEntidadResponsable2 = Comprobante.IdEntidadResponsable2;
                     row.IdMoneda = Comprobante.IdMoneda;
                     row.IdEmpresa = Comprobante.IdEmpresa;
                     row.NroDocumento = Comprobante.NroDocumento;
@@ -286,20 +300,43 @@ namespace NubeBooks.Core.BL
                     row.IdResponsable = Comprobante.IdResponsable;
                     row.IdCategoria = Comprobante.IdCategoria;
                     //row.IdProyecto = Comprobante.IdProyecto;
-                    if (row.Proyecto.FirstOrDefault() != null && row.Proyecto.FirstOrDefault().IdProyecto != Comprobante.IdProyecto)
+                    if (Comprobante.IdTipoComprobante == 1 || Comprobante.IdTipoComprobante == 3)
                     {
-                        var zProyecto = row.Proyecto.FirstOrDefault();
-                        row.Proyecto.Remove(zProyecto);
-                        if (Comprobante.IdProyecto > 0)
+                        if (row.Proyecto.FirstOrDefault() != null && row.Proyecto.FirstOrDefault().IdProyecto != Comprobante.IdProyecto)
+                        {
+                            var zProyecto = row.Proyecto.FirstOrDefault();
+                            row.Proyecto.Remove(zProyecto);
+                            if (Comprobante.IdProyecto > 0)
+                            {
+                                var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                                row.Proyecto.Add(xProyecto);
+                            }
+                        }
+                        else if (row.Proyecto.FirstOrDefault() == null)
                         {
                             var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
                             row.Proyecto.Add(xProyecto);
                         }
-                    } else if (row.Proyecto.FirstOrDefault() == null)
-                    {
-                        var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
-                        row.Proyecto.Add(xProyecto);
                     }
+                    else if(Comprobante.IdEntidadResponsable2 > 0)
+                    {
+                        if (row.Proyecto.FirstOrDefault() != null && row.Proyecto.FirstOrDefault().IdProyecto != Comprobante.IdProyecto)
+                        {
+                            var zProyecto = row.Proyecto.FirstOrDefault();
+                            row.Proyecto.Remove(zProyecto);
+                            if (Comprobante.IdProyecto > 0)
+                            {
+                                var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                                row.Proyecto.Add(xProyecto);
+                            }
+                        }
+                        else if (row.Proyecto.FirstOrDefault() == null)
+                        {
+                            var xProyecto = context.Proyecto.Where(x => x.IdProyecto == Comprobante.IdProyecto).FirstOrDefault();
+                            row.Proyecto.Add(xProyecto);
+                        }
+                    }
+                        
                     row.FechaEmision = Comprobante.FechaEmision;
                     row.FechaConclusion = Comprobante.FechaConclusion;
                     row.Comentario = Comprobante.Comentario;
