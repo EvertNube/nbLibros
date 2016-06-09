@@ -245,7 +245,7 @@ namespace NubeBooks.Controllers
             ViewBag.CarteraM_Soles = cmpBL.CarteraMorosa_porMoneda(1, lstCarteraMorosa);
             ViewBag.CarteraM_Dolares = cmpBL.CarteraMorosa_porMoneda(2, lstCarteraMorosa);
             ViewBag.CarteraM_Soles_Count = cmpBL.CarteraMorosa_Count_porMoneda(1, lstCarteraMorosa);
-            ViewBag.CarteraM_Soles_Count = cmpBL.CarteraMorosa_Count_porMoneda(2, lstCarteraMorosa);
+            ViewBag.CarteraM_Dolares_Count = cmpBL.CarteraMorosa_Count_porMoneda(2, lstCarteraMorosa);
 
             //Principales clientes y proveedores
             ViewBag.top5Clientes = objBL.getTop5Clientes(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());

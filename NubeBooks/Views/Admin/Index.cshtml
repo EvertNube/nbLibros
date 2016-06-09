@@ -473,7 +473,6 @@
                                 @foreach (var item in (List<Decimal>)ViewBag.CarteraM_Soles)
                                 {
                                     <li class="list-group-item">
-                                        @*<span class="pull-right">S/ @item.ToString("N2", CultureInfo.InvariantCulture)</span>*@
                                         @switch (contCartera)
                                         {
                                             case 0:
@@ -490,15 +489,10 @@
                                                 break;
                                         }
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>
-                                                &nbsp;@textoCartera
-                                            </div>
-                                            <div class="col-md-4 text-center">@(neleCartera1[contCartera])</div>
+                                            <div class="col-md-4"><span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>&nbsp;@textoCartera</div>
+                                            <div class="col-md-4 text-center">@(neleCartera1[contCartera]) comprobantes</div>
                                             <div class="col-md-4 text-right">S/ @item.ToString("N2", CultureInfo.InvariantCulture)</div>
                                         </div>
-                                        @*<span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>
-                                        &nbsp;@textoCartera*@
                                     </li>
                                     contCartera++;
                                 }
@@ -514,11 +508,11 @@
                             <ul class="list-group no-radius">
                                 @{
                                     contCartera = 0; colorCartera = "info"; textoCartera = "De 01 a 30 días";
+                                    List<int> neleCartera2 = (List<int>)ViewBag.CarteraM_Dolares_Count;
                                 }
                                 @foreach (var item in (List<Decimal>)ViewBag.CarteraM_Dolares)
                                 {
                                     <li class="list-group-item">
-                                        <span class="pull-right">$ @item.ToString("N2", CultureInfo.InvariantCulture)</span>
                                         @switch (contCartera)
                                         {
                                             case 0:
@@ -534,8 +528,11 @@
                                                 colorCartera = "primary"; textoCartera = "De 181 a más";
                                                 break;
                                         }
-                                        <span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>
-                                        &nbsp;@textoCartera
+                                        <div class="row">
+                                            <div class="col-md-4"><span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>&nbsp;@textoCartera</div>
+                                            <div class="col-md-4 text-center">@(neleCartera2[contCartera]) comprobantes</div>
+                                            <div class="col-md-4 text-right">$ @item.ToString("N2", CultureInfo.InvariantCulture)</div>
+                                        </div>
                                     </li>
                                     contCartera++;
                                 }

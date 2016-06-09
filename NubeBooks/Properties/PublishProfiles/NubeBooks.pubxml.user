@@ -102,16 +102,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 20:22:39</publishTime>
     </File>
     <File Include="bin/NubeBooks.Core.dll">
-      <publishTime>06/09/2016 13:22:40</publishTime>
+      <publishTime>06/09/2016 16:36:00</publishTime>
     </File>
     <File Include="bin/NubeBooks.Core.Logistics.dll">
-      <publishTime>06/09/2016 13:22:40</publishTime>
+      <publishTime>06/09/2016 16:36:00</publishTime>
     </File>
     <File Include="bin/NubeBooks.Data.dll">
       <publishTime>06/09/2016 12:42:49</publishTime>
     </File>
     <File Include="bin/NubeBooks.dll">
-      <publishTime>06/09/2016 13:22:45</publishTime>
+      <publishTime>06/09/2016 16:36:04</publishTime>
     </File>
     <File Include="bin/NubeBooks.Helpers.dll">
       <publishTime>06/02/2016 08:09:37</publishTime>
@@ -2370,7 +2370,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 20:22:37</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>06/09/2016 13:20:38</publishTime>
+      <publishTime>06/09/2016 16:35:22</publishTime>
     </File>
     <File Include="Views/Admin/Ingresar.cshtml">
       <publishTime>05/18/2016 20:22:37</publishTime>
