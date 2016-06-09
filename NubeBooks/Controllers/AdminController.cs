@@ -239,6 +239,13 @@ namespace NubeBooks.Controllers
             ViewBag.CuentasXCobrar_Dolares = objBL.Get_CuentasPorCobrar(empresa.IdEmpresa, 2);
             ViewBag.CuentasXPagar_Soles = objBL.Get_CuentasPorPagar(empresa.IdEmpresa, 1);
             ViewBag.CuentasXPagar_Dolares = objBL.Get_CuentasPorPagar(empresa.IdEmpresa, 2);
+            //Cartera Morosa - dias vencidos
+            ComprobanteBL cmpBL = new ComprobanteBL();
+            List<ComprobanteDTO> lstCarteraMorosa = cmpBL.getComprobantesIngresosYEgresosEnEmpresa_diasVencidos(empresa.IdEmpresa, 1);
+            ViewBag.CarteraM_Soles = cmpBL.CarteraMorosa_porMoneda(1, lstCarteraMorosa);
+            ViewBag.CarteraM_Dolares = cmpBL.CarteraMorosa_porMoneda(2, lstCarteraMorosa);
+            ViewBag.CarteraM_Soles_Count = cmpBL.CarteraMorosa_Count_porMoneda(1, lstCarteraMorosa);
+            ViewBag.CarteraM_Soles_Count = cmpBL.CarteraMorosa_Count_porMoneda(2, lstCarteraMorosa);
 
             //Principales clientes y proveedores
             ViewBag.top5Clientes = objBL.getTop5Clientes(user.IdEmpresa, empresa.IdPeriodo.GetValueOrDefault());

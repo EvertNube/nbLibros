@@ -20,6 +20,7 @@
             PintarGraficaFacturacion();
             PintarPieIngresos();
             PintarPieEgresos();
+            PintarPieCateraMorosa();
             //ObtenerTipoCambio();
             $('#pie_consolidado').click(function(){ Moneda_Consolidado($(this)); });
         });
@@ -31,17 +32,17 @@
             if($(item).hasClass('bg-success'))
             {
                 var sTotal = jsTotalDolares + (jsTotalSoles / jsTipoCambio)
-                @*var sTotal = jsTotalSoles @ViewBag.TotalConsolidado / @ViewBag.TipoCambio;*@
-                var sCadena = '$ ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+
+                var sCadena = '$ ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 $('#total_consolidado span').text(sCadena);
-                
+
                 //$(item).val(sTotal);
             }
             else if($(item).hasClass('bg-warning'))
             {
                 var sTotal = jsTotalSoles + (jsTotalDolares * jsTipoCambio)
-                
-                var sCadena = 'S/. ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+
+                var sCadena = 'S/. ' + sTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 $('#total_consolidado span').text(sCadena);
 
                 //$(item).val(sTotal);
@@ -225,6 +226,39 @@
                 });
         }
 
+        function PintarPieCateraMorosa()
+        {
+            var list1 = @Html.Raw(Json.Encode(ViewBag.CarteraM_Soles));
+            var list2 = @Html.Raw(Json.Encode(ViewBag.CarteraM_Dolares));
+
+            $.plot($("#pie-cartera1"), list1,
+                { series:
+                          { pie:    {   
+                              show: true,
+                              stroke: { width: 0 }
+                            }
+                          },
+                    colors: ['#23b7e5','#fad733','#f05050','#7266ba'],
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                    tooltip: true,
+                    tooltipOpts: { content: '%p.0%' }
+                });
+
+
+            $.plot($("#pie-cartera2"), list2,
+                { series:
+                          { pie:    {   
+                              show: true,
+                              stroke: { width: 0 }
+                          }
+                          },
+                    colors: ['#23b7e5','#fad733','#f05050','#7266ba'],
+                    grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                    tooltip: true,
+                    tooltipOpts: { content: '%p.0%' }
+                });
+        }
+
         Object.size = function(obj){
             var size = 0, key;
             for (key in obj) {
@@ -397,54 +431,111 @@
                 </div>
             </div>
             <!-- / stats -->
-            <!-- service -->
-            <div class="panel hbox hbox-auto-xs no-border">
-                <div class="col wrapper">
-                    <h4 class="font-thin m-t-none m-b-none text-primary-lt h3">Facturación (@(ViewBag.sMoneda))</h4>
-                    @*<span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>*@
-                    <span class="m-b block text-sm text-muted">Información actualizada al @System.DateTime.Now.ToShortDateString()</span>
-                    <div id="flot-chart2" style="height:240px"></div>
-                </div>
-                <div class="col wrapper-lg w-lg bg-light dk r-r">
-                    <h4 class="font-thin m-t-none m-b">Variación Porcentual</h4>
-                    <div>
-                        @{ var sColor = ""; int mesActual = DateTime.Now.Month;
-                            List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
-                        @foreach (var mes in lstVPorcentualDesc)
-                        {
-                            
-                                sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
-                                <div>
-                                    @if (mes.Mes <= mesActual) {
-                                        <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "-" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
-                                    }
-                                    <span>@mes.nombreMes</span>
-                                </div>
-                            
-                        }
-                    </div>
-                    @*<div class="">
-                        <div class="">
-                            @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
-                                Decimal PreEgr = ViewBag.EjecucionEgresos * 100;}
-                            <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionIngresos)</span>
-                            <span>Ingresos</span>
+            
+            <!-- Cuentas por Cobrar y Pagar-->
+            <div class="panel wrapper-md bg-white-only b-b round">
+                <div class="row text-center">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Cobrar</h4>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXCobrar_Soles.ToString("N2", CultureInfo.InvariantCulture)</i></div>
                         </div>
-                        <div class="progress progress-xs m-t-sm bg-white">
-                            <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="@(PreIng.ToString() + "%")" style="width: @(PreIng.ToString() + "%")"></div>
-                        </div>
-                        <div class="">
-                            <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionEgresos)</span>
-                            <span>Egresos</span>
-                        </div>
-                        <div class="progress progress-xs m-t-sm bg-white">
-                            <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="@(PreEgr.ToString() + "%")" style="width: @(PreEgr.ToString() + "%")"></div>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXCobrar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
                         </div>
                     </div>
-                    <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>*@
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Pagar</h4>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXPagar_Soles.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXPagar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- / service -->
+
+            <!-- Cartera Morosa -->
+            <div class="panel wrapper">
+                <div class="row">
+                    <div class="col-md-6 b-r b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted text-center">Cartera Morosa Soles</h4>
+                        <div class="panel">
+                            <div class="text-center wrapper m-b-sm">
+                                <div id="pie-cartera1" style="height: 126px; padding: 0px; position: relative;"></div>
+                            </div>
+                            <ul class="list-group no-radius">
+                                @{
+                                    int contCartera = 0; string colorCartera = "info"; string textoCartera = "De 01 a 30 días";
+                                }
+                                @foreach (var item in (List<Decimal>)ViewBag.CarteraM_Soles)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="pull-right">S/ @item.ToString("N2", CultureInfo.InvariantCulture)</span>
+                                        @switch (contCartera)
+                                        {
+                                            case 0:
+                                                colorCartera = "info"; textoCartera = "De 01 a 30 días";
+                                                break;
+                                            case 1:
+                                                colorCartera = "warning"; textoCartera = "De 31 a 90 días";
+                                                break;
+                                            case 2:
+                                                colorCartera = "danger"; textoCartera = "De 91 a 180 días";
+                                                break;
+                                            default:
+                                                colorCartera = "primary"; textoCartera = "De 181 a más";
+                                                break;
+                                        }
+                                        <span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>
+                                        &nbsp;@textoCartera
+                                    </li>
+                                    contCartera++;
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 b-light no-border-xs">
+                        <h4 class="font-thin m-t-none m-b-md text-muted text-center">Cartera Morosa Dólares</h4>
+                        <div class="panel">
+                            <div class="text-center wrapper m-b-sm">
+                                <div id="pie-cartera2" style="height: 126px; padding: 0px; position: relative;"></div>
+                            </div>
+                            <ul class="list-group no-radius">
+                                @{
+                                    contCartera = 0; colorCartera = "info"; textoCartera = "De 01 a 30 días";
+                                }
+                                @foreach (var item in (List<Decimal>)ViewBag.CarteraM_Dolares)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="pull-right">$ @item.ToString("N2", CultureInfo.InvariantCulture)</span>
+                                        @switch (contCartera)
+                                        {
+                                            case 0:
+                                                colorCartera = "info"; textoCartera = "De 01 a 30 días";
+                                                break;
+                                            case 1:
+                                                colorCartera = "warning"; textoCartera = "De 31 a 90 días";
+                                                break;
+                                            case 2:
+                                                colorCartera = "danger"; textoCartera = "De 91 a 180 días";
+                                                break;
+                                            default:
+                                                colorCartera = "primary"; textoCartera = "De 181 a más";
+                                                break;
+                                        }
+                                        <span class="label bg-@colorCartera">&nbsp;&nbsp;&nbsp;</span>
+                                        &nbsp;@textoCartera
+                                    </li>
+                                    contCartera++;
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Ingresos y Egresos -->
             <div class="panel wrapper">
                 <h4 class="font-thin m-t-none m-b text-muted">Avance de Presupuesto</h4>
@@ -494,28 +585,56 @@
                 </div>
             </div>
 
-            <div class="panel wrapper-md bg-white-only b-b">
-                <div class="row text-center">
-                    <div class="col-md-6 b-r b-light no-border-xs">
-                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Cobrar</h4>
-                        <div class="col-sm-6 col-xs-6">
-                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXCobrar_Soles.ToString("N2", CultureInfo.InvariantCulture)</i></div>
-                        </div>
-                        <div class="col-sm-6 col-xs-6">
-                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXCobrar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
-                        </div>
+            <!-- Facturacion -->
+            <div class="panel hbox hbox-auto-xs no-border">
+                <div class="col wrapper">
+                    <h4 class="font-thin m-t-none m-b-none text-primary-lt h3">Facturación (@(ViewBag.sMoneda))</h4>
+                    @*<span class="m-b block text-sm text-muted">Ingresos vs Egresos</span>*@
+                    <span class="m-b block text-sm text-muted">Información actualizada al @System.DateTime.Now.ToShortDateString()</span>
+                    <div id="flot-chart2" style="height:240px"></div>
+                </div>
+                <div class="col wrapper-lg w-lg bg-light dk r-r">
+                    <h4 class="font-thin m-t-none m-b">Variación Porcentual</h4>
+                    <div>
+                        @{ var sColor = ""; int mesActual = DateTime.Now.Month;
+                            List<LiquidezDTO> lstVPorcentualDesc = ((List<LiquidezDTO>)ViewBag.lstVPorcentual).OrderBy(x => x.Mes).ToList();}
+                        @foreach (var mes in lstVPorcentualDesc)
+                        {
+
+                            sColor = mes.sMonto == "N/A" ? "" : mes.Monto > 0 ? "text-success" : "text-danger";
+                            <div>
+                                @if (mes.Mes <= mesActual)
+                                {
+                                    <span class="pull-right @sColor">@(mes.sMonto == "N/A" ? "-" : mes.Monto.ToString("P2", CultureInfo.InvariantCulture))</span>
+                                }
+                                <span>@mes.nombreMes</span>
+                            </div>
+
+                        }
                     </div>
-                    <div class="col-md-6 b-r b-light no-border-xs">
-                        <h4 class="font-thin m-t-none m-b-md text-muted">Cuentas x Pagar</h4>
-                        <div class="col-sm-6 col-xs-6">
-                            <div class="h3 m-b-sm"><i class="fa fa-money text-warning-dker"></i> S/ @ViewBag.CuentasXPagar_Soles.ToString("N2", CultureInfo.InvariantCulture)</div>
-                        </div>
-                        <div class="col-sm-6 col-xs-6">
-                            <div class="h3 m-b-sm"><i class="fa fa-money text-success-dker"></i> $ @ViewBag.CuentasXPagar_Dolares.ToString("N2", CultureInfo.InvariantCulture)</div>
-                        </div>
+                    @*<div class="">
+                    <div class="">
+                        @{ Decimal PreIng = ViewBag.EjecucionIngresos * 100;
+                            Decimal PreEgr = ViewBag.EjecucionEgresos * 100;}
+                        <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionIngresos)</span>
+                        <span>Ingresos</span>
+                    </div>
+                    <div class="progress progress-xs m-t-sm bg-white">
+                        <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="@(PreIng.ToString() + "%")" style="width: @(PreIng.ToString() + "%")"></div>
+                    </div>
+                    <div class="">
+                        <span class="pull-right">@String.Format("{0:P2}", ViewBag.EjecucionEgresos)</span>
+                        <span>Egresos</span>
+                    </div>
+                    <div class="progress progress-xs m-t-sm bg-white">
+                        <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="@(PreEgr.ToString() + "%")" style="width: @(PreEgr.ToString() + "%")"></div>
                     </div>
                 </div>
+                <p class="text-muted">Información actualizada al 15 de enero de 2016.</p>*@
+                </div>
             </div>
+
+
 
             <!-- tasks -->
             <div class="panel wrapper">

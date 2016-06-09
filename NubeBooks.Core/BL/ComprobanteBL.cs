@@ -708,5 +708,91 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+
+        public List<ComprobanteDTO> getComprobantesIngresosYEgresosEnEmpresa_diasVencidos(int idEmpresa, int idTipoComprobante)
+        {
+            using (var context = getContext())
+            {
+                DateTime FechaActual = DateTime.Now;
+
+                var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && x.Estado && x.IdTipoDocumento < 9).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    IdTipoComprobante = x.IdTipoComprobante,
+                    IdTipoDocumento = x.IdTipoDocumento,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdEmpresa = x.IdEmpresa,
+                    NroDocumento = x.NroDocumento,
+                    Monto = x.Monto,
+                    IdArea = x.IdArea,
+                    IdResponsable = x.IdResponsable,
+                    IdCategoria = x.IdCategoria,
+                    IdProyecto = x.Proyecto.FirstOrDefault().IdProyecto,
+                    FechaEmision = x.FechaEmision,
+                    FechaConclusion = x.FechaConclusion,
+                    Comentario = x.Comentario,
+                    Estado = x.Estado,
+                    IdHonorario = x.IdHonorario,
+                    NombreEntidad = x.EntidadResponsable.Nombre,
+                    NombreMoneda = x.Moneda.Nombre,
+                    NombreTipoComprobante = x.TipoComprobante.Nombre,
+                    NombreTipoDocumento = x.TipoDocumento.Nombre,
+                    SimboloMoneda = x.Moneda.Simbolo,
+                    MontoSinIGV = x.MontoSinIGV,
+                    TipoCambio = x.TipoCambio,
+                    UsuarioCreacion = x.UsuarioCreacion,
+                    FechaPago = x.FechaPago,
+                    NombreUsuario = x.Usuario.Cuenta,
+                    NombreCategoria = x.Categoria.Nombre,
+                    NombreProyecto = x.Proyecto.FirstOrDefault().Nombre,
+                    nHonorario = x.Honorario.Nombre,
+                    Ejecutado = x.Ejecutado
+                }).OrderBy(x => x.NroDocumento).ToList<ComprobanteDTO>();
+
+                List<ComprobanteDTO> lista = result;
+
+                foreach (var item in lista)
+                {
+                    item.diasVencidos = item.Ejecutado ? 0 : (item.FechaConclusion != null) ? (FechaActual - item.FechaConclusion.GetValueOrDefault()).Days : new int?();
+                }
+
+                return lista;
+            }
+        }
+
+        public List<Decimal> CarteraMorosa_porMoneda(int idMoneda, List<ComprobanteDTO> lista)
+        {
+            //De 0 a 30 dias
+            Decimal monto1 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 0 && x.diasVencidos < 31)).Sum(x => x.Monto);
+            Decimal monto2 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 30 && x.diasVencidos < 91)).Sum(x => x.Monto);
+            Decimal monto3 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 90 && x.diasVencidos < 181)).Sum(x => x.Monto);
+            Decimal monto4 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 180)).Sum(x => x.Monto);
+
+            List<Decimal> lstMontos = new List<Decimal>();
+            lstMontos.Add(monto1);
+            lstMontos.Add(monto2);
+            lstMontos.Add(monto3);
+            lstMontos.Add(monto4);
+
+            return lstMontos;
+        }
+
+        public List<int> CarteraMorosa_Count_porMoneda(int idMoneda, List<ComprobanteDTO> lista)
+        {
+            //De 0 a 30 dias
+            int count1 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 0 && x.diasVencidos < 31)).Count();
+            int count2 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 30 && x.diasVencidos < 91)).Count();
+            int count3 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 90 && x.diasVencidos < 181)).Count();
+            int count4 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 180)).Count();
+
+            List<int> lstMontos = new List<int>();
+            lstMontos.Add(count1);
+            lstMontos.Add(count2);
+            lstMontos.Add(count3);
+            lstMontos.Add(count4);
+
+            return lstMontos;
+        }
     }
 }

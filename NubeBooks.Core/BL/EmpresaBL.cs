@@ -242,7 +242,7 @@ namespace NubeBooks.Core.BL
                 {
                     LiquidezDTO nuevo = new LiquidezDTO();
                     nuevo.Mes = (today.Month - i) > 0 ? (today.Month - i) : (today.Month + 12 - i);
-                    nuevo.Monto = listMovs.Where(x => x.IdTipoMovimiento == 1 && x.FechaCreacion.Month == nuevo.Mes).Sum(x => x.Monto) - listMovs.Where(x => x.IdTipoMovimiento == 2 && x.FechaCreacion.Month == nuevo.Mes).Sum(x => x.Monto);
+                    nuevo.Monto = Math.Abs(listMovs.Where(x => x.IdTipoMovimiento == 1 && x.FechaCreacion.Month == nuevo.Mes).Sum(x => x.Monto) - listMovs.Where(x => x.IdTipoMovimiento == 2 && x.FechaCreacion.Month == nuevo.Mes).Sum(x => x.Monto));
                     lstLiq.Add(nuevo);
                 }
                 
@@ -404,15 +404,10 @@ namespace NubeBooks.Core.BL
             obj.firstDayYear = new DateTime(fecha.Year, 1, 1);
             obj.lastDayYear = new DateTime(fecha.Year, 12, 31);
 
-            //obj.firstDayMonth = new DateTime(fecha.Year, fecha.Month, 1);
-            //obj.lastDayMonth = obj.firstDayMonth.AddMonths(1).AddDays(-1);
-
-            //Ultimo dia inicial de hace un año atras (YA - Year Ago)
-            //obj.firstDayMonthYA = new DateTime(fecha.Year - 1, fecha.Month + 1, 1);
-            //obj.lastDayMonthYA = obj.firstDayMonthYA.AddMonths(1).AddDays(-1);
-
             return obj;
         }
+
+
 
         public Decimal getEjecucionDePresupuestoEnEmpresa(int idEmpresa, int idMoneda, int idPeriodo, int tipo)
         {

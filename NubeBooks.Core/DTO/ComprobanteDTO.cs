@@ -53,6 +53,7 @@ namespace NubeBooks.Core.DTO
 
         //Montos Auxs
         public Decimal MontoIncompleto { get; set; }
+        public int? diasVencidos { get; set; }
 
         //Listas
         public List<AreaPorComprobanteDTO> lstMontos { get; set; }
