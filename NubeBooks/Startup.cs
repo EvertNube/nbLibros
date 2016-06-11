@@ -11,6 +11,7 @@ namespace NubeBooks
         public void Configuration(IAppBuilder app)
         {
             app.MapSignalR();
+            //Pruebas JC
         }
     }
 }
