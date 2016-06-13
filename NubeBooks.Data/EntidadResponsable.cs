@@ -39,6 +39,7 @@ namespace NubeBooks.Data
         public string Banco { get; set; }
         public string CuentaSoles { get; set; }
         public string CuentaDolares { get; set; }
+        public Nullable<int> Credito { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
@@ -47,6 +48,7 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacto> Contacto { get; set; }
         public virtual Empresa Empresa { get; set; }
+        public virtual Honorario Honorario { get; set; }
         public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

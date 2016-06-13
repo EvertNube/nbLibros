@@ -20,6 +20,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public string UnidadMedida { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
+        public Decimal? Precio { get; set; }
 
         public string nCategoriaItem { get; set; }
         public int SaldoItem { get; set; }

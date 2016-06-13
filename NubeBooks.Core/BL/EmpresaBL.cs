@@ -704,7 +704,7 @@ namespace NubeBooks.Core.BL
                     IdMoneda = x.IdMoneda,
                     Nombre = x.Nombre,
                     Simbolo = x.Simbolo
-                }).ToList();
+                }).Take(2).ToList();
                 return result;
             }
         }

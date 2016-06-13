@@ -24,6 +24,7 @@ namespace NubeBooks.Data
         public int IdCategoriaItm { get; set; }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
+        public Nullable<decimal> Precio { get; set; }
         public string Descripcion { get; set; }
         public string UnidadMedida { get; set; }
         public bool Estado { get; set; }

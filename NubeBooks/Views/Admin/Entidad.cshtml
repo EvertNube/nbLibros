@@ -13,6 +13,10 @@
     <script type="text/javascript">
         $(function () {
             $('.miselect2').select2();
+            $('.miselect2_clear').select2({
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
 
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
@@ -125,10 +129,22 @@ else { cadena = "Actualizar"; }
                 {
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Crédito</label>
+                                @*@Html.DropDownListFor(u => u.Credito, new SelectList(ViewBag.lstCreditos, "IdHonorario", "Nombre", Model != null ? (Model.Credito != null ? Model.Credito : null) : null), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })*@
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                        id="Credito" name="Credito">
+                                    @{ var pHon = Model != null ? (Model.Credito != null ? Model.Credito : null) : null; }
+                                    <option value=""></option>
+                                    @foreach (var hon in (List<HonorarioDTO>)ViewBag.lstCreditos)
+                                    {
+                                        <option value="@hon.IdHonorario" @(hon.IdHonorario == pHon ? "selected=selected" : "")>@hon.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-9">
                                 <label>Dirección</label>
                                 @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.Direccion, "", new { @style = "color:red;" })
                             </div>
                         </div>
                     </div>

@@ -268,7 +268,6 @@ namespace NubeBooks.Controllers
             UsuarioDTO currentUser = getCurrentUser();
 
             EmpresaBL objBL = new EmpresaBL();
-            //ViewBag.IdEmpresa = id;
             ViewBag.lstMonedas = objBL.getListaMonedas();
 
             var objSent = TempData["Empresa"];
@@ -1093,11 +1092,14 @@ namespace NubeBooks.Controllers
             if (idTipoEntidad != null) { tipoEntidad = idTipoEntidad.GetValueOrDefault(); }
             MenuNavBarSelected(6, tipoEntidad - 1);
 
-            UsuarioDTO currentUser = getCurrentUser();
+            UsuarioDTO user = getCurrentUser();
 
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             ViewBag.TipoIdentificacion = objBL.getTiposDeIdentificaciones();
-            ViewBag.lstComprobantes = objBL.getComprobantes_ConEntidad(currentUser.IdEmpresa, id.GetValueOrDefault());
+            ViewBag.lstComprobantes = objBL.getComprobantes_ConEntidad(user.IdEmpresa, id.GetValueOrDefault());
+            
+            HonorarioBL honBL = new HonorarioBL();
+            ViewBag.lstCreditos = honBL.getHonorariosActivosEnEmpresa(user.IdEmpresa);
 
             ViewBag.vbInactivosC = inactivosC;
             ViewBag.vbInactivosP = inactivosP;
@@ -1108,10 +1110,10 @@ namespace NubeBooks.Controllers
             EntidadResponsableDTO obj;
             if (id != null && id != 0)
             {
-                //obj = objBL.getEntidadResponsableEnEmpresa((int)currentUser.IdEmpresa, (int)id);
-                obj = objBL.getEntidadResponsableEnEmpresa_Only((int)currentUser.IdEmpresa, (int)id);
+                //obj = objBL.getEntidadResponsableEnEmpresa((int)user.IdEmpresa, (int)id);
+                obj = objBL.getEntidadResponsableEnEmpresa_Only((int)user.IdEmpresa, (int)id);
                 if (obj == null) return RedirectToAction("Entidades");
-                if (obj.IdEmpresa != currentUser.IdEmpresa) return RedirectToAction("Entidades");
+                if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("Entidades");
                 //Contactos
                 if (!inactivosC) { ViewBag.lstContactos = objBL.getContactosActivos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
                 else { ViewBag.lstContactos = objBL.getContactos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
@@ -1123,7 +1125,7 @@ namespace NubeBooks.Controllers
             }
             obj = new EntidadResponsableDTO();
             obj.IdEntidadResponsable = 0;
-            obj.IdEmpresa = currentUser.IdEmpresa;
+            obj.IdEmpresa = user.IdEmpresa;
             if (idTipoEntidad != null && idTipoEntidad != 0) obj.IdTipoEntidad = idTipoEntidad;
 
             return View(obj);
@@ -4577,30 +4579,42 @@ namespace NubeBooks.Controllers
 
             dt.Columns.Add("Fecha");
             dt.Columns.Add("Movimiento");
-            dt.Columns.Add("Cod-Item");
             dt.Columns.Add("Documento");
+            dt.Columns.Add("Cod-Item");
             dt.Columns.Add("Cantidad");
             dt.Columns.Add("U. Med");
             dt.Columns.Add("Lote");
             dt.Columns.Add("Stock Lote");
             if (idTipo == 1)
-            { dt.Columns.Add("Vencimiento"); }
+            {
+                dt.Columns.Add("Guia de Remision");
+                dt.Columns.Add("Vencimiento");
+                dt.Columns.Add("Proveedor");
+            }
             dt.Columns.Add("Usuario");
-            
+            dt.Columns.Add("Ubicacion");
+            dt.Columns.Add("Comentario");
+
             foreach (var obj in lstMovsInv)
             {
                 System.Data.DataRow row = dt.NewRow();
                 row["Fecha"] = obj.FechaInicial.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
                 row["Movimiento"] = obj.nForma;
-                row["Cod-Item"] = obj.nItem;
                 row["Documento"] = obj.NroDocumento;
+                row["Cod-Item"] = obj.nItem;
                 row["Cantidad"] = obj.Cantidad;
                 row["U. Med"] = obj.UnidadMedida;
                 row["Lote"] = obj.SerieLote;
                 row["Stock Lote"] = obj.StockLote;
                 if (idTipo == 1)
-                { row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-"; }
+                {
+                    row["Guia de Remision"] = obj.GuiaRemision;
+                    row["Vencimiento"] = obj.FechaFin != null ? obj.FechaFin.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "-";
+                    row["Proveedor"] = obj.nEntidadResponsable;
+                }
                 row["Usuario"] = obj.nUsuario;
+                row["Ubicacion"] = obj.nUbicacion;
+                row["Comentario"] = obj.Comentario;
                 dt.Rows.Add(row);
             }
 

@@ -153,6 +153,7 @@
           <Property Name="Banco" Type="nvarchar" MaxLength="100" />
           <Property Name="CuentaSoles" Type="nvarchar" MaxLength="50" />
           <Property Name="CuentaDolares" Type="nvarchar" MaxLength="50" />
+          <Property Name="Credito" Type="int" />
         </EntityType>
         <EntityType Name="EstadoMovimiento">
           <Key>
@@ -197,6 +198,7 @@
           <Property Name="IdCategoriaItm" Type="int" Nullable="false" />
           <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
           <Property Name="UnidadMedida" Type="nvarchar" MaxLength="50" />
           <Property Name="Estado" Type="bit" Nullable="false" />
@@ -707,6 +709,18 @@
             </Principal>
             <Dependent Role="EntidadResponsable">
               <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EntidadResponsable_Honorario">
+          <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
+          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Honorario">
+              <PropertyRef Name="IdHonorario" />
+            </Principal>
+            <Dependent Role="EntidadResponsable">
+              <PropertyRef Name="Credito" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1497,6 +1511,10 @@
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
           </AssociationSet>
+          <AssociationSet Name="FK_EntidadResponsable_Honorario" Association="Self.FK_EntidadResponsable_Honorario">
+            <End Role="Honorario" EntitySet="Honorario" />
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+          </AssociationSet>
           <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
             <End Role="TipoEntidad" EntitySet="TipoEntidad" />
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
@@ -1799,10 +1817,12 @@
           <Property Name="Banco" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CuentaSoles" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CuentaDolares" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Credito" Type="Int32" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
           <NavigationProperty Name="Comprobante1" Relationship="Self.FK_Comprobante_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Comprobante" />
           <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
+          <NavigationProperty Name="Honorario" Relationship="Self.FK_EntidadResponsable_Honorario" FromRole="EntidadResponsable" ToRole="Honorario" />
           <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
           <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
@@ -1850,6 +1870,7 @@
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Honorario" FromRole="Honorario" ToRole="Comprobante" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Honorario_Empresa" FromRole="Honorario" ToRole="Empresa" />
+          <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Honorario" FromRole="Honorario" ToRole="EntidadResponsable" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -1859,6 +1880,7 @@
           <Property Name="IdCategoriaItm" Type="Int32" Nullable="false" />
           <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="UnidadMedida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
@@ -2514,6 +2536,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EntidadResponsable_Honorario">
+          <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
+          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Honorario">
+              <PropertyRef Name="IdHonorario" />
+            </Principal>
+            <Dependent Role="EntidadResponsable">
+              <PropertyRef Name="Credito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EntidadResponsable_TipoEntidad">
           <End Role="TipoEntidad" Type="Self.TipoEntidad" Multiplicity="0..1" />
           <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -2903,6 +2937,10 @@
           <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EntidadResponsable_Honorario" Association="Self.FK_EntidadResponsable_Honorario">
+            <End Role="Honorario" EntitySet="Honorario" />
+            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
           </AssociationSet>
           <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
             <End Role="TipoEntidad" EntitySet="TipoEntidad" />
@@ -3358,6 +3396,7 @@
           <Property Type="String" Name="Banco" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Credito" Nullable="true" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
@@ -3393,6 +3432,7 @@
           <Property Type="String" Name="Banco" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Credito" Nullable="true" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
@@ -3577,6 +3617,7 @@
                 <ScalarProperty Name="Banco" ColumnName="Banco" />
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
+                <ScalarProperty Name="Credito" ColumnName="Credito" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3626,6 +3667,7 @@
                 <ScalarProperty Name="IdCategoriaItm" ColumnName="IdCategoriaItm" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -4160,6 +4202,7 @@
                 <ScalarProperty Name="Banco" ColumnName="Banco" />
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
+                <ScalarProperty Name="Credito" ColumnName="Credito" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
               </ComplexTypeMapping>
@@ -4207,6 +4250,7 @@
                 <ScalarProperty Name="Banco" ColumnName="Banco" />
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
+                <ScalarProperty Name="Credito" ColumnName="Credito" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
               </ComplexTypeMapping>

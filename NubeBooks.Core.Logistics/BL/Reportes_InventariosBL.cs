@@ -147,6 +147,8 @@ namespace NubeBooks.Core.Logistics.BL
                     nForma = x.FormaMovimientoInv.Nombre,
                     nItem = x.Item.Codigo + " - " + x.Item.Nombre,
                     nTipo = x.FormaMovimientoInv.TipoMovimientoInv.Nombre,
+                    nEntidadResponsable = x.EntidadResponsable.Nombre ?? "",
+                    nUbicacion = x.Ubicacion.Nombre,
                     nUsuario = x.Usuario.Nombre
                 }).ToList();
 

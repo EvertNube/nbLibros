@@ -33,7 +33,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -59,7 +60,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -85,7 +87,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -111,7 +114,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -135,7 +139,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -162,7 +167,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -187,7 +193,8 @@ namespace NubeBooks.Core.BL
                     Direccion = x.Direccion,
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
-                    CuentaDolares = x.CuentaDolares
+                    CuentaDolares = x.CuentaDolares,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -214,6 +221,7 @@ namespace NubeBooks.Core.BL
                         Banco = r.Banco,
                         CuentaSoles = r.CuentaSoles,
                         CuentaDolares = r.CuentaDolares,
+                        Credito = r.Credito,
                         lstProyectos = r.Proyecto.Select(x => new ProyectoDTO {
                             IdProyecto = x.IdProyecto,
                             IdEntidadResponsable = x.IdEntidadResponsable,
@@ -241,21 +249,22 @@ namespace NubeBooks.Core.BL
             using (var context = getContext())
             {
                 var result = context.EntidadResponsable.Where(x => x.IdEntidadResponsable == id && x.IdEmpresa == idEmpresa)
-                    .Select(r => new EntidadResponsableDTO {
-                        IdEntidadResponsable = r.IdEntidadResponsable,
-                        IdTipoIdentificacion = r.IdTipoIdentificacion,
-                        IdTipoEntidad = r.IdTipoEntidad,
-                        Nombre = r.Nombre,
-                        Estado = r.Estado,
-                        Detraccion = r.Detraccion,
-                        Tipo = r.Tipo,
-                        IdEmpresa = r.IdEmpresa,
-                        NroIdentificacion = r.NroIdentificacion,
-                        NombreComercial = r.NombreComercial,
-                        Direccion = r.Direccion,
-                        Banco = r.Banco,
-                        CuentaSoles = r.CuentaSoles,
-                        CuentaDolares = r.CuentaDolares
+                    .Select(x => new EntidadResponsableDTO {
+                        IdEntidadResponsable = x.IdEntidadResponsable,
+                        IdTipoIdentificacion = x.IdTipoIdentificacion,
+                        IdTipoEntidad = x.IdTipoEntidad,
+                        Nombre = x.Nombre,
+                        Estado = x.Estado,
+                        Detraccion = x.Detraccion,
+                        Tipo = x.Tipo,
+                        IdEmpresa = x.IdEmpresa,
+                        NroIdentificacion = x.NroIdentificacion,
+                        NombreComercial = x.NombreComercial,
+                        Direccion = x.Direccion,
+                        Banco = x.Banco,
+                        CuentaSoles = x.CuentaSoles,
+                        CuentaDolares = x.CuentaDolares,
+                        Credito = x.Credito
                     }).SingleOrDefault();
 
                 return result;
@@ -336,22 +345,23 @@ namespace NubeBooks.Core.BL
             using (var context = getContext())
             {
                 var result = context.EntidadResponsable.Where(x => x.IdEntidadResponsable == id)
-                    .Select(r => new EntidadResponsableDTO
+                    .Select(x => new EntidadResponsableDTO
                     {
-                        IdEntidadResponsable = r.IdEntidadResponsable,
-                        IdTipoIdentificacion = r.IdTipoIdentificacion,
-                        IdTipoEntidad = r.IdTipoEntidad,
-                        Nombre = r.Nombre,
-                        Estado = r.Estado,
-                        Detraccion = r.Detraccion,
-                        Tipo = r.Tipo,
-                        IdEmpresa = r.IdEmpresa,
-                        NroIdentificacion = r.NroIdentificacion,
-                        NombreComercial = r.NombreComercial,
-                        Direccion = r.Direccion,
-                        Banco = r.Banco,
-                        CuentaSoles = r.CuentaSoles,
-                        CuentaDolares = r.CuentaDolares,
+                        IdEntidadResponsable = x.IdEntidadResponsable,
+                        IdTipoIdentificacion = x.IdTipoIdentificacion,
+                        IdTipoEntidad = x.IdTipoEntidad,
+                        Nombre = x.Nombre,
+                        Estado = x.Estado,
+                        Detraccion = x.Detraccion,
+                        Tipo = x.Tipo,
+                        IdEmpresa = x.IdEmpresa,
+                        NroIdentificacion = x.NroIdentificacion,
+                        NombreComercial = x.NombreComercial,
+                        Direccion = x.Direccion,
+                        Banco = x.Banco,
+                        CuentaSoles = x.CuentaSoles,
+                        CuentaDolares = x.CuentaDolares,
+                        Credito = x.Credito
                     }).SingleOrDefault();
                 return result;
             }
@@ -376,6 +386,7 @@ namespace NubeBooks.Core.BL
                     nuevo.Banco = EntidadResponsable.Banco;
                     nuevo.CuentaSoles = EntidadResponsable.CuentaSoles;
                     nuevo.CuentaDolares = EntidadResponsable.CuentaDolares;
+                    nuevo.Credito = EntidadResponsable.Credito;
                     context.EntidadResponsable.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -406,6 +417,7 @@ namespace NubeBooks.Core.BL
                     datoRow.Banco = EntidadResponsable.Banco;
                     datoRow.CuentaSoles = EntidadResponsable.CuentaSoles;
                     datoRow.CuentaDolares = EntidadResponsable.CuentaDolares;
+                    datoRow.Credito = EntidadResponsable.Credito;
                     context.SaveChanges();
                     return true;
                 }

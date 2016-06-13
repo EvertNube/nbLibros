@@ -22,6 +22,18 @@
                 if (jUserExt == 'True') $(this).prop('disabled', true);
             });
         });
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar caracteres numericos");
+                return false;
+            }
+        }
     </script>
 }
 
@@ -45,10 +57,14 @@ else { cadena = "Actualizar"; }
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre", @type = "text", autofocus = "" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label>Código</label>
                             @Html.TextBoxFor(u => u.Codigo, new { @class = "form-control", @placeholder = "Código", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Codigo, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Precio</label>
+                            @Html.TextBoxFor(u => u.Precio, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Precio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
                         </div>
                     </div>
                 </div>

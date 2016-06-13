@@ -78,7 +78,8 @@ namespace NubeBooks.Core.Logistics.BL
                         Descripcion = x.Descripcion,
                         UnidadMedida = x.UnidadMedida,
                         Estado = x.Estado,
-                        IdEmpresa = x.IdEmpresa
+                        IdEmpresa = x.IdEmpresa,
+                        Precio = x.Precio
                     }).SingleOrDefault();
                 return result;
             }
@@ -93,6 +94,7 @@ namespace NubeBooks.Core.Logistics.BL
                     nuevo.IdCategoriaItm = Item.IdCategoriaItm;
                     nuevo.Codigo = Item.Codigo;
                     nuevo.Nombre = Item.Nombre;
+                    nuevo.Precio = Item.Precio;
                     nuevo.Descripcion = Item.Descripcion;
                     nuevo.UnidadMedida = Item.UnidadMedida;
                     nuevo.Estado = true;
@@ -117,6 +119,7 @@ namespace NubeBooks.Core.Logistics.BL
                     row.IdCategoriaItm = Item.IdCategoriaItm;
                     row.Codigo = Item.Codigo;
                     row.Nombre = Item.Nombre;
+                    row.Precio = Item.Precio;
                     row.Descripcion = Item.Descripcion;
                     row.UnidadMedida = Item.UnidadMedida;
                     row.Estado = Item.Estado;
