@@ -48,7 +48,6 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacto> Contacto { get; set; }
         public virtual Empresa Empresa { get; set; }
-        public virtual Honorario Honorario { get; set; }
         public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

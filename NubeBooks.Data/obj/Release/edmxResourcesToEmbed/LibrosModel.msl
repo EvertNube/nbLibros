@@ -147,6 +147,7 @@
           <ScalarProperty Name="Banco" ColumnName="Banco" />
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
+          <ScalarProperty Name="Credito" ColumnName="Credito" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -196,6 +197,7 @@
           <ScalarProperty Name="IdCategoriaItm" ColumnName="IdCategoriaItm" />
           <ScalarProperty Name="Codigo" ColumnName="Codigo" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -730,6 +732,7 @@
           <ScalarProperty Name="Banco" ColumnName="Banco" />
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
+          <ScalarProperty Name="Credito" ColumnName="Credito" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>
@@ -777,6 +780,7 @@
           <ScalarProperty Name="Banco" ColumnName="Banco" />
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
+          <ScalarProperty Name="Credito" ColumnName="Credito" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>

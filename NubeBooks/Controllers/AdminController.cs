@@ -1097,9 +1097,6 @@ namespace NubeBooks.Controllers
             EntidadResponsableBL objBL = new EntidadResponsableBL();
             ViewBag.TipoIdentificacion = objBL.getTiposDeIdentificaciones();
             ViewBag.lstComprobantes = objBL.getComprobantes_ConEntidad(user.IdEmpresa, id.GetValueOrDefault());
-            
-            HonorarioBL honBL = new HonorarioBL();
-            ViewBag.lstCreditos = honBL.getHonorariosActivosEnEmpresa(user.IdEmpresa);
 
             ViewBag.vbInactivosC = inactivosC;
             ViewBag.vbInactivosP = inactivosP;

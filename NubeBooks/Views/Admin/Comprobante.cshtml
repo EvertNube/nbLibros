@@ -234,6 +234,12 @@
                 })
             }
         }
+
+        function CambiarCredito() {
+            var nCredito = $("#IdEntidadResponsable").select2().find(":selected").data("credito");
+
+        }
+
         //Solo para Comprobantes de tipo 2 y 4
         function ListarProyectos2(cambio) {
             if ($('#IdEntidadResponsable2').val() != 0)
@@ -391,7 +397,7 @@
                         @{var columnas = 3; if (Model.IdTipoComprobante != 1 && Model.IdTipoComprobante != 3) { columnas = 3; }}
                         <div class="col-md-@columnas">
                             <label class="control-label">@strEntidad</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange = "ListarProyectos(1)"
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange = "ListarProyectos(1); CambiarCredito();"
                                     id="IdEntidadResponsable" name="IdEntidadResponsable" required>
                                 @{ var pEntidad = Model != null ? Model.IdEntidadResponsable : 0;
                                     List<EntidadResponsableDTO> listaEnt = Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores;
@@ -399,7 +405,7 @@
                                 <option value=""></option>
                                 @foreach (var ent in listaEnt)
                                 {
-                                    <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pEntidad ? "selected=selected" : "")>@ent.Nombre</option>
+                                    <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pEntidad ? "selected=selected" : "") data-credito="@ent.Credito">@ent.Nombre</option>
                                 }
                             </select>
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })

@@ -707,18 +707,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_EntidadResponsable_Honorario">
-    <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
-    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Honorario">
-        <PropertyRef Name="IdHonorario" />
-      </Principal>
-      <Dependent Role="EntidadResponsable">
-        <PropertyRef Name="Credito" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_EntidadResponsable_TipoEntidad">
     <End Role="TipoEntidad" Type="Self.TipoEntidad" Multiplicity="0..1" />
     <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -1504,10 +1492,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
-      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EntidadResponsable_Honorario" Association="Self.FK_EntidadResponsable_Honorario">
-      <End Role="Honorario" EntitySet="Honorario" />
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">

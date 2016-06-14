@@ -567,7 +567,8 @@ namespace NubeBooks.Core.BL
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
-                    Estado = x.Estado
+                    Estado = x.Estado,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -582,7 +583,8 @@ namespace NubeBooks.Core.BL
                 {
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
-                    Estado = x.Estado
+                    Estado = x.Estado,
+                    Credito = x.Credito
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }

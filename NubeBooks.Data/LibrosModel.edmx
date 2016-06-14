@@ -712,18 +712,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EntidadResponsable_Honorario">
-          <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
-          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Honorario">
-              <PropertyRef Name="IdHonorario" />
-            </Principal>
-            <Dependent Role="EntidadResponsable">
-              <PropertyRef Name="Credito" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_EntidadResponsable_TipoEntidad">
           <End Role="TipoEntidad" Type="Self.TipoEntidad" Multiplicity="0..1" />
           <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -1511,10 +1499,6 @@
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
           </AssociationSet>
-          <AssociationSet Name="FK_EntidadResponsable_Honorario" Association="Self.FK_EntidadResponsable_Honorario">
-            <End Role="Honorario" EntitySet="Honorario" />
-            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
-          </AssociationSet>
           <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
             <End Role="TipoEntidad" EntitySet="TipoEntidad" />
             <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
@@ -1822,7 +1806,6 @@
           <NavigationProperty Name="Comprobante1" Relationship="Self.FK_Comprobante_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Comprobante" />
           <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
-          <NavigationProperty Name="Honorario" Relationship="Self.FK_EntidadResponsable_Honorario" FromRole="EntidadResponsable" ToRole="Honorario" />
           <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
           <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
           <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
@@ -1870,7 +1853,6 @@
           <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Honorario" FromRole="Honorario" ToRole="Comprobante" />
           <NavigationProperty Name="Empresa" Relationship="Self.FK_Honorario_Empresa" FromRole="Honorario" ToRole="Empresa" />
-          <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Honorario" FromRole="Honorario" ToRole="EntidadResponsable" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
@@ -2536,18 +2518,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EntidadResponsable_Honorario">
-          <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
-          <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Honorario">
-              <PropertyRef Name="IdHonorario" />
-            </Principal>
-            <Dependent Role="EntidadResponsable">
-              <PropertyRef Name="Credito" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_EntidadResponsable_TipoEntidad">
           <End Role="TipoEntidad" Type="Self.TipoEntidad" Multiplicity="0..1" />
           <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
@@ -2937,10 +2907,6 @@
           <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Usuario" EntitySet="Usuario" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EntidadResponsable_Honorario" Association="Self.FK_EntidadResponsable_Honorario">
-            <End Role="Honorario" EntitySet="Honorario" />
-            <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
           </AssociationSet>
           <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
             <End Role="TipoEntidad" EntitySet="TipoEntidad" />

@@ -131,14 +131,16 @@ else { cadena = "Actualizar"; }
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Crédito</label>
-                                @*@Html.DropDownListFor(u => u.Credito, new SelectList(ViewBag.lstCreditos, "IdHonorario", "Nombre", Model != null ? (Model.Credito != null ? Model.Credito : null) : null), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })*@
                                 <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
                                         id="Credito" name="Credito">
-                                    @{ var pHon = Model != null ? (Model.Credito != null ? Model.Credito : null) : null; }
+                                    @{ 
+                                        var pCredito = Model != null ? (Model.Credito != null ? Model.Credito : null) : null;
+                                        List<int> lstCreditos = new List<int>() { 0, 7, 15, 30, 45, 60, 90 };
+                                    }
                                     <option value=""></option>
-                                    @foreach (var hon in (List<HonorarioDTO>)ViewBag.lstCreditos)
+                                    @foreach (var credito in lstCreditos)
                                     {
-                                        <option value="@hon.IdHonorario" @(hon.IdHonorario == pHon ? "selected=selected" : "")>@hon.Nombre</option>
+                                        <option value="@credito" @(credito == pCredito ? "selected=selected" : "")>@credito</option>
                                     }
                                 </select>
                             </div>
@@ -341,11 +343,11 @@ else { cadena = "Actualizar"; }
                         <thead>
                             <tr>
                                 <th style="width:10%">Fecha</th>
-                                <th style="width:15%">Modalidad</th>
-                                <th style="width:15%">Documento</th>
-                                <th style="width:15%">Número</th>
-                                <th style="width:15%">Proyecto</th>
-                                <th class="text-center" >Monto Total</th>
+                                <th style="width:18%">Modalidad</th>
+                                <th style="width:18%">Documento</th>
+                                <th style="width:18%">Número</th>
+                                <th style="width:18%">Proyecto</th>
+                                <th class="text-right" >Monto Total</th>
                             </tr>
                         </thead>
                         <tbody>

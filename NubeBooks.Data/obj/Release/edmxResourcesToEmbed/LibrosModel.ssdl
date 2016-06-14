@@ -148,6 +148,7 @@
     <Property Name="Banco" Type="nvarchar" MaxLength="100" />
     <Property Name="CuentaSoles" Type="nvarchar" MaxLength="50" />
     <Property Name="CuentaDolares" Type="nvarchar" MaxLength="50" />
+    <Property Name="Credito" Type="int" />
   </EntityType>
   <EntityType Name="EstadoMovimiento">
     <Key>
@@ -192,6 +193,7 @@
     <Property Name="IdCategoriaItm" Type="int" Nullable="false" />
     <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
     <Property Name="UnidadMedida" Type="nvarchar" MaxLength="50" />
     <Property Name="Estado" Type="bit" Nullable="false" />
@@ -702,6 +704,18 @@
       </Principal>
       <Dependent Role="EntidadResponsable">
         <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_Honorario">
+    <End Role="Honorario" Type="Self.Honorario" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Honorario">
+        <PropertyRef Name="IdHonorario" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="Credito" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1490,6 +1504,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_Honorario" Association="Self.FK_EntidadResponsable_Honorario">
+      <End Role="Honorario" EntitySet="Honorario" />
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
