@@ -308,6 +308,18 @@
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="IdServicio" />
+          </Key>
+          <Property Name="IdServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -1012,6 +1024,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Servicio_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Servicio">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Ubicacion_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
           <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="*" />
@@ -1385,6 +1409,7 @@
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" Schema="dbo" store:Type="Tables" />
@@ -1599,6 +1624,10 @@
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Responsable" EntitySet="Responsable" />
           </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Empresa" Association="Self.FK_Servicio_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
           <AssociationSet Name="FK_Ubicacion_Empresa" Association="Self.FK_Ubicacion_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Ubicacion" EntitySet="Ubicacion" />
@@ -1780,6 +1809,7 @@
           <NavigationProperty Name="Item" Relationship="Self.FK_Item_Empresa" FromRole="Empresa" ToRole="Item" />
           <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Empresa" FromRole="Empresa" ToRole="MovimientoInv" />
           <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK_Servicio_Empresa" FromRole="Empresa" ToRole="Servicio" />
           <NavigationProperty Name="Ubicacion" Relationship="Self.FK_Ubicacion_Empresa" FromRole="Empresa" ToRole="Ubicacion" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
         </EntityType>
@@ -2002,6 +2032,19 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DescripcionRol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="IdServicio" />
+          </Key>
+          <Property Name="IdServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empresa" Relationship="Self.FK_Servicio_Empresa" FromRole="Servicio" ToRole="Empresa" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -2494,6 +2537,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Servicio_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="Servicio">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Ubicacion_Empresa">
           <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
           <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="*" />
@@ -2762,6 +2817,7 @@
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
           <EntitySet Name="Responsable" EntityType="Self.Responsable" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" />
           <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" />
@@ -2899,6 +2955,10 @@
           <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Responsable" EntitySet="Responsable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Empresa" Association="Self.FK_Servicio_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Servicio" EntitySet="Servicio" />
           </AssociationSet>
           <AssociationSet Name="FK_Ubicacion_Empresa" Association="Self.FK_Ubicacion_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
@@ -3750,6 +3810,19 @@
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servicio">
+            <EntityTypeMapping TypeName="LibrosDBModel.Servicio">
+              <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="IdServicio" ColumnName="IdServicio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

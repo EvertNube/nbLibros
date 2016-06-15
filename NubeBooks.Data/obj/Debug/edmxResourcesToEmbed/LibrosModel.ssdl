@@ -303,6 +303,18 @@
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="DescripcionRol" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="Servicio">
+    <Key>
+      <PropertyRef Name="IdServicio" />
+    </Key>
+    <Property Name="IdServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+    <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="IdEmpresa" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -1007,6 +1019,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Servicio_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Servicio">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Ubicacion_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="*" />
@@ -1380,6 +1404,7 @@
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" Schema="dbo" store:Type="Tables" />
@@ -1593,6 +1618,10 @@
     <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Responsable" EntitySet="Responsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Servicio_Empresa" Association="Self.FK_Servicio_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Servicio" EntitySet="Servicio" />
     </AssociationSet>
     <AssociationSet Name="FK_Ubicacion_Empresa" Association="Self.FK_Ubicacion_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />

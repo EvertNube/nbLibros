@@ -50,6 +50,7 @@ namespace NubeBooks.Data
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Responsable> Responsable { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
+        public virtual DbSet<Servicio> Servicio { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TipoComprobante> TipoComprobante { get; set; }
         public virtual DbSet<TipoCuenta> TipoCuenta { get; set; }

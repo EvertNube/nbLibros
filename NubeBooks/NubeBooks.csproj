@@ -1008,6 +1008,8 @@
     <Content Include="Views\Admin\Proforma.cshtml" />
     <Content Include="Views\Admin\BuscarProforma.cshtml" />
     <Content Include="Views\Admin\NuevaProforma.cshtml" />
+    <Content Include="Views\Admin\Servicios.cshtml" />
+    <Content Include="Views\Admin\Servicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,118 @@
+﻿@using NubeBooks.Core.Logistics.DTO
+@model ServicioDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        var jUserExt = '@ViewBag.EsUsuarioExterno';
+        $(function () {
+            $('.miselect2').select2();
+            $('.miselect2_clear').select2({
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
+
+            $('.rol-accs').each(function () {
+                if (jUserExt == 'True') $(this).prop('disabled', true);
+            });
+        });
+
+        function CheckNumericValue(e) {
+            var key = e.which ? e.which : e.keyCode;
+            //enter key  //backspace //tabkey      //escape key
+            if ((key >= 48 && key <= 57) || key == 13 || key == 8 || key == 9 || key == 27 || key == 46) {
+                return true;
+            }
+            else {
+                alert("Solo ingresar caracteres numericos");
+                return false;
+            }
+        }
+    </script>
+}
+
+@{var cadena = "";}
+@if (Model == null || Model.IdServicio == 0) { cadena = "Nuevo"; }
+else { cadena = "Actualizar"; }
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Servicio</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddServicio", "Admin", FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre", @type = "text", autofocus = "" })
+                            @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Código</label>
+                            @Html.TextBoxFor(u => u.Codigo, new { @class = "form-control", @placeholder = "Código", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Codigo, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Precio</label>
+                            @Html.TextBoxFor(u => u.Precio, "{0:#.00}", new { @class = "form-control rol-accs", @placeholder = "Precio", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Descripción</label>
+                            @Html.TextBoxFor(u => u.Descripcion, new { @class = "form-control", @placeholder = "Descripción", @type = "text" })
+                            @Html.ValidationMessageFor(u => u.Descripcion, "", new { @style = "color:red;" })
+                        </div>
+                    </div>
+                </div>
+                if (ViewBag.EsAdmin && Model != null && Model.IdServicio > 0)
+                {
+                    <div class="line line-dashed line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Estado</label>
+                                <div>
+                                    <label class="i-switch m-t-xs m-r">
+                                        <input id="Estado" name="Estado" type="checkbox" value="@(Model.Estado ? "true" : "false")" checked="@Model.Estado" onchange="cb=$(this);cb.val(cb.prop('checked'));">
+                                        <i></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.TextBoxFor(u => u.Estado, new { @value = Model != null ? Model.Estado : true, @type = "hidden" })
+                }
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    @Html.TextBoxFor(u => u.IdServicio, new { @value = Model.IdServicio != 0 ? Model.IdServicio.ToString() : "", @type = "hidden" })
+                    @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        @{var btnName = (Model != null && Model.IdServicio > 0) ? "Guardar Cambios" : "Crear";}
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-sm btn-success">@btnName</button>
+                            <a class="btn btn-default" href="@Url.Action("Servicios", "Admin")">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+             }
+        </div>
+    </div>
+</div>

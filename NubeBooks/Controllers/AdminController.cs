@@ -1909,6 +1909,98 @@ namespace NubeBooks.Controllers
             TempData["Item"] = dto;
             return RedirectToAction("Item");
         }
+        public ActionResult Servicios(bool inactivos = false)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Servicios";
+            MenuNavBarSelected(11);
+            UsuarioDTO user = getCurrentUser();
+
+            ServicioBL objBL = new ServicioBL();
+            List<ServicioDTO> listaServicios = new List<ServicioDTO>();
+
+            ViewBag.vbInactivos = inactivos;
+
+            if (user.IdEmpresa > 0)
+            {
+                if (!inactivos)
+                { listaServicios = objBL.getServiciosActivosEnEmpresa(user.IdEmpresa); }
+                else
+                { listaServicios = objBL.getServiciosEnEmpresa(user.IdEmpresa); }
+            }
+            return View(listaServicios);
+        }
+        public ActionResult Servicio(int? id = null)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            ViewBag.Title += " - Servicio";
+            MenuNavBarSelected(11);
+
+            UsuarioDTO user = getCurrentUser();
+
+            ServicioBL objBL = new ServicioBL();
+
+            var objSent = TempData["Servicio"];
+            if (objSent != null) { TempData["Servicio"] = null; return View(objSent); }
+
+            ServicioDTO obj;
+            if (id != null && id != 0)
+            {
+                obj = objBL.getServicioEnEmpresa((int)user.IdEmpresa, (int)id);
+                if (obj == null) return RedirectToAction("Servicios");
+                if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("Servicios");
+                return View(obj);
+            }
+            obj = new ServicioDTO();
+            obj.IdEmpresa = user.IdEmpresa;
+
+            return View(obj);
+        }
+        [HttpPost]
+        public ActionResult AddServicio(ServicioDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
+            if (!this.isAdministrator()) { return RedirectToAction("Index"); }
+            try
+            {
+                ServicioBL objBL = new ServicioBL();
+                if (dto.IdServicio == 0)
+                {
+                    if (objBL.add(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Servicios");
+                    }
+                }
+                else if (dto.IdServicio != 0)
+                {
+                    if (objBL.update(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Servicios");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+
+                }
+                else
+                {
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                }
+            }
+            catch (Exception e)
+            {
+                if (dto.IdServicio != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Servicio"] = dto;
+            return RedirectToAction("Servicio");
+        }
         public ActionResult CategoriaItms(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
@@ -2398,7 +2490,7 @@ namespace NubeBooks.Controllers
 
             EntidadResponsableBL objEntidadBL = new EntidadResponsableBL();
             EntidadResponsableDTO objEntidad = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, idEntidad.GetValueOrDefault());
-            if (objEntidad == null) { return RedirectToAction("Entidades", "Admin"); }
+            if (objEntidad == null) { return RedirectToAction("EntidadesClientes", "Admin"); }
 
             var objSent = TempData["Proyecto"];
             if (objSent != null) { TempData["Proyecto"] = null; return View(objSent); }
@@ -4659,6 +4751,45 @@ namespace NubeBooks.Controllers
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Entidad", "Admin", new { id = idEntidad });
+        }
+        public ActionResult ExportarComprobantesAsociados_EnProyecto(int idProyecto, DateTime FechaInicio, DateTime FechaFin)
+        {
+            if (FechaInicio == null || FechaFin == null)
+            {
+                createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
+                return RedirectToAction("Entidad", "Admin", new { id = idProyecto });
+            }
+
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ReportesBL repBL = new ReportesBL();
+            List<ComprobanteDTO> lista = repBL.getComprobantes_ConProyecto(objEmpresa.IdEmpresa, idProyecto, FechaInicio, FechaFin);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Fecha");
+            dt.Columns.Add("Modalidad");
+            dt.Columns.Add("Documento");
+            dt.Columns.Add("Numero");
+            dt.Columns.Add("Proyecto");
+            dt.Columns.Add("Monto Total");
+
+            foreach (var obj in lista)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Fecha"] = obj.FechaEmision.ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB"));
+                row["Modalidad"] = obj.IdTipoComprobante == 1 ? "Ingreso" : "Egreso";
+                row["Documento"] = obj.NombreTipoDocumento;
+                row["Numero"] = obj.NroDocumento;
+                row["Proyecto"] = obj.NombreProyecto;
+                row["Monto Total"] = obj.Monto.ToString("N2", CultureInfo.InvariantCulture);
+                dt.Rows.Add(row);
+            }
+            GenerarPdf(dt, "Comprobantes Asociados a Proyecto", "ComprobantesAsociados_A_Proyecto", objEmpresa, FechaInicio, FechaFin, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Proyecto", "Admin", new { id = idProyecto });
         }
         #endregion
         private static void AddSuperHeader(GridView gridView, string text = null)

@@ -27,6 +27,7 @@ namespace NubeBooks.Data
             this.Item = new HashSet<Item>();
             this.MovimientoInv = new HashSet<MovimientoInv>();
             this.Responsable = new HashSet<Responsable>();
+            this.Servicio = new HashSet<Servicio>();
             this.Ubicacion = new HashSet<Ubicacion>();
             this.Usuario = new HashSet<Usuario>();
         }
@@ -68,6 +69,8 @@ namespace NubeBooks.Data
         public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Responsable> Responsable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Servicio> Servicio { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ubicacion> Ubicacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

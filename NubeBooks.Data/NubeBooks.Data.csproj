@@ -140,6 +140,9 @@
     <Compile Include="Rol.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Servicio.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GetReporteDetalleMovimientos_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>

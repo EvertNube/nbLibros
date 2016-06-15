@@ -238,6 +238,13 @@
         function CambiarCredito() {
             var nCredito = $("#IdEntidadResponsable").select2().find(":selected").data("credito");
 
+            var jsFechaInicio = $("#FechaEmision").val().split("/"); 
+            jsFechaInicio = jsFechaInicio[2] + "/" + jsFechaInicio[1] + "/" + jsFechaInicio[0];
+
+            var jsFechaNeo = new Date(jsFechaInicio);
+            jsFechaNeo.setDate(jsFechaNeo.getDate() + nCredito);
+
+            $("#FechaConclusion").datepicker('setDate', jsFechaNeo);
         }
 
         //Solo para Comprobantes de tipo 2 y 4

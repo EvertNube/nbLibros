@@ -163,6 +163,7 @@
     <NavigationProperty Name="Item" Relationship="Self.FK_Item_Empresa" FromRole="Empresa" ToRole="Item" />
     <NavigationProperty Name="MovimientoInv" Relationship="Self.FK_MovimientoInv_Empresa" FromRole="Empresa" ToRole="MovimientoInv" />
     <NavigationProperty Name="Responsable" Relationship="Self.FK_Responsable_Empresa" FromRole="Empresa" ToRole="Responsable" />
+    <NavigationProperty Name="Servicio" Relationship="Self.FK_Servicio_Empresa" FromRole="Empresa" ToRole="Servicio" />
     <NavigationProperty Name="Ubicacion" Relationship="Self.FK_Ubicacion_Empresa" FromRole="Empresa" ToRole="Ubicacion" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Empresa" FromRole="Empresa" ToRole="Usuario" />
   </EntityType>
@@ -385,6 +386,19 @@
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="DescripcionRol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Servicio">
+    <Key>
+      <PropertyRef Name="IdServicio" />
+    </Key>
+    <Property Name="IdServicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Empresa" Relationship="Self.FK_Servicio_Empresa" FromRole="Servicio" ToRole="Empresa" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -877,6 +891,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Servicio_Empresa">
+    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+    <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empresa">
+        <PropertyRef Name="IdEmpresa" />
+      </Principal>
+      <Dependent Role="Servicio">
+        <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Ubicacion_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Ubicacion" Type="Self.Ubicacion" Multiplicity="*" />
@@ -1145,6 +1171,7 @@
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
     <EntitySet Name="Responsable" EntityType="Self.Responsable" />
     <EntitySet Name="Rol" EntityType="Self.Rol" />
+    <EntitySet Name="Servicio" EntityType="Self.Servicio" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" />
     <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" />
@@ -1282,6 +1309,10 @@
     <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Responsable" EntitySet="Responsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Servicio_Empresa" Association="Self.FK_Servicio_Empresa">
+      <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="Servicio" EntitySet="Servicio" />
     </AssociationSet>
     <AssociationSet Name="FK_Ubicacion_Empresa" Association="Self.FK_Ubicacion_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
