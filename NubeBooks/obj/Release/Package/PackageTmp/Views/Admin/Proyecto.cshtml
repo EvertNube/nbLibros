@@ -4,6 +4,28 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; 
 }
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
+            $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+        });
+
+        $("input#exportar").click(function () {
+            window.location.href = exportarDetalle($('#fechaInicio').val(), $('#fechaFin').val());
+            $('#modal-form-exportar').modal('toggle');
+        });
+
+        function exportarDetalle(fechaInicio, fechaFin) {
+            var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
+            var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+            var jsIdEntidad = '@Model.IdEntidadResponsable';
+            var jsIdProyecto = '@Model.IdProyecto';
+
+            return miBaseUrl + "/ExportarComprobantesAsociados_EnProyecto/?idProyecto=" + jsIdProyecto + "&idEntidadResponsable=" + jsIdEntidad + "&FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+        }
+    </script>
+}
 
 @{var cadena = "";}
 @if (Model == null || Model.IdProyecto == 0) { cadena = "Nuevo"; }
@@ -70,6 +92,7 @@ else { cadena = "Actualizar"; }
     {
         <div class="line line-dashed line-lg pull-in"></div>
         <div class="bg-light lter b-b wrapper-md">
+            <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
             <h1 class="m-n font-thin h4">Comprobantes Asociados</h1>
         </div>
         <div class="panel panel-default">
@@ -95,11 +118,11 @@ else { cadena = "Actualizar"; }
                     <thead>
                         <tr>
                             <th style="width:10%">Fecha</th>
-                            <th style="width:20%">Modalidad</th>
-                            <th style="width:20%">Documento</th>
-                            <th style="width:20%">Número</th>
-                            <th style="width:20%">Cliente</th>
-                            <th class="text-center" style="width:10%">Monto Total</th>
+                            <th style="width:18%">Modalidad</th>
+                            <th style="width:18%">Documento</th>
+                            <th style="width:18%">Número</th>
+                            <th style="width:18%">Cliente</th>
+                            <th class="text-right">Monto Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,4 +146,43 @@ else { cadena = "Actualizar"; }
             </div>
         </div>
     }
+</div>
+
+<div class="modal fade modal-task" id="modal-form-exportar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Exportar Comprobantes Asociados</h4>
+            </div>
+            <div class="modal-body">
+                <form class="element" name="element">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <div class="form-group">
+                                <div class="input-group date">
+                                    <input type="text" name="fechaInicio" id="fechaInicio" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 1, 1).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin">Fecha Fin:</label>
+                            <div class="form-group">
+                                <div class="input-group date">
+                                    <input type="text" name="fechaFin" id="fechaFin" readonly="readonly" class="form-control" value="@(new DateTime(DateTime.Now.Year, 12, 31).ToString("dd/MM/yyyy"))">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <input class="btn btn-success" type="submit" value="Exportar" id="exportar">
+            </div>
+        </div>
+    </div>
 </div>

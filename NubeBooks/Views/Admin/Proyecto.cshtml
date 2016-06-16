@@ -19,9 +19,10 @@
         function exportarDetalle(fechaInicio, fechaFin) {
             var FechaInicio = fechaInicio.split("/"); FechaInicio = FechaInicio[2] + "/" + FechaInicio[1] + "/" + FechaInicio[0];
             var FechaFin = fechaFin.split("/"); FechaFin = FechaFin[2] + "/" + FechaFin[1] + "/" + FechaFin[0];
+            var jsIdEntidad = '@Model.IdEntidadResponsable';
             var jsIdProyecto = '@Model.IdProyecto';
 
-            return miBaseUrl + "/ExportarComprobantesAsociados_EnProyecto/?idProyecto=" + jsIdProyecto + "&" + "FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
+            return miBaseUrl + "/ExportarComprobantesAsociados_EnProyecto/?idProyecto=" + jsIdProyecto + "&idEntidadResponsable=" + jsIdEntidad + "&FechaInicio=" + encodeURIComponent(FechaInicio) + "&" + "FechaFin=" + encodeURIComponent(FechaFin);
         }
     </script>
 }

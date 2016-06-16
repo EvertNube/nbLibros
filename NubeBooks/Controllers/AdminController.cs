@@ -4752,12 +4752,12 @@ namespace NubeBooks.Controllers
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Entidad", "Admin", new { id = idEntidad });
         }
-        public ActionResult ExportarComprobantesAsociados_EnProyecto(int idProyecto, DateTime FechaInicio, DateTime FechaFin)
+        public ActionResult ExportarComprobantesAsociados_EnProyecto(int idProyecto, int idEntidadResponsable, DateTime FechaInicio, DateTime FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
             {
                 createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_FILE_DETAIL);
-                return RedirectToAction("Entidad", "Admin", new { id = idProyecto });
+                return RedirectToAction("Proyecto", "Admin", new { id = idProyecto, idEntidad = idEntidadResponsable });
             }
 
             EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -4789,7 +4789,7 @@ namespace NubeBooks.Controllers
             GenerarPdf(dt, "Comprobantes Asociados a Proyecto", "ComprobantesAsociados_A_Proyecto", objEmpresa, FechaInicio, FechaFin, Response);
 
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
-            return RedirectToAction("Proyecto", "Admin", new { id = idProyecto });
+            return RedirectToAction("Proyecto", "Admin", new { id = idProyecto, idEntidad = idEntidadResponsable });
         }
         #endregion
         private static void AddSuperHeader(GridView gridView, string text = null)
