@@ -191,6 +191,7 @@
     </Key>
     <Property Name="IdItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdCategoriaItm" Type="int" Nullable="false" />
+    <Property Name="IdMoneda" Type="int" Nullable="false" />
     <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
@@ -308,6 +309,7 @@
       <PropertyRef Name="IdServicio" />
     </Key>
     <Property Name="IdServicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdMoneda" Type="int" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="Codigo" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
@@ -803,6 +805,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Item_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="IdMoneda" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Movimiento_Categoria">
     <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
     <End Role="Movimiento" Type="Self.Movimiento" Multiplicity="*" />
@@ -1019,15 +1033,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Servicio_Empresa">
-    <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+  <Association Name="FK_Servicio_Moneda">
+    <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
     <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Empresa">
-        <PropertyRef Name="IdEmpresa" />
+      <Principal Role="Moneda">
+        <PropertyRef Name="IdMoneda" />
       </Principal>
       <Dependent Role="Servicio">
-        <PropertyRef Name="IdEmpresa" />
+        <PropertyRef Name="IdMoneda" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1547,6 +1561,10 @@
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Item" EntitySet="Item" />
     </AssociationSet>
+    <AssociationSet Name="FK_Item_Moneda" Association="Self.FK_Item_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
     <AssociationSet Name="FK_Movimiento_Categoria" Association="Self.FK_Movimiento_Categoria">
       <End Role="Categoria" EntitySet="Categoria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
@@ -1619,8 +1637,8 @@
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Responsable" EntitySet="Responsable" />
     </AssociationSet>
-    <AssociationSet Name="FK_Servicio_Empresa" Association="Self.FK_Servicio_Empresa">
-      <End Role="Empresa" EntitySet="Empresa" />
+    <AssociationSet Name="FK_Servicio_Moneda" Association="Self.FK_Servicio_Moneda">
+      <End Role="Moneda" EntitySet="Moneda" />
       <End Role="Servicio" EntitySet="Servicio" />
     </AssociationSet>
     <AssociationSet Name="FK_Ubicacion_Empresa" Association="Self.FK_Ubicacion_Empresa">

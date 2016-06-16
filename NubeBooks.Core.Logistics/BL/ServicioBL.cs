@@ -17,12 +17,15 @@ namespace NubeBooks.Core.Logistics.BL
                 var result = context.Servicio.Where(x => x.IdEmpresa == idEmpresa).Select(x => new ServicioDTO
                 {
                     IdServicio = x.IdServicio,
+                    IdMoneda = x.IdMoneda,
                     Codigo = x.Codigo,
                     Nombre = x.Nombre,
                     Descripcion = x.Descripcion,
                     Precio = x.Precio,
                     Estado = x.Estado,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    simboloMoneda = x.Moneda.Simbolo,
+                    nMoneda = x.Moneda.Nombre
                 }).ToList();
                 return result;
             }
@@ -34,12 +37,15 @@ namespace NubeBooks.Core.Logistics.BL
                 var result = context.Servicio.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ServicioDTO
                 {
                     IdServicio = x.IdServicio,
+                    IdMoneda = x.IdMoneda,
                     Codigo = x.Codigo,
                     Nombre = x.Nombre,
                     Descripcion = x.Descripcion,
                     Precio = x.Precio,
                     Estado = x.Estado,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    simboloMoneda = x.Moneda.Simbolo,
+                    nMoneda = x.Moneda.Nombre
                 }).ToList();
                 return result;
             }
@@ -51,12 +57,14 @@ namespace NubeBooks.Core.Logistics.BL
                 var result = context.Servicio.Where(x => x.Estado && x.IdEmpresa == idEmpresa).Select(x => new ServicioDTO
                 {
                     IdServicio = x.IdServicio,
+                    IdMoneda = x.IdMoneda,
                     Codigo = x.Codigo,
                     Nombre = x.Nombre,
                     Descripcion = x.Descripcion,
                     Precio = x.Precio,
                     Estado = x.Estado,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    simboloMoneda = x.Moneda.Simbolo
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -69,12 +77,14 @@ namespace NubeBooks.Core.Logistics.BL
                     .Select(x => new ServicioDTO
                     {
                         IdServicio = x.IdServicio,
+                        IdMoneda = x.IdMoneda,
                         Codigo = x.Codigo,
                         Nombre = x.Nombre,
                         Descripcion = x.Descripcion,
                         Estado = x.Estado,
                         IdEmpresa = x.IdEmpresa,
-                        Precio = x.Precio
+                        Precio = x.Precio,
+                        simboloMoneda = x.Moneda.Simbolo
                     }).SingleOrDefault();
                 return result;
             }
@@ -86,6 +96,7 @@ namespace NubeBooks.Core.Logistics.BL
                 try
                 {
                     Servicio nuevo = new Servicio();
+                    nuevo.IdMoneda = Servicio.IdMoneda;
                     nuevo.Codigo = Servicio.Codigo;
                     nuevo.Nombre = Servicio.Nombre;
                     nuevo.Precio = Servicio.Precio;
@@ -109,6 +120,7 @@ namespace NubeBooks.Core.Logistics.BL
                 try
                 {
                     var row = context.Servicio.Where(x => x.IdServicio == Servicio.IdServicio).SingleOrDefault();
+                    row.IdMoneda = Servicio.IdMoneda;
                     row.Codigo = Servicio.Codigo;
                     row.Nombre = Servicio.Nombre;
                     row.Precio = Servicio.Precio;

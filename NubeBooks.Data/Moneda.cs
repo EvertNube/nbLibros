@@ -20,6 +20,8 @@ namespace NubeBooks.Data
             this.Comprobante = new HashSet<Comprobante>();
             this.CuentaBancaria = new HashSet<CuentaBancaria>();
             this.Empresa = new HashSet<Empresa>();
+            this.Item = new HashSet<Item>();
+            this.Servicio = new HashSet<Servicio>();
         }
     
         public int IdMoneda { get; set; }
@@ -32,5 +34,9 @@ namespace NubeBooks.Data
         public virtual ICollection<CuentaBancaria> CuentaBancaria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Empresa> Empresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Item> Item { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Servicio> Servicio { get; set; }
     }
 }

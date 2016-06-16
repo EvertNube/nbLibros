@@ -9,11 +9,15 @@
         function handleClick(element) {
             window.location.href = '@Url.Action("Servicios", "Admin")' + "?inactivos=" + element.checked;
         }
+
+        $("#exportar").click(function () {
+            window.location.href = miBaseUrl + "/ExportarServicios";
+        });
     </script>
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    @*<button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>*@
+    <button id="exportar" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
     <a href="@Url.Action("Servicio", "Admin", new { id = 0 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
@@ -58,7 +62,7 @@
                                 <td class="text-center">@Servicio.Nombre</td>
                                 <td class="text-center">@Servicio.Codigo</td>
                                 <td class="text-center">@Servicio.Descripcion</td>
-                                <td class="text-right">@Servicio.Precio</td>
+                                <td class="text-right">@Servicio.simboloMoneda @Servicio.Precio.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</td>
                                 @{ var eColor = Servicio.Estado ? "#27c24c" : "red"; }
                                 <td class="text-center" style="color:@(eColor)">@(Servicio.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
@@ -78,4 +82,3 @@
         </label>
     </div>
 </div>
-

@@ -22,6 +22,7 @@ namespace NubeBooks.Data
     
         public int IdItem { get; set; }
         public int IdCategoriaItm { get; set; }
+        public int IdMoneda { get; set; }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public Nullable<decimal> Precio { get; set; }
@@ -32,6 +33,7 @@ namespace NubeBooks.Data
     
         public virtual CategoriaItm CategoriaItm { get; set; }
         public virtual Empresa Empresa { get; set; }
+        public virtual Moneda Moneda { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovimientoInv> MovimientoInv { get; set; }
     }

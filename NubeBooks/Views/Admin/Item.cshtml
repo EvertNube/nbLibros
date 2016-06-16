@@ -52,7 +52,7 @@ else { cadena = "Actualizar"; }
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label>Nombre</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre", @type = "text", autofocus = "" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
@@ -61,6 +61,10 @@ else { cadena = "Actualizar"; }
                             <label>Código</label>
                             @Html.TextBoxFor(u => u.Codigo, new { @class = "form-control", @placeholder = "Código", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Codigo, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Moneda</label>
+                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
                         </div>
                         <div class="col-md-3">
                             <label>Precio</label>
@@ -82,7 +86,6 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label>Categoría</label>
-                            @*@Html.DropDownListFor(u => u.IdCategoriaItm, new SelectList(ViewBag.lstCategoriaItm, "IdCategoriaItm", "Nombre", Model != null ? (Model.IdCategoriaItm != 0 ? Model.IdCategoriaItm : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs"})*@
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
                                     id="IdCategoriaItm" name="IdCategoriaItm" required>
                                 @{ var pCatItem = Model != null ? Model.IdCategoriaItm : 0; }

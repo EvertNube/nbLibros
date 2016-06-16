@@ -15,6 +15,7 @@ namespace NubeBooks.Data
     public partial class Servicio
     {
         public int IdServicio { get; set; }
+        public int IdMoneda { get; set; }
         public string Nombre { get; set; }
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
@@ -22,6 +23,6 @@ namespace NubeBooks.Data
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
     
-        public virtual Empresa Empresa { get; set; }
+        public virtual Moneda Moneda { get; set; }
     }
 }

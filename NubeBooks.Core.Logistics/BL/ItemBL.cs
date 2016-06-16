@@ -18,12 +18,15 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdItem = x.IdItem,
                     IdCategoriaItm = x.IdCategoriaItm,
+                    IdMoneda = x.IdMoneda,
                     Codigo = x.Codigo,
                     Nombre = x.Nombre,
                     Descripcion = x.Descripcion,
                     UnidadMedida = x.UnidadMedida,
                     Estado = x.Estado,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    nMoneda = x.Moneda.Nombre,
+                    simboloMoneda = x.Moneda.Simbolo
                 }).ToList();
                 return result;
             }
@@ -36,12 +39,15 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdItem = x.IdItem,
                     IdCategoriaItm = x.IdCategoriaItm,
+                    IdMoneda = x.IdMoneda,
                     Codigo = x.Codigo,
                     Nombre = x.Nombre,
                     Descripcion = x.Descripcion,
                     UnidadMedida = x.UnidadMedida,
                     Estado = x.Estado,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    nMoneda = x.Moneda.Nombre,
+                    simboloMoneda = x.Moneda.Simbolo
                 }).ToList();
                 return result;
             }
@@ -54,12 +60,14 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     IdItem = x.IdItem,
                     IdCategoriaItm = x.IdCategoriaItm,
+                    IdMoneda = x.IdMoneda,
                     Codigo = x.Codigo,
                     Nombre = x.Nombre,
                     Descripcion = x.Descripcion,
                     UnidadMedida = x.UnidadMedida,
                     Estado = x.Estado,
-                    IdEmpresa = x.IdEmpresa
+                    IdEmpresa = x.IdEmpresa,
+                    simboloMoneda = x.Moneda.Simbolo
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -73,13 +81,15 @@ namespace NubeBooks.Core.Logistics.BL
                     {
                         IdItem = x.IdItem,
                         IdCategoriaItm = x.IdCategoriaItm,
+                        IdMoneda = x.IdMoneda,
                         Codigo = x.Codigo,
                         Nombre = x.Nombre,
                         Descripcion = x.Descripcion,
                         UnidadMedida = x.UnidadMedida,
                         Estado = x.Estado,
                         IdEmpresa = x.IdEmpresa,
-                        Precio = x.Precio
+                        Precio = x.Precio,
+                        simboloMoneda = x.Moneda.Simbolo
                     }).SingleOrDefault();
                 return result;
             }
@@ -92,6 +102,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     Item nuevo = new Item();
                     nuevo.IdCategoriaItm = Item.IdCategoriaItm;
+                    nuevo.IdMoneda = Item.IdMoneda;
                     nuevo.Codigo = Item.Codigo;
                     nuevo.Nombre = Item.Nombre;
                     nuevo.Precio = Item.Precio;
@@ -117,6 +128,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     var row = context.Item.Where(x => x.IdItem == Item.IdItem).SingleOrDefault();
                     row.IdCategoriaItm = Item.IdCategoriaItm;
+                    row.IdMoneda = Item.IdMoneda;
                     row.Codigo = Item.Codigo;
                     row.Nombre = Item.Nombre;
                     row.Precio = Item.Precio;

@@ -195,6 +195,7 @@
         <MappingFragment StoreEntitySet="Item">
           <ScalarProperty Name="IdItem" ColumnName="IdItem" />
           <ScalarProperty Name="IdCategoriaItm" ColumnName="IdCategoriaItm" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
           <ScalarProperty Name="Codigo" ColumnName="Codigo" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Precio" ColumnName="Precio" />
@@ -321,6 +322,7 @@
       <EntityTypeMapping TypeName="LibrosDBModel.Servicio">
         <MappingFragment StoreEntitySet="Servicio">
           <ScalarProperty Name="IdServicio" ColumnName="IdServicio" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Codigo" ColumnName="Codigo" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />

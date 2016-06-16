@@ -12,7 +12,7 @@ namespace NubeBooks.Core.Logistics.DTO
     {
         public int IdItem { get; set; }
         public int IdCategoriaItm { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")]
+        public int IdMoneda { get; set; }
         public string Codigo { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
         public string Nombre { get; set; }
@@ -23,6 +23,8 @@ namespace NubeBooks.Core.Logistics.DTO
         public Decimal? Precio { get; set; }
 
         public string nCategoriaItem { get; set; }
+        public string simboloMoneda { get; set; }
+        public string nMoneda { get; set; }
         public int SaldoItem { get; set; }
     }
 }

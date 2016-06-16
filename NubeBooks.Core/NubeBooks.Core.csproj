@@ -71,6 +71,7 @@
     <Compile Include="BL\EntidadResponsableBL.cs" />
     <Compile Include="BL\EstadoMovimientoBL.cs" />
     <Compile Include="BL\HonorarioBL.cs" />
+    <Compile Include="BL\MonedaBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
     <Compile Include="BL\PeriodoBL.cs" />
     <Compile Include="BL\ProformaBL.cs" />

@@ -9,11 +9,15 @@
         function handleClick(element) {
             window.location.href = '@Url.Action("Items", "Admin")' + "?inactivos=" + element.checked;
         }
+
+        $("#exportar").click(function () {
+            window.location.href = miBaseUrl + "/ExportarItems";
+        });
     </script>
 }
 
 <div class="bg-light lter b-b wrapper-md">
-    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <button id="exportar" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
     <a href="@Url.Action("Item", "Admin", new { id = 0 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>
@@ -45,6 +49,7 @@
                         <th class="text-center">Código</th>
                         <th class="text-center">Descripción</th>
                         <th class="text-center">U. Medida</th>
+                        <th class="text-center">Precio</th>
                         <th class="text-center">Estado</th>
                         <th style="width:8%"></th>
                     </tr>
@@ -59,6 +64,7 @@
                                 <td class="text-center">@item.Codigo</td>
                                 <td class="text-center">@item.Descripcion</td>
                                 <td class="text-center">@item.UnidadMedida</td>
+                                <td class="text-right">@item.simboloMoneda @item.Precio.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</td>
                                 @{ var eColor = item.Estado ? "#27c24c" : "red"; }
                                 <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
@@ -78,4 +84,3 @@
         </label>
     </div>
 </div>
-

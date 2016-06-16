@@ -1850,6 +1850,9 @@ namespace NubeBooks.Controllers
             ItemBL objBL = new ItemBL();
             ViewBag.lstCategoriaItm = objBL.getCategoriasEnEmpresa(user.IdEmpresa);
 
+            MonedaBL monedaBL = new MonedaBL();
+            ViewBag.lstMonedas = monedaBL.getListaMonedas();
+
             var objSent = TempData["Item"];
             if (objSent != null) { TempData["Item"] = null; return View(objSent); }
 
@@ -1941,6 +1944,9 @@ namespace NubeBooks.Controllers
             UsuarioDTO user = getCurrentUser();
 
             ServicioBL objBL = new ServicioBL();
+
+            MonedaBL monedaBL = new MonedaBL();
+            ViewBag.lstMonedas = monedaBL.getListaMonedas();
 
             var objSent = TempData["Servicio"];
             if (objSent != null) { TempData["Servicio"] = null; return View(objSent); }
@@ -4752,6 +4758,7 @@ namespace NubeBooks.Controllers
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Entidad", "Admin", new { id = idEntidad });
         }
+
         public ActionResult ExportarComprobantesAsociados_EnProyecto(int idProyecto, int idEntidadResponsable, DateTime FechaInicio, DateTime FechaFin)
         {
             if (FechaInicio == null || FechaFin == null)
@@ -4791,6 +4798,79 @@ namespace NubeBooks.Controllers
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Proyecto", "Admin", new { id = idProyecto, idEntidad = idEntidadResponsable });
         }
+
+        public ActionResult ExportarItems()
+        {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ItemBL objBL = new ItemBL();
+            List<ItemDTO> lista = objBL.getItemsEnEmpresa(getCurrentUser().IdEmpresa);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Código");
+            dt.Columns.Add("Descripción");
+            dt.Columns.Add("Unidad de Medida");
+            dt.Columns.Add("Moneda");
+            dt.Columns.Add("Precio");
+            dt.Columns.Add("Estado");
+
+            foreach (var item in lista)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Nombre"] = item.Nombre;
+                row["Código"] = item.Codigo;
+                row["Descripción"] = item.Descripcion;
+                row["Unidad de Medida"] = item.UnidadMedida;
+                row["Moneda"] = item.nMoneda;
+                row["Precio"] = item.Precio.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+                row["Estado"] = item.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+            
+            GenerarPdf5(dt, "Detalle de Items", "Detalle_de_Items", objEmpresa, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Items", "Admin");
+        }
+
+        public ActionResult ExportarServicios()
+        {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ServicioBL objBL = new ServicioBL();
+            List<ServicioDTO> lista = objBL.getServiciosEnEmpresa(getCurrentUser().IdEmpresa);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Código");
+            dt.Columns.Add("Descripción");
+            dt.Columns.Add("Moneda");
+            dt.Columns.Add("Precio");
+            dt.Columns.Add("Estado");
+
+            foreach (var Servicio in lista)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Nombre"] = Servicio.Nombre;
+                row["Código"] = Servicio.Codigo;
+                row["Descripción"] = Servicio.Descripcion;
+                row["Moneda"] = Servicio.nMoneda;
+                row["Precio"] = Servicio.Precio.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+                row["Estado"] = Servicio.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf5(dt, "Detalle de Servicios", "Detalle_de_Servicios", objEmpresa, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Servicios", "Admin");
+        }
+
         #endregion
         private static void AddSuperHeader(GridView gridView, string text = null)
         {
