@@ -19,6 +19,8 @@
         var mydata = JSON.parse('@Html.Raw(userInfoJson)');
         var lstProyectos = JSON.parse('@Html.Raw(userInfoJson2)');
 
+        lstProyectos = ConvertirProyectos(lstProyectos);
+
         var jsTipoCmp = '@Model.IdTipoComprobante';
         var jUserExt = '@ViewBag.EsUsuarioExterno';
         var miBaseUrl = '';
@@ -235,6 +237,19 @@
             }
         }
 
+        function ConvertirProyectos(pLista) {
+            var lstProyectosAux = [];
+            $.each(pLista, function (index, item) {
+                lstProyectosAux.push({
+                    'id': item.IdProyecto,
+                    'text': item.Nombre,
+                    'data': item
+                });
+            });
+            return lstProyectosAux;
+        }
+
+
         function CambiarCredito() {
             var nCredito = $("#IdEntidadResponsable").select2().find(":selected").data("credito");
 
@@ -281,10 +296,20 @@
                 data: { idEntidad: idEntidad },
                 dataType: 'json',
                 success: function (data) {
-                    lstProyectos = data.listaProyectos;
+                    lstProyectos = ConvertirProyectos(data.listaProyectos);
                 }
             });
         }
+
+        $("#IdProyecto").on('select2-selecting', function (e) {
+            var jsObj = e.object.data;
+            $("#IdResponsable").select2("val", jsObj.IdResponsable);
+        });
+
+        /*$("#IdProyecto").on('select2-clearing', function (e) {
+            debugger;
+            $("#IdResponsable").select2("val", "");
+        });*/
 
         function AsociarProyecto()
         {
