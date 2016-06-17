@@ -568,7 +568,8 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    IdResponsable = x.IdResponsable
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }

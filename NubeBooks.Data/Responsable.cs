@@ -14,12 +14,26 @@ namespace NubeBooks.Data
     
     public partial class Responsable
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Responsable()
+        {
+            this.Comprobante = new HashSet<Comprobante>();
+            this.EntidadResponsable = new HashSet<EntidadResponsable>();
+            this.Proyecto = new HashSet<Proyecto>();
+        }
+    
         public int IdResponsable { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
         public int IdEmpresa { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comprobante> Comprobante { get; set; }
         public virtual Empresa Empresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proyecto> Proyecto { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace NubeBooks.Core.DTO
         public int? IdTipoIdentificacion { get; set; }
         public int? IdTipoEntidad { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
+        public int? IdResponsable { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public Decimal? Detraccion { get; set; }

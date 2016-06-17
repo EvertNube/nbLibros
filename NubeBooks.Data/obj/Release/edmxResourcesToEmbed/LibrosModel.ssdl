@@ -137,6 +137,7 @@
     <Property Name="IdEntidadResponsable" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdTipoIdentificacion" Type="int" />
     <Property Name="IdTipoEntidad" Type="int" />
+    <Property Name="IdResponsable" Type="int" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Detraccion" Type="numeric" Precision="18" Scale="2" />
@@ -282,6 +283,7 @@
     </Key>
     <Property Name="IdProyecto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
+    <Property Name="IdResponsable" Type="int" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
     <Property Name="Estado" Type="bit" Nullable="false" />
@@ -577,6 +579,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Comprobante_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Comprobante_TipoComprobante">
     <End Role="TipoComprobante" Type="Self.TipoComprobante" Multiplicity="1" />
     <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
@@ -718,6 +732,18 @@
       </Principal>
       <Dependent Role="EntidadResponsable">
         <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdResponsable" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1018,6 +1044,18 @@
       </Principal>
       <Dependent Role="Proyecto">
         <PropertyRef Name="IdEntidadResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proyecto_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="Proyecto">
+        <PropertyRef Name="IdResponsable" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1485,6 +1523,10 @@
       <End Role="Moneda" EntitySet="Moneda" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Responsable" Association="Self.FK_Comprobante_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
     <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="Self.FK_Comprobante_TipoComprobante">
       <End Role="TipoComprobante" EntitySet="TipoComprobante" />
       <End Role="Comprobante" EntitySet="Comprobante" />
@@ -1531,6 +1573,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_Empresa" Association="Self.FK_EntidadResponsable_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_Responsable" Association="Self.FK_EntidadResponsable_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
@@ -1631,6 +1677,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Proyecto_EntidadResponsable" Association="Self.FK_Proyecto_EntidadResponsable">
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
+      <End Role="Proyecto" EntitySet="Proyecto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyecto_Responsable" Association="Self.FK_Proyecto_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
       <End Role="Proyecto" EntitySet="Proyecto" />
     </AssociationSet>
     <AssociationSet Name="FK_Responsable_Empresa" Association="Self.FK_Responsable_Empresa">

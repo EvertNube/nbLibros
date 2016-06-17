@@ -95,6 +95,7 @@
     <NavigationProperty Name="Honorario" Relationship="Self.FK_Comprobante_Honorario" FromRole="Comprobante" ToRole="Honorario" />
     <NavigationProperty Name="LogUsuario" Relationship="Self.FK_Comprobante_LogUsuario" FromRole="Comprobante" ToRole="LogUsuario" />
     <NavigationProperty Name="Moneda" Relationship="Self.FK_Comprobante_Moneda" FromRole="Comprobante" ToRole="Moneda" />
+    <NavigationProperty Name="Responsable" Relationship="Self.FK_Comprobante_Responsable" FromRole="Comprobante" ToRole="Responsable" />
     <NavigationProperty Name="TipoComprobante" Relationship="Self.FK_Comprobante_TipoComprobante" FromRole="Comprobante" ToRole="TipoComprobante" />
     <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Comprobante_TipoDocumento" FromRole="Comprobante" ToRole="TipoDocumento" />
     <NavigationProperty Name="Usuario" Relationship="Self.FK_Comprobante_Usuario" FromRole="Comprobante" ToRole="Usuario" />
@@ -173,6 +174,7 @@
     <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdTipoIdentificacion" Type="Int32" />
     <Property Name="IdTipoEntidad" Type="Int32" />
+    <Property Name="IdResponsable" Type="Int32" />
     <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Detraccion" Type="Decimal" Precision="18" Scale="2" />
@@ -189,6 +191,7 @@
     <NavigationProperty Name="Comprobante1" Relationship="Self.FK_Comprobante_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_EntidadResponsable_Empresa" FromRole="EntidadResponsable" ToRole="Empresa" />
+    <NavigationProperty Name="Responsable" Relationship="Self.FK_EntidadResponsable_Responsable" FromRole="EntidadResponsable" ToRole="Responsable" />
     <NavigationProperty Name="TipoEntidad" Relationship="Self.FK_EntidadResponsable_TipoEntidad" FromRole="EntidadResponsable" ToRole="TipoEntidad" />
     <NavigationProperty Name="TipoIdentificacion" Relationship="Self.FK_EntidadResponsable_TipoIdentificacion" FromRole="EntidadResponsable" ToRole="TipoIdentificacion" />
     <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Movimiento" />
@@ -364,10 +367,12 @@
     </Key>
     <Property Name="IdProyecto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
+    <Property Name="IdResponsable" Type="Int32" />
     <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Proyecto_EntidadResponsable" FromRole="Proyecto" ToRole="EntidadResponsable" />
+    <NavigationProperty Name="Responsable" Relationship="Self.FK_Proyecto_Responsable" FromRole="Proyecto" ToRole="Responsable" />
     <NavigationProperty Name="Comprobante" Relationship="Self.ComprobantePorProyecto" FromRole="Proyecto" ToRole="Comprobante" />
   </EntityType>
   <EntityType Name="Responsable">
@@ -379,7 +384,10 @@
     <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Responsable" FromRole="Responsable" ToRole="Comprobante" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Responsable_Empresa" FromRole="Responsable" ToRole="Empresa" />
+    <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Responsable" FromRole="Responsable" ToRole="EntidadResponsable" />
+    <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Responsable" FromRole="Responsable" ToRole="Proyecto" />
   </EntityType>
   <EntityType Name="Rol">
     <Key>
@@ -703,6 +711,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Comprobante_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
+    <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="Comprobante">
+        <PropertyRef Name="IdResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Comprobante_TipoComprobante">
     <End Role="TipoComprobante" Type="Self.TipoComprobante" Multiplicity="1" />
     <End Role="Comprobante" Type="Self.Comprobante" Multiplicity="*" />
@@ -916,6 +936,18 @@
       </Principal>
       <Dependent Role="Usuario">
         <PropertyRef Name="IdEmpresa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntidadResponsable_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
+    <End Role="EntidadResponsable" Type="Self.EntidadResponsable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="EntidadResponsable">
+        <PropertyRef Name="IdResponsable" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1147,6 +1179,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Proyecto_Responsable">
+    <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Responsable">
+        <PropertyRef Name="IdResponsable" />
+      </Principal>
+      <Dependent Role="Proyecto">
+        <PropertyRef Name="IdResponsable" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Usuario_Rol">
     <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -1262,6 +1306,10 @@
       <End Role="Moneda" EntitySet="Moneda" />
       <End Role="Comprobante" EntitySet="Comprobante" />
     </AssociationSet>
+    <AssociationSet Name="FK_Comprobante_Responsable" Association="Self.FK_Comprobante_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
+      <End Role="Comprobante" EntitySet="Comprobante" />
+    </AssociationSet>
     <AssociationSet Name="FK_Comprobante_TipoComprobante" Association="Self.FK_Comprobante_TipoComprobante">
       <End Role="TipoComprobante" EntitySet="TipoComprobante" />
       <End Role="Comprobante" EntitySet="Comprobante" />
@@ -1333,6 +1381,10 @@
     <AssociationSet Name="FK_Usuario_Empresa" Association="Self.FK_Usuario_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntidadResponsable_Responsable" Association="Self.FK_EntidadResponsable_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
+      <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
     </AssociationSet>
     <AssociationSet Name="FK_EntidadResponsable_TipoEntidad" Association="Self.FK_EntidadResponsable_TipoEntidad">
       <End Role="TipoEntidad" EntitySet="TipoEntidad" />
@@ -1409,6 +1461,10 @@
     <AssociationSet Name="FK_MovimientoInv_Usuario" Association="Self.FK_MovimientoInv_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="MovimientoInv" EntitySet="MovimientoInv" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proyecto_Responsable" Association="Self.FK_Proyecto_Responsable">
+      <End Role="Responsable" EntitySet="Responsable" />
+      <End Role="Proyecto" EntitySet="Proyecto" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
       <End Role="Rol" EntitySet="Rol" />
@@ -1785,6 +1841,7 @@
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="Int32" Name="IdTipoIdentificacion" Nullable="true" />
     <Property Type="Int32" Name="IdTipoEntidad" Nullable="true" />
+    <Property Type="Int32" Name="IdResponsable" Nullable="true" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Boolean" Name="Estado" Nullable="false" />
     <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
@@ -1821,6 +1878,7 @@
     <Property Type="Int32" Name="IdEntidadResponsable" Nullable="false" />
     <Property Type="Int32" Name="IdTipoIdentificacion" Nullable="true" />
     <Property Type="Int32" Name="IdTipoEntidad" Nullable="true" />
+    <Property Type="Int32" Name="IdResponsable" Nullable="true" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="Boolean" Name="Estado" Nullable="false" />
     <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />

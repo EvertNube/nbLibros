@@ -55,6 +55,7 @@ namespace NubeBooks.Data
         public virtual Honorario Honorario { get; set; }
         public virtual LogUsuario LogUsuario { get; set; }
         public virtual Moneda Moneda { get; set; }
+        public virtual Responsable Responsable { get; set; }
         public virtual TipoComprobante TipoComprobante { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual Usuario Usuario { get; set; }

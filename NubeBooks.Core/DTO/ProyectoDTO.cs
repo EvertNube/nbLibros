@@ -13,6 +13,7 @@ namespace NubeBooks.Core.DTO
         public int IdProyecto { get; set; }
         public int IdEntidadResponsable { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
+        public int? IdResponsable { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool Estado { get; set; }

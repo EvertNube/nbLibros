@@ -22,6 +22,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
@@ -49,6 +50,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
@@ -76,6 +78,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
@@ -103,6 +106,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
@@ -129,6 +133,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
@@ -155,6 +160,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     //Nombre = x.IdTipoEntidad == 1 ? "C > " + x.Nombre : "P > " + x.Nombre,
                     Nombre = x.Nombre,
                     NombreTipoEntidad = x.TipoEntidad.Nombre,
@@ -183,6 +189,7 @@ namespace NubeBooks.Core.BL
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     IdTipoIdentificacion = x.IdTipoIdentificacion,
                     IdTipoEntidad = x.IdTipoEntidad,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado,
                     Detraccion = x.Detraccion,
@@ -210,6 +217,7 @@ namespace NubeBooks.Core.BL
                         IdEntidadResponsable = r.IdEntidadResponsable,
                         IdTipoIdentificacion = r.IdTipoIdentificacion,
                         IdTipoEntidad = r.IdTipoEntidad,
+                        IdResponsable = r.IdResponsable,
                         Nombre = r.Nombre,
                         Estado = r.Estado,
                         Detraccion = r.Detraccion,
@@ -253,6 +261,7 @@ namespace NubeBooks.Core.BL
                         IdEntidadResponsable = x.IdEntidadResponsable,
                         IdTipoIdentificacion = x.IdTipoIdentificacion,
                         IdTipoEntidad = x.IdTipoEntidad,
+                        IdResponsable = x.IdResponsable,
                         Nombre = x.Nombre,
                         Estado = x.Estado,
                         Detraccion = x.Detraccion,
@@ -350,6 +359,7 @@ namespace NubeBooks.Core.BL
                         IdEntidadResponsable = x.IdEntidadResponsable,
                         IdTipoIdentificacion = x.IdTipoIdentificacion,
                         IdTipoEntidad = x.IdTipoEntidad,
+                        IdResponsable = x.IdResponsable,
                         Nombre = x.Nombre,
                         Estado = x.Estado,
                         Detraccion = x.Detraccion,
@@ -376,6 +386,7 @@ namespace NubeBooks.Core.BL
                     nuevo.Nombre = EntidadResponsable.Nombre;
                     nuevo.IdTipoIdentificacion = EntidadResponsable.IdTipoIdentificacion;
                     nuevo.IdTipoEntidad = EntidadResponsable.IdTipoEntidad;
+                    nuevo.IdResponsable = EntidadResponsable.IdResponsable;
                     nuevo.Estado = true;
                     nuevo.Detraccion = EntidadResponsable.Detraccion;
                     nuevo.Tipo = EntidadResponsable.Tipo;
@@ -407,6 +418,7 @@ namespace NubeBooks.Core.BL
                     datoRow.Nombre = EntidadResponsable.Nombre;
                     datoRow.IdTipoIdentificacion = EntidadResponsable.IdTipoIdentificacion;
                     datoRow.IdTipoEntidad = EntidadResponsable.IdTipoEntidad;
+                    datoRow.IdResponsable = EntidadResponsable.IdResponsable;
                     datoRow.Estado = EntidadResponsable.Estado;
                     datoRow.Detraccion = EntidadResponsable.Detraccion;
                     datoRow.Tipo = EntidadResponsable.Tipo;

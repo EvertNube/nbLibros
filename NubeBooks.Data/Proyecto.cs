@@ -22,11 +22,13 @@ namespace NubeBooks.Data
     
         public int IdProyecto { get; set; }
         public int IdEntidadResponsable { get; set; }
+        public Nullable<int> IdResponsable { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
     
         public virtual EntidadResponsable EntidadResponsable { get; set; }
+        public virtual Responsable Responsable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comprobante> Comprobante { get; set; }
     }

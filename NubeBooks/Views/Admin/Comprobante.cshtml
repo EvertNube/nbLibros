@@ -247,6 +247,11 @@
             $("#FechaConclusion").datepicker('setDate', jsFechaNeo);
         }
 
+        function CambiarConsultor() {
+            var jsIdResponsable = $("#IdEntidadResponsable").select2().find(":selected").data("responsable");
+            $("#IdResponsable").select2("val", jsIdResponsable);
+        }
+
         //Solo para Comprobantes de tipo 2 y 4
         function ListarProyectos2(cambio) {
             if ($('#IdEntidadResponsable2').val() != 0)
@@ -392,7 +397,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">@strEntidad</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarProyectos(1); CambiarCredito();"
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarProyectos(1); CambiarCredito(); CambiarConsultor();"
                                     id="IdEntidadResponsable" name="IdEntidadResponsable" required>
                                 @{ var pEntidad = Model != null ? Model.IdEntidadResponsable : 0;
                                     List<EntidadResponsableDTO> listaEnt = Model.IdTipoComprobante == 1 || Model.IdTipoComprobante == 3 ? ViewBag.lstClientes : ViewBag.lstProveedores;
@@ -400,7 +405,7 @@
                                 <option value=""></option>
                                 @foreach (var ent in listaEnt)
                                 {
-                                    <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pEntidad ? "selected=selected" : "") data-credito="@ent.Credito">@ent.Nombre</option>
+                                    <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pEntidad ? "selected=selected" : "") data-credito="@ent.Credito" data-responsable="@ent.IdResponsable">@ent.Nombre</option>
                                 }
                             </select>
                             @Html.ValidationMessageFor(u => u.IdEntidadResponsable, "", new { @style = "color:red;" })

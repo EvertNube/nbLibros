@@ -18,6 +18,8 @@ namespace NubeBooks.Core.BL
                 var result = context.Proyecto.Select(x => new ProyectoDTO
                 {
                     IdProyecto = x.IdProyecto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdResponsable = x.IdResponsable,
                     Nombre = x.Nombre,
                     Estado = x.Estado
                 }).ToList();
@@ -33,6 +35,7 @@ namespace NubeBooks.Core.BL
                     {
                         IdProyecto = x.IdProyecto,
                         IdEntidadResponsable = x.IdEntidadResponsable,
+                        IdResponsable = x.IdResponsable,
                         Nombre = x.Nombre,
                         Descripcion = x.Descripcion,
                         Estado = x.Estado,
@@ -49,6 +52,7 @@ namespace NubeBooks.Core.BL
                     Proyecto nuevo = new Proyecto();
                     nuevo.Nombre = Proyecto.Nombre;
                     nuevo.IdEntidadResponsable = Proyecto.IdEntidadResponsable;
+                    nuevo.IdResponsable = Proyecto.IdResponsable;
                     nuevo.Estado = true;
                     nuevo.Descripcion = Proyecto.Descripcion;
                     context.Proyecto.Add(nuevo);
@@ -69,6 +73,7 @@ namespace NubeBooks.Core.BL
                 {
                     var row = context.Proyecto.Where(x => x.IdProyecto == Proyecto.IdProyecto).SingleOrDefault();
                     row.IdEntidadResponsable = Proyecto.IdEntidadResponsable;
+                    row.IdResponsable = Proyecto.IdResponsable;
                     row.Nombre = Proyecto.Nombre;
                     row.Descripcion = Proyecto.Descripcion;
                     row.Estado = Proyecto.Estado;
@@ -82,7 +87,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public List<Select2DTO_B> getProyectosPorEntidad(int idEntidad, bool esNull = false)
+        public List<Select2DTO_B> getProyectosPorEntidad_vb(int idEntidad, bool esNull = false)
         {
             using (var context = getContext())
             {
@@ -96,6 +101,21 @@ namespace NubeBooks.Core.BL
                 {
                     result.Insert(0, new Select2DTO_B() { id = null, text = "" });
                 }
+
+                return result;
+            }
+        }
+
+        public List<ProyectoDTO> getProyectosPorEntidad(int idEntidad)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Proyecto.Where(x => x.IdEntidadResponsable == idEntidad && x.Estado).Select(x => new ProyectoDTO
+                {
+                    IdProyecto = x.IdProyecto,
+                    Nombre = x.Nombre,
+                    IdResponsable = x.IdResponsable
+                }).ToList();
 
                 return result;
             }

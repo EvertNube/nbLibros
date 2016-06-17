@@ -28,6 +28,7 @@ namespace NubeBooks.Data
         public int IdEntidadResponsable { get; set; }
         public Nullable<int> IdTipoIdentificacion { get; set; }
         public Nullable<int> IdTipoEntidad { get; set; }
+        public Nullable<int> IdResponsable { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public Nullable<decimal> Detraccion { get; set; }
@@ -48,6 +49,7 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contacto> Contacto { get; set; }
         public virtual Empresa Empresa { get; set; }
+        public virtual Responsable Responsable { get; set; }
         public virtual TipoEntidad TipoEntidad { get; set; }
         public virtual TipoIdentificacion TipoIdentificacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

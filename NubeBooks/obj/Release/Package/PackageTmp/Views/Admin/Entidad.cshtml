@@ -129,11 +129,15 @@ else { cadena = "Actualizar"; }
                 {
                     <div class="form-group">
                         <div class="row">
+                            <div class="col-md-6">
+                                <label>Dirección</label>
+                                @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
+                            </div>
                             <div class="col-md-3">
                                 <label>Crédito (Días)</label>
                                 <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
                                         id="Credito" name="Credito">
-                                    @{ 
+                                    @{
                                         var pCredito = Model != null ? (Model.Credito != null ? Model.Credito : null) : null;
                                         List<int> lstCreditos = new List<int>() { 0, 7, 15, 30, 45, 60, 90 };
                                     }
@@ -144,9 +148,18 @@ else { cadena = "Actualizar"; }
                                     }
                                 </select>
                             </div>
-                            <div class="col-md-9">
-                                <label>Dirección</label>
-                                @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
+                            <div class="col-md-3">
+                                <label>Consultor</label>
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                        id="IdResponsable" name="IdResponsable">
+                                    @{ var pResponsable = Model != null ? Model.IdResponsable : 0; }
+                                    <option value=""></option>
+                                    @foreach (var resp in (List<ResponsableDTO>)ViewBag.lstResponsables)
+                                    {
+                                        <option value="@resp.IdResponsable" @(resp.IdResponsable == pResponsable ? "selected=selected" : "")>@resp.Nombre</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
                             </div>
                         </div>
                     </div>

@@ -16,6 +16,7 @@ namespace NubeBooks.Data
         public int IdEntidadResponsable { get; set; }
         public Nullable<int> IdTipoIdentificacion { get; set; }
         public Nullable<int> IdTipoEntidad { get; set; }
+        public Nullable<int> IdResponsable { get; set; }
         public string Nombre { get; set; }
         public bool Estado { get; set; }
         public Nullable<decimal> Detraccion { get; set; }

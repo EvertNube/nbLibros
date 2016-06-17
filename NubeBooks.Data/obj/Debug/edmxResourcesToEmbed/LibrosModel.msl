@@ -136,6 +136,7 @@
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="IdTipoIdentificacion" ColumnName="IdTipoIdentificacion" />
           <ScalarProperty Name="IdTipoEntidad" ColumnName="IdTipoEntidad" />
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
@@ -292,6 +293,7 @@
         <MappingFragment StoreEntitySet="Proyecto">
           <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -736,6 +738,7 @@
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="IdTipoIdentificacion" ColumnName="IdTipoIdentificacion" />
           <ScalarProperty Name="IdTipoEntidad" ColumnName="IdTipoEntidad" />
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />
@@ -784,6 +787,7 @@
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="IdTipoIdentificacion" ColumnName="IdTipoIdentificacion" />
           <ScalarProperty Name="IdTipoEntidad" ColumnName="IdTipoEntidad" />
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Detraccion" ColumnName="Detraccion" />

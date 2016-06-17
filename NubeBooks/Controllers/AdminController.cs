@@ -1098,6 +1098,9 @@ namespace NubeBooks.Controllers
             ViewBag.TipoIdentificacion = objBL.getTiposDeIdentificaciones();
             ViewBag.lstComprobantes = objBL.getComprobantes_ConEntidad(user.IdEmpresa, id.GetValueOrDefault());
 
+            ResponsableBL resBL = new ResponsableBL();
+            ViewBag.lstResponsables = resBL.getResponsablesActivosEnEmpresa(user.IdEmpresa);
+
             ViewBag.vbInactivosC = inactivosC;
             ViewBag.vbInactivosP = inactivosP;
 
@@ -2488,14 +2491,17 @@ namespace NubeBooks.Controllers
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
             ViewBag.Title += " - Proyecto";
             MenuNavBarSelected(6);
-            UsuarioDTO miUsuario = getCurrentUser();
+            UsuarioDTO user = getCurrentUser();
 
             ProyectoBL objBL = new ProyectoBL();
             ViewBag.IdProyecto = id;
-            ViewBag.lstComprobantes = objBL.getComprobantes_ConProyecto(miUsuario.IdEmpresa, id.GetValueOrDefault());
+            ViewBag.lstComprobantes = objBL.getComprobantes_ConProyecto(user.IdEmpresa, id.GetValueOrDefault());
+
+            ResponsableBL resBL = new ResponsableBL();
+            ViewBag.lstResponsables = resBL.getResponsablesActivosEnEmpresa(user.IdEmpresa);
 
             EntidadResponsableBL objEntidadBL = new EntidadResponsableBL();
-            EntidadResponsableDTO objEntidad = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, idEntidad.GetValueOrDefault());
+            EntidadResponsableDTO objEntidad = objEntidadBL.getEntidadResponsableEnEmpresa(user.IdEmpresa, idEntidad.GetValueOrDefault());
             if (objEntidad == null) { return RedirectToAction("EntidadesClientes", "Admin"); }
 
             var objSent = TempData["Proyecto"];
@@ -2516,9 +2522,9 @@ namespace NubeBooks.Controllers
                     if (obj == null) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
                     if (obj.IdEntidadResponsable != objEntidad.IdEntidadResponsable) return RedirectToAction("Entidad", "Admin", new { id = objEntidad.IdEntidadResponsable });
 
-                    EntidadResponsableDTO objEntidadProy = objEntidadBL.getEntidadResponsableEnEmpresa(miUsuario.IdEmpresa, obj.IdEntidadResponsable);
+                    EntidadResponsableDTO objEntidadProy = objEntidadBL.getEntidadResponsableEnEmpresa(user.IdEmpresa, obj.IdEntidadResponsable);
                     if (objEntidadProy == null) return RedirectToAction("Entidades", "Admin");
-                    if (objEntidadProy.IdEmpresa != miUsuario.IdEmpresa) return RedirectToAction("Entidades", "Admin");
+                    if (objEntidadProy.IdEmpresa != user.IdEmpresa) return RedirectToAction("Entidades", "Admin");
 
                     return View(obj);
                 }
@@ -2813,7 +2819,7 @@ namespace NubeBooks.Controllers
         public JsonResult GetProyectos(int idEntidad)
         {
             ProyectoBL objBL = new ProyectoBL();
-            var listaProyectos = objBL.getProyectosPorEntidad(idEntidad);
+            var listaProyectos = objBL.getProyectosPorEntidad_vb(idEntidad);
             return Json(new { listaProyectos }, JsonRequestBehavior.AllowGet);
         }
 
