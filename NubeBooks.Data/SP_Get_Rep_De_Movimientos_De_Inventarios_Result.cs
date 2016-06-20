@@ -25,6 +25,7 @@ namespace NubeBooks.Data
         public int Cantidad { get; set; }
         public string UnidadMedida { get; set; }
         public string nEntidadResponsable { get; set; }
+        public string nUbicacion { get; set; }
         public System.DateTime FechaInicial { get; set; }
         public Nullable<System.DateTime> FechaFin { get; set; }
         public string Comentario { get; set; }

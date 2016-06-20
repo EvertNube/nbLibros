@@ -149,6 +149,11 @@
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
           <ScalarProperty Name="Credito" ColumnName="Credito" />
+          <ScalarProperty Name="TipoPersona" ColumnName="TipoPersona" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -565,6 +570,7 @@
           <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
           <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
           <ScalarProperty Name="nEntidadResponsable" ColumnName="nEntidadResponsable" />
+          <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
           <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
           <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
           <ScalarProperty Name="Comentario" ColumnName="Comentario" />
@@ -751,6 +757,11 @@
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
           <ScalarProperty Name="Credito" ColumnName="Credito" />
+          <ScalarProperty Name="TipoPersona" ColumnName="TipoPersona" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>
@@ -800,6 +811,11 @@
           <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
           <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
           <ScalarProperty Name="Credito" ColumnName="Credito" />
+          <ScalarProperty Name="TipoPersona" ColumnName="TipoPersona" />
+          <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Comentario" ColumnName="Comentario" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
         </ComplexTypeMapping>

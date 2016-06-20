@@ -39,7 +39,8 @@ namespace NubeBooks.Core.Logistics.BL
                     nTipo = x.nTipo,
                     nUsuario = x.nUsuario,
                     StockLote = x.StockLote,
-                    nEntidadResponsable = x.nEntidadResponsable
+                    nEntidadResponsable = x.nEntidadResponsable,
+                    nUbicacion = x.nUbicacion
                 }).OrderBy(x => x.FechaInicial).ToList();
 
                 return result;

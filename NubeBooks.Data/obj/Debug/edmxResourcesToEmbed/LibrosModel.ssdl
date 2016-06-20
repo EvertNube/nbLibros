@@ -150,6 +150,11 @@
     <Property Name="CuentaSoles" Type="nvarchar" MaxLength="50" />
     <Property Name="CuentaDolares" Type="nvarchar" MaxLength="50" />
     <Property Name="Credito" Type="int" />
+    <Property Name="TipoPersona" Type="int" />
+    <Property Name="Telefono1" Type="nvarchar" MaxLength="20" />
+    <Property Name="Telefono2" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="EstadoMovimiento">
     <Key>

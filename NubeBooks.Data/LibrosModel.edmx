@@ -155,6 +155,11 @@
           <Property Name="CuentaSoles" Type="nvarchar" MaxLength="50" />
           <Property Name="CuentaDolares" Type="nvarchar" MaxLength="50" />
           <Property Name="Credito" Type="int" />
+          <Property Name="TipoPersona" Type="int" />
+          <Property Name="Telefono1" Type="nvarchar" MaxLength="20" />
+          <Property Name="Telefono2" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comentario" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="EstadoMovimiento">
           <Key>
@@ -1901,6 +1906,11 @@
           <Property Name="CuentaSoles" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CuentaDolares" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Credito" Type="Int32" />
+          <Property Name="TipoPersona" Type="Int32" />
+          <Property Name="Telefono1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
           <NavigationProperty Name="Comprobante1" Relationship="Self.FK_Comprobante_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Comprobante" />
           <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
@@ -3439,6 +3449,7 @@
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="nEntidadResponsable" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="nUbicacion" Nullable="true" MaxLength="150" />
           <Property Type="DateTime" Name="FechaInicial" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
           <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
@@ -3568,6 +3579,11 @@
           <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Credito" Nullable="true" />
+          <Property Type="Int32" Name="TipoPersona" Nullable="true" />
+          <Property Type="String" Name="Telefono1" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
@@ -3605,6 +3621,11 @@
           <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Credito" Nullable="true" />
+          <Property Type="Int32" Name="TipoPersona" Nullable="true" />
+          <Property Type="String" Name="Telefono1" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
           <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
         </ComplexType>
@@ -3791,6 +3812,11 @@
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
                 <ScalarProperty Name="Credito" ColumnName="Credito" />
+                <ScalarProperty Name="TipoPersona" ColumnName="TipoPersona" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4207,6 +4233,7 @@
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
                 <ScalarProperty Name="nEntidadResponsable" ColumnName="nEntidadResponsable" />
+                <ScalarProperty Name="nUbicacion" ColumnName="nUbicacion" />
                 <ScalarProperty Name="FechaInicial" ColumnName="FechaInicial" />
                 <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
                 <ScalarProperty Name="Comentario" ColumnName="Comentario" />
@@ -4393,6 +4420,11 @@
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
                 <ScalarProperty Name="Credito" ColumnName="Credito" />
+                <ScalarProperty Name="TipoPersona" ColumnName="TipoPersona" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
               </ComplexTypeMapping>
@@ -4442,6 +4474,11 @@
                 <ScalarProperty Name="CuentaSoles" ColumnName="CuentaSoles" />
                 <ScalarProperty Name="CuentaDolares" ColumnName="CuentaDolares" />
                 <ScalarProperty Name="Credito" ColumnName="Credito" />
+                <ScalarProperty Name="TipoPersona" ColumnName="TipoPersona" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="MontoSinIGV" ColumnName="MontoSinIGV" />
               </ComplexTypeMapping>

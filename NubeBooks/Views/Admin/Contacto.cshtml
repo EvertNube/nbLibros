@@ -25,8 +25,8 @@ else { cadena = "Actualizar"; }
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-6">
-                            <label>Email</label>
-                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Email", @type = "email" })
+                            <label>Correo Electrónico</label>
+                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Correo Electrónico", @type = "email" })
                             @Html.ValidationMessageFor(u => u.Email, "", new { @style = "color:red;" })
                         </div>
                     </div>

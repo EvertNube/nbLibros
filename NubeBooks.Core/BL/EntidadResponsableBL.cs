@@ -35,7 +35,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -63,7 +68,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -91,7 +101,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -119,7 +134,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -145,7 +165,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -174,7 +199,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -201,7 +231,12 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito
+                    Credito = x.Credito,
+                    TipoPersona = x.TipoPersona,
+                    Telefono1 = x.Telefono1,
+                    Telefono2 = x.Telefono2,
+                    Email = x.Email,
+                    Comentario = x.Comentario
                 }).OrderBy(x => x.Nombre).ToList();
                 return result;
             }
@@ -230,6 +265,11 @@ namespace NubeBooks.Core.BL
                         CuentaSoles = r.CuentaSoles,
                         CuentaDolares = r.CuentaDolares,
                         Credito = r.Credito,
+                        TipoPersona = r.TipoPersona,
+                        Telefono1 = r.Telefono1,
+                        Telefono2 = r.Telefono2,
+                        Email = r.Email,
+                        Comentario = r.Comentario,
                         lstProyectos = r.Proyecto.Select(x => new ProyectoDTO {
                             IdProyecto = x.IdProyecto,
                             IdEntidadResponsable = x.IdEntidadResponsable,
@@ -273,7 +313,12 @@ namespace NubeBooks.Core.BL
                         Banco = x.Banco,
                         CuentaSoles = x.CuentaSoles,
                         CuentaDolares = x.CuentaDolares,
-                        Credito = x.Credito
+                        Credito = x.Credito,
+                        TipoPersona = x.TipoPersona,
+                        Telefono1 = x.Telefono1,
+                        Telefono2 = x.Telefono2,
+                        Email = x.Email,
+                        Comentario = x.Comentario
                     }).SingleOrDefault();
 
                 return result;
@@ -371,7 +416,12 @@ namespace NubeBooks.Core.BL
                         Banco = x.Banco,
                         CuentaSoles = x.CuentaSoles,
                         CuentaDolares = x.CuentaDolares,
-                        Credito = x.Credito
+                        Credito = x.Credito,
+                        TipoPersona = x.TipoPersona,
+                        Telefono1 = x.Telefono1,
+                        Telefono2 = x.Telefono2,
+                        Email = x.Email,
+                        Comentario = x.Comentario
                     }).SingleOrDefault();
                 return result;
             }
@@ -398,6 +448,11 @@ namespace NubeBooks.Core.BL
                     nuevo.CuentaSoles = EntidadResponsable.CuentaSoles;
                     nuevo.CuentaDolares = EntidadResponsable.CuentaDolares;
                     nuevo.Credito = EntidadResponsable.Credito;
+                    nuevo.TipoPersona = EntidadResponsable.TipoPersona;
+                    nuevo.Telefono1 = EntidadResponsable.Telefono1;
+                    nuevo.Telefono2 = EntidadResponsable.Telefono2;
+                    nuevo.Email = EntidadResponsable.Email;
+                    nuevo.Comentario = EntidadResponsable.Comentario;
                     context.EntidadResponsable.Add(nuevo);
                     context.SaveChanges();
                     return true;
@@ -430,6 +485,11 @@ namespace NubeBooks.Core.BL
                     datoRow.CuentaSoles = EntidadResponsable.CuentaSoles;
                     datoRow.CuentaDolares = EntidadResponsable.CuentaDolares;
                     datoRow.Credito = EntidadResponsable.Credito;
+                    datoRow.TipoPersona = EntidadResponsable.TipoPersona;
+                    datoRow.Telefono1 = EntidadResponsable.Telefono1;
+                    datoRow.Telefono2 = EntidadResponsable.Telefono2;
+                    datoRow.Email = EntidadResponsable.Email;
+                    datoRow.Comentario = EntidadResponsable.Comentario;
                     context.SaveChanges();
                     return true;
                 }

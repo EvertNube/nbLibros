@@ -187,6 +187,11 @@
     <Property Name="CuentaSoles" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CuentaDolares" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Credito" Type="Int32" />
+    <Property Name="TipoPersona" Type="Int32" />
+    <Property Name="Telefono1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Telefono2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="Comprobante1" Relationship="Self.FK_Comprobante_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
@@ -1725,6 +1730,7 @@
     <Property Type="Int32" Name="Cantidad" Nullable="false" />
     <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="nEntidadResponsable" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="nUbicacion" Nullable="true" MaxLength="150" />
     <Property Type="DateTime" Name="FechaInicial" Nullable="false" Precision="23" />
     <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
     <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
@@ -1854,6 +1860,11 @@
     <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="Credito" Nullable="true" />
+    <Property Type="Int32" Name="TipoPersona" Nullable="true" />
+    <Property Type="String" Name="Telefono1" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
     <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
@@ -1891,6 +1902,11 @@
     <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="Credito" Nullable="true" />
+    <Property Type="Int32" Name="TipoPersona" Nullable="true" />
+    <Property Type="String" Name="Telefono1" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
     <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>

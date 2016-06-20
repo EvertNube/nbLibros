@@ -77,7 +77,7 @@ namespace NubeBooks.Controllers
                 this.navbar = new Navbar();
                 ViewBag.currentUser = user;
                 ViewBag.NombreEmpresa = user.nombreEmpresa;
-                ViewBag.Title = "NubeBooks";
+                //ViewBag.Title = "NubeBooks";
 
                 ViewBag.EsAdmin = isAdministrator();
                 ViewBag.EsSuperAdmin = isSuperAdministrator();
@@ -324,7 +324,7 @@ namespace NubeBooks.Controllers
         public ActionResult Libros(int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Libros";
+            ViewBag.Title = "Libros";
             MenuNavBarSelected(1);
 
             UsuarioDTO miUsuario = getCurrentUser();
@@ -360,7 +360,7 @@ namespace NubeBooks.Controllers
         public ActionResult LibrosBancarios(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Bancarios";
+            ViewBag.Title = "Bancarios";
             MenuNavBarSelected(2, 0);
 
             UsuarioDTO user = getCurrentUser();
@@ -380,7 +380,7 @@ namespace NubeBooks.Controllers
         public ActionResult LibrosAdministrativos(bool inactivos = false)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Administrativos";
+            ViewBag.Title = "Administrativos";
             MenuNavBarSelected(2, 1);
 
             UsuarioDTO user = getCurrentUser();
@@ -402,7 +402,7 @@ namespace NubeBooks.Controllers
         public ActionResult Libro(int? id = null, int? idTipoCuenta = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Libro";
+            ViewBag.Title = "Libro";
 
             int tipoCuenta = 2;
             if (idTipoCuenta != null) { tipoCuenta = idTipoCuenta.GetValueOrDefault(); }
@@ -620,7 +620,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += " - Partidas de Presupuesto";
+            ViewBag.Title = "Partidas de Presupuesto";
 
             MenuNavBarSelected(8, 0);
             EmpresaBL empBL = new EmpresaBL();
@@ -646,7 +646,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += " - Categoría";
+            ViewBag.Title = "Categoría";
 
             MenuNavBarSelected(8, 0);
             UsuarioDTO miUsuario = getCurrentUser();
@@ -739,7 +739,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
 
-            ViewBag.Title += " - Movimientos";
+            ViewBag.Title = "Movimientos";
 
             MovimientoBL objBL = new MovimientoBL();
             return View(objBL.getMovimientos());
@@ -747,7 +747,7 @@ namespace NubeBooks.Controllers
         public ActionResult Movimiento(int? id = null, int? idLibro = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Movimiento";
+            ViewBag.Title = "Movimiento";
             MenuNavBarSelected(1);
             UsuarioDTO miUsuario = getCurrentUser();
 
@@ -909,7 +909,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Usuarios";
+            ViewBag.Title = "Usuarios";
             MenuNavBarSelected(9);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -930,7 +930,7 @@ namespace NubeBooks.Controllers
         public ActionResult Usuario(int? id = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Usuario";
+            ViewBag.Title = "Usuario";
             MenuNavBarSelected(9);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -1017,7 +1017,7 @@ namespace NubeBooks.Controllers
             //Solo usuario Externo no tiene acceso a esto
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += " - Entidades";
+            ViewBag.Title = "Entidades";
             MenuNavBarSelected(4, 3);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -1037,7 +1037,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += " - Clientes";
+            ViewBag.Title = "Clientes";
             MenuNavBarSelected(6, 0);
 
             UsuarioDTO user = getCurrentUser();
@@ -1062,7 +1062,7 @@ namespace NubeBooks.Controllers
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
 
-            ViewBag.Title += " - Proveedores";
+            ViewBag.Title = "Proveedores";
             MenuNavBarSelected(6, 1);
 
             UsuarioDTO user = getCurrentUser();
@@ -1086,7 +1086,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (isUsuarioExterno()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Entidad";
+            ViewBag.Title = "Entidad";
 
             int tipoEntidad = 1;
             if (idTipoEntidad != null) { tipoEntidad = idTipoEntidad.GetValueOrDefault(); }
@@ -1178,7 +1178,7 @@ namespace NubeBooks.Controllers
         public ActionResult Comprobantes(int? idTipoComprobante = null, string sortOrder = null, string currentFilter = null, string searchString = null, int? page = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobantes";
+            ViewBag.Title = "Comprobantes";
             MenuNavBarSelected(2);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -1203,7 +1203,7 @@ namespace NubeBooks.Controllers
         public ActionResult ComprobantesIngreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobantes de Ingreso";
+            ViewBag.Title = "Comprobantes de Ingreso";
 
             MenuNavBarSelected(3, 0);
 
@@ -1223,7 +1223,7 @@ namespace NubeBooks.Controllers
         public ActionResult ComprobantesEgreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobantes de Egreso";
+            ViewBag.Title = "Comprobantes de Egreso";
 
             MenuNavBarSelected(3, 1);
 
@@ -1243,7 +1243,7 @@ namespace NubeBooks.Controllers
         public ActionResult ComprobantesAnulados()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobantes Anulados";
+            ViewBag.Title = "Comprobantes Anulados";
 
             MenuNavBarSelected(3, 2);
 
@@ -1401,7 +1401,7 @@ namespace NubeBooks.Controllers
         public ActionResult Comprobante(int? id = null, int? idTipoComprobante = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Comprobante";
+            ViewBag.Title = "Comprobante";
 
             int tipoComprobante = 1;
             if (idTipoComprobante != null) { tipoComprobante = idTipoComprobante.GetValueOrDefault(); }
@@ -1628,7 +1628,7 @@ namespace NubeBooks.Controllers
         public ActionResult InventariosIngreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Inventarios de Ingreso";
+            ViewBag.Title = "Inventarios de Ingreso";
 
             MenuNavBarSelected(9, 0);
 
@@ -1648,7 +1648,7 @@ namespace NubeBooks.Controllers
         public ActionResult InventariosEgreso()
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Inventarios de Egreso";
+            ViewBag.Title = "Inventarios de Egreso";
 
             MenuNavBarSelected(9, 1);
 
@@ -1668,7 +1668,7 @@ namespace NubeBooks.Controllers
         public ActionResult MovimientoInv(int? id = null, int? idTipo = null)
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
-            ViewBag.Title += " - Movimiento de Inventario";
+            ViewBag.Title = "Movimiento de Inventario";
 
             int tipo = 1;
             if (idTipo != null) { tipo = idTipo.GetValueOrDefault(); }
@@ -1823,7 +1823,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Items";
+            ViewBag.Title = "Items";
             MenuNavBarSelected(10, 0);
             UsuarioDTO user = getCurrentUser();
 
@@ -1845,7 +1845,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Item";
+            ViewBag.Title = "Item";
             MenuNavBarSelected(10, 0);
 
             UsuarioDTO user = getCurrentUser();
@@ -1919,7 +1919,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Servicios";
+            ViewBag.Title = "Servicios";
             MenuNavBarSelected(11);
             UsuarioDTO user = getCurrentUser();
 
@@ -1941,7 +1941,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Servicio";
+            ViewBag.Title = "Servicio";
             MenuNavBarSelected(11);
 
             UsuarioDTO user = getCurrentUser();
@@ -2014,7 +2014,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Categorias de Items";
+            ViewBag.Title = "Categorias de Items";
             MenuNavBarSelected(10, 1);
             UsuarioDTO user = getCurrentUser();
 
@@ -2036,7 +2036,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Categoría de Items";
+            ViewBag.Title = "Categoría de Items";
             MenuNavBarSelected(10, 1);
 
             UsuarioDTO user = getCurrentUser();
@@ -2106,7 +2106,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Ubicaciones";
+            ViewBag.Title = "Ubicaciones";
             MenuNavBarSelected(10, 2);
             UsuarioDTO user = getCurrentUser();
 
@@ -2128,7 +2128,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Ubicacion";
+            ViewBag.Title = "Ubicacion";
             MenuNavBarSelected(10, 2);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2198,7 +2198,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Areas";
+            ViewBag.Title = "Areas";
             MenuNavBarSelected(4);
             UsuarioDTO currentUser = getCurrentUser();
 
@@ -2220,7 +2220,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Área";
+            ViewBag.Title = "Área";
             MenuNavBarSelected(4);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2290,7 +2290,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Consultores";
+            ViewBag.Title = "Consultores";
             MenuNavBarSelected(5);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2315,7 +2315,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Responsable";
+            ViewBag.Title = "Responsable";
             MenuNavBarSelected(5);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2389,7 +2389,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Honorarios";
+            ViewBag.Title = "Honorarios";
             MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2413,7 +2413,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Honorario";
+            ViewBag.Title = "Honorario";
             MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2489,7 +2489,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Proyecto";
+            ViewBag.Title = "Proyecto";
             MenuNavBarSelected(6);
             UsuarioDTO user = getCurrentUser();
 
@@ -2583,7 +2583,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             //if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Contacto";
+            ViewBag.Title = "Contacto";
             MenuNavBarSelected(6);
             UsuarioDTO miUsuario = getCurrentUser();
 
@@ -2665,7 +2665,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Periodos";
+            ViewBag.Title = "Periodos";
             MenuNavBarSelected(8, 1);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2688,7 +2688,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title += " - Periodo";
+            ViewBag.Title = "Periodo";
             MenuNavBarSelected(8, 1);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -3009,7 +3009,7 @@ namespace NubeBooks.Controllers
 
             if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
-            ViewBag.Title += " - Reportes de Presupuesto";
+            ViewBag.Title = "Reportes de Presupuesto";
             MenuNavBarSelected(1, 0);
 
             EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
@@ -3041,7 +3041,7 @@ namespace NubeBooks.Controllers
 
             //if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
-            ViewBag.Title += " - Reportes de Gestión";
+            ViewBag.Title = "Reportes de Gestión";
             MenuNavBarSelected(1, 1);
 
             if (message != null)
@@ -3066,7 +3066,7 @@ namespace NubeBooks.Controllers
 
             //if (getCurrentUser().IdRol == 3) { return RedirectToAction("Ingresar"); }
 
-            ViewBag.Title += " - Reportes de Inventarios";
+            ViewBag.Title = "Reportes de Inventarios";
             MenuNavBarSelected(1, 2);
 
             ItemBL objBL = new ItemBL();

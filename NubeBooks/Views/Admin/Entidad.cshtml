@@ -71,22 +71,60 @@ else { cadena = "Actualizar"; }
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
+                        @if(Model.IdTipoEntidad == 1)
+                        { 
+                            <div class="col-md-3">
+                                <label>Tipo de Persona</label>
+                                <select class="form-control col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" id="TipoPersona" name="TipoPersona">
+                                    @{
+                                        var pTipoPersona = Model.TipoPersona.GetValueOrDefault();
+                                        string sTipoPersona = "";
+                                        for (int i = 1; i <= 2; i++)
+                                        {
+                                            switch (i)
+                                            {
+                                                case 1:
+                                                    sTipoPersona = "Jurídica";
+                                                    break;
+                                                default:
+                                                    sTipoPersona = "Natural";
+                                                    break;
+                                            }
+                                            <option value="@i" @(i == pTipoPersona ? "selected=selected" : "")>@sTipoPersona</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
                         <div class="col-md-3">
-                            <label>Razón Social</label>
+                            @*<label>Razón Social</label>*@
+                            <label>@(Model.IdTipoEntidad == 1 ? (Model.TipoPersona == 1 ? "Razón Social" : "Apellidos - Nombre") : "Razón Social")</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Razón social", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-3">
-                            <label>Nombre Comercial</label>
-                            @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Nombre comercial", @type = "text" })
-                            @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
-                        </div>
-                        <div class="col-md-3">
+                        @if (Model.IdTipoEntidad == 2)
+                        {
+                            <div class="col-md-3">
+                                <label>Nombre Comercial</label>
+                                @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Nombre comercial", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
+                            </div>
+                        }
+                        else if (Model.IdTipoEntidad == 1 && Model.TipoPersona == 1)
+                        {
+                            <div class="col-md-2">
+                                <label>Nombre Comercial</label>
+                                @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Nombre comercial", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
+                            </div>
+                        }
+
+                        <div class="col-md-@((Model.IdTipoEntidad == 1 && Model.TipoPersona == 1) ? 2 : 3)">
                             <label>Tipo de Identificación</label>
                             @Html.DropDownListFor(u => u.IdTipoIdentificacion, new SelectList(ViewBag.TipoIdentificacion, "IdTipoIdentificacion", "Nombre", Model != null ? (Model.IdTipoIdentificacion != null ? Model.IdTipoIdentificacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
                             @Html.ValidationMessageFor(u => u.IdTipoIdentificacion, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-@((Model.IdTipoEntidad == 1 && Model.TipoPersona == 1) ? 2 : 3)">
                             <label>Nro. de Identificación</label>
                             @Html.TextBoxFor(u => u.NroIdentificacion, new { @class = "form-control", @placeholder = "Ingrese el numero de identificación", @type = "text" })
                             @Html.ValidationMessageFor(u => u.NroIdentificacion, "", new { @style = "color:red;" })
@@ -129,6 +167,22 @@ else { cadena = "Actualizar"; }
                 {
                     <div class="form-group">
                         <div class="row">
+                            <div class="col-md-3">
+                                <label>Teléfono 1</label>
+                                @Html.TextBoxFor(u => u.Telefono1, new { @class = "form-control", @placeholder = "Ingrese el telefono 1", @type = "text" })
+                            </div>
+                            <div class="col-md-3">
+                                <label>Teléfono 2</label>
+                                @Html.TextBoxFor(u => u.Telefono2, new { @class = "form-control", @placeholder = "Ingrese el telefono 2", @type = "text" })
+                            </div>
+                            <div class="col-md-6">
+                                <label>Correo Electrónico</label>
+                                @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese el Correo Electrónico", @type = "email" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label>Dirección</label>
                                 @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
@@ -160,6 +214,14 @@ else { cadena = "Actualizar"; }
                                     }
                                 </select>
                                 @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Comentario</label>
+                                @Html.TextAreaFor(u => u.Comentario, new { @class = "form-control", @placeholder = "Ingrese el comentario", @type = "text", @rows = "4", @style = "resize: none;" })
                             </div>
                         </div>
                     </div>
