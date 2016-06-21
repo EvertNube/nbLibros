@@ -13,6 +13,7 @@
     <script type="text/javascript">
         $(function () {
             $('.miselect2').select2();
+
             $('.miselect2_clear').select2({
                 allowClear: true,
                 placeholder: "Seleccionar"
@@ -20,6 +21,15 @@
 
             $('#fechaInicio').datepicker({ format: 'dd/mm/yyyy' });
             $('#fechaFin').datepicker({ format: 'dd/mm/yyyy' });
+
+            if ('@Model.IdTipoEntidad' == 1) {
+                if ('@Model.TipoPersona' == 2) {
+                    desactivarTiposIdentificacion();
+                }
+                else {
+                    activarTiposIdentificacion();
+                }
+            }
         });
 
         $("input#exportar").click(function () {
@@ -54,6 +64,34 @@
             sProyecto = $('#chkProyecto').val() ? "inactivosP=" + $('#chkProyecto').val() : "";
             window.location.href = '@Url.Action("Entidad", "Admin", new { @id = Model.IdEntidadResponsable.GetValueOrDefault() })' + "?" + sContacto + "&" + sProyecto;
         }
+
+        function cambioTipoPersona()
+        {
+            var jsTipoPersonaVal = $("#TipoPersona option:selected").val();
+            if (jsTipoPersonaVal == 1)
+            {
+                if ($('#divComercial').hasClass('hidden')) { $('#divComercial').removeClass('hidden'); $('#divEmail').addClass('hidden'); }
+                activarTiposIdentificacion();
+            }
+            else
+            {
+                if ($('#divEmail').hasClass('hidden')) { $('#divEmail').removeClass('hidden'); $('#divComercial').addClass('hidden'); }
+                desactivarTiposIdentificacion();   
+            }
+        }
+
+        function activarTiposIdentificacion()
+        {
+            $("#IdTipoIdentificacion option[value='2']").attr('disabled', true);
+            $("#IdTipoIdentificacion option[value='3']").attr('disabled', true);
+            //$("#IdTipoIdentificacion option[value='4']").attr('disabled', true);
+        }
+        function desactivarTiposIdentificacion()
+        {
+            $("#IdTipoIdentificacion option[value='2']").attr('disabled', false);
+            $("#IdTipoIdentificacion option[value='3']").attr('disabled', false);
+            //$("#IdTipoIdentificacion option[value='4']").attr('disabled', false);
+        }
     </script>
 }
 @{var cadena = "";}
@@ -75,7 +113,7 @@ else { cadena = "Actualizar"; }
                         { 
                             <div class="col-md-3">
                                 <label>Tipo de Persona</label>
-                                <select class="form-control col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" id="TipoPersona" name="TipoPersona">
+                                <select class="form-control col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" id="TipoPersona" name="TipoPersona" onchange="cambioTipoPersona()">
                                     @{
                                         var pTipoPersona = Model.TipoPersona.GetValueOrDefault();
                                         string sTipoPersona = "";
@@ -110,21 +148,20 @@ else { cadena = "Actualizar"; }
                                 @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
                             </div>
                         }
-                        else if (Model.IdTipoEntidad == 1 && Model.TipoPersona == 1)
-                        {
-                            <div class="col-md-2">
-                                <label>Nombre Comercial</label>
-                                @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Nombre comercial", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
-                            </div>
-                        }
-
-                        <div class="col-md-@((Model.IdTipoEntidad == 1 && Model.TipoPersona == 1) ? 2 : 3)">
-                            <label>Tipo de Identificación</label>
+                        <div class="col-md-3">
+                            <label>Identificación</label>
                             @Html.DropDownListFor(u => u.IdTipoIdentificacion, new SelectList(ViewBag.TipoIdentificacion, "IdTipoIdentificacion", "Nombre", Model != null ? (Model.IdTipoIdentificacion != null ? Model.IdTipoIdentificacion : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2" })
+                            @*<select class="form-control col-xs-12 col-sm-12 col-md-12 no-padder rol-accs"
+                                    id="IdTipoIdentificacion" name="IdTipoIdentificacion">
+                                @{ var pTipoIdentificacion = Model != null ? Model.IdTipoIdentificacion : 0;}
+                                @foreach (var iTipo in (List<TipoIdentificacionDTO>)ViewBag.TipoIdentificacion)
+                                {
+                                    <option value="@iTipo.IdTipoIdentificacion" @(iTipo.IdTipoIdentificacion == pTipoIdentificacion ? "selected=selected" : "")>@iTipo.Nombre</option>
+                                }
+                            </select>*@
                             @Html.ValidationMessageFor(u => u.IdTipoIdentificacion, "", new { @style = "color:red;" })
                         </div>
-                        <div class="col-md-@((Model.IdTipoEntidad == 1 && Model.TipoPersona == 1) ? 2 : 3)">
+                        <div class="col-md-3">
                             <label>Nro. de Identificación</label>
                             @Html.TextBoxFor(u => u.NroIdentificacion, new { @class = "form-control", @placeholder = "Ingrese el numero de identificación", @type = "text" })
                             @Html.ValidationMessageFor(u => u.NroIdentificacion, "", new { @style = "color:red;" })
@@ -175,9 +212,18 @@ else { cadena = "Actualizar"; }
                                 <label>Teléfono 2</label>
                                 @Html.TextBoxFor(u => u.Telefono2, new { @class = "form-control", @placeholder = "Ingrese el telefono 2", @type = "text" })
                             </div>
-                            <div class="col-md-6">
+                            @{ 
+                                var hideEM = Model.TipoPersona == 2 ? "" : "hidden";
+                                var hideNC = Model.TipoPersona == 1 ? "" : "hidden";
+                            }
+                            <div id="divEmail" class="col-md-6 @hideEM">
                                 <label>Correo Electrónico</label>
                                 @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Ingrese el Correo Electrónico", @type = "email" })
+                            </div>
+                            <div id="divComercial" class="col-md-6 @hideNC">
+                                <label>Nombre Comercial</label>
+                                @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Nombre comercial", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
                             </div>
                         </div>
                     </div>
