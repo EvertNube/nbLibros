@@ -36,6 +36,8 @@ namespace NubeBooks.Core.DTO
 
         public string NombreTipoEntidad { get; set; }
         public string NombreIdentificacion { get; set; }
+        public string nResponsable { get; set; }
+        public string TipoIdentificacion { get; set; }
         public List<ProyectoDTO> lstProyectos { get; set; }
         public List<ContactoDTO> lstContactos { get; set; }
     }

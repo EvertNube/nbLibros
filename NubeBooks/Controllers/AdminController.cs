@@ -1125,6 +1125,7 @@ namespace NubeBooks.Controllers
             }
             obj = new EntidadResponsableDTO();
             obj.IdEntidadResponsable = 0;
+            obj.TipoPersona = 1;
             obj.IdEmpresa = user.IdEmpresa;
             if (idTipoEntidad != null && idTipoEntidad != 0) obj.IdTipoEntidad = idTipoEntidad;
 
@@ -4633,15 +4634,49 @@ namespace NubeBooks.Controllers
             System.Data.DataTable dt = new System.Data.DataTable();
             dt.Clear();
 
+            dt.Columns.Add("Tipo");
             dt.Columns.Add("Nombre");
-            dt.Columns.Add("Tipo de Documento");
+            dt.Columns.Add("Nombre Comercial");
+            dt.Columns.Add("Tipo de Identificación");
+            dt.Columns.Add("Identificación");
+            dt.Columns.Add("Telefono 1");
+            dt.Columns.Add("Telefono 2");
+            dt.Columns.Add("Dirección");
+            dt.Columns.Add("Crédito (Días)");
+            dt.Columns.Add("Consultor");
+            if(tipo == 2)
+            {
+                dt.Columns.Add("Detracción");
+                dt.Columns.Add("Tipo Bien o Servicio");
+                dt.Columns.Add("Banco");
+                dt.Columns.Add("Cuenta Soles");
+                dt.Columns.Add("Cuenta Dólares");
+            }
+            dt.Columns.Add("Comentario");
             dt.Columns.Add("Estado");
 
             foreach (var obj in lista)
             {
                 System.Data.DataRow row = dt.NewRow();
+                row["Tipo"] = obj.TipoPersona == 1 ? "Jurídica" : "Natural";
                 row["Nombre"] = obj.Nombre;
-                row["Tipo de Documento"] = obj.NombreIdentificacion;
+                row["Nombre Comercial"] = obj.NombreComercial;
+                row["Tipo de Identificación"] = obj.TipoIdentificacion;
+                row["Identificación"] = obj.NroIdentificacion;
+                row["Telefono 1"] = obj.Telefono1;
+                row["Telefono 2"] = obj.Telefono2;
+                row["Dirección"] = obj.Direccion;
+                row["Crédito (Días)"] = obj.Credito;
+                row["Consultor"] = obj.nResponsable;
+                if (tipo == 2)
+                {
+                    row["Detracción"] = obj.Detraccion;
+                    row["Tipo Bien o Servicio"] = obj.Tipo;
+                    row["Banco"] = obj.Banco;
+                    row["Cuenta Soles"] = obj.CuentaSoles;
+                    row["Cuenta Dólares"] = obj.CuentaDolares;
+                }
+                row["Comentario"] = obj.Comentario;
                 row["Estado"] = obj.Estado ? "Activo" : "Inactivo";
                 dt.Rows.Add(row);
             }
