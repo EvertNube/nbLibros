@@ -2328,19 +2328,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2016 13:31:29</publishTime>
     </File>
     <File Include="Views/Admin/Comprobante.cshtml">
-      <publishTime>06/17/2016 17:28:14</publishTime>
+      <publishTime>06/22/2016 16:23:02</publishTime>
     </File>
     <File Include="Views/Admin/Comprobantes.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/ComprobantesAnulados.cshtml">
-      <publishTime>06/01/2016 16:59:19</publishTime>
+      <publishTime>06/22/2016 16:21:51</publishTime>
     </File>
     <File Include="Views/Admin/ComprobantesEgreso.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/22/2016 16:23:48</publishTime>
     </File>
     <File Include="Views/Admin/ComprobantesIngreso.cshtml">
-      <publishTime>05/18/2016 12:47:04</publishTime>
+      <publishTime>06/22/2016 16:23:29</publishTime>
     </File>
     <File Include="Views/Admin/Contacto.cshtml">
       <publishTime>06/20/2016 18:00:01</publishTime>
@@ -2358,7 +2358,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/22/2016 13:24:41</publishTime>
     </File>
     <File Include="Views/Admin/EntidadesProveedores.cshtml">
-      <publishTime>06/22/2016 13:24:41</publishTime>
+      <publishTime>06/22/2016 16:20:17</publishTime>
     </File>
     <File Include="Views/Admin/ForgotPassword.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
@@ -2376,19 +2376,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/18/2016 12:47:04</publishTime>
     </File>
     <File Include="Views/Admin/InventariosEgreso.cshtml">
-      <publishTime>06/13/2016 13:59:27</publishTime>
+      <publishTime>06/22/2016 16:21:15</publishTime>
     </File>
     <File Include="Views/Admin/InventariosIngreso.cshtml">
-      <publishTime>06/13/2016 13:59:19</publishTime>
+      <publishTime>06/22/2016 16:20:59</publishTime>
     </File>
     <File Include="Views/Admin/Item.cshtml">
-      <publishTime>06/17/2016 13:31:29</publishTime>
+      <publishTime>06/22/2016 16:11:21</publishTime>
     </File>
     <File Include="Views/Admin/Items.cshtml">
-      <publishTime>06/22/2016 15:16:47</publishTime>
+      <publishTime>06/22/2016 15:46:48</publishTime>
     </File>
     <File Include="Views/Admin/Libro.cshtml">
-      <publishTime>05/19/2016 17:48:21</publishTime>
+      <publishTime>06/22/2016 16:26:27</publishTime>
     </File>
     <File Include="Views/Admin/Libros.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
@@ -2400,10 +2400,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/14/2016 17:10:48</publishTime>
     </File>
     <File Include="Views/Admin/Movimiento.cshtml">
-      <publishTime>06/20/2016 14:56:14</publishTime>
+      <publishTime>06/22/2016 16:25:18</publishTime>
     </File>
     <File Include="Views/Admin/MovimientoInv.cshtml">
-      <publishTime>06/01/2016 15:12:50</publishTime>
+      <publishTime>06/22/2016 16:18:16</publishTime>
     </File>
     <File Include="Views/Admin/Movimientos.cshtml">
       <publishTime>05/18/2016 12:47:04</publishTime>
