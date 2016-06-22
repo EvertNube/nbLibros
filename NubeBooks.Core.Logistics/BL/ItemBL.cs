@@ -26,7 +26,8 @@ namespace NubeBooks.Core.Logistics.BL
                     Estado = x.Estado,
                     IdEmpresa = x.IdEmpresa,
                     nMoneda = x.Moneda.Nombre,
-                    simboloMoneda = x.Moneda.Simbolo
+                    simboloMoneda = x.Moneda.Simbolo,
+                    Precio = x.Precio
                 }).ToList();
                 return result;
             }
@@ -47,7 +48,8 @@ namespace NubeBooks.Core.Logistics.BL
                     Estado = x.Estado,
                     IdEmpresa = x.IdEmpresa,
                     nMoneda = x.Moneda.Nombre,
-                    simboloMoneda = x.Moneda.Simbolo
+                    simboloMoneda = x.Moneda.Simbolo,
+                    Precio = x.Precio
                 }).ToList();
                 return result;
             }
