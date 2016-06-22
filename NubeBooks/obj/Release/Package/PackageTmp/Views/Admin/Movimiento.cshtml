@@ -282,9 +282,6 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label>Tipo de Cambio</label>
                             @Html.TextBoxFor(u => u.TipoCambio, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "Tipo de Cambio", @type = "text", @ui_jq = "TouchSpin", @data_min = "0", @data_max = "10", @data_step = "0.01", @data_decimals = "2", @data_prefix = ViewBag.SimboloMoneda, @style = "display: block;", @onkeypress = "return CheckNumericValue(event)" })
-                            @*<div class="input-group bootstrap-touchspin">
-                                    <input ui-jq="TouchSpin" type="text" value="3.30" class="form-control" data-min="0" data-max="10" data-step="0.01" data-decimals="2" data-prefix="@ViewBag.SimboloMoneda" style="display: block;">
-                                </div>*@
                             @Html.ValidationMessageFor(u => u.TipoCambio, "", new { @style = "color:red;" })
                         </div>
                         <div class="col-md-3">

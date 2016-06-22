@@ -187,6 +187,11 @@
     <Property Name="CuentaSoles" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="CuentaDolares" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Credito" Type="Int32" />
+    <Property Name="TipoPersona" Type="Int32" />
+    <Property Name="Telefono1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Telefono2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Comentario" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_EntidadResponsable" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="Comprobante1" Relationship="Self.FK_Comprobante_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Comprobante" />
     <NavigationProperty Name="Contacto" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="EntidadResponsable" ToRole="Contacto" />
@@ -411,16 +416,6 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Moneda" Relationship="Self.FK_Servicio_Moneda" FromRole="Servicio" ToRole="Moneda" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="TipoComprobante">
     <Key>
@@ -1232,7 +1227,6 @@
     <EntitySet Name="Responsable" EntityType="Self.Responsable" />
     <EntitySet Name="Rol" EntityType="Self.Rol" />
     <EntitySet Name="Servicio" EntityType="Self.Servicio" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TipoComprobante" EntityType="Self.TipoComprobante" />
     <EntitySet Name="TipoCuenta" EntityType="Self.TipoCuenta" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" />
@@ -1484,22 +1478,6 @@
       <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
       <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="sp_alterdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_creatediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="version" Mode="In" Type="Int32" />
-      <Parameter Name="definition" Mode="In" Type="Binary" />
-    </FunctionImport>
-    <FunctionImport Name="sp_dropdiagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="SP_Get_Arbol_Categoria" ReturnType="Collection(LibrosDBModel.SP_Get_Arbol_Categoria_Result)">
       <Parameter Name="IdCategoria" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -1553,19 +1531,6 @@
       <Parameter Name="IdCuentaB" Mode="In" Type="Int32" />
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(LibrosDBModel.sp_helpdiagramdefinition_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(LibrosDBModel.sp_helpdiagrams_Result)">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="sp_renamediagram">
-      <Parameter Name="diagramname" Mode="In" Type="String" />
-      <Parameter Name="owner_id" Mode="In" Type="Int32" />
-      <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="SP_Rep_AvanceDePresupuesto" ReturnType="Collection(LibrosDBModel.SP_Rep_AvanceDePresupuesto_Result)">
       <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -1630,7 +1595,6 @@
       <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
       <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
     </FunctionImport>
-    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
   <ComplexType Name="SP_Get_Arbol_Categoria_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="true" />
@@ -1725,6 +1689,7 @@
     <Property Type="Int32" Name="Cantidad" Nullable="false" />
     <Property Type="String" Name="UnidadMedida" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="nEntidadResponsable" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="nUbicacion" Nullable="true" MaxLength="150" />
     <Property Type="DateTime" Name="FechaInicial" Nullable="false" Precision="23" />
     <Property Type="DateTime" Name="FechaFin" Nullable="true" Precision="23" />
     <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
@@ -1786,17 +1751,6 @@
     <Property Type="Decimal" Name="Detraccion" Nullable="true" Precision="18" Scale="2" />
     <Property Type="String" Name="Tipo" Nullable="true" MaxLength="250" />
   </ComplexType>
-  <ComplexType Name="sp_helpdiagramdefinition_Result">
-    <Property Type="Int32" Name="version" Nullable="true" />
-    <Property Type="Binary" Name="definition" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="sp_helpdiagrams_Result">
-    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-    <Property Type="Int32" Name="ID" Nullable="false" />
-    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-    <Property Type="Int32" Name="OwnerID" Nullable="false" />
-  </ComplexType>
   <ComplexType Name="SP_Rep_AvanceDePresupuesto_Result">
     <Property Type="Int32" Name="IdCategoria" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -1854,6 +1808,11 @@
     <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="Credito" Nullable="true" />
+    <Property Type="Int32" Name="TipoPersona" Nullable="true" />
+    <Property Type="String" Name="Telefono1" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
     <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>
@@ -1891,6 +1850,11 @@
     <Property Type="String" Name="CuentaSoles" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="CuentaDolares" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="Credito" Nullable="true" />
+    <Property Type="Int32" Name="TipoPersona" Nullable="true" />
+    <Property Type="String" Name="Telefono1" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Telefono2" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
     <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
     <Property Type="Decimal" Name="MontoSinIGV" Nullable="true" Precision="18" Scale="0" />
   </ComplexType>

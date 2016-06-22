@@ -52,8 +52,10 @@
 }" class="table table-striped b-t b-b dataTable">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width:25%">Nombre</th>
-                        <th class="text-center" style="width:25%">Tipo Documento</th>
+                        <th >Tipo</th>
+                        <th style="width:25%">Nombre</th>
+                        <th style="width:25%">Identificación</th>
+                        <th>Teléfono</th>
                         <th class="text-center" style="width:25%">Estado</th>
                         <th style="width:8%"></th>
                     </tr>
@@ -64,8 +66,10 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-center">@item.Nombre</td>
-                                <td class="text-center">@item.NombreIdentificacion</td>
+                                <td>@(item.TipoPersona == 1 ? "Jurídica" : "Natural")</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.NombreIdentificacion</td>
+                                <td>@item.Telefono1</td>
                                 @{ var eColor = item.Estado ? "#27c24c" : "red"; }
                                 <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
