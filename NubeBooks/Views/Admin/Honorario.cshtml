@@ -5,10 +5,10 @@
 }
 
 @{var cadena = "";}
-@if (Model == null || Model.IdHonorario == 0) { cadena = "Nuevo"; }
+@if (Model == null || Model.IdHonorario == 0) { cadena = "Nueva"; }
 else { cadena = "Actualizar"; }
 <div class="bg-light lter b-b wrapper-md">
-    <h1 class="m-n font-thin h3">@cadena Honorario</h1>
+    <h1 class="m-n font-thin h3">@cadena Forma de Pago</h1>
 </div>
 <div class="wrapper-md" ng-controller="FormDemoCtrl">
     <div class="panel panel-default">

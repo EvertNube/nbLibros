@@ -68,6 +68,7 @@
             var jsTipoPersonaVal = $("#TipoPersona option:selected").val();
             if (jsTipoPersonaVal == 1)
             {
+                $('#lblNombre').text("Razón Social");
                 if ($('#divComercial').hasClass('hidden')) { $('#divComercial').removeClass('hidden'); $('#divEmail').addClass('hidden'); }
                 activarTiposIdentificacion();
                 if('@Model.IdTipoEntidad' == 2)
@@ -78,6 +79,7 @@
             }
             else
             {
+                $('#lblNombre').text("Apellidos - Nombre");
                 if ($('#divEmail').hasClass('hidden')) { $('#divEmail').removeClass('hidden'); $('#divComercial').addClass('hidden'); }
                 desactivarTiposIdentificacion();
                 if ('@Model.IdTipoEntidad' == 2)
@@ -143,7 +145,7 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             @*<label>Razón Social</label>*@
-                            <label>@(Model.IdTipoEntidad == 1 ? (Model.TipoPersona == 1 ? "Razón Social" : "Apellidos - Nombre") : "Razón Social")</label>
+                            <label id="lblNombre" >@(Model.IdTipoEntidad == 1 ? (Model.TipoPersona == 1 ? "Razón Social" : "Apellidos - Nombre") : "Razón Social")</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Razón social", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
                         </div>
@@ -169,14 +171,6 @@ else { cadena = "Actualizar"; }
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
-                            <label>Teléfono 1</label>
-                            @Html.TextBoxFor(u => u.Telefono1, new { @class = "form-control", @placeholder = "Ingrese el telefono 1", @type = "text" })
-                        </div>
-                        <div class="col-md-3">
-                            <label>Teléfono 2</label>
-                            @Html.TextBoxFor(u => u.Telefono2, new { @class = "form-control", @placeholder = "Ingrese el telefono 2", @type = "text" })
-                        </div>
                         @{ 
                             var hideEM = Model.TipoPersona == 2 ? "" : "hidden";
                             var hideNC = Model.TipoPersona == 1 ? "" : "hidden";
@@ -189,6 +183,14 @@ else { cadena = "Actualizar"; }
                             <label>Nombre Comercial</label>
                             @Html.TextBoxFor(u => u.NombreComercial, new { @class = "form-control", @placeholder = "Nombre comercial", @type = "text" })
                             @Html.ValidationMessageFor(u => u.NombreComercial, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Teléfono 1</label>
+                            @Html.TextBoxFor(u => u.Telefono1, new { @class = "form-control", @placeholder = "Ingrese el telefono 1", @type = "text" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>Teléfono 2</label>
+                            @Html.TextBoxFor(u => u.Telefono2, new { @class = "form-control", @placeholder = "Ingrese el telefono 2", @type = "text" })
                         </div>
                     </div>
                 </div>
@@ -332,7 +334,7 @@ else { cadena = "Actualizar"; }
                     <thead>
                         <tr>
                             <th width="15%">Nombre</th>
-                            <th class="text-center">Email</th>
+                            <th class="text-center">Correo Electrónico</th>
                             <th class="text-center">Cargo</th>
                             <th class="text-center">Teléfono</th>
                             <th class="text-center">Celular</th>
