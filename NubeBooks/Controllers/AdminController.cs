@@ -2390,7 +2390,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title = "Honorarios";
+            ViewBag.Title = "Formas de Pago";
             MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
@@ -2414,7 +2414,7 @@ namespace NubeBooks.Controllers
         {
             if (!this.currentUser()) { return RedirectToAction("Ingresar"); }
             if (!this.isAdministrator()) { return RedirectToAction("Index"); }
-            ViewBag.Title = "Honorario";
+            ViewBag.Title = "Forma de Pago";
             MenuNavBarSelected(7);
 
             UsuarioDTO currentUser = getCurrentUser();
