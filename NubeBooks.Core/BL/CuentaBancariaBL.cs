@@ -56,6 +56,7 @@ namespace NubeBooks.Core.BL
                 return result;
             }
         }
+
         public List<CuentaBancariaDTO> getCuentasBancariasEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())

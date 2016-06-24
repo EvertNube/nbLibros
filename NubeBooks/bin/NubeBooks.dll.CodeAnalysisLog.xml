@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
+ <Targets>
+  <Target Name="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\bin\NubeBooks.dll">
+   <Modules>
+    <Module Name="nubebooks.dll">
+     <Namespaces>
+      <Namespace Name="NubeBooks.Controllers">
+       <Types>
+        <Type Name="AdminController" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#GenerarPdf(System.Data.DataTable,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.DateTime&gt;,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4040">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf(DataTable, string, string, EmpresaDTO, DateTime?, DateTime?, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4040</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarPdf2(System.Data.DataTable,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.DateTime&gt;,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4076">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf2(DataTable, string, string, EmpresaDTO, DateTime?, DateTime?, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4076</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarPdf3(System.Data.DataTable,System.String,System.String,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.DateTime&gt;,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4114">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf3(DataTable, string, string, string, string, EmpresaDTO, DateTime?, DateTime?, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4114</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarPdf4(System.Data.DataTable,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.DateTime&gt;,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4150">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf4(DataTable, string, string, EmpresaDTO, DateTime?, DateTime?, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4150</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarPdf5(System.Data.DataTable,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4184">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf5(DataTable, string, string, EmpresaDTO, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4184</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarPdf6(System.Data.DataTable,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4220">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf6(DataTable, string, string, EmpresaDTO, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4220</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarPdf7(System.Data.DataTable,System.String,System.String,NubeBooks.Core.DTO.EmpresaDTO,System.Nullable`1&lt;System.DateTime&gt;,System.Web.HttpResponseBase)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="4256">Object 'sw' can be disposed more than once in method 'AdminController.GenerarPdf7(DataTable, string, string, EmpresaDTO, DateTime?, HttpResponseBase)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4256</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarRep_AvanceDePresupuesto(System.DateTime,System.DateTime,System.Int32)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="3171">Object 'sw' can be disposed more than once in method 'AdminController.GenerarRep_AvanceDePresupuesto(DateTime, DateTime, int)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 3171</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarRep_EgresosPorAreas(System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.DateTime&gt;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="3246">Object 'sw' can be disposed more than once in method 'AdminController.GenerarRep_EgresosPorAreas(DateTime?, DateTime?)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 3246</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GenerarRep_FacturacionPorAreas(System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.DateTime&gt;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-06-23 19:21:30Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks\Controllers" File="AdminController.cs" Line="3321">Object 'sw' can be disposed more than once in method 'AdminController.GenerarRep_FacturacionPorAreas(DateTime?, DateTime?)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 3321</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202">
+   <Name>Do not dispose objects multiple times</Name>
+   <Description>A correctly implemented Dispose method can be called multiple times without throwing an exception. However, this is not guaranteed and to avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.</Description>
+   <Resolution Name="Default">Object {0} can be disposed more than once in method {1}. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 4184</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182334.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="14.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

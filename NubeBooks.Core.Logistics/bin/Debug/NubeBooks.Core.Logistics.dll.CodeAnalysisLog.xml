@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
+ <Targets>
+  <Target Name="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\bin\Debug\NubeBooks.Core.Logistics.dll">
+   <Modules>
+    <Module Name="nubebooks.core.logistics.dll">
+     <Namespaces>
+      <Namespace Name="NubeBooks.Core.Logistics.BL">
+       <Types>
+        <Type Name="CategoriaItmBL" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#add(NubeBooks.Core.Logistics.DTO.CategoriaItmDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="CategoriaItmBL.cs" Line="84">'CategoriaItmBL.add(CategoriaItmDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#update(NubeBooks.Core.Logistics.DTO.CategoriaItmDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="CategoriaItmBL.cs" Line="103">'CategoriaItmBL.update(CategoriaItmDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ItemBL" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#add(NubeBooks.Core.Logistics.DTO.ItemDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="ItemBL.cs" Line="119">'ItemBL.add(ItemDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#update(NubeBooks.Core.Logistics.DTO.ItemDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="ItemBL.cs" Line="144">'ItemBL.update(ItemDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="MovimientoInvBL" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#add(NubeBooks.Core.Logistics.DTO.MovimientoInvDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="MovimientoInvBL.cs" Line="177">'MovimientoInvBL.add(MovimientoInvDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#delete(System.Int32)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="MovimientoInvBL.cs" Line="226">'MovimientoInvBL.delete(int)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#update(NubeBooks.Core.Logistics.DTO.MovimientoInvDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="MovimientoInvBL.cs" Line="208">'MovimientoInvBL.update(MovimientoInvDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ServicioBL" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#add(NubeBooks.Core.Logistics.DTO.ServicioDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="ServicioBL.cs" Line="110">'ServicioBL.add(ServicioDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#update(NubeBooks.Core.Logistics.DTO.ServicioDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="ServicioBL.cs" Line="133">'ServicioBL.update(ServicioDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="UbicacionBL" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#add(NubeBooks.Core.Logistics.DTO.UbicacionDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="UbicacionBL.cs" Line="84">'UbicacionBL.add(UbicacionDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#update(NubeBooks.Core.Logistics.DTO.UbicacionDTO)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2016-06-23 19:21:20Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Core.Logistics\BL" File="UbicacionBL.cs" Line="103">'UbicacionBL.update(UbicacionDTO)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200">
+   <Name>Rethrow to preserve stack details</Name>
+   <Description>Use the IL rethrow instruction to preserve original stack details when re-raising a caught exception.</Description>
+   <Resolution Name="Default">{0} rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182363.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

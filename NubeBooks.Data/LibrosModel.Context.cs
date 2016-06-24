@@ -35,6 +35,7 @@ namespace NubeBooks.Data
         public virtual DbSet<Comprobante> Comprobante { get; set; }
         public virtual DbSet<Contacto> Contacto { get; set; }
         public virtual DbSet<CuentaBancaria> CuentaBancaria { get; set; }
+        public virtual DbSet<DetalleProforma> DetalleProforma { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<EntidadResponsable> EntidadResponsable { get; set; }
         public virtual DbSet<EstadoMovimiento> EstadoMovimiento { get; set; }
@@ -47,6 +48,7 @@ namespace NubeBooks.Data
         public virtual DbSet<Movimiento> Movimiento { get; set; }
         public virtual DbSet<MovimientoInv> MovimientoInv { get; set; }
         public virtual DbSet<Periodo> Periodo { get; set; }
+        public virtual DbSet<Proforma> Proforma { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Responsable> Responsable { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }

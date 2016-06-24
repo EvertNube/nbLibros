@@ -19,6 +19,7 @@ namespace NubeBooks.Data
         {
             this.Comprobante = new HashSet<Comprobante>();
             this.EntidadResponsable = new HashSet<EntidadResponsable>();
+            this.Proforma = new HashSet<Proforma>();
             this.Proyecto = new HashSet<Proyecto>();
         }
     
@@ -33,6 +34,8 @@ namespace NubeBooks.Data
         public virtual Empresa Empresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EntidadResponsable> EntidadResponsable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proforma> Proforma { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyecto> Proyecto { get; set; }
     }

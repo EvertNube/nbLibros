@@ -53,13 +53,16 @@
     <Compile Include="BL\CategoriaItmBL.cs" />
     <Compile Include="BL\ItemBL.cs" />
     <Compile Include="BL\MovimientoInvBL.cs" />
+    <Compile Include="BL\ProformaBL.cs" />
     <Compile Include="BL\Reportes_InventariosBL.cs" />
     <Compile Include="BL\ServicioBL.cs" />
     <Compile Include="BL\UbicacionBL.cs" />
     <Compile Include="DTO\CategoriaItmDTO.cs" />
+    <Compile Include="DTO\DetalleProformaDTO.cs" />
     <Compile Include="DTO\FormaMovimientoInvDTO.cs" />
     <Compile Include="DTO\ItemDTO.cs" />
     <Compile Include="DTO\MovimientoInvDTO.cs" />
+    <Compile Include="DTO\ProformaDTO.cs" />
     <Compile Include="DTO\ServicioDTO.cs" />
     <Compile Include="DTO\StockLoteDTO.cs" />
     <Compile Include="DTO\TipoMovimientoInvDTO.cs" />

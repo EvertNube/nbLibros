@@ -228,6 +228,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Proformas\Scripts\Proforma\EditProforma.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
@@ -657,6 +658,9 @@
     <Content Include="Content\themes\admin\images\thumb_3.png" />
     <Content Include="Content\themes\admin\js\apps\Admin.js" />
     <Content Include="Content\themes\admin\js\apps\notes.js" />
+    <Content Include="Content\themes\admin\js\cropper\cropper.css" />
+    <Content Include="Content\themes\admin\js\cropper\cropper.js" />
+    <Content Include="Content\themes\admin\js\cropper\cropper.min.js" />
     <Content Include="Content\themes\admin\js\datatables\css\dataTables.bootstrap.css" />
     <Content Include="Content\themes\admin\js\datatables\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\themes\admin\js\datatables\css\dataTables.foundation.css" />
@@ -925,6 +929,8 @@
     <Content Include="Content\themes\admin-nb\libs\._jquery" />
     <Content Include="Areas\Proformas\Views\web.config" />
     <Content Include="Areas\Proformas\Views\Proforma\Index.cshtml" />
+    <Content Include="Areas\Proformas\Views\Proforma\NuevaProforma.cshtml" />
+    <Content Include="Areas\Proformas\Views\Proforma\Proforma.cshtml" />
     <None Include="Properties\PublishProfiles\NubeBooks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

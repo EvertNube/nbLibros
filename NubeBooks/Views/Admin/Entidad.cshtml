@@ -75,6 +75,7 @@
                 {
                     if ($('#divDetraccion').hasClass('hidden')) { $('#divDetraccion').removeClass('hidden'); }
                     if ($('#divTipo').hasClass('hidden')) { $('#divTipo').removeClass('hidden'); }
+                    if ($('#divCredito').hasClass('col-md-6')) { $('#divCredito').toggleClass("col-md-3 col-md-6") }
                 }
             }
             else
@@ -86,6 +87,7 @@
                 {
                     if (!$('#divDetraccion').hasClass('hidden')) { $('#divDetraccion').addClass('hidden'); }
                     if (!$('#divTipo').hasClass('hidden')) { $('#divTipo').addClass('hidden'); }
+                    if ($('#divCredito').hasClass('col-md-3')) { $('#divCredito').toggleClass("col-md-3 col-md-6") }
                 }
             }
         }
@@ -200,7 +202,14 @@ else { cadena = "Actualizar"; }
                             <label>Dirección</label>
                             @Html.TextBoxFor(u => u.Direccion, new { @class = "form-control", @placeholder = "Ingrese la dirección", @type = "text" })
                         </div>
-                        <div class="col-md-3">
+                        @{
+                            var colCredito = 3;
+                            if(Model.IdTipoEntidad == 2)
+                            {
+                                colCredito = Model.TipoPersona == 1 ? 3 : 6;
+                            }
+                        }
+                        <div id="divCredito" class="col-md-@colCredito">
                             <label>Crédito (Días)</label>
                             <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
                                     id="Credito" name="Credito">
@@ -215,39 +224,42 @@ else { cadena = "Actualizar"; }
                                 }
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label>Consultor</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
-                                    id="IdResponsable" name="IdResponsable">
-                                @{ var pResponsable = Model != null ? Model.IdResponsable : 0; }
-                                <option value=""></option>
-                                @foreach (var resp in (List<ResponsableDTO>)ViewBag.lstResponsables)
-                                {
-                                    <option value="@resp.IdResponsable" @(resp.IdResponsable == pResponsable ? "selected=selected" : "")>@resp.Nombre</option>
-                                }
-                            </select>
-                            @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
-                        </div>
+                        @if (Model.IdTipoEntidad == 1)
+                        {
+                            <div class="col-md-3">
+                                <label>Consultor</label>
+                                <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs"
+                                        id="IdResponsable" name="IdResponsable">
+                                    @{ var pResponsable = Model != null ? Model.IdResponsable : 0; }
+                                    <option value=""></option>
+                                    @foreach (var resp in (List<ResponsableDTO>)ViewBag.lstResponsables)
+                                    {
+                                        <option value="@resp.IdResponsable" @(resp.IdResponsable == pResponsable ? "selected=selected" : "")>@resp.Nombre</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(u => u.IdResponsable, "", new { @style = "color:red;" })
+                            </div>
+                        } else
+                        {
+                            var hideDS = Model.TipoPersona == 1 ? "" : "hidden";
+                            <div id="divDetraccion" class="col-md-1 @hideDS">
+                                <label>Detracción</label>
+                                @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "0.00%", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
+                                @Html.ValidationMessageFor(u => u.Detraccion, "", new { @style = "color:red;" })
+                            </div>
+                            <div id="divTipo" class="col-md-2 @hideDS">
+                                <label>Tipo de bien o servicio</label>
+                                @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Nombre", @type = "text" })
+                                @Html.ValidationMessageFor(u => u.Tipo, "", new { @style = "color:red;" })
+                            </div>
+                        }
                     </div>
                 </div>
                 if (Model != null && Model.IdTipoEntidad == 2)
                 {
                     <div class="form-group">
                         <div class="row">
-                            @{
-                                var hideDS = Model.TipoPersona == 1 ? "" : "hidden";
-                            }
-                            <div id="divDetraccion" class="col-md-1 @hideDS">
-                                <label>Detracción</label>
-                                @Html.TextBoxFor(u => u.Detraccion, new { @class = "form-control", @placeholder = "Detracción", @type = "text", @onkeypress = "return CheckNumericValue(event)" })
-                                @Html.ValidationMessageFor(u => u.Detraccion, "", new { @style = "color:red;" })
-                            </div>
-                            <div id="divTipo" class="col-md-2 @hideDS">
-                                <label>Tipo de bien o servicio</label>
-                                @Html.TextBoxFor(u => u.Tipo, new { @class = "form-control", @placeholder = "Tipo de bien o servicio", @type = "text" })
-                                @Html.ValidationMessageFor(u => u.Tipo, "", new { @style = "color:red;" })
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label>Banco</label>
                                 @Html.TextBoxFor(u => u.Banco, new { @class = "form-control", @placeholder = "Nombre del banco", @type = "text" })
                                 @Html.ValidationMessageFor(u => u.Banco, "", new { @style = "color:red;" })

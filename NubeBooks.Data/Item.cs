@@ -17,6 +17,7 @@ namespace NubeBooks.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Item()
         {
+            this.DetalleProforma = new HashSet<DetalleProforma>();
             this.MovimientoInv = new HashSet<MovimientoInv>();
         }
     
@@ -32,6 +33,8 @@ namespace NubeBooks.Data
         public int IdEmpresa { get; set; }
     
         public virtual CategoriaItm CategoriaItm { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetalleProforma> DetalleProforma { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual Moneda Moneda { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

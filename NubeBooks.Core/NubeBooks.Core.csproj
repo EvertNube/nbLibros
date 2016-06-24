@@ -74,7 +74,6 @@
     <Compile Include="BL\MonedaBL.cs" />
     <Compile Include="BL\MovimientoBL.cs" />
     <Compile Include="BL\PeriodoBL.cs" />
-    <Compile Include="BL\ProformaBL.cs" />
     <Compile Include="BL\ProyectoBL.cs" />
     <Compile Include="BL\ReportesBL.cs" />
     <Compile Include="BL\ResponsableBL.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="DTO\MonedaDTO.cs" />
     <Compile Include="DTO\MovimientoDTO.cs" />
     <Compile Include="DTO\PeriodoDTO.cs" />
-    <Compile Include="DTO\ProformaDTO.cs" />
     <Compile Include="DTO\ProyectoDTO.cs" />
     <Compile Include="DTO\ResetPasswordDTO.cs" />
     <Compile Include="DTO\ResponsableDTO.cs" />

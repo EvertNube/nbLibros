@@ -1,0 +1,687 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
+ <Targets>
+  <Target Name="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data\bin\Debug\NubeBooks.Data.dll">
+   <Modules>
+    <Module Name="nubebooks.data.dll">
+     <Namespaces>
+      <Namespace Name="NubeBooks.Data">
+       <Types>
+        <Type Name="Area" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Area.cs" Line="18">'Area.Area()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Area..ctor()&#xD;&#xA;Area.set_AreaPorComprobante(ICollection&lt;AreaPorComprobante&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AreaPorComprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Categoria" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Categoria.cs" Line="18">'Categoria.Categoria()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Categoria..ctor()&#xD;&#xA;Categoria.set_CategoriaPorPeriodo(ICollection&lt;CategoriaPorPeriodo&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Categoria.cs" Line="18">'Categoria.Categoria()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Categoria..ctor()&#xD;&#xA;Categoria.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Categoria.cs" Line="18">'Categoria.Categoria()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Categoria..ctor()&#xD;&#xA;Categoria.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CategoriaPorPeriodo" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="CategoriaItm" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="CategoriaItm.cs" Line="18">'CategoriaItm.CategoriaItm()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;CategoriaItm..ctor()&#xD;&#xA;CategoriaItm.set_Item(ICollection&lt;Item&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Item" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Comprobante" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Comprobante.cs" Line="18">'Comprobante.Comprobante()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Comprobante..ctor()&#xD;&#xA;Comprobante.set_AreaPorComprobante(ICollection&lt;AreaPorComprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Comprobante.cs" Line="18">'Comprobante.Comprobante()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Comprobante..ctor()&#xD;&#xA;Comprobante.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Comprobante.cs" Line="18">'Comprobante.Comprobante()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Comprobante..ctor()&#xD;&#xA;Comprobante.set_Proyecto(ICollection&lt;Proyecto&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AreaPorComprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Proyecto" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="CuentaBancaria" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="CuentaBancaria.cs" Line="18">'CuentaBancaria.CuentaBancaria()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;CuentaBancaria..ctor()&#xD;&#xA;CuentaBancaria.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Empresa" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Area(ICollection&lt;Area&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Categoria(ICollection&lt;Categoria&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_CategoriaItm(ICollection&lt;CategoriaItm&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_CuentaBancaria(ICollection&lt;CuentaBancaria&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_EntidadResponsable(ICollection&lt;EntidadResponsable&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Honorario(ICollection&lt;Honorario&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Item(ICollection&lt;Item&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Responsable(ICollection&lt;Responsable&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Ubicacion(ICollection&lt;Ubicacion&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Empresa.cs" Line="18">'Empresa.Empresa()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Empresa..ctor()&#xD;&#xA;Empresa.set_Usuario(ICollection&lt;Usuario&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Area" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Categoria" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#CategoriaItm" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#CuentaBancaria" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#EntidadResponsable" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Honorario" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Item" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Responsable" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Ubicacion" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Usuario" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="EntidadResponsable" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EntidadResponsable.cs" Line="18">'EntidadResponsable.EntidadResponsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EntidadResponsable..ctor()&#xD;&#xA;EntidadResponsable.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EntidadResponsable.cs" Line="18">'EntidadResponsable.EntidadResponsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EntidadResponsable..ctor()&#xD;&#xA;EntidadResponsable.set_Comprobante1(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EntidadResponsable.cs" Line="18">'EntidadResponsable.EntidadResponsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EntidadResponsable..ctor()&#xD;&#xA;EntidadResponsable.set_Contacto(ICollection&lt;Contacto&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EntidadResponsable.cs" Line="18">'EntidadResponsable.EntidadResponsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EntidadResponsable..ctor()&#xD;&#xA;EntidadResponsable.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EntidadResponsable.cs" Line="18">'EntidadResponsable.EntidadResponsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EntidadResponsable..ctor()&#xD;&#xA;EntidadResponsable.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EntidadResponsable.cs" Line="18">'EntidadResponsable.EntidadResponsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EntidadResponsable..ctor()&#xD;&#xA;EntidadResponsable.set_Proyecto(ICollection&lt;Proyecto&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante1" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Contacto" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Proyecto" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="EstadoMovimiento" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="EstadoMovimiento.cs" Line="18">'EstadoMovimiento.EstadoMovimiento()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;EstadoMovimiento..ctor()&#xD;&#xA;EstadoMovimiento.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="FormaMovimiento" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="FormaMovimiento.cs" Line="18">'FormaMovimiento.FormaMovimiento()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;FormaMovimiento..ctor()&#xD;&#xA;FormaMovimiento.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="FormaMovimientoInv" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="FormaMovimientoInv.cs" Line="18">'FormaMovimientoInv.FormaMovimientoInv()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;FormaMovimientoInv..ctor()&#xD;&#xA;FormaMovimientoInv.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Honorario" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Honorario.cs" Line="18">'Honorario.Honorario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Honorario..ctor()&#xD;&#xA;Honorario.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Item" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Item.cs" Line="18">'Item.Item()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Item..ctor()&#xD;&#xA;Item.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="LogUsuario" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="LogUsuario.cs" Line="18">'LogUsuario.LogUsuario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;LogUsuario..ctor()&#xD;&#xA;LogUsuario.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="LogUsuario.cs" Line="18">'LogUsuario.LogUsuario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;LogUsuario..ctor()&#xD;&#xA;LogUsuario.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="LogUsuario.cs" Line="18">'LogUsuario.LogUsuario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;LogUsuario..ctor()&#xD;&#xA;LogUsuario.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Moneda" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Moneda.cs" Line="18">'Moneda.Moneda()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Moneda..ctor()&#xD;&#xA;Moneda.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Moneda.cs" Line="18">'Moneda.Moneda()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Moneda..ctor()&#xD;&#xA;Moneda.set_CuentaBancaria(ICollection&lt;CuentaBancaria&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Moneda.cs" Line="18">'Moneda.Moneda()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Moneda..ctor()&#xD;&#xA;Moneda.set_Empresa(ICollection&lt;Empresa&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Moneda.cs" Line="18">'Moneda.Moneda()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Moneda..ctor()&#xD;&#xA;Moneda.set_Item(ICollection&lt;Item&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Moneda.cs" Line="18">'Moneda.Moneda()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Moneda..ctor()&#xD;&#xA;Moneda.set_Servicio(ICollection&lt;Servicio&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#CuentaBancaria" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Empresa" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Item" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Servicio" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Periodo" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Periodo.cs" Line="18">'Periodo.Periodo()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Periodo..ctor()&#xD;&#xA;Periodo.set_CategoriaPorPeriodo(ICollection&lt;CategoriaPorPeriodo&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Periodo.cs" Line="18">'Periodo.Periodo()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Periodo..ctor()&#xD;&#xA;Periodo.set_Empresa(ICollection&lt;Empresa&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CategoriaPorPeriodo" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Empresa" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Proyecto" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Proyecto.cs" Line="18">'Proyecto.Proyecto()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Proyecto..ctor()&#xD;&#xA;Proyecto.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Responsable" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Responsable.cs" Line="18">'Responsable.Responsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Responsable..ctor()&#xD;&#xA;Responsable.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Responsable.cs" Line="18">'Responsable.Responsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Responsable..ctor()&#xD;&#xA;Responsable.set_EntidadResponsable(ICollection&lt;EntidadResponsable&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Responsable.cs" Line="18">'Responsable.Responsable()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Responsable..ctor()&#xD;&#xA;Responsable.set_Proyecto(ICollection&lt;Proyecto&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#EntidadResponsable" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Proyecto" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Rol" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Rol.cs" Line="18">'Rol.Rol()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Rol..ctor()&#xD;&#xA;Rol.set_Usuario(ICollection&lt;Usuario&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Usuario" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoComprobante" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoComprobante.cs" Line="18">'TipoComprobante.TipoComprobante()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoComprobante..ctor()&#xD;&#xA;TipoComprobante.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoCuenta" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoCuenta.cs" Line="18">'TipoCuenta.TipoCuenta()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoCuenta..ctor()&#xD;&#xA;TipoCuenta.set_CuentaBancaria(ICollection&lt;CuentaBancaria&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CuentaBancaria" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoDocumento" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoDocumento.cs" Line="18">'TipoDocumento.TipoDocumento()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoDocumento..ctor()&#xD;&#xA;TipoDocumento.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoDocumento.cs" Line="18">'TipoDocumento.TipoDocumento()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoDocumento..ctor()&#xD;&#xA;TipoDocumento.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoEntidad" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoEntidad.cs" Line="18">'TipoEntidad.TipoEntidad()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoEntidad..ctor()&#xD;&#xA;TipoEntidad.set_EntidadResponsable(ICollection&lt;EntidadResponsable&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EntidadResponsable" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoIdentificacion" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoIdentificacion.cs" Line="18">'TipoIdentificacion.TipoIdentificacion()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoIdentificacion..ctor()&#xD;&#xA;TipoIdentificacion.set_EntidadResponsable(ICollection&lt;EntidadResponsable&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#EntidadResponsable" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoMovimiento" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoMovimiento.cs" Line="18">'TipoMovimiento.TipoMovimiento()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoMovimiento..ctor()&#xD;&#xA;TipoMovimiento.set_FormaMovimiento(ICollection&lt;FormaMovimiento&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#FormaMovimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TipoMovimientoInv" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="TipoMovimientoInv.cs" Line="18">'TipoMovimientoInv.TipoMovimientoInv()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;TipoMovimientoInv..ctor()&#xD;&#xA;TipoMovimientoInv.set_FormaMovimientoInv(ICollection&lt;FormaMovimientoInv&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#FormaMovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Ubicacion" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Ubicacion.cs" Line="18">'Ubicacion.Ubicacion()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Ubicacion..ctor()&#xD;&#xA;Ubicacion.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Usuario" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Usuario.cs" Line="18">'Usuario.Usuario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Usuario..ctor()&#xD;&#xA;Usuario.set_Comprobante(ICollection&lt;Comprobante&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Usuario.cs" Line="18">'Usuario.Usuario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Usuario..ctor()&#xD;&#xA;Usuario.set_Movimiento(ICollection&lt;Movimiento&gt;):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="C:\Archivos\Personal_Pro\NubeLabs\nbLibros\NubeBooks.Data" File="Usuario.cs" Line="18">'Usuario.Usuario()' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Usuario..ctor()&#xD;&#xA;Usuario.set_MovimientoInv(ICollection&lt;MovimientoInv&gt;):Void</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Comprobante" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#Movimiento" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+          <Member Name="#MovimientoInv" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="ExcludedInSource" Created="2016-06-23 19:21:08Z" FixCategory="Breaking" LastSeen="0001-01-01 00:00:00Z" />
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227">
+   <Name>Collection properties should be read only</Name>
+   <Description>Properties that return collections should be read-only so that users cannot entirely replace the backing store. Users can still modify the contents of the collection by calling relevant methods on the collection. Note that the XmlSerializer class has special support for deserializing read-only collections. See the XmlSerializer overview for more information.</Description>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182327.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
+   <Name>Do not call overridable methods in constructors</Name>
+   <Description>Virtual methods defined on the class should not be called from constructors. If a derived class has overridden the method, the derived class version will be called (before the derived class constructor is called).</Description>
+   <Resolution Name="Default">{0} contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: {1}</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182331.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalWarning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>
