@@ -333,6 +333,19 @@ namespace NubeBooks.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result>("SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar", idTipoComprobanteParameter, idEmpresaParameter, fechaInicioParameter, fechaFinParameter);
         }
     
+        public virtual ObjectResult<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result> SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total(Nullable<int> idTipoComprobante, Nullable<int> idEmpresa)
+        {
+            var idTipoComprobanteParameter = idTipoComprobante.HasValue ?
+                new ObjectParameter("IdTipoComprobante", idTipoComprobante) :
+                new ObjectParameter("IdTipoComprobante", typeof(int));
+    
+            var idEmpresaParameter = idEmpresa.HasValue ?
+                new ObjectParameter("IdEmpresa", idEmpresa) :
+                new ObjectParameter("IdEmpresa", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result>("SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total", idTipoComprobanteParameter, idEmpresaParameter);
+        }
+    
         public virtual ObjectResult<SP_Rep_EgresosPorAreas_Result> SP_Rep_EgresosPorAreas(Nullable<int> idArea, Nullable<int> idEmpresa, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idAreaParameter = idArea.HasValue ?

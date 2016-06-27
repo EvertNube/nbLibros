@@ -1451,6 +1451,10 @@
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTipoComprobante" Type="int" Mode="In" />
+          <Parameter Name="IdEmpresa" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Rep_EgresosPorAreas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdArea" Type="int" Mode="In" />
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
@@ -3474,6 +3478,10 @@
             <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total" ReturnType="Collection(LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result)">
+            <Parameter Name="IdTipoComprobante" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="SP_Rep_EgresosPorAreas" ReturnType="Collection(LibrosDBModel.SP_Rep_EgresosPorAreas_Result)">
             <Parameter Name="IdArea" Mode="In" Type="Int32" />
             <Parameter Name="IdEmpresa" Mode="In" Type="Int32" />
@@ -3701,6 +3709,10 @@
           <Property Type="String" Name="Comentario" Nullable="true" MaxLength="500" />
         </ComplexType>
         <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
+          <Property Type="Int32" Name="IdComprobante" Nullable="false" />
+          <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result">
           <Property Type="Int32" Name="IdComprobante" Nullable="false" />
           <Property Type="Decimal" Name="MontoIncompleto" Nullable="true" Precision="18" Scale="4" />
         </ComplexType>
@@ -4535,6 +4547,14 @@
           <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
+                <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+                <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result">
                 <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
                 <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
               </ComplexTypeMapping>

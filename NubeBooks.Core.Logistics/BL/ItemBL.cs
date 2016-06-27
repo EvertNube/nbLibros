@@ -27,7 +27,8 @@ namespace NubeBooks.Core.Logistics.BL
                     IdEmpresa = x.IdEmpresa,
                     nMoneda = x.Moneda.Nombre,
                     simboloMoneda = x.Moneda.Simbolo,
-                    Precio = x.Precio
+                    Precio = x.Precio,
+                    nCategoriaItem = x.CategoriaItm.Nombre
                 }).ToList();
                 return result;
             }

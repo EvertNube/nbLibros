@@ -57,7 +57,6 @@
                         <th  style="width:25%">Identificación</th>
                         <th>Teléfono</th>
                         <th >Detracción</th>
-                        <th >Bien o Servicio</th>
                         <th class="text-center" style="width:10%">Estado</th>
                         <th style="width:8%"></th>
                     </tr>
@@ -73,7 +72,6 @@
                                 <td >@item.NombreIdentificacion</td>
                                 <td>@item.Telefono1</td>
                                 <td class="text-center">@item.Detraccion.GetValueOrDefault().ToString("0.##") %</td>
-                                <td >@item.Tipo</td>
                                 @{ var eColor = item.Estado ? "#27c24c" : "red"; }
                                 <td class="text-center" style="color:@(eColor)">@(item.Estado ? "Activo" : "Inactivo" )</td>
                                 @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }

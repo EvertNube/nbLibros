@@ -718,6 +718,12 @@ namespace NubeBooks.Core.BL
             {
                 DateTime FechaActual = DateTime.Now;
 
+                var lstMontosIncompletos = context.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total(idTipoComprobante, idEmpresa).Select(x => new ComprobanteDTO
+                {
+                    IdComprobante = x.IdComprobante,
+                    MontoIncompleto = x.MontoIncompleto.GetValueOrDefault()
+                }).ToList<ComprobanteDTO>();
+
                 var result = context.Comprobante.Where(x => x.IdEmpresa == idEmpresa && x.IdTipoComprobante == idTipoComprobante && x.Estado && x.IdTipoDocumento < 9).Select(x => new ComprobanteDTO
                 {
                     IdComprobante = x.IdComprobante,
@@ -757,6 +763,7 @@ namespace NubeBooks.Core.BL
 
                 foreach (var item in lista)
                 {
+                    item.MontoIncompleto = lstMontosIncompletos.SingleOrDefault(r => r.IdComprobante == item.IdComprobante).MontoIncompleto;
                     item.diasVencidos = item.Ejecutado ? 0 : (item.FechaConclusion != null) ? (FechaActual - item.FechaConclusion.GetValueOrDefault()).Days : new int?();
                 }
 
@@ -767,10 +774,10 @@ namespace NubeBooks.Core.BL
         public List<Decimal> CarteraMorosa_porMoneda(int idMoneda, List<ComprobanteDTO> lista)
         {
             //De 0 a 30 dias
-            Decimal monto1 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 0 && x.diasVencidos < 31)).Sum(x => x.Monto);
-            Decimal monto2 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 30 && x.diasVencidos < 91)).Sum(x => x.Monto);
-            Decimal monto3 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 90 && x.diasVencidos < 181)).Sum(x => x.Monto);
-            Decimal monto4 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 180)).Sum(x => x.Monto);
+            Decimal monto1 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 0 && x.diasVencidos < 31)).Sum(x => x.MontoIncompleto);
+            Decimal monto2 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 30 && x.diasVencidos < 91)).Sum(x => x.MontoIncompleto);
+            Decimal monto3 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 90 && x.diasVencidos < 181)).Sum(x => x.MontoIncompleto);
+            Decimal monto4 = lista.Where(x => x.IdMoneda == idMoneda && (x.diasVencidos > 180)).Sum(x => x.MontoIncompleto);
 
             List<Decimal> lstMontos = new List<Decimal>();
             lstMontos.Add(monto1);

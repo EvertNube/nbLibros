@@ -723,6 +723,14 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result">
+          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+          <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_Rep_EgresosPorAreas" FunctionName="LibrosDBModel.Store.SP_Rep_EgresosPorAreas">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_EgresosPorAreas_Result">

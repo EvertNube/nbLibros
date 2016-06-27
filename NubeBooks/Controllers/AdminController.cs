@@ -4854,6 +4854,7 @@ namespace NubeBooks.Controllers
             dt.Columns.Add("Código");
             dt.Columns.Add("Descripción");
             dt.Columns.Add("Unidad de Medida");
+            dt.Columns.Add("Categoría");
             dt.Columns.Add("Moneda");
             dt.Columns.Add("Precio");
             dt.Columns.Add("Estado");
@@ -4865,6 +4866,7 @@ namespace NubeBooks.Controllers
                 row["Código"] = item.Codigo;
                 row["Descripción"] = item.Descripcion;
                 row["Unidad de Medida"] = item.UnidadMedida;
+                row["Categoría"] = item.nCategoriaItem;
                 row["Moneda"] = item.nMoneda;
                 row["Precio"] = item.Precio.GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
                 row["Estado"] = item.Estado ? "Activo" : "Inactivo";
@@ -4876,6 +4878,27 @@ namespace NubeBooks.Controllers
             createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
             return RedirectToAction("Items", "Admin");
         }
+
+        public ActionResult ExportarCategoriaItms()
+        {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            CategoriaItmBL objBL = new CategoriaItmBL();
+            List<CategoriaItmDTO> lista = objBL.getCategoriaItmsEnEmpresa(getCurrentUser().IdEmpresa);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Código");
+
+            return View();
+        }
+
+        /*public ActionResult ExportarUbicaciones()
+        {
+
+        }*/
 
         public ActionResult ExportarServicios()
         {

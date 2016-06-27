@@ -194,6 +194,9 @@
     <Compile Include="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result.cs">
+      <DependentUpon>LibrosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_Rep_EgresosPorAreas_Result.cs">
       <DependentUpon>LibrosModel.tt</DependentUpon>
     </Compile>
