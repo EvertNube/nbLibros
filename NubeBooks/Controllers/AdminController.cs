@@ -4890,15 +4890,48 @@ namespace NubeBooks.Controllers
             dt.Clear();
 
             dt.Columns.Add("Nombre");
-            dt.Columns.Add("Código");
+            dt.Columns.Add("Estado");
 
-            return View();
+            foreach (var item in lista)
+            {
+                DataRow row = dt.NewRow();
+                row["Nombre"] = item.Nombre;
+                row["Estado"] = item.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf5(dt, "Detalle de Categorias de Items", "Detalle_de_CategoriaItems", objEmpresa, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Items", "Admin");
         }
 
-        /*public ActionResult ExportarUbicaciones()
+        public ActionResult ExportarUbicaciones()
         {
+            EmpresaDTO objEmpresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
 
-        }*/
+            UbicacionBL objBL = new UbicacionBL();
+            List<UbicacionDTO> lista = objBL.getUbicacionsEnEmpresa(getCurrentUser().IdEmpresa);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Nombre");
+            dt.Columns.Add("Estado");
+
+            foreach (var item in lista)
+            {
+                DataRow row = dt.NewRow();
+                row["Nombre"] = item.Nombre;
+                row["Estado"] = item.Estado ? "Activo" : "Inactivo";
+                dt.Rows.Add(row);
+            }
+
+            GenerarPdf5(dt, "Detalle de Ubicaciones", "Detalle_de_Ubicaciones", objEmpresa, Response);
+
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Items", "Admin");
+        }
 
         public ActionResult ExportarServicios()
         {

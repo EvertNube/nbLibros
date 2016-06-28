@@ -110,6 +110,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DetalleProforma">
+      <EntityTypeMapping TypeName="LibrosDBModel.DetalleProforma">
+        <MappingFragment StoreEntitySet="DetalleProforma">
+          <ScalarProperty Name="IdDetalleProforma" ColumnName="IdDetalleProforma" />
+          <ScalarProperty Name="IdProforma" ColumnName="IdProforma" />
+          <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="PrecioUnidad" ColumnName="PrecioUnidad" />
+          <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+          <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+          <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+          <ScalarProperty Name="PorcentajeIgv" ColumnName="PorcentajeIgv" />
+          <ScalarProperty Name="Igv" ColumnName="Igv" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Empresa">
       <EntityTypeMapping TypeName="LibrosDBModel.Empresa">
         <MappingFragment StoreEntitySet="Empresa">
@@ -290,6 +306,29 @@
           <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Proforma">
+      <EntityTypeMapping TypeName="LibrosDBModel.Proforma">
+        <MappingFragment StoreEntitySet="Proforma">
+          <ScalarProperty Name="IdProforma" ColumnName="IdProforma" />
+          <ScalarProperty Name="CodigoProforma" ColumnName="CodigoProforma" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="IdResponsable" ColumnName="IdResponsable" />
+          <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
+          <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="ValidezOferta" ColumnName="ValidezOferta" />
+          <ScalarProperty Name="MetodoPago" ColumnName="MetodoPago" />
+          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+          <ScalarProperty Name="FechaProforma" ColumnName="FechaProforma" />
+          <ScalarProperty Name="LugarEntrega" ColumnName="LugarEntrega" />
+          <ScalarProperty Name="FechaFacturacion" ColumnName="FechaFacturacion" />
+          <ScalarProperty Name="FechaCobranza" ColumnName="FechaCobranza" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="ComenterioProforma" ColumnName="ComenterioProforma" />
+          <ScalarProperty Name="ComentarioAdiccional" ColumnName="ComentarioAdiccional" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -679,6 +718,14 @@
     <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Result">
+          <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
+          <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total" FunctionName="LibrosDBModel.Store.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibrosDBModel.SP_Rep_Documentos_IngYEgr_PagadosYPorCobrar_Total_Result">
           <ScalarProperty Name="IdComprobante" ColumnName="IdComprobante" />
           <ScalarProperty Name="MontoIncompleto" ColumnName="MontoIncompleto" />
         </ComplexTypeMapping>

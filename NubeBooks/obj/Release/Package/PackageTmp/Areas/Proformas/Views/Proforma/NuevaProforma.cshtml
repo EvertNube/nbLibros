@@ -1,0 +1,251 @@
+﻿@using System.Globalization;
+@model NubeBooks.Core.Logistics.DTO.ProformaDTO
+@{
+    ViewBag.Title = "NuevaProforma";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    CultureInfo[] cultures = { new CultureInfo("es-PE") };
+}
+<div class="bg-light lter b-b wrapper-md">
+    <div class="btn-group dropdown pull-right">
+        <button class="btn btn-default btn-sm" data-toggle="dropdown">Accesos rápidos <span class="caret"></span></button>
+        <ul class="dropdown-menu fnt-md">
+            <li><a href=""><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Nuevo cliente</a></li>
+            <li><a href=""><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Nuevo contacto</a></li>
+            <li><a href=""><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;Nuevo ítem</a></li>
+        </ul>
+    </div>
+    <h1 class="m-n font-thin h3">Nueva Proforma</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form method="post" onsubmit="return Save();">
+                <input type="hidden" id="idproforma" />
+                <input type="hidden" id="codigoproforma" />
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha de Proforma</label>
+                            <div class="input-group date">
+                                <input id="txtfechaproforma" type="text" class="form-control" readonly placeholder="dd/mm/yyyy" required />
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Cliente</label>
+                            <select id="ddlcliente" class="form-control" >
+                                <option value="">Seleccione un cliente...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Contacto</label>
+                            <select id="ddlconsultor" class="form-control" >
+                                <option value="">Seleccione un contacto...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Validez de Oferta</label>
+                            <select id="ddlvalidezoferta" class="form-control" required>
+                                <option value="">Seleccione la validez...</option>
+                                <option value="7">7 días</option>
+                                <option value="15">15 días</option>
+                                <option value="30">30 días</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Método de Pago</label>
+                            <input id="txtmetodopago" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha de Entrega</label>
+                            <div class="input-group date">
+                                <input id="txtfechaentrega" type="text" class="form-control" placeholder="dd/mm/yyyy">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Lugar de Entrega</label>
+                            <input id="txtlugarentrega" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Moneda</label>
+                            <select id="ddlmoneda" class="form-control" required>
+                                <option value="">Seleccione la moneda...</option>
+                                <option value="1">Soles</option>
+                                <option value="2">Dólares</option>
+                                <option value="3">Euros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Ítem / Servicio</label>
+                            <select id="ddlitem" class="form-control">
+                                <option value="">Seleccionar Item</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Cantidad</label>
+                            <div class="input-group bootstrap-touchspin">
+                                <input id="txtcantidad" type="number" ui-jq="TouchSpin" value="1.00" class="form-control" data-min="0" data-max="10" data-step="1.00" data-decimals="2" style="display: block;">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Precio Unitario</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">S/.</span>
+                                <input id="txtprecio" type="number" class="form-control" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Descuento</label>
+                            <div class="input-group">
+                                <input id="txtdescuento" type="number" class="form-control" placeholder="0.00">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button id="btnagregar" type="button" class="form-control btn m-b-xs btn-md btn-default btn-addon"><i class="fa fa-plus"></i>Agregar ítem</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <table id="tblitem" class="table table-striped m-b-none">
+                        <thead>
+                            <tr>
+                                <th>Ítem</th>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>U/M</th>
+                                <th>Precio Unitario</th>
+                                <th>Descuento</th>
+                                <th>Precio Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="text-right"><strong>Total IGV</strong></td>
+                                <td><span class="totaligv"></span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-right"><strong>Total</strong></td>
+                                <td class=""><span class="total"></span></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Estado</label>
+                            <select id="ddlestado" class="form-control">
+                                <option value="1">Pendiente</option>
+                                <option value="2">Aprobada</option>
+                                <option value="3">Rechazada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha Estimada de Facturación</label>
+                            <div class="input-group date">
+                                <input id="txtfechafactura" readonly type="text" class="form-control" placeholder="dd/mm/yyyy">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha Estimada de Cobranza</label>
+                            <div class="input-group date">
+                                <input id="txtfechacobranza" type="text" readonly class="form-control" placeholder="dd/mm/yyyy">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Comentarios de la Proforma</label>
+                            <textarea class="form-control" cols="20" id="txtcomentario" rows="3" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Comentarios Adicionales</label>
+                            <textarea class="form-control" cols="20" id="txtadicional" name="txtadicional" rows="3" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button id="btnGuardar" type="submit" class="btn btn-success">Guardar Cambios</button>
+                            <button id="btncancelar" type="reset" class="btn btn-default">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalWait" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div style="width: 50%;" class="modal-dialog modal-vertical-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="margin-bottom: -20px;">
+                <h2 style="text-align: center">La nuve &nbsp;&nbsp;&nbsp;</h2>
+            </div>
+            <div class="modal-body small" style="font-size: 12px; margin-bottom: -40px;">
+                <div class="row" style="text-align: center">
+                    <table style="width: 100%">
+                        <tr>
+                            <td>
+                                <h5>Se esta procesando la información</h5>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnClosePopup" class="btn btn-default" data-dismiss="modal" style="visibility: hidden">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+@*<script src="@Url.Content("~/Scripts/Proforma/EditProforma.js")"></script>*@
+<script src="@Url.Content("~/Areas/Proformas/Scripts/Proforma/EditProforma.js")"></script>
+    <script type="text/javascript">
+        var idproforma=@Model.IdProforma;
+        var Proforma= @Html.Raw(Json.Encode(Model));
+    </script>
+}
