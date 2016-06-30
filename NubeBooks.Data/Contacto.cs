@@ -14,6 +14,12 @@ namespace NubeBooks.Data
     
     public partial class Contacto
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Contacto()
+        {
+            this.Proforma = new HashSet<Proforma>();
+        }
+    
         public int IdContacto { get; set; }
         public int IdEntidadResponsable { get; set; }
         public string Nombre { get; set; }
@@ -24,5 +30,7 @@ namespace NubeBooks.Data
         public string Cargo { get; set; }
     
         public virtual EntidadResponsable EntidadResponsable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proforma> Proforma { get; set; }
     }
 }

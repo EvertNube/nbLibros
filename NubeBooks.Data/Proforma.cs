@@ -23,7 +23,7 @@ namespace NubeBooks.Data
         public int IdProforma { get; set; }
         public string CodigoProforma { get; set; }
         public int IdEmpresa { get; set; }
-        public int IdResponsable { get; set; }
+        public int IdContacto { get; set; }
         public int IdEntidadResponsable { get; set; }
         public Nullable<int> IdMoneda { get; set; }
         public int ValidezOferta { get; set; }
@@ -38,10 +38,10 @@ namespace NubeBooks.Data
         public string ComentarioAdiccional { get; set; }
         public Nullable<int> Estado { get; set; }
     
+        public virtual Contacto Contacto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleProforma> DetalleProforma { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual EntidadResponsable EntidadResponsable { get; set; }
-        public virtual Responsable Responsable { get; set; }
     }
 }

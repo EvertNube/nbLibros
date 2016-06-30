@@ -1,0 +1,260 @@
+﻿@using NubeBooks.Core.Logistics.DTO
+@using NubeBooks.Core.DTO
+@using System.Globalization
+@model ProformaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    CultureInfo[] cultures = { new CultureInfo("es-PE") };
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/admin/js/select2/select2.css")
+    @Styles.Render("~/Content/themes/admin/js/select2/theme.css")
+}
+@section Scripts{
+    @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
+    <script type="text/javascript">
+        var miBaseUrl = '';
+        $(function () {
+            miBaseUrl = baseURL(window.location.pathname);
+            $('.input-group.date').datepicker();
+            $('.miselect2').select2();
+
+            $('.miselect2_clear').select2({
+                allowClear: true,
+                placeholder: "Seleccionar"
+            });
+
+            $("#ddlitem").on('change', function () { $("#txtcantidad").val(1); $("#txtprecio").val("0.00"); $("#txtdescuento").val('0.00'); });
+            $("#btnagregar").on('click', AgregarItem);
+        })
+
+        function ListarClientes(cambio)
+        {
+            if ($('#IdEntidadResponsable').val() != 0) {
+                var idEntidad = parseInt($('#IdEntidadResponsable').val());
+                if (cambio == 1) {
+                    $('#IdProyecto').select2("val", "");
+                }
+
+                GetProyectosAjax(idEntidad);
+                $('#IdProyecto').select2({
+                    allowClear: true,
+                    data: lstProyectos,
+                    placeholder: "Seleccionar"
+                })
+            }
+        }
+
+        function AgregarItem() {
+            if ($('#ddlitem').val() != "") {
+                var cadena = '';
+                if ($("#txtcantidad").val() == "") cadena += "Debe de ingresar una cantidad\n";
+                if ($("#txtprecio").val() == "") cadena += "Debe de ingresar un presio\n";
+                if ($("#txtcantidad").val() == "0.00") cadena += "Debe de ingresar una cantidad mayor a cero\n";
+                if ($("#txtprecio").val() == "0.00") cadena += "Debe de ingresar un presio mayor a cero\n";
+                if (cadena != "") { alert(cadena); return; }
+                var id = $('#ddlitem').val();
+                var items01 = $.grep(item, function (e, i) { return (e.IdItem == id) })[0];
+                if (items01 == undefined) {
+                    var lista = {};
+                    var descuento = $("#txtdescuento").val();
+
+                    lista.IdItem = id;
+                    lista.NombreItem = $('#ddlitem option:selected').text();
+                    lista.Cantidad = parseInt($("#txtcantidad").val());
+                    lista.PrecioUnidad = parseFloat($("#txtprecio").val());
+                    lista.TipoCambio = 3.15;
+                    lista.PorcentajeIgv = 18;
+                    lista.Igv = ((lista.Cantidad * lista.PrecioUnidad) * (lista.PorcentajeIgv / 100)).round(2);
+                    lista.MontoTotal = (lista.Cantidad * lista.PrecioUnidad).round(2);
+                    lista.Descuento = (lista.MontoTotal * (descuento / 100)).round(2);
+                    lista.MontoTotal = (lista.MontoTotal - lista.Descuento).round(2);
+                    item.push(lista);
+                    llenartabla();
+                    $('#ddlitem').val('').change();
+                }
+                else {
+                    alert('este producto ya esta en la lista');
+                }
+            }
+        }
+        function GetDetalle(idproforma) {
+            $.ajax({
+                url: '/Proformas/Proforma/GetDetalleProforma',
+                type: "POST",
+                dataType: "json",
+                data: { IdProforma: idproforma },
+                success: function (data) {
+                    if (typeof (data) == 'object') {
+                        item = data;
+                        llenartabla();
+                    }
+                }
+            }).fail(function (jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                alert(err);
+            }).always(function () {
+            });
+        }
+    </script>
+}
+@{var cadena = "";}
+@if (Model == null || Model.IdProforma == 0) { cadena = "Nueva"; }
+else { cadena = "Actualizar"; }
+
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">@cadena Proforma</h1>
+</div>
+<div class="wrapper-md" ng-controller="FormDemoCtrl">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("AddProforma", "Proforma", new { Area = "Proformas" }, FormMethod.Post))
+            {
+                @Html.Partial("_showAlertMessages")
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha de Proforma</label>
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaProforma, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "dd/mm/yyyy", @type = "text", @readonly = "true", @required = "" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Cliente</label>
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarClientes(1)"
+                                    id="IdEntidadResponsable" name="IdEntidadResponsable" required>
+                                @{ var pCliente = Model != null ? Model.IdEntidadResponsable : 0;
+                                    List<EntidadResponsableDTO> listaClientes = ViewBag.lstClientes;
+                                }
+                                <option value=""></option>
+                                @foreach (var ent in listaClientes)
+                                {
+                                    <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pCliente ? "selected=selected" : "")>@ent.Nombre</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Contacto</label>
+                            <select id="ddlconsultor" class="form-control">
+                                <option value="">Seleccione un contacto...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Validez de Oferta</label>
+                            <select id="ddlvalidezoferta" class="form-control" required>
+                                <option value="">Seleccione la validez...</option>
+                                <option value="7">7 días</option>
+                                <option value="15">15 días</option>
+                                <option value="30">30 días</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Método de Pago</label>
+                            <input id="txtmetodopago" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha de Entrega</label>
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaEntrega, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "dd/mm/yyyy", @type = "text", @readonly = "true", @required = "" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Lugar de Entrega</label>
+                            <input id="txtlugarentrega" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Moneda</label>
+                            @Html.DropDownListFor(u => u.IdMoneda, new SelectList(ViewBag.lstMonedas, "IdMoneda", "Nombre", Model != null ? (Model.IdMoneda != 0 ? Model.IdMoneda : 0) : 0), new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder miselect2 rol-accs" })
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Ítem / Servicio</label>
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2_clear rol-accs">
+                                <option value=""></option>
+                                @foreach (var nItem in (List<ItemDTO>)ViewBag.lstItems)
+                                {
+                                    <option value="@nItem.IdItem">@nItem.Codigo</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Cantidad</label>
+                            <div class="input-group bootstrap-touchspin">
+                                <input id="txtcantidad" type="number" ui-jq="TouchSpin" value="1.00" class="form-control" data-min="0" data-max="10" data-step="1.00" data-decimals="2" style="display: block;">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Precio Unitario</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">S/.</span>
+                                <input id="txtprecio" type="number" class="form-control" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Descuento</label>
+                            <div class="input-group">
+                                <input id="txtdescuento" type="number" class="form-control" placeholder="0.00">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button id="btnagregar" type="button" class="form-control btn m-b-xs btn-md btn-default btn-addon"><i class="fa fa-plus"></i>Agregar ítem</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <table id="tblitem" class="table table-striped m-b-none">
+                        <thead>
+                            <tr>
+                                <th>Ítem</th>
+                                <th>Código</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>U/M</th>
+                                <th>Precio Unitario</th>
+                                <th>Descuento</th>
+                                <th>Precio Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="text-right"><strong>Total IGV</strong></td>
+                                <td><span class="totaligv"></span></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="text-right"><strong>Total</strong></td>
+                                <td class=""><span class="total"></span></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                @Html.TextBoxFor(u => u.CodigoProforma, new { @value = Model.CodigoProforma, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdProforma, new { @value = Model.IdProforma != 0 ? Model.IdProforma.ToString() : "", @type = "hidden" })
+
+            }
+        </div>
+    </div>
+</div>

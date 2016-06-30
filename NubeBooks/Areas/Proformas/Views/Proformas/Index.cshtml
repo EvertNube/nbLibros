@@ -1,5 +1,4 @@
-﻿
-@using System.Globalization;
+﻿@using System.Globalization;
 @using NubeBooks.Core.Logistics.DTO
 @model List<ProformaDTO>
 @{
@@ -8,7 +7,7 @@
 
 <div class="bg-light lter b-b wrapper-md">
     <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
-    <a href="@Url.Action("NuevaProforma", "Proforma")" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
+    <a href="@Url.Action("Proforma", "Proformas")" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">Proformas</h1>
 </div>
 <div class="wrapper-md">
@@ -37,8 +36,7 @@
                         <th>Nombre Cliente</th>
                         <th>Lugar Entrega</th>
                         <th>Estado</th>
-                        <th>Editar</th>
-                        <th>Detalle</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,18 +49,15 @@
                                 <td>@item.EntidadResponsable.Nombre</td>
                                 <td>@item.LugarEntrega</td>
                                 <td>@(item.Estado == 1 ? "Activo" : "Inactivo" )</td>
-                                <td>
-                                    <a href="@Url.Action("NuevaProforma", "Proforma", new { id = item.IdProforma})"><i class="fa fa-pencil" title="Editar">Editar</i></a>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Proforma", "Proforma", new { id = item.IdProforma})"><i class="fa fa-search" title="Visualizar">Detalle</i></a>
+                                @{ var rIcon = ViewBag.EsUsuarioExterno ? "search" : "pencil"; var rTitle = ViewBag.EsUsuarioExterno ? "Visualizar" : "Editar"; }
+                                <td class="text-center">
+                                    <a href="@Url.Action("Proforma", "Admin", new { id = item.IdProforma })"><i class="fa fa-@rIcon" title="@rTitle"></i>&nbsp;&nbsp;</a>
                                 </td>
                             </tr>
-                        }
-                    }
+                                        }
+                                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-

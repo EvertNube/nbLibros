@@ -1,4 +1,5 @@
 ﻿using NubeBooks.Core.DTO;
+using NubeBooks.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +11,20 @@ namespace NubeBooks.Core.Logistics.DTO
     [Serializable]
     public class ProformaDTO
     {
-        public Int32 IdProforma { get; set; }
+        public int IdProforma { get; set; }
         public string CodigoProforma { get; set; }
-        public Int32 IdEmpresa { get; set; }
-        public Int32 IdResponsable { get; set; }
-        public Int32 IdEntidadResponsable { get; set; }
-        public Nullable<Int32> IdMoneda { get; set; }
-        public Int32 ValidezOferta { get; set; }
+        public int IdEmpresa { get; set; }
+        public int IdContacto { get; set; }
+        public int IdEntidadResponsable { get; set; }
+        public int? IdMoneda { get; set; }
+        public int ValidezOferta { get; set; }
         public string MetodoPago { get; set; }
-        public Nullable<DateTime> FechaEntrega { get; set; }
-        public Nullable<DateTime> FechaProforma { get; set; }
+        public DateTime? FechaEntrega { get; set; }
+        public DateTime? FechaProforma { get; set; }
         public string LugarEntrega { get; set; }
 
-        public Nullable<DateTime> FechaFacturacion { get; set; }
-        public Nullable<DateTime> FechaCobranza { get; set; }
+        public DateTime? FechaFacturacion { get; set; }
+        public DateTime? FechaCobranza { get; set; }
                 
         public DateTime? FechaRegistro { get; set; }
 
@@ -33,7 +34,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public int? Estado { get; set; }
         public List<DetalleProformaDTO> DetalleProforma { get; set; }
         public EmpresaDTO Empresa { get; set; }
-        public ResponsableDTO Responsable { get; set; }
+        public ContactoDTO Contacto { get; set; }
         public EntidadResponsableDTO EntidadResponsable { get; set; }
         
         public List<CuentaBancariaDTO> CuentaBancaria { get; set; }

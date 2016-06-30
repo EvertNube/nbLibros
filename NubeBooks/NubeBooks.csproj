@@ -214,6 +214,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Proformas\Controllers\ProformaController.cs" />
+    <Compile Include="Areas\Proformas\Controllers\ProformasController.cs" />
     <Compile Include="Areas\Proformas\ProformasAreaRegistration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -931,6 +932,9 @@
     <Content Include="Areas\Proformas\Views\Proforma\Index.cshtml" />
     <Content Include="Areas\Proformas\Views\Proforma\NuevaProforma.cshtml" />
     <Content Include="Areas\Proformas\Views\Proforma\Proforma.cshtml" />
+    <Content Include="Areas\Proformas\Views\Proforma\ProformaDetalle.cshtml" />
+    <Content Include="Areas\Proformas\Views\Proformas\Index.cshtml" />
+    <Content Include="Areas\Proformas\Views\Proformas\Proforma.cshtml" />
     <None Include="Properties\PublishProfiles\NubeBooks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -12,9 +12,9 @@ using System.Globalization;
 
 namespace NubeBooks.Areas.Proformas.Controllers
 {
-    public class ProformaController : Controller
+    public class ProformasController : Controller
     {
-        // GET: Proformas/Proforma
+        // GET: Proformas/Proformas
         #region Variables y constructor
         private bool currentUser()
         {
@@ -62,7 +62,7 @@ namespace NubeBooks.Areas.Proformas.Controllers
             if (getCurrentUser().IdRol == 4) return true;
             return false;
         }
-        public ProformaController()
+        public ProformasController()
         {
             UsuarioDTO user = getCurrentUser();
             if (user != null)
@@ -87,74 +87,47 @@ namespace NubeBooks.Areas.Proformas.Controllers
         #endregion
         public ActionResult Index()
         {
-            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin"); }
+            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin", new { Area = string.Empty }); }
             ViewBag.Title += "Proformas";
             MenuNavBarSelected(12);
 
             UsuarioDTO currentUser = getCurrentUser();
-            var lista = new ProformaBL().getProformaEnEmpresa(currentUser.IdEmpresa);
-            
+            var lista = new ProformaBL().getProformasEnEmpresa(currentUser.IdEmpresa);
+
             return View(lista);
         }
-        public ActionResult Proforma(Int32 id)
+        public ActionResult Proforma(int? id)
         {
-            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin"); }
-            var lista = new ProformaBL().getProformaId(id);
+            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin", new { Area = string.Empty }); }
             ViewBag.Title += "Proforma";
             MenuNavBarSelected(12);
-            return View(lista);
-        }
-        public ActionResult NuevaProforma(Int32? id)
-        {
-            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin"); }
-            UsuarioDTO currentUser = getCurrentUser();
-            ProformaDTO pro = new ProformaDTO();
-            
-            if (id.HasValue)
+
+            UsuarioDTO user = getCurrentUser();
+
+
+            EntidadResponsableBL entBL = new EntidadResponsableBL();
+            ViewBag.lstClientes = entBL.getEntidadesResponsablesActivasPorTipoEnEmpresa(user.IdEmpresa, 1);
+            EmpresaBL empBL = new EmpresaBL();
+            ViewBag.lstMonedas = empBL.getListaMonedas();
+            MovimientoInvBL movItmBL = new MovimientoInvBL();
+            ViewBag.lstItems = movItmBL.getItemsEnEmpresa_PorTipoMov(user.IdEmpresa, 1);
+
+
+            var objSent = TempData["Proforma"];
+            if (objSent != null) { TempData["Proforma"] = null; return View(objSent); }
+
+            ProformaDTO obj;
+            if(id != null && id > 0)
             {
-                pro = new ProformaBL().getProformaId(id.Value);
+                obj = new ProformaBL().getProformaId((int)id);
+
+                return View(obj);
             }
-            ViewBag.Title += " - Editar Proforma";
-            MenuNavBarSelected(10);
-            return View(pro);
-        }
-        public ActionResult GetDetalleProforma(Int32 IdProforma)
-        {
-            var lista = new ProformaBL().getDetalleProformaPorId(IdProforma);
-            return Json(lista, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        public ActionResult SaveProforma(ProformaDTO Proforma)
-        {
-            UsuarioDTO currentUser = getCurrentUser();
-            //ProformaDTO Proforma = new ProformaDTO();
-            //TryUpdateModel(Proforma);
+            obj = new ProformaDTO();
+            obj.IdEmpresa = user.IdEmpresa;
+            obj.FechaProforma = DateTime.Now;
 
-            Proforma.IdEmpresa = currentUser.IdEmpresa;
-            if (Proforma.FechaRegistro == null) { Proforma.FechaRegistro = DateTime.Now; }
-            var lista = new ProformaBL().SaveProforma(Proforma);
-            return Json(lista, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult GetClientes()
-        {
-            UsuarioDTO currentUser = getCurrentUser();
-            ComprobanteBL objBL = new ComprobanteBL();
-            var lista = objBL.getListaClientesEnEmpresa(currentUser.IdEmpresa);
-            return Json(lista, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetConsultor()
-        {
-            UsuarioDTO currentUser = getCurrentUser();
-            ComprobanteBL objBL = new ComprobanteBL();
-            var lista = objBL.getListaResponsablesEnEmpresa(currentUser.IdEmpresa);
-            return Json(lista, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetItem()
-        {
-            UsuarioDTO currentUser = getCurrentUser();
-            var lista = new Core.Logistics.BL.ItemBL().getItemsActivosEnEmpresa(currentUser.IdEmpresa);
-            return Json(lista, JsonRequestBehavior.AllowGet);
+            return View(obj);
         }
     }
 }

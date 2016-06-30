@@ -11,6 +11,43 @@ namespace NubeBooks.Core.Logistics.BL
 {
     public class ProformaBL : Base
     {
+        public List<ProformaDTO> getProformasEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Proforma.Where(x => x.IdEmpresa == idEmpresa).Select(x => new ProformaDTO
+                {
+                    IdProforma = x.IdProforma,
+                    CodigoProforma = x.CodigoProforma,
+                    IdEmpresa = x.IdEmpresa,
+                    IdContacto = x.IdContacto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    ValidezOferta = x.ValidezOferta,
+                    MetodoPago = x.MetodoPago,
+                    FechaEntrega = x.FechaEntrega,
+                    FechaProforma = x.FechaProforma,
+                    LugarEntrega = x.LugarEntrega,
+                    FechaFacturacion = x.FechaFacturacion,
+                    FechaCobranza = x.FechaCobranza,
+                    FechaRegistro = x.FechaRegistro,
+                    ComentarioAdiccional = x.ComentarioAdiccional,
+                    ComenterioProforma = x.ComenterioProforma,
+                    Estado = x.Estado
+                }).OrderByDescending(x => x.FechaRegistro).ToList();
+
+                if (idEmpresa > 0)
+                {
+                    foreach (var pro in result)
+                    {
+                        pro.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(pro.IdEmpresa, pro.IdEntidadResponsable);
+                        pro.Empresa = new EmpresaBL().getEmpresa(pro.IdEmpresa);
+                        pro.Contacto = new ContactoBL().getContacto(pro.IdContacto);
+                    }
+                }
+
+                return result;
+            }
+        }
         public List<ProformaDTO> getProformaEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())
@@ -20,7 +57,7 @@ namespace NubeBooks.Core.Logistics.BL
                     IdProforma = x.IdProforma,
                     CodigoProforma = x.CodigoProforma,
                     IdEmpresa = x.IdEmpresa,
-                    IdResponsable = x.IdResponsable,
+                    IdContacto = x.IdContacto,
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     ValidezOferta = x.ValidezOferta,
                     MetodoPago = x.MetodoPago,
@@ -39,7 +76,7 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     pro.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(pro.IdEmpresa, pro.IdEntidadResponsable);
                     pro.Empresa = new EmpresaBL().getEmpresa(pro.IdEmpresa);
-                    pro.Responsable = new ResponsableBL().getResponsableEnEmpresa(pro.IdEmpresa, pro.IdResponsable);
+                    pro.Contacto = new ContactoBL().getContacto(pro.IdContacto);
                 }
 
                 return result;
@@ -54,7 +91,7 @@ namespace NubeBooks.Core.Logistics.BL
                     IdProforma = x.IdProforma,
                     CodigoProforma = x.CodigoProforma,
                     IdEmpresa = x.IdEmpresa,
-                    IdResponsable = x.IdResponsable,
+                    IdContacto = x.IdContacto,
                     IdEntidadResponsable = x.IdEntidadResponsable,
                     ValidezOferta = x.ValidezOferta,
                     MetodoPago = x.MetodoPago,
@@ -72,7 +109,7 @@ namespace NubeBooks.Core.Logistics.BL
 
                 result.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(result.IdEmpresa, result.IdEntidadResponsable);
                 result.Empresa = new EmpresaBL().getEmpresa(result.IdEmpresa);
-                result.Responsable = new ResponsableBL().getResponsableEnEmpresa(result.IdEmpresa, result.IdResponsable);
+                result.Contacto = new ContactoBL().getContacto(result.IdContacto);
                 result.DetalleProforma = getDetalleProformaPorId(result.IdProforma);
                 result.CuentaBancaria = new CuentaBancariaBL().getCuentasBancariasActivasPorTipoEnEmpresa(result.IdEmpresa, 1);
                 return result;
@@ -114,7 +151,7 @@ namespace NubeBooks.Core.Logistics.BL
                     if (proforma.CodigoProforma == null || proforma.CodigoProforma == "") { nuevo.CodigoProforma = CodigoProforma(proforma.IdEmpresa); }
                     //else { nuevo.CodigoProforma = proforma.CodigoProforma; }
                     nuevo.IdEmpresa = proforma.IdEmpresa;
-                    nuevo.IdResponsable = proforma.IdResponsable;
+                    nuevo.IdContacto = proforma.IdContacto;
                     nuevo.IdEntidadResponsable = proforma.IdEntidadResponsable;
                     nuevo.ValidezOferta = proforma.ValidezOferta;
                     nuevo.MetodoPago = proforma.MetodoPago;
