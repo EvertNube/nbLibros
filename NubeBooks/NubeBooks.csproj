@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Models\InfoSItem.cs" />
     <Compile Include="Models\Navbar.cs" />
+    <Compile Include="Models\SelectItem.cs" />
     <Compile Include="Models\sItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

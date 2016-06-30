@@ -709,6 +709,20 @@ namespace NubeBooks.Core.BL
             }
         }
 
+        public List<MonedaDTO> getListaMonedasAll()
+        {
+            using (var context = getContext())
+            {
+                var result = context.Moneda.Select(x => new MonedaDTO
+                {
+                    IdMoneda = x.IdMoneda,
+                    Nombre = x.Nombre,
+                    Simbolo = x.Simbolo
+                }).ToList();
+                return result;
+            }
+        }
+
         public Decimal Get_CuentasPorCobrar(int idEmpresa, int idMoneda)
         {
             using (var context = getContext())

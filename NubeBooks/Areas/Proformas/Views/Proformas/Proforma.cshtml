@@ -1,5 +1,6 @@
 ﻿@using NubeBooks.Core.Logistics.DTO
 @using NubeBooks.Core.DTO
+@using NubeBooks.Models;
 @using System.Globalization
 @model ProformaDTO
 @{
@@ -14,6 +15,7 @@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         var miBaseUrl = '';
+        var item = [];
         $(function () {
             miBaseUrl = baseURL(window.location.pathname);
             $('.input-group.date').datepicker();
@@ -46,29 +48,29 @@
         }
 
         function AgregarItem() {
-            if ($('#ddlitem').val() != "") {
+            var jsIdItem = $('#ddlitem').val();
+            if (jsIdItem != "") {
                 var cadena = '';
                 if ($("#txtcantidad").val() == "") cadena += "Debe de ingresar una cantidad\n";
                 if ($("#txtprecio").val() == "") cadena += "Debe de ingresar un presio\n";
                 if ($("#txtcantidad").val() == "0.00") cadena += "Debe de ingresar una cantidad mayor a cero\n";
                 if ($("#txtprecio").val() == "0.00") cadena += "Debe de ingresar un presio mayor a cero\n";
                 if (cadena != "") { alert(cadena); return; }
-                var id = $('#ddlitem').val();
-                var items01 = $.grep(item, function (e, i) { return (e.IdItem == id) })[0];
+                var items01 = $.grep(item, function (e, i) { return (e.IdItem == jsIdItem) })[0];
                 if (items01 == undefined) {
                     var lista = {};
                     var descuento = $("#txtdescuento").val();
 
-                    lista.IdItem = id;
-                    lista.NombreItem = $('#ddlitem option:selected').text();
+                    lista.IdItem = jsIdItem;
+                    lista.NombreItem = $('#ddlitem').select2('data').text;
                     lista.Cantidad = parseInt($("#txtcantidad").val());
                     lista.PrecioUnidad = parseFloat($("#txtprecio").val());
-                    lista.TipoCambio = 3.15;
+                    lista.TipoCambio = 3.30;
                     lista.PorcentajeIgv = 18;
-                    lista.Igv = ((lista.Cantidad * lista.PrecioUnidad) * (lista.PorcentajeIgv / 100)).round(2);
-                    lista.MontoTotal = (lista.Cantidad * lista.PrecioUnidad).round(2);
-                    lista.Descuento = (lista.MontoTotal * (descuento / 100)).round(2);
-                    lista.MontoTotal = (lista.MontoTotal - lista.Descuento).round(2);
+                    lista.Igv = ((lista.Cantidad * lista.PrecioUnidad) * (lista.PorcentajeIgv / 100)).toFixed(2);
+                    lista.MontoTotal = (lista.Cantidad * lista.PrecioUnidad).toFixed(2);
+                    lista.Descuento = (lista.MontoTotal * (descuento / 100)).toFixed(2);
+                    lista.MontoTotal = (lista.MontoTotal - lista.Descuento).toFixed(2);
                     item.push(lista);
                     llenartabla();
                     $('#ddlitem').val('').change();
@@ -96,6 +98,24 @@
             }).always(function () {
             });
         }
+
+        function llenartabla() {
+            $("#tblitem tbody").empty();
+            $.each(item, function (i, e) {
+                $("#tblitem tbody").append('<tr><td>' + (i + 1) + '</td><td>' + e.IdItem + '</td><td>' + e.NombreItem + '</td><td>' + e.Cantidad
+                    + '</td><td></td><td>' + e.PrecioUnidad + '</td><td>' + e.Descuento +
+                    '</td><td>' + e.MontoTotal + '</td><td><span class="glyphicon glyphicon-remove" data-id="' + i + '" style="cursor:pointer"></span></td></tr>');
+            });
+
+            GetTotales();
+        }
+
+        function GetTotales() {
+            var total = 0, igv = 0;
+            $.each(item, function (i, e) { total += e.MontoTotal; igv += e.Igv; });
+            $(".totaligv").text(parseFloat(igv).toFixed(2));
+            $(".total").text(parseFloat((total + igv)).toFixed(2));
+        }
     </script>
 }
 @{var cadena = "";}
@@ -118,7 +138,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label class="control-label">Fecha de Proforma</label>
                             <div class="input-group date">
-                                @Html.TextBoxFor(u => u.FechaProforma, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "dd/mm/yyyy", @type = "text", @readonly = "true", @required = "" })
+                                @Html.TextBoxFor(u => u.FechaProforma, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true", @required = "" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>
@@ -163,13 +183,14 @@ else { cadena = "Actualizar"; }
                         <div class="col-md-3">
                             <label class="control-label">Fecha de Entrega</label>
                             <div class="input-group date">
-                                @Html.TextBoxFor(u => u.FechaEntrega, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "dd/mm/yyyy", @type = "text", @readonly = "true", @required = "" })
+                                @Html.TextBoxFor(u => u.FechaEntrega, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "true", @required = "" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Lugar de Entrega</label>
-                            <input id="txtlugarentrega" type="text" class="form-control">
+                            @*<input id="txtlugarentrega" type="text" class="form-control">*@
+                            @Html.TextBoxFor(u => u.LugarEntrega, new { @class = "form-control", @placeholder = "Lugar", @type = "text" })
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Moneda</label>
@@ -182,7 +203,7 @@ else { cadena = "Actualizar"; }
                     <div class="row">
                         <div class="col-md-3">
                             <label class="control-label">Ítem / Servicio</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2_clear rol-accs">
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder codigo miselect2_clear rol-accs" id="ddlitem" name="ddlitem">
                                 <option value=""></option>
                                 @foreach (var nItem in (List<ItemDTO>)ViewBag.lstItems)
                                 {
@@ -192,21 +213,25 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Cantidad</label>
-                            <div class="input-group bootstrap-touchspin">
-                                <input id="txtcantidad" type="number" ui-jq="TouchSpin" value="1.00" class="form-control" data-min="0" data-max="10" data-step="1.00" data-decimals="2" style="display: block;">
-                            </div>
+                            @Html.TextBox("txtcantidad", 1, new { @class = "form-control rol-accs", @placeholder = "1", @type = "number", @min="0", @step="1" })
+                            @*<div class="input-group">
+                                <input id="txtcantidad" type="text" ui-jq="TouchSpin" value="1.00" class="form-control" data-min="0" data-max="10" data-step="1.00" data-decimals="2" style="display: block;">
+                                <input id="txtcantidad" type="number" value="1.00" class="form-control" data-min="0" data-max="10" data-step="1.00" data-decimals="2" style="display: block;">
+                            </div>*@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Precio Unitario</label>
                             <div class="input-group">
                                 <span class="input-group-addon">S/.</span>
-                                <input id="txtprecio" type="number" class="form-control" placeholder="0.00">
+                                @*<input id="txtprecio" type="number" class="form-control" placeholder="0.00">*@
+                                @Html.TextBox("txtprecio", 0.00, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "0.00", @type = "number" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Descuento</label>
                             <div class="input-group">
-                                <input id="txtdescuento" type="number" class="form-control" placeholder="0.00">
+                                @*<input id="txtdescuento" type="number" class="form-control" placeholder="0.00">*@
+                                @Html.TextBox("txtdescuento", 0.00, "{0:0.00}", new { @class = "form-control rol-accs", @placeholder = "0.00", @type = "number" })
                                 <span class="input-group-addon">%</span>
                             </div>
                         </div>
@@ -249,11 +274,79 @@ else { cadena = "Actualizar"; }
                         </tfoot>
                     </table>
                 </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label">Estado</label>
+                            @*<select id="ddlestado" class="form-control">
+                                <option value="1">Pendiente</option>
+                                <option value="2">Aprobada</option>
+                                <option value="3">Rechazada</option>
+                            </select>*@
+                            <select class="form-control col-xs-12 col-sm-12 col-md-12 no-padder rol-accs" id="Estado" name="Estado">
+                                @{
+                                    List<SelectItem> lstEstados = new List<SelectItem>();
+                                    lstEstados.Add(new SelectItem { valor = 1, nombre = "Pendiente" });
+                                    lstEstados.Add(new SelectItem { valor = 2, nombre = "Aprobanda" });
+                                    lstEstados.Add(new SelectItem { valor = 3, nombre = "Rechazada" });
+                                    var pEstado = Model != null ? Model.Estado : 1;
+                                }
+                                @foreach (var item in lstEstados)
+                                {
+                                    <option value="@item.valor" @(item.valor == pEstado ? "selected=selected" : "")>@item.nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha Estimada de Facturación</label>
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaFacturacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Fecha Estimada de Cobranza</label>
+                            <div class="input-group date">
+                                @Html.TextBoxFor(u => u.FechaCobranza, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Comentarios de la Proforma</label>
+                            <textarea class="form-control" cols="20" id="txtcomentario" rows="3" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Comentarios Adicionales</label>
+                            <textarea class="form-control" cols="20" id="txtadicional" name="txtadicional" rows="3" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </div>
 
                 @Html.TextBoxFor(u => u.CodigoProforma, new { @value = Model.CodigoProforma, @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdProforma, new { @value = Model.IdProforma != 0 ? Model.IdProforma.ToString() : "", @type = "hidden" })
+                <div class="line line-dashed b-b line-lg pull-in"></div>
 
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @{var btnName = (Model != null && Model.IdProforma > 0) ? "Guardar Cambios" : "Crear";}
+                            @if (!ViewBag.EsUsuarioExterno)
+                            {<button type="submit" class="btn btn-success">@btnName</button>}
+                            <a class="btn btn-default" href="@Url.Action("Index", "Proformas")">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
             }
         </div>
     </div>

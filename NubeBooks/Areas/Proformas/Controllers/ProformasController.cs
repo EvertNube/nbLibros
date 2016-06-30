@@ -108,7 +108,7 @@ namespace NubeBooks.Areas.Proformas.Controllers
             EntidadResponsableBL entBL = new EntidadResponsableBL();
             ViewBag.lstClientes = entBL.getEntidadesResponsablesActivasPorTipoEnEmpresa(user.IdEmpresa, 1);
             EmpresaBL empBL = new EmpresaBL();
-            ViewBag.lstMonedas = empBL.getListaMonedas();
+            ViewBag.lstMonedas = empBL.getListaMonedasAll();
             MovimientoInvBL movItmBL = new MovimientoInvBL();
             ViewBag.lstItems = movItmBL.getItemsEnEmpresa_PorTipoMov(user.IdEmpresa, 1);
 
