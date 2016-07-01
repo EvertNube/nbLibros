@@ -22,6 +22,8 @@ namespace NubeBooks.Core.Logistics.BL
                     IdEmpresa = x.IdEmpresa,
                     IdContacto = x.IdContacto,
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
                     ValidezOferta = x.ValidezOferta,
                     MetodoPago = x.MetodoPago,
                     FechaEntrega = x.FechaEntrega,
@@ -31,7 +33,8 @@ namespace NubeBooks.Core.Logistics.BL
                     FechaCobranza = x.FechaCobranza,
                     FechaRegistro = x.FechaRegistro,
                     ComentarioAdiccional = x.ComentarioAdiccional,
-                    ComenterioProforma = x.ComenterioProforma,
+                    ComentarioProforma = x.ComentarioProforma,
+                    OrdenCompra = x.OrdenCompra,
                     Estado = x.Estado
                 }).OrderByDescending(x => x.FechaRegistro).ToList();
 
@@ -60,6 +63,8 @@ namespace NubeBooks.Core.Logistics.BL
                     IdEmpresa = x.IdEmpresa,
                     IdContacto = x.IdContacto,
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
                     ValidezOferta = x.ValidezOferta,
                     MetodoPago = x.MetodoPago,
                     FechaEntrega = x.FechaEntrega,
@@ -69,7 +74,8 @@ namespace NubeBooks.Core.Logistics.BL
                     FechaCobranza = x.FechaCobranza,
                     FechaRegistro = x.FechaRegistro,
                     ComentarioAdiccional = x.ComentarioAdiccional,
-                    ComenterioProforma = x.ComenterioProforma,
+                    ComentarioProforma = x.ComentarioProforma,
+                    OrdenCompra = x.OrdenCompra,
                     Estado = x.Estado
                 }).OrderByDescending(x => x.FechaRegistro).ToList();
 
@@ -95,6 +101,8 @@ namespace NubeBooks.Core.Logistics.BL
                     IdEmpresa = x.IdEmpresa,
                     IdContacto = x.IdContacto,
                     IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
                     ValidezOferta = x.ValidezOferta,
                     MetodoPago = x.MetodoPago,
                     FechaEntrega = x.FechaEntrega,
@@ -104,9 +112,9 @@ namespace NubeBooks.Core.Logistics.BL
                     FechaCobranza = x.FechaCobranza,
                     FechaRegistro = x.FechaRegistro,
                     ComentarioAdiccional = x.ComentarioAdiccional,
-                    ComenterioProforma = x.ComenterioProforma,
-                    Estado = x.Estado,
-                    IdMoneda = x.IdMoneda
+                    ComentarioProforma = x.ComentarioProforma,
+                    OrdenCompra = x.OrdenCompra,
+                    Estado = x.Estado
                 }).SingleOrDefault();
 
                 result.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(result.IdEmpresa, result.IdEntidadResponsable);
@@ -131,7 +139,8 @@ namespace NubeBooks.Core.Logistics.BL
                     PrecioUnidad = x.PrecioUnidad,
                     MontoTotal = x.MontoTotal,
                     TipoCambio = x.TipoCambio,
-                    NombreItem = context.Item.FirstOrDefault(i => i.IdItem == x.IdItem).Nombre,
+                    //NombreItem = context.Item.FirstOrDefault(i => i.IdItem == x.IdItem).Nombre,
+                    NombreItem = x.Item.Codigo + x.Item.Nombre,
                     Descuento = x.Descuento,
                     Igv = x.Igv,
                     PorcentajeIgv = x.PorcentajeIgv
@@ -157,6 +166,8 @@ namespace NubeBooks.Core.Logistics.BL
                     nuevo.IdEmpresa = proforma.IdEmpresa;
                     nuevo.IdContacto = proforma.IdContacto;
                     nuevo.IdEntidadResponsable = proforma.IdEntidadResponsable;
+                    nuevo.IdMoneda = proforma.IdMoneda;
+                    nuevo.IdCuentaBancaria = proforma.IdCuentaBancaria;
                     nuevo.ValidezOferta = proforma.ValidezOferta;
                     nuevo.MetodoPago = proforma.MetodoPago;
                     nuevo.FechaEntrega = proforma.FechaEntrega;
@@ -166,9 +177,9 @@ namespace NubeBooks.Core.Logistics.BL
                     nuevo.FechaCobranza = proforma.FechaCobranza;
                     nuevo.FechaRegistro = proforma.FechaRegistro;
                     nuevo.ComentarioAdiccional = proforma.ComentarioAdiccional;
-                    nuevo.ComenterioProforma = proforma.ComenterioProforma;
+                    nuevo.ComentarioProforma = proforma.ComentarioProforma;
+                    nuevo.OrdenCompra = proforma.OrdenCompra;
                     nuevo.Estado = proforma.Estado;
-                    nuevo.IdMoneda = proforma.IdMoneda;
                     if (nuevo.IdProforma == 0)
                     {
                         context.Proforma.Add(nuevo);

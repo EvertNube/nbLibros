@@ -18,6 +18,7 @@ namespace NubeBooks.Data
         public CuentaBancaria()
         {
             this.Movimiento = new HashSet<Movimiento>();
+            this.Proforma = new HashSet<Proforma>();
         }
     
         public int IdCuentaBancaria { get; set; }
@@ -35,5 +36,7 @@ namespace NubeBooks.Data
         public virtual TipoCuenta TipoCuenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Movimiento> Movimiento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proforma> Proforma { get; set; }
     }
 }

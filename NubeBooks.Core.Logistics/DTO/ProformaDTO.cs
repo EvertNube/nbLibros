@@ -17,6 +17,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public int? IdContacto { get; set; }
         public int IdEntidadResponsable { get; set; }
         public int? IdMoneda { get; set; }
+        public int? IdCuentaBancaria { get; set; }
         public int ValidezOferta { get; set; }
         public string MetodoPago { get; set; }
         public DateTime? FechaEntrega { get; set; }
@@ -28,8 +29,10 @@ namespace NubeBooks.Core.Logistics.DTO
                 
         public DateTime? FechaRegistro { get; set; }
 
-        public string ComenterioProforma { get; set; }
+        public string ComentarioProforma { get; set; }
         public string ComentarioAdiccional { get; set; }
+
+        public string OrdenCompra { get; set; }
 
         public int? Estado { get; set; }
         public List<DetalleProformaDTO> DetalleProforma { get; set; }

@@ -318,6 +318,7 @@
           <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
           <ScalarProperty Name="IdEntidadResponsable" ColumnName="IdEntidadResponsable" />
           <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+          <ScalarProperty Name="IdCuentaBancaria" ColumnName="IdCuentaBancaria" />
           <ScalarProperty Name="ValidezOferta" ColumnName="ValidezOferta" />
           <ScalarProperty Name="MetodoPago" ColumnName="MetodoPago" />
           <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
@@ -326,8 +327,9 @@
           <ScalarProperty Name="FechaFacturacion" ColumnName="FechaFacturacion" />
           <ScalarProperty Name="FechaCobranza" ColumnName="FechaCobranza" />
           <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-          <ScalarProperty Name="ComenterioProforma" ColumnName="ComenterioProforma" />
+          <ScalarProperty Name="ComentarioProforma" ColumnName="ComentarioProforma" />
           <ScalarProperty Name="ComentarioAdiccional" ColumnName="ComentarioAdiccional" />
+          <ScalarProperty Name="OrdenCompra" ColumnName="OrdenCompra" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
         </MappingFragment>
       </EntityTypeMapping>

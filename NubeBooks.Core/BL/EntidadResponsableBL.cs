@@ -358,7 +358,7 @@ namespace NubeBooks.Core.BL
             }
         }
 
-        public List<ContactoDTO> getContactosActivos_EntidadResponsableEnEmpresa(int id)
+        public List<ContactoDTO> getContactosActivos_EnEntidadResponsable(int id)
         {
             using (var context = getContext())
             {

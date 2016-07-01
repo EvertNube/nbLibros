@@ -120,7 +120,9 @@ namespace NubeBooks.Areas.Proformas.Controllers
             ViewBag.lstMonedas = empBL.getListaMonedasAll();
             MovimientoInvBL movItmBL = new MovimientoInvBL();
             ViewBag.lstItems = movItmBL.getItemsEnEmpresa_PorTipoMov(user.IdEmpresa, 1);
-
+            CuentaBancariaBL cbBL = new CuentaBancariaBL();
+            ViewBag.lstCuentasBancarias = cbBL.getCuentasBancariasActivasEnEmpresa(user.IdEmpresa);
+            ViewBag.lstContactos = new List<ContactoDTO>();
 
             var objSent = TempData["Proforma"];
             if (objSent != null) { TempData["Proforma"] = null; return View(objSent); }
@@ -129,12 +131,12 @@ namespace NubeBooks.Areas.Proformas.Controllers
             if(id != null && id > 0)
             {
                 obj = new ProformaBL().getProformaId((int)id);
-
                 return View(obj);
             }
             obj = new ProformaDTO();
             obj.IdEmpresa = user.IdEmpresa;
             obj.FechaProforma = DateTime.Now;
+            obj.DetalleProforma = new List<DetalleProformaDTO>();
 
             return View(obj);
         }
@@ -193,6 +195,14 @@ namespace NubeBooks.Areas.Proformas.Controllers
         {
             TempData["lstDetalleProforma"] = lista;
             return Json(new { success = true, mensaje = "Si funciona" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetContactos(int idEntidad)
+        {
+            EntidadResponsableBL objBL = new EntidadResponsableBL();
+            var lista = objBL.getContactosActivos_EnEntidadResponsable(idEntidad);
+            return Json(new { lista }, JsonRequestBehavior.AllowGet);
         }
     }
 }

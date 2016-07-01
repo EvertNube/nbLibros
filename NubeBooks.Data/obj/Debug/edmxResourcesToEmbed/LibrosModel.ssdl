@@ -302,21 +302,23 @@
       <PropertyRef Name="IdProforma" />
     </Key>
     <Property Name="IdProforma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CodigoProforma" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CodigoProforma" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
     <Property Name="IdContacto" Type="int" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
     <Property Name="IdMoneda" Type="int" />
+    <Property Name="IdCuentaBancaria" Type="int" />
     <Property Name="ValidezOferta" Type="int" Nullable="false" />
-    <Property Name="MetodoPago" Type="varchar" MaxLength="120" />
+    <Property Name="MetodoPago" Type="nvarchar" MaxLength="120" />
     <Property Name="FechaEntrega" Type="datetime" />
     <Property Name="FechaProforma" Type="datetime" />
-    <Property Name="LugarEntrega" Type="varchar" MaxLength="150" />
+    <Property Name="LugarEntrega" Type="nvarchar" MaxLength="150" />
     <Property Name="FechaFacturacion" Type="datetime" />
     <Property Name="FechaCobranza" Type="datetime" />
     <Property Name="FechaRegistro" Type="datetime" />
-    <Property Name="ComenterioProforma" Type="varchar(max)" />
-    <Property Name="ComentarioAdiccional" Type="varchar(max)" />
+    <Property Name="ComentarioProforma" Type="nvarchar(max)" />
+    <Property Name="ComentarioAdiccional" Type="nvarchar(max)" />
+    <Property Name="OrdenCompra" Type="nvarchar" MaxLength="100" />
     <Property Name="Estado" Type="int" />
   </EntityType>
   <EntityType Name="Proyecto">
@@ -1113,6 +1115,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Proforma_CuentaBancaria">
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="0..1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaBancaria">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Principal>
+      <Dependent Role="Proforma">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Proforma_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
@@ -1793,6 +1807,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Proforma_Contacto" Association="Self.FK_Proforma_Contacto">
       <End Role="Contacto" EntitySet="Contacto" />
+      <End Role="Proforma" EntitySet="Proforma" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_CuentaBancaria" Association="Self.FK_Proforma_CuentaBancaria">
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Proforma" EntitySet="Proforma" />
     </AssociationSet>
     <AssociationSet Name="FK_Proforma_Empresa" Association="Self.FK_Proforma_Empresa">

@@ -134,6 +134,7 @@
     <NavigationProperty Name="Moneda" Relationship="Self.FK_CuentaBancaria_Moneda" FromRole="CuentaBancaria" ToRole="Moneda" />
     <NavigationProperty Name="TipoCuenta" Relationship="Self.FK_CuentaBancaria_TipoCuenta" FromRole="CuentaBancaria" ToRole="TipoCuenta" />
     <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
+    <NavigationProperty Name="Proforma" Relationship="Self.FK_Proforma_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Proforma" />
   </EntityType>
   <EntityType Name="DetalleProforma">
     <Key>
@@ -392,23 +393,26 @@
       <PropertyRef Name="IdProforma" />
     </Key>
     <Property Name="IdProforma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CodigoProforma" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CodigoProforma" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
     <Property Name="IdContacto" Type="Int32" />
     <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
     <Property Name="IdMoneda" Type="Int32" />
+    <Property Name="IdCuentaBancaria" Type="Int32" />
     <Property Name="ValidezOferta" Type="Int32" Nullable="false" />
-    <Property Name="MetodoPago" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="MetodoPago" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
     <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
     <Property Name="FechaProforma" Type="DateTime" Precision="3" />
-    <Property Name="LugarEntrega" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="LugarEntrega" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="FechaFacturacion" Type="DateTime" Precision="3" />
     <Property Name="FechaCobranza" Type="DateTime" Precision="3" />
     <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
-    <Property Name="ComenterioProforma" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="ComentarioAdiccional" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ComentarioProforma" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ComentarioAdiccional" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OrdenCompra" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Estado" Type="Int32" />
     <NavigationProperty Name="Contacto" Relationship="Self.FK_Proforma_Contacto" FromRole="Proforma" ToRole="Contacto" />
+    <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_Proforma_CuentaBancaria" FromRole="Proforma" ToRole="CuentaBancaria" />
     <NavigationProperty Name="DetalleProforma" Relationship="Self.FK_DetalleProforma_Proforma" FromRole="Proforma" ToRole="DetalleProforma" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Proforma_Empresa" FromRole="Proforma" ToRole="Empresa" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Proforma_EntidadResponsable" FromRole="Proforma" ToRole="EntidadResponsable" />
@@ -891,6 +895,18 @@
         <PropertyRef Name="IdCuentaBancaria" />
       </Principal>
       <Dependent Role="Movimiento">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proforma_CuentaBancaria">
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="0..1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaBancaria">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Principal>
+      <Dependent Role="Proforma">
         <PropertyRef Name="IdCuentaBancaria" />
       </Dependent>
     </ReferentialConstraint>
@@ -1463,6 +1479,10 @@
     <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="Self.FK_Movimiento_CuentaBancaria">
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_CuentaBancaria" Association="Self.FK_Proforma_CuentaBancaria">
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+      <End Role="Proforma" EntitySet="Proforma" />
     </AssociationSet>
     <AssociationSet Name="FK_DetalleProforma_Item" Association="Self.FK_DetalleProforma_Item">
       <End Role="Item" EntitySet="Item" />

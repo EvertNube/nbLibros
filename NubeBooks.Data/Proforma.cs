@@ -26,6 +26,7 @@ namespace NubeBooks.Data
         public Nullable<int> IdContacto { get; set; }
         public int IdEntidadResponsable { get; set; }
         public Nullable<int> IdMoneda { get; set; }
+        public Nullable<int> IdCuentaBancaria { get; set; }
         public int ValidezOferta { get; set; }
         public string MetodoPago { get; set; }
         public Nullable<System.DateTime> FechaEntrega { get; set; }
@@ -34,11 +35,13 @@ namespace NubeBooks.Data
         public Nullable<System.DateTime> FechaFacturacion { get; set; }
         public Nullable<System.DateTime> FechaCobranza { get; set; }
         public Nullable<System.DateTime> FechaRegistro { get; set; }
-        public string ComenterioProforma { get; set; }
+        public string ComentarioProforma { get; set; }
         public string ComentarioAdiccional { get; set; }
+        public string OrdenCompra { get; set; }
         public Nullable<int> Estado { get; set; }
     
         public virtual Contacto Contacto { get; set; }
+        public virtual CuentaBancaria CuentaBancaria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleProforma> DetalleProforma { get; set; }
         public virtual Empresa Empresa { get; set; }

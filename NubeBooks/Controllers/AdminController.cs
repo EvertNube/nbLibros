@@ -1115,7 +1115,7 @@ namespace NubeBooks.Controllers
                 if (obj == null) return RedirectToAction("Entidades");
                 if (obj.IdEmpresa != user.IdEmpresa) return RedirectToAction("Entidades");
                 //Contactos
-                if (!inactivosC) { ViewBag.lstContactos = objBL.getContactosActivos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
+                if (!inactivosC) { ViewBag.lstContactos = objBL.getContactosActivos_EnEntidadResponsable((int)obj.IdEntidadResponsable); }
                 else { ViewBag.lstContactos = objBL.getContactos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }
                 //Proyectos
                 if (!inactivosP) { ViewBag.lstProyectos = objBL.getProyectosActivos_EntidadResponsableEnEmpresa((int)obj.IdEntidadResponsable); }

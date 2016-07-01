@@ -408,16 +408,16 @@
                             <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                                 <span>Archivos</span>
                             </li>
-                            <li>
+                            @*<li>
                                 <a href="@Url.Action("Index", "Proforma",new { Area="Proformas"})">
                                     <i class="fa fa-file"></i>
                                     <span>Proformas</span>
                                 </a>
-                            </li>
-                            <li>
+                            </li>*@
+                            <li class="@ViewBag.navbar.lstOptions[12].cadena">
                                 <a href="@Url.Action("Index", "Proformas",new { Area="Proformas"})">
-                                    <i class="fa fa-file"></i>
-                                    <span>Proformas Admin</span>
+                                    <i class="fa icon-note"></i>
+                                    <span>Proformas</span>
                                 </a>
                             </li>
                         </ul>
