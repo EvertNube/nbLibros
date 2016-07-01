@@ -3,6 +3,7 @@ using NubeBooks.Core.DTO;
 using NubeBooks.Core.Logistics.BL;
 using NubeBooks.Core.Logistics.DTO;
 using NubeBooks.Models;
+using NubeBooks.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,14 @@ namespace NubeBooks.Areas.Proformas.Controllers
             else { ViewBag.EsAdmin = false; ViewBag.EsSuperAdmin = false; }
             CultureInfo[] cultures = { new CultureInfo("es-PE") };
         }
+        private void createResponseMessage(string status, string message = "", string status_field = "status", string message_field = "message")
+        {
+            TempData[status_field] = status;
+            if (!String.IsNullOrWhiteSpace(message))
+            {
+                TempData[message_field] = message;
+            }
+        }
         #endregion
         public ActionResult Index()
         {
@@ -128,6 +137,62 @@ namespace NubeBooks.Areas.Proformas.Controllers
             obj.FechaProforma = DateTime.Now;
 
             return View(obj);
+        }
+
+        [HttpPost]
+        public ActionResult AddProforma(ProformaDTO dto)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin", new { Area = string.Empty }); }
+            if (getCurrentUser().IdRol == 4) { return RedirectToAction("Index", "Proformas"); }
+            try
+            {
+                if(dto != null)
+                {
+                    dto.DetalleProforma = (List<DetalleProformaDTO>)TempData["lstDetalleProforma"] ?? new List<DetalleProformaDTO>();
+                }
+
+                ProformaBL objBL = new ProformaBL();
+
+                if (dto.IdProforma == 0)
+                {
+                    if (objBL.SaveProforma(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Index", "Proformas");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+                    }
+                }
+                else if (dto.IdProforma > 0)
+                {
+                    if (objBL.SaveProforma(dto))
+                    {
+                        createResponseMessage(CONSTANTES.SUCCESS);
+                        return RedirectToAction("Index", "Proformas");
+                    }
+                    else
+                    {
+                        createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                if (dto.IdProforma != 0)
+                    createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_UPDATE_MESSAGE);
+                else createResponseMessage(CONSTANTES.ERROR, CONSTANTES.ERROR_INSERT_MESSAGE);
+            }
+            TempData["Proforma"] = dto;
+            return RedirectToAction("Proforma", "Proformas", new { id = dto.IdProforma });
+        }
+
+        [HttpPost]
+        public ActionResult PasslstItems(List<DetalleProformaDTO> lista)
+        {
+            TempData["lstDetalleProforma"] = lista;
+            return Json(new { success = true, mensaje = "Si funciona" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

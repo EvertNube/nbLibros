@@ -41,7 +41,8 @@ namespace NubeBooks.Core.Logistics.BL
                     {
                         pro.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(pro.IdEmpresa, pro.IdEntidadResponsable);
                         pro.Empresa = new EmpresaBL().getEmpresa(pro.IdEmpresa);
-                        pro.Contacto = new ContactoBL().getContacto(pro.IdContacto);
+                        if (pro.IdContacto > 0)
+                        { pro.Contacto = new ContactoBL().getContacto((int)pro.IdContacto); }
                     }
                 }
 
@@ -76,7 +77,8 @@ namespace NubeBooks.Core.Logistics.BL
                 {
                     pro.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(pro.IdEmpresa, pro.IdEntidadResponsable);
                     pro.Empresa = new EmpresaBL().getEmpresa(pro.IdEmpresa);
-                    pro.Contacto = new ContactoBL().getContacto(pro.IdContacto);
+                    if (pro.IdContacto > 0)
+                    { pro.Contacto = new ContactoBL().getContacto((int)pro.IdContacto); }
                 }
 
                 return result;
@@ -109,7 +111,9 @@ namespace NubeBooks.Core.Logistics.BL
 
                 result.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(result.IdEmpresa, result.IdEntidadResponsable);
                 result.Empresa = new EmpresaBL().getEmpresa(result.IdEmpresa);
-                result.Contacto = new ContactoBL().getContacto(result.IdContacto);
+                //result.Contacto = new ContactoBL().getContacto(result.IdContacto);
+                if (result.IdContacto > 0)
+                { result.Contacto = new ContactoBL().getContacto((int)result.IdContacto); }
                 result.DetalleProforma = getDetalleProformaPorId(result.IdProforma);
                 result.CuentaBancaria = new CuentaBancariaBL().getCuentasBancariasActivasPorTipoEnEmpresa(result.IdEmpresa, 1);
                 return result;

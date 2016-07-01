@@ -30,9 +30,9 @@
             $("#btnagregar").on('click', AgregarItem);
         })
 
-        function ListarClientes(cambio)
+        function ListarContactos(cambio)
         {
-            if ($('#IdEntidadResponsable').val() != 0) {
+            /*if ($('#IdEntidadResponsable').val() != 0) {
                 var idEntidad = parseInt($('#IdEntidadResponsable').val());
                 if (cambio == 1) {
                     $('#IdProyecto').select2("val", "");
@@ -44,7 +44,7 @@
                     data: lstProyectos,
                     placeholder: "Seleccionar"
                 })
-            }
+            }*/
         }
 
         function AgregarItem() {
@@ -80,6 +80,49 @@
                 }
             }
         }
+        function deleteRow(btn) {
+            item = $.grep(item, function (e) {
+                return e.IdItem != $(btn).data("id");
+            });
+            $(btn).closest("tr").remove();
+            GetTotales();
+        }
+
+        function SubirListaItems() {
+            /*$.each(item, function (i, e) {
+                var elem = {
+                    IdItem: e.IdItem,
+                    NombreItem: 
+                    Cantidad:
+                    PrecioUnidad:
+                    Descuento:
+                    MontoTotal:
+                    TipoCambio:
+                    PorcentajeIgv:
+                    Igv:
+                };
+            });*/
+
+            var lista = [];
+            lista = JSON.stringify({ 'lista': item });
+            var miUrl = '@Url.Action("PasslstItems","Proformas")';
+            debugger;
+            $.ajax({
+                type: 'POST',
+                //url: miBaseUrl + '/PasslstItems',
+                url: miUrl,
+                data: lista,
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    return true;
+                },
+                error: function (xhr, status, error) {
+                    return false;
+                }
+            });
+        }
+
         function GetDetalle(idproforma) {
             $.ajax({
                 url: '/Proformas/Proforma/GetDetalleProforma',
@@ -104,7 +147,7 @@
             $.each(item, function (i, e) {
                 $("#tblitem tbody").append('<tr><td>' + (i + 1) + '</td><td>' + e.IdItem + '</td><td>' + e.NombreItem + '</td><td>' + e.Cantidad
                     + '</td><td></td><td>' + e.PrecioUnidad + '</td><td>' + e.Descuento +
-                    '</td><td>' + e.MontoTotal + '</td><td><span class="glyphicon glyphicon-remove" data-id="' + i + '" style="cursor:pointer"></span></td></tr>');
+                    '</td><td>' + e.MontoTotal + '</td><td><span class="glyphicon glyphicon-remove" data-id="' + e.IdItem + '" style="cursor:pointer" onclick="deleteRow(this)"></span></td></tr>');
             });
 
             GetTotales();
@@ -112,7 +155,9 @@
 
         function GetTotales() {
             var total = 0, igv = 0;
-            $.each(item, function (i, e) { total += e.MontoTotal; igv += e.Igv; });
+            $.each(item, function (i, e) {
+                total += parseFloat(e.MontoTotal); igv += parseFloat(e.Igv);
+            });
             $(".totaligv").text(parseFloat(igv).toFixed(2));
             $(".total").text(parseFloat((total + igv)).toFixed(2));
         }
@@ -128,7 +173,7 @@ else { cadena = "Actualizar"; }
 <div class="wrapper-md" ng-controller="FormDemoCtrl">
     <div class="panel panel-default">
         <div class="panel-body">
-            @using (Html.BeginForm("AddProforma", "Proforma", new { Area = "Proformas" }, FormMethod.Post))
+            @using (Html.BeginForm("AddProforma", "Proformas", new { Area = "Proformas" }, FormMethod.Post))
             {
                 @Html.Partial("_showAlertMessages")
                 @Html.ValidationSummary(true)
@@ -144,7 +189,7 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Cliente</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarClientes(1)"
+                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarContacto(1)"
                                     id="IdEntidadResponsable" name="IdEntidadResponsable" required>
                                 @{ var pCliente = Model != null ? Model.IdEntidadResponsable : 0;
                                     List<EntidadResponsableDTO> listaClientes = ViewBag.lstClientes;
@@ -342,7 +387,7 @@ else { cadena = "Actualizar"; }
                         <div class="col-sm-12">
                             @{var btnName = (Model != null && Model.IdProforma > 0) ? "Guardar Cambios" : "Crear";}
                             @if (!ViewBag.EsUsuarioExterno)
-                            {<button type="submit" class="btn btn-success">@btnName</button>}
+                            {<button type="submit" class="btn btn-success" onclick="return SubirListaItems();">@btnName</button>}
                             <a class="btn btn-default" href="@Url.Action("Index", "Proformas")">Cancelar</a>
                         </div>
                     </div>

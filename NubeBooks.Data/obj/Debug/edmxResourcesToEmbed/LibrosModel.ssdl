@@ -304,7 +304,7 @@
     <Property Name="IdProforma" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CodigoProforma" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="IdEmpresa" Type="int" Nullable="false" />
-    <Property Name="IdContacto" Type="int" Nullable="false" />
+    <Property Name="IdContacto" Type="int" />
     <Property Name="IdEntidadResponsable" Type="int" Nullable="false" />
     <Property Name="IdMoneda" Type="int" />
     <Property Name="ValidezOferta" Type="int" Nullable="false" />
@@ -1102,7 +1102,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Proforma_Contacto">
-    <End Role="Contacto" Type="Self.Contacto" Multiplicity="1" />
+    <End Role="Contacto" Type="Self.Contacto" Multiplicity="0..1" />
     <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Contacto">
