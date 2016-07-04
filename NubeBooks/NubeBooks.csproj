@@ -936,6 +936,7 @@
     <Content Include="Areas\Proformas\Views\Proforma\ProformaDetalle.cshtml" />
     <Content Include="Areas\Proformas\Views\Proformas\Index.cshtml" />
     <Content Include="Areas\Proformas\Views\Proformas\Proforma.cshtml" />
+    <Content Include="Areas\Proformas\Views\Proformas\ProformaDetalle.cshtml" />
     <None Include="Properties\PublishProfiles\NubeBooks.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

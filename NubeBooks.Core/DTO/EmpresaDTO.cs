@@ -14,6 +14,7 @@ namespace NubeBooks.Core.DTO
         public string Codigo { get; set; }
         public bool Estado { get; set; }
         public string Descripcion { get; set; }
+        public string RUC { get; set; }
         public Decimal TipoCambio { get; set; }
         public Decimal? IGV { get; set; }
         public int? IdPeriodo { get; set; }

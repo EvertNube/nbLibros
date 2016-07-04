@@ -35,7 +35,7 @@
                     <i class="glyphicon glyphicon-align-justify"></i>
                 </button>
                 <!-- brand -->
-                <a href="@Url.Action("Index", "Admin")" class="navbar-brand text-lt">
+                <a href="@Url.Action("Index", "Admin", new { Area="" })" class="navbar-brand text-lt">
                     @*<i class="fa fa-btc"></i>
                     <img src="~/Content/themes/admin-nb/img/logo.png" alt="." class="hide">*@
                     <span class="hidden-folded m-l-xs">@ViewBag.NombreEmpresa</span>
@@ -85,10 +85,10 @@
                         <!-- dropdown -->
                         <ul class="dropdown-menu animated fadeInRight w">
                             <li>
-                                <a href="@Url.Action("Usuario", new { id = user.IdUsuario})" ui-sref="app.page.profile">Perfil</a>
+                                <a href="@Url.Action("Usuario", "Admin", new { Area="", id = user.IdUsuario})" ui-sref="app.page.profile">Perfil</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Empresa")">Empresa</a>
+                                <a href="@Url.Action("Empresa", "Admin", new { Area="" })">Empresa</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -96,7 +96,7 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="@Url.Action("Logout")" ui-sref="access.signin">Cerrar sesión</a>
+                                <a href="@Url.Action("Logout", "Admin", new { Area="" })" ui-sref="access.signin">Cerrar sesión</a>
                             </li>
                         </ul>
                         <!-- / dropdown -->
@@ -117,14 +117,14 @@
                                 <span>Controles</span>
                             </li>
                             <li class="@ViewBag.navbar.lstOptions[0].cadena">
-                                <a href="@Url.Action("Index", "Admin")">
+                                <a href="@Url.Action("Index", "Admin", new { Area="" })">
                                     <i class="fa fa-bar-chart"></i>
                                     <span class="font-bold">Dashboard</span>
                                 </a>
                             </li>
 
                             <li class="@ViewBag.navbar.lstOptions[1].cadena">
-                                <a href="@Url.Action("ReportesGestion", "Admin")" class="auto">
+                                <a href="@Url.Action("ReportesGestion", "Admin", new { Area="" })" class="auto">
                                     <span class="pull-right text-muted">
                                         <i class="fa fa-fw fa-angle-right text"></i>
                                         <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -134,25 +134,25 @@
                                 </a>
                                 <ul class="nav nav-sub dk">
                                     <li class="nav-sub-header">
-                                        <a href="@Url.Action("ReportesGestion", "Admin")">
+                                        <a href="@Url.Action("ReportesGestion", "Admin", new { Area="" })">
                                             <span>Gestión</span>
                                         </a>
                                     </li>
                                     @if (!ViewBag.EsUsuarioInterno)
                                     {
                                         <li class="@ViewBag.navbar.lstOptions[1].lstOptions[0].cadena">
-                                            <a href="@Url.Action("ReportesPresupuestos", "Admin")">
+                                            <a href="@Url.Action("ReportesPresupuestos", "Admin", new { Area="" })">
                                                 <span>Presupuesto</span>
                                             </a>
                                         </li>
                                     }
                                     <li class="@ViewBag.navbar.lstOptions[1].lstOptions[1].cadena">
-                                        <a href="@Url.Action("ReportesGestion", "Admin")">
+                                        <a href="@Url.Action("ReportesGestion", "Admin", new { Area="" })">
                                             <span>Gestión </span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[1].lstOptions[2].cadena">
-                                        <a href="@Url.Action("ReportesInventarios", "Admin")">
+                                        <a href="@Url.Action("ReportesInventarios", "Admin", new { Area="" })">
                                             <span>Inventarios</span>
                                         </a>
                                     </li>
@@ -165,7 +165,7 @@
                                 <span>Mantenimiento</span>
                             </li>
                             <li class="@ViewBag.navbar.lstOptions[2].cadena">
-                                <a href="@Url.Action("LibrosBancarios", "Admin")" class="auto">
+                                <a href="@Url.Action("LibrosBancarios", "Admin", new { Area="" })" class="auto">
                                     <span class="pull-right text-muted">
                                         <i class="fa fa-fw fa-angle-right text"></i>
                                         <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -175,24 +175,24 @@
                                 </a>
                                 <ul class="nav nav-sub dk">
                                     <li class="nav-sub-header">
-                                        <a href="@Url.Action("LibrosBancarios", "Admin")">
+                                        <a href="@Url.Action("LibrosBancarios", "Admin", new { Area="" })">
                                             <span>Libros de Control</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[2].lstOptions[1].cadena">
-                                        <a href="@Url.Action("LibrosAdministrativos", "Admin")">
+                                        <a href="@Url.Action("LibrosAdministrativos", "Admin", new { Area="" })">
                                             <span>Administrativos</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[2].lstOptions[0].cadena">
-                                        <a href="@Url.Action("LibrosBancarios", "Admin")">
+                                        <a href="@Url.Action("LibrosBancarios", "Admin", new { Area="" })">
                                             <span>Bancarios</span>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="@ViewBag.navbar.lstOptions[3].cadena">
-                                <a href="@Url.Action("ComprobantesIngreso", "Admin")" class="auto">
+                                <a href="@Url.Action("ComprobantesIngreso", "Admin", new { Area="" })" class="auto">
                                     <span class="pull-right text-muted">
                                         <i class="fa fa-fw fa-angle-right text"></i>
                                         <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -202,29 +202,29 @@
                                 </a>
                                 <ul class="nav nav-sub dk">
                                     <li class="nav-sub-header">
-                                        <a href="@Url.Action("ComprobantesIngreso", "Admin")">
+                                        <a href="@Url.Action("ComprobantesIngreso", "Admin", new { Area="" })">
                                             <span>Comprobantes</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[0].cadena">
-                                        <a href="@Url.Action("ComprobantesIngreso", "Admin")">
+                                        <a href="@Url.Action("ComprobantesIngreso", "Admin", new { Area="" })">
                                             <span>Ingresos</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[1].cadena">
-                                        <a href="@Url.Action("ComprobantesEgreso", "Admin")">
+                                        <a href="@Url.Action("ComprobantesEgreso", "Admin", new { Area="" })">
                                             <span>Egresos</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[3].lstOptions[2].cadena">
-                                        <a href="@Url.Action("ComprobantesAnulados", "Admin")">
+                                        <a href="@Url.Action("ComprobantesAnulados", "Admin", new { Area="" })">
                                             <span>Anulados</span>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="@ViewBag.navbar.lstOptions[9].cadena">
-                                <a href="@Url.Action("InventariosIngreso", "Admin")" class="auto">
+                                <a href="@Url.Action("InventariosIngreso", "Admin", new { Area="" })" class="auto">
                                     <span class="pull-right text-muted">
                                         <i class="fa fa-fw fa-angle-right text"></i>
                                         <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -234,17 +234,17 @@
                                 </a>
                                 <ul class="nav nav-sub dk">
                                     <li class="nav-sub-header">
-                                        <a href="@Url.Action("InventariosIngreso", "Admin")">
+                                        <a href="@Url.Action("InventariosIngreso", "Admin", new { Area="" })">
                                             <span>Inventarios</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[9].lstOptions[0].cadena">
-                                        <a href="@Url.Action("InventariosIngreso", "Admin")">
+                                        <a href="@Url.Action("InventariosIngreso", "Admin", new { Area="" })">
                                             <span>Ingresos</span>
                                         </a>
                                     </li>
                                     <li class="@ViewBag.navbar.lstOptions[9].lstOptions[1].cadena">
-                                        <a href="@Url.Action("InventariosEgreso", "Admin")">
+                                        <a href="@Url.Action("InventariosEgreso", "Admin", new { Area="" })">
                                             <span>Egresos</span>
                                         </a>
                                     </li>
@@ -258,19 +258,19 @@
                             @if (ViewBag.EsAdmin)
                             {
                                 <li class="@ViewBag.navbar.lstOptions[4].cadena">
-                                    <a href="@Url.Action("Areas", "Admin")">
+                                    <a href="@Url.Action("Areas", "Admin", new { Area="" })">
                                         <i class="fa fa-cog"></i>
                                         <span>Áreas</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[5].cadena">
-                                    <a href="@Url.Action("Responsables", "Admin")">
+                                    <a href="@Url.Action("Responsables", "Admin", new { Area="" })">
                                         <i class="fa fa-cog"></i>
                                         <span>Consultores</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[6].cadena">
-                                    <a href="@Url.Action("EntidadesClientes", "Admin")" class="auto">
+                                    <a href="@Url.Action("EntidadesClientes", "Admin", new { Area="" })" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
                                             <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -280,24 +280,24 @@
                                     </a>
                                     <ul class="nav nav-sub dk">
                                         <li class="nav-sub-header">
-                                            <a href="@Url.Action("EntidadesClientes", "Admin")">
+                                            <a href="@Url.Action("EntidadesClientes", "Admin", new { Area="" })">
                                                 <span>Entidades</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[6].lstOptions[0].cadena">
-                                            <a href="@Url.Action("EntidadesClientes", "Admin")">
+                                            <a href="@Url.Action("EntidadesClientes", "Admin", new { Area="" })">
                                                 <span>Clientes</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[6].lstOptions[1].cadena">
-                                            <a href="@Url.Action("EntidadesProveedores", "Admin")">
+                                            <a href="@Url.Action("EntidadesProveedores", "Admin", new { Area="" })">
                                                 <span>Proveedores</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[10].cadena">
-                                    <a href="@Url.Action("Items", "Admin")" class="auto">
+                                    <a href="@Url.Action("Items", "Admin", new { Area="" })" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
                                             <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -307,41 +307,41 @@
                                     </a>
                                     <ul class="nav nav-sub dk">
                                         <li class="nav-sub-header">
-                                            <a href="@Url.Action("Items", "Admin")">
+                                            <a href="@Url.Action("Items", "Admin", new { Area="" })">
                                                 <span>Items</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[10].lstOptions[0].cadena">
-                                            <a href="@Url.Action("Items", "Admin")">
+                                            <a href="@Url.Action("Items", "Admin", new { Area="" })">
                                                 <span>Items</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[10].lstOptions[1].cadena">
-                                            <a href="@Url.Action("CategoriaItms", "Admin")">
+                                            <a href="@Url.Action("CategoriaItms", "Admin", new { Area="" })">
                                                 <span>Categorias</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[10].lstOptions[2].cadena">
-                                            <a href="@Url.Action("Ubicaciones", "Admin")">
+                                            <a href="@Url.Action("Ubicaciones", "Admin", new { Area="" })">
                                                 <span>Ubicaciones</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[11].cadena">
-                                    <a href="@Url.Action("Servicios", "Admin")">
+                                    <a href="@Url.Action("Servicios", "Admin", new { Area="" })">
                                         <i class="fa fa-cog"></i>
                                         <span>Servicios</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[7].cadena">
-                                    <a href="@Url.Action("Honorarios", "Admin")">
+                                    <a href="@Url.Action("Honorarios", "Admin", new { Area="" })">
                                         <i class="fa fa-cog"></i>
                                         <span>Forma de Pago</span>
                                     </a>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[8].cadena">
-                                    <a href="@Url.Action("Categorias", "Admin")" class="auto">
+                                    <a href="@Url.Action("Categorias", "Admin", new { Area="" })" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
                                             <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -351,24 +351,24 @@
                                     </a>
                                     <ul class="nav nav-sub dk">
                                         <li class="nav-sub-header">
-                                            <a href="@Url.Action("Categorias", "Admin")">
+                                            <a href="@Url.Action("Categorias", "Admin", new { Area="" })">
                                                 <span>Presupuesto</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[8].lstOptions[0].cadena">
-                                            <a href="@Url.Action("Categorias", "Admin")">
+                                            <a href="@Url.Action("Categorias", "Admin", new { Area="" })">
                                                 <span>Partidas</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[8].lstOptions[1].cadena">
-                                            <a href="@Url.Action("Periodos", "Admin")">
+                                            <a href="@Url.Action("Periodos", "Admin", new { Area="" })">
                                                 <span>Periodos</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="@ViewBag.navbar.lstOptions[9].cadena">
-                                    <a href="@Url.Action("Usuarios", "Admin")">
+                                    <a href="@Url.Action("Usuarios", "Admin", new { Area="" })">
                                         <i class="fa fa-users"></i>
                                         <span>Usuarios</span>
                                     </a>
@@ -377,7 +377,7 @@
                             else if (ViewBag.EsUsuarioInterno)
                             {
                                 <li class="@ViewBag.navbar.lstOptions[6].cadena">
-                                    <a href="@Url.Action("EntidadesClientes", "Admin")" class="auto">
+                                    <a href="@Url.Action("EntidadesClientes", "Admin", new { Area="" })" class="auto">
                                         <span class="pull-right text-muted">
                                             <i class="fa fa-fw fa-angle-right text"></i>
                                             <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -387,33 +387,39 @@
                                     </a>
                                     <ul class="nav nav-sub dk">
                                         <li class="nav-sub-header">
-                                            <a href="@Url.Action("EntidadesClientes", "Admin")">
+                                            <a href="@Url.Action("EntidadesClientes", "Admin", new { Area="" })">
                                                 <span>Entidades</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[6].lstOptions[0].cadena">
-                                            <a href="@Url.Action("EntidadesClientes", "Admin")">
+                                            <a href="@Url.Action("EntidadesClientes", "Admin", new { Area="" })">
                                                 <span>Clientes</span>
                                             </a>
                                         </li>
                                         <li class="@ViewBag.navbar.lstOptions[6].lstOptions[1].cadena">
-                                            <a href="@Url.Action("EntidadesProveedores", "Admin")">
+                                            <a href="@Url.Action("EntidadesProveedores", "Admin", new { Area="" })">
                                                 <span>Proveedores</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                             }
-                            @*<li class="line dk hidden-folded"></li>
+                            <li class="line dk hidden-folded"></li>
                             <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                                 <span>Archivos</span>
                             </li>
-                            <li>
+                            @*<li>
                                 <a href="@Url.Action("Index", "Proforma",new { Area="Proformas"})">
                                     <i class="fa fa-file"></i>
-                                    <span>Proformas Area</span>
+                                    <span>Proformas</span>
                                 </a>
                             </li>*@
+                            <li class="@ViewBag.navbar.lstOptions[12].cadena">
+                                <a href="@Url.Action("Index", "Proformas",new { Area="Proformas"})">
+                                    <i class="fa icon-note"></i>
+                                    <span>Proformas</span>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                     <!-- nav -->

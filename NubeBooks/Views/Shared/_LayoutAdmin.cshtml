@@ -85,10 +85,10 @@
                         <!-- dropdown -->
                         <ul class="dropdown-menu animated fadeInRight w">
                             <li>
-                                <a href="@Url.Action("Usuario", new { id = user.IdUsuario})" ui-sref="app.page.profile">Perfil</a>
+                                <a href="@Url.Action("Usuario", "Admin", new { Area="", id = user.IdUsuario})" ui-sref="app.page.profile">Perfil</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("Empresa")">Empresa</a>
+                                <a href="@Url.Action("Empresa", "Admin", new { Area="" })">Empresa</a>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -96,7 +96,7 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="@Url.Action("Logout")" ui-sref="access.signin">Cerrar sesión</a>
+                                <a href="@Url.Action("Logout", "Admin", new { Area="" })" ui-sref="access.signin">Cerrar sesión</a>
                             </li>
                         </ul>
                         <!-- / dropdown -->

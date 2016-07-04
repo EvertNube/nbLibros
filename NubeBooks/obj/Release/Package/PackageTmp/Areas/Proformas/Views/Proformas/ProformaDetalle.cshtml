@@ -1,0 +1,110 @@
+﻿@model NubeBooks.Core.Logistics.DTO.ProformaDTO
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="app-content-body ">
+    <div class="bg-light lter b-b wrapper-md hidden-print">
+        <a href="#" class="btn btn-sm btn-info pull-right" onClick="window.print();">Imprimir</a>
+        <h1 class="m-n font-thin h3">Factura Proforma</h1>
+    </div>
+    <div class="wrapper-md">
+        <div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>@Model.Empresa.Nombre</h3>
+                    <h4>RUC: @Model.Empresa.RUC</h4>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <h3>Proforma <strong>#@Model.CodigoProforma</strong></h3>
+                </div>
+            </div>
+            <div class="well m-t bg-light lt">
+                <div class="row">
+                    <label class="col-md-2">Atención:</label>
+                    <label class="col-md-4"><strong>@Model.Contacto.Nombre</strong></label>
+                    <label class="col-md-2">Fecha:</label>
+                    <label class="col-md-4"><strong>@Model.FechaRegistro</strong></label>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">Cargo:</label>
+                    <label class="col-md-4"><strong>@Model.Contacto.Cargo</strong></label>
+                    <label class="col-md-2">Empresa:</label>
+                    <label class="col-md-4"><strong>@Model.EntidadResponsable.Nombre</strong></label>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">Email:</label>
+                    <label class="col-md-4"><strong>@Model.Contacto.Email</strong></label>
+                    <label class="col-md-2">Dirección:</label>
+                    <label class="col-md-4"><strong>@Model.EntidadResponsable.Direccion</strong></label>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">Teléfono(s):</label>
+                    <label class="col-md-4"><strong>@Model.Contacto.Telefono &nbsp; @Model.Contacto.Celular</strong></label>
+                    <label class="col-md-2">Validez:</label>
+                    <label class="col-md-4"><strong>@Model.ValidezOferta día(s)</strong></label>
+                </div>
+            </div>
+            <p>Método de Pago: <strong>@Model.MetodoPago</strong></p>
+            <p>Fecha de Entrega: <strong>@Model.FechaEntrega</strong></p>
+            <p>Lugar de Entrega: <strong>@Model.LugarEntrega</strong></p>
+            <div class="line"></div>
+            <table class="table table-striped bg-white b-a">
+                <thead>
+                    <tr>
+                        <th style="width: 60px">ÍTEM</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th style="width: 140px">CANTIDAD</th>
+                        <th style="width: 140px">PRECIO UNITARIO</th>
+                        <th style="width: 140px">MONTO TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ decimal? total = 0; decimal? igv = 0; int cont = 0; }
+                    @foreach (var item in Model.DetalleProforma)
+                    {
+                        total += item.MontoTotal;
+                        igv += item.Igv;
+                        cont += 1;
+                        <tr class="text-center">
+                            <td>@cont</td>
+                            <td class="text-left">@item.NombreItem</td>
+                            <td>@item.Cantidad</td>
+                            <td class="text-right">@item.PrecioUnidad</td>
+                            <td class="text-right">@item.MontoTotal</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" class="text-right"><strong>Sub Total</strong></td>
+                        <td class="text-right"><strong>@total</strong></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" class="text-right no-border"><strong>IGV</strong></td>
+                        <td class="text-right">@igv</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3" class="text-right no-border"><strong>Total</strong></td>
+                        <td class="text-right"><strong>@(total + igv)</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p>
+                <strong>DATOS BANCARIOS</strong><br>
+                @Model.Empresa.Nombre<br>
+                @*RUC: 2055712848*@
+            </p>
+            <p>
+                <strong>Cuentas Bancarias</strong><br>
+                @foreach (var cuenta in Model.CuentaBancaria)
+                {
+                    @cuenta.NombreCuenta<br />
+                }
+            </p>
+        </div>
+    </div>
+</div>

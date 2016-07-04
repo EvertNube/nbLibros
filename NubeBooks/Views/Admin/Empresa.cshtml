@@ -30,10 +30,14 @@
                 @Html.ValidationSummary(true)
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label>Nombre</label>
                             @Html.TextBoxFor(u => u.Nombre, new { @class = "form-control", @placeholder = "Nombre de la Empresa", @type = "text" })
                             @Html.ValidationMessageFor(u => u.Nombre, "", new { @style = "color:red;" })
+                        </div>
+                        <div class="col-md-3">
+                            <label>RUC</label>
+                            @Html.TextBoxFor(u => u.RUC, new { @class = "form-control", @placeholder = "RUC", @type = "text" })
                         </div>
                         <div class="col-md-3">
                             <label>Tipo de Cambio</label>

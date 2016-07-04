@@ -14,7 +14,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public int IdProforma { get; set; }
         public string CodigoProforma { get; set; }
         public int IdEmpresa { get; set; }
-        public int? IdContacto { get; set; }
+        public int IdContacto { get; set; }
         public int IdEntidadResponsable { get; set; }
         public int? IdMoneda { get; set; }
         public int? IdCuentaBancaria { get; set; }
@@ -41,5 +41,7 @@ namespace NubeBooks.Core.Logistics.DTO
         public EntidadResponsableDTO EntidadResponsable { get; set; }
         
         public List<CuentaBancariaDTO> CuentaBancaria { get; set; }
+
+        public string NombreCuentaBancaria { get; set; }
     }
 }

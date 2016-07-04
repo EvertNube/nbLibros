@@ -9,10 +9,14 @@
         function handleClick(element) {
             window.location.href = '@Url.Action("CategoriaItms", "Admin")' + "?inactivos=" + element.checked;
         }
+
+        $("#exportar").click(function () {
+            window.location.href = miBaseUrl + "/ExportarCategoriaItms";
+        });
     </script>
 }
 <div class="bg-light lter b-b wrapper-md">
-    <button class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
+    <button id="exportar" class="btn m-b-xs btn-sm btn-info btn-addon pull-right m-l open-modal" data-toggle="modal" data-target="#modal-form-exportar"><i class="fa fa-cloud-download"></i>Exportar</button>
     <a href="@Url.Action("CategoriaItm", "Admin", new { id = 0 })" class="btn m-b-xs btn-sm btn-success btn-addon pull-right"><i class="fa fa-plus"></i>Agregar Nuevo</a>
     <h1 class="m-n font-thin h3">@ViewBag.Title</h1>
 </div>

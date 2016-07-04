@@ -52,6 +52,61 @@ namespace NubeBooks.Core.Logistics.BL
                 return result;
             }
         }
+        public List<ProformaDTO> getProformasExportarEnEmpresa(int idEmpresa)
+        {
+            using (var context = getContext())
+            {
+                var result = context.Proforma.Where(x => x.IdEmpresa == idEmpresa).Select(x => new ProformaDTO
+                {
+                    IdProforma = x.IdProforma,
+                    CodigoProforma = x.CodigoProforma,
+                    IdEmpresa = x.IdEmpresa,
+                    IdContacto = x.IdContacto,
+                    IdEntidadResponsable = x.IdEntidadResponsable,
+                    IdMoneda = x.IdMoneda,
+                    IdCuentaBancaria = x.IdCuentaBancaria,
+                    ValidezOferta = x.ValidezOferta,
+                    MetodoPago = x.MetodoPago,
+                    FechaEntrega = x.FechaEntrega,
+                    FechaProforma = x.FechaProforma,
+                    LugarEntrega = x.LugarEntrega,
+                    FechaFacturacion = x.FechaFacturacion,
+                    FechaCobranza = x.FechaCobranza,
+                    FechaRegistro = x.FechaRegistro,
+                    ComentarioAdiccional = x.ComentarioAdiccional,
+                    ComentarioProforma = x.ComentarioProforma,
+                    OrdenCompra = x.OrdenCompra,
+                    Estado = x.Estado,
+                    NombreCuentaBancaria = x.CuentaBancaria.NombreCuenta,
+                    DetalleProforma = x.DetalleProforma.Select(r => new DetalleProformaDTO
+                    {
+                        IdProforma = r.IdProforma,
+                        IdItem = r.IdItem,
+                        Cantidad = r.Cantidad,
+                        PrecioUnidad = r.PrecioUnidad,
+                        MontoTotal = r.MontoTotal,
+                        TipoCambio = r.TipoCambio,
+                        NombreItem = r.Item.Codigo + r.Item.Nombre,
+                        Descuento = r.Descuento,
+                        Igv = r.Igv,
+                        PorcentajeIgv = r.PorcentajeIgv
+                    }).ToList()
+                }).OrderByDescending(x => x.FechaRegistro).ToList();
+
+                if (idEmpresa > 0)
+                {
+                    foreach (var pro in result)
+                    {
+                        pro.EntidadResponsable = new EntidadResponsableBL().getEntidadResponsableEnEmpresa_Only(pro.IdEmpresa, pro.IdEntidadResponsable);
+                        pro.Empresa = new EmpresaBL().getEmpresa(pro.IdEmpresa);
+                        if (pro.IdContacto > 0)
+                        { pro.Contacto = new ContactoBL().getContacto((int)pro.IdContacto); }
+                    }
+                }
+
+                return result;
+            }
+        }
         public List<ProformaDTO> getProformaEnEmpresa(int idEmpresa)
         {
             using (var context = getContext())
@@ -159,6 +214,7 @@ namespace NubeBooks.Core.Logistics.BL
                     if (proforma.IdProforma != 0)
                     {
                         nuevo = context.Proforma.Where(c => c.IdProforma == proforma.IdProforma).SingleOrDefault();
+                        nuevo.FechaRegistro = DateTime.Now;
                     }
                     nuevo.IdProforma = proforma.IdProforma;
                     if (proforma.CodigoProforma == null || proforma.CodigoProforma == "") { nuevo.CodigoProforma = CodigoProforma(proforma.IdEmpresa); }
@@ -171,11 +227,11 @@ namespace NubeBooks.Core.Logistics.BL
                     nuevo.ValidezOferta = proforma.ValidezOferta;
                     nuevo.MetodoPago = proforma.MetodoPago;
                     nuevo.FechaEntrega = proforma.FechaEntrega;
-                    nuevo.FechaProforma = proforma.FechaProforma;
+                    DateTime Hora = DateTime.Now;
+                    nuevo.FechaProforma = proforma.FechaProforma + new TimeSpan(Hora.Hour, Hora.Minute, Hora.Second); ;
                     nuevo.LugarEntrega = proforma.LugarEntrega;
                     nuevo.FechaFacturacion = proforma.FechaFacturacion;
                     nuevo.FechaCobranza = proforma.FechaCobranza;
-                    nuevo.FechaRegistro = proforma.FechaRegistro;
                     nuevo.ComentarioAdiccional = proforma.ComentarioAdiccional;
                     nuevo.ComentarioProforma = proforma.ComentarioProforma;
                     nuevo.OrdenCompra = proforma.OrdenCompra;

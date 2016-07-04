@@ -8,8 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 using System.Web.Mvc;
 using System.Globalization;
+using System.Data;
 
 namespace NubeBooks.Areas.Proformas.Controllers
 {
@@ -93,6 +96,51 @@ namespace NubeBooks.Areas.Proformas.Controllers
                 TempData[message_field] = message;
             }
         }
+
+        #region reportes
+        private static void PintarCabeceraTabla(GridView gridView)
+        {
+            var myTable = (Table)gridView.Controls[0];
+            foreach (GridViewRow row in myTable.Rows)
+            {
+                if (row.Cells.Count >= 3)
+                {
+                    for (int i = 0; i < row.Cells.Count; i++)
+                    {
+                        row.Cells[i].Text = row.Cells[i].Text.ToUpper();
+                        row.Cells[i].BackColor = System.Drawing.Color.FromArgb(189, 195, 199);
+                        row.Cells[i].Font.Bold = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        private static void AddSuperHeader(GridView gridView, string text = null)
+        {
+            var myTable = (Table)gridView.Controls[0];
+            var myNewRow = new GridViewRow(0, -1, DataControlRowType.Header, DataControlRowState.Normal);
+            myNewRow.Cells.Add(MakeCell(text, gridView.HeaderRow.Cells.Count));//gridView.Columns.Count
+            myNewRow.Cells[0].Style.Add("background-color", "#cbcfd6");
+            myTable.Rows.AddAt(0, myNewRow);
+        }
+
+        private static void AddWhiteHeader(GridView gridView, int index, string text = null)
+        {
+            var myTable = (Table)gridView.Controls[0];
+            var myNewRow = new GridViewRow(0, -1, DataControlRowType.Header, DataControlRowState.Normal);
+            myNewRow.Cells.Add(MakeCell(text, gridView.HeaderRow.Cells.Count));//gridView.Columns.Count
+            myNewRow.Cells[0].Style.Add("background-color", "#ffffff");
+            myNewRow.Cells[0].HorizontalAlign = HorizontalAlign.Left;
+            myTable.Rows.AddAt(index, myNewRow);
+        }
+
+        private static TableHeaderCell MakeCell(string text = null, int span = 1)
+        {
+            return new TableHeaderCell() { ColumnSpan = span, Text = text ?? string.Empty, CssClass = "table-header" };
+        }
+        #endregion
+
         #endregion
         public ActionResult Index()
         {
@@ -121,7 +169,7 @@ namespace NubeBooks.Areas.Proformas.Controllers
             MovimientoInvBL movItmBL = new MovimientoInvBL();
             ViewBag.lstItems = movItmBL.getItemsEnEmpresa_PorTipoMov(user.IdEmpresa, 1);
             CuentaBancariaBL cbBL = new CuentaBancariaBL();
-            ViewBag.lstCuentasBancarias = cbBL.getCuentasBancariasActivasEnEmpresa(user.IdEmpresa);
+            ViewBag.lstCuentasBancarias = cbBL.getCuentasBancariasActivasPorTipoEnEmpresa(user.IdEmpresa, 1);
             ViewBag.lstContactos = new List<ContactoDTO>();
 
             var objSent = TempData["Proforma"];
@@ -137,6 +185,17 @@ namespace NubeBooks.Areas.Proformas.Controllers
             obj.IdEmpresa = user.IdEmpresa;
             obj.FechaProforma = DateTime.Now;
             obj.DetalleProforma = new List<DetalleProformaDTO>();
+
+            return View(obj);
+        }
+
+        public ActionResult ProformaDetalle(int id)
+        {
+            if (!this.currentUser()) { return RedirectToAction("Ingresar", "Admin", new { Area = string.Empty }); }
+            ViewBag.Title += "Detalle Proforma";
+            MenuNavBarSelected(12);
+
+            var obj = new ProformaBL().getProformaId(id);
 
             return View(obj);
         }
@@ -204,5 +263,102 @@ namespace NubeBooks.Areas.Proformas.Controllers
             var lista = objBL.getContactosActivos_EnEntidadResponsable(idEntidad);
             return Json(new { lista }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ExportarProformas()
+        {
+            EmpresaDTO empresa = (new EmpresaBL()).getEmpresa(getCurrentUser().IdEmpresa);
+
+            ProformaBL objBL = new ProformaBL();
+            List<ProformaDTO> lista = objBL.getProformasExportarEnEmpresa(empresa.IdEmpresa);
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Clear();
+
+            dt.Columns.Add("Codigo de Proforma");
+            dt.Columns.Add("Nombre Cliente");
+            dt.Columns.Add("Atención");
+            dt.Columns.Add("Cargo");
+            dt.Columns.Add("Email");
+            dt.Columns.Add("Telefono");
+            dt.Columns.Add("Celular");
+            dt.Columns.Add("Fecha Registro");
+            dt.Columns.Add("Fecha Proforma");
+            dt.Columns.Add("Validez");
+            dt.Columns.Add("Método de Pago");
+            dt.Columns.Add("Fecha de Entrega");
+            dt.Columns.Add("Lugar de Entrega");
+            dt.Columns.Add("Sub Total");
+            dt.Columns.Add("IGV");
+            dt.Columns.Add("Total");
+            dt.Columns.Add("Cuenta Bancaria");
+            dt.Columns.Add("Estado");
+            dt.Columns.Add("Observaciones de la Proforma");
+            dt.Columns.Add("Comentarios adicionales");
+
+            foreach (var item in lista)
+            {
+                System.Data.DataRow row = dt.NewRow();
+                row["Codigo de Proforma"] = item.CodigoProforma;
+                row["Nombre Cliente"] = item.EntidadResponsable.Nombre;
+                row["Atención"] = item.Contacto.Nombre;
+                row["Cargo"] = item.Contacto.Cargo;
+                row["Email"] = item.Contacto.Email;
+                row["Telefono"] = item.Contacto.Telefono;
+                row["Celular"] = item.Contacto.Celular;
+                row["Fecha Registro"] = item.FechaRegistro != null ? item.FechaRegistro.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "";
+                row["Fecha Proforma"] = item.FechaProforma != null ? item.FechaProforma.GetValueOrDefault().ToString("dd/MMM/yyyy", CultureInfo.CreateSpecificCulture("en-GB")) : "";
+                row["Validez"] = item.ValidezOferta + "día(s)";
+                row["Método de Pago"] = item.MetodoPago;
+                row["Fecha de Entrega"] = item.FechaEntrega;
+                row["Lugar de Entrega"] = item.LugarEntrega;
+                row["Sub Total"] = item.DetalleProforma.Sum(x => x.MontoTotal).GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+                row["IGV"] = item.DetalleProforma.Sum(x => x.Igv).GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+                row["Total"] = item.DetalleProforma.Sum(x => x.MontoTotal + x.Igv).GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture);
+                row["Cuenta Bancaria"] = item.NombreCuentaBancaria;
+                row["Estado"] = item.Estado == 1 ? "Pendiente" : (item.Estado == 2 ? "Aprobada" : "Rechazada");
+                row["Observaciones de la Proforma"] = item.ComentarioProforma;
+                row["Comentarios adicionales"] = item.ComentarioAdiccional;
+                dt.Rows.Add(row);
+            }
+
+            GenerarProformaPdf(dt, "Detalle de Proformas", "Detalle_de_Proformas", empresa, Response);
+            createResponseMessage(CONSTANTES.SUCCESS, CONSTANTES.SUCCESS_FILE);
+            return RedirectToAction("Index", "Proformas"); ;
+        }
+
+        private static void GenerarProformaPdf(DataTable dt, string titulo, string nombreDoc, EmpresaDTO objEmpresa, HttpResponseBase Response)
+        {
+            GridView gv = new GridView();
+
+            gv.DataSource = dt;
+            gv.AllowPaging = false;
+            gv.DataBind();
+
+            if (dt.Rows.Count > 0)
+            {
+                PintarCabeceraTabla(gv);
+                //PintarIntercaladoCategorias(gv);
+
+                AddSuperHeader(gv, titulo + " - Empresa:" + objEmpresa.Nombre);
+                AddWhiteHeader(gv, 1, "RUC: " + objEmpresa.RUC);
+
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=" + nombreDoc + "_" + objEmpresa.Nombre + "_" + DateTime.Now.ToString("dd-MM-yyyy") + ".xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+
+                System.IO.StringWriter sw = new System.IO.StringWriter();
+                HtmlTextWriter htw = new HtmlTextWriter(sw);
+                gv.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+                htw.Close();
+                sw.Close();
+            }
+        }
+
+        
     }
 }

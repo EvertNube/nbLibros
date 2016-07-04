@@ -23,7 +23,7 @@ namespace NubeBooks.Data
         public int IdProforma { get; set; }
         public string CodigoProforma { get; set; }
         public int IdEmpresa { get; set; }
-        public Nullable<int> IdContacto { get; set; }
+        public int IdContacto { get; set; }
         public int IdEntidadResponsable { get; set; }
         public Nullable<int> IdMoneda { get; set; }
         public Nullable<int> IdCuentaBancaria { get; set; }

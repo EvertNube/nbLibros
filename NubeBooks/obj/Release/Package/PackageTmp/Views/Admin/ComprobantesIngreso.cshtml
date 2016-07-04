@@ -143,8 +143,8 @@
                                     <a href="@Url.Action("Comprobante", "Admin", new { id = item.IdComprobante })"><i class="fa fa-@rIcon" title="@rTitle"></i>&nbsp;&nbsp;</a>
                                     @if (!ViewBag.EsUsuarioExterno)
                                     {
-                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form2" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Anular"></i>&nbsp;&nbsp;</a>
-                                        <a href="#" class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-trash" title="Eliminar"></i></a>
+                                        <a class="open-modal" data-toggle="modal" data-target="#modal-form2" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-times" title="Anular"></i>&nbsp;&nbsp;</a>
+                                        <a class="open-modal" data-toggle="modal" data-target="#modal-form" data-id="@item.IdComprobante" data-nro="@item.NroDocumento" data-doc="@item.NombreTipoDocumento"><i class="fa fa-trash" title="Eliminar"></i></a>
                                     }
                                 </td>
                             </tr>

@@ -37,6 +37,7 @@ namespace NubeBooks.Data
         public string Codigo { get; set; }
         public bool Estado { get; set; }
         public string Descripcion { get; set; }
+        public string RUC { get; set; }
         public decimal TipoCambio { get; set; }
         public Nullable<decimal> IGV { get; set; }
         public Nullable<int> IdPeriodo { get; set; }

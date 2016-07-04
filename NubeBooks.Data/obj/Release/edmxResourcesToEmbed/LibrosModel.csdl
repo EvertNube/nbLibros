@@ -115,6 +115,7 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Contacto_EntidadResponsable1" FromRole="Contacto" ToRole="EntidadResponsable" />
+    <NavigationProperty Name="Proforma" Relationship="Self.FK_Proforma_Contacto" FromRole="Contacto" ToRole="Proforma" />
   </EntityType>
   <EntityType Name="CuentaBancaria">
     <Key>
@@ -133,6 +134,7 @@
     <NavigationProperty Name="Moneda" Relationship="Self.FK_CuentaBancaria_Moneda" FromRole="CuentaBancaria" ToRole="Moneda" />
     <NavigationProperty Name="TipoCuenta" Relationship="Self.FK_CuentaBancaria_TipoCuenta" FromRole="CuentaBancaria" ToRole="TipoCuenta" />
     <NavigationProperty Name="Movimiento" Relationship="Self.FK_Movimiento_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Movimiento" />
+    <NavigationProperty Name="Proforma" Relationship="Self.FK_Proforma_CuentaBancaria" FromRole="CuentaBancaria" ToRole="Proforma" />
   </EntityType>
   <EntityType Name="DetalleProforma">
     <Key>
@@ -160,6 +162,7 @@
     <Property Name="Codigo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
     <Property Name="IGV" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="IdPeriodo" Type="Int32" />
@@ -391,26 +394,29 @@
       <PropertyRef Name="IdProforma" />
     </Key>
     <Property Name="IdProforma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CodigoProforma" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CodigoProforma" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
-    <Property Name="IdResponsable" Type="Int32" Nullable="false" />
+    <Property Name="IdContacto" Type="Int32" Nullable="false" />
     <Property Name="IdEntidadResponsable" Type="Int32" Nullable="false" />
     <Property Name="IdMoneda" Type="Int32" />
+    <Property Name="IdCuentaBancaria" Type="Int32" />
     <Property Name="ValidezOferta" Type="Int32" Nullable="false" />
-    <Property Name="MetodoPago" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="MetodoPago" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
     <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
     <Property Name="FechaProforma" Type="DateTime" Precision="3" />
-    <Property Name="LugarEntrega" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="LugarEntrega" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="FechaFacturacion" Type="DateTime" Precision="3" />
     <Property Name="FechaCobranza" Type="DateTime" Precision="3" />
     <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
-    <Property Name="ComenterioProforma" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="ComentarioAdiccional" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ComentarioProforma" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ComentarioAdiccional" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="OrdenCompra" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Estado" Type="Int32" />
+    <NavigationProperty Name="Contacto" Relationship="Self.FK_Proforma_Contacto" FromRole="Proforma" ToRole="Contacto" />
+    <NavigationProperty Name="CuentaBancaria" Relationship="Self.FK_Proforma_CuentaBancaria" FromRole="Proforma" ToRole="CuentaBancaria" />
     <NavigationProperty Name="DetalleProforma" Relationship="Self.FK_DetalleProforma_Proforma" FromRole="Proforma" ToRole="DetalleProforma" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Proforma_Empresa" FromRole="Proforma" ToRole="Empresa" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_Proforma_EntidadResponsable" FromRole="Proforma" ToRole="EntidadResponsable" />
-    <NavigationProperty Name="Responsable" Relationship="Self.FK_Proforma_Responsable" FromRole="Proforma" ToRole="Responsable" />
   </EntityType>
   <EntityType Name="Proyecto">
     <Key>
@@ -438,7 +444,6 @@
     <NavigationProperty Name="Comprobante" Relationship="Self.FK_Comprobante_Responsable" FromRole="Responsable" ToRole="Comprobante" />
     <NavigationProperty Name="Empresa" Relationship="Self.FK_Responsable_Empresa" FromRole="Responsable" ToRole="Empresa" />
     <NavigationProperty Name="EntidadResponsable" Relationship="Self.FK_EntidadResponsable_Responsable" FromRole="Responsable" ToRole="EntidadResponsable" />
-    <NavigationProperty Name="Proforma" Relationship="Self.FK_Proforma_Responsable" FromRole="Responsable" ToRole="Proforma" />
     <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Responsable" FromRole="Responsable" ToRole="Proyecto" />
   </EntityType>
   <EntityType Name="Rol">
@@ -825,6 +830,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Proforma_Contacto">
+    <End Role="Contacto" Type="Self.Contacto" Multiplicity="1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contacto">
+        <PropertyRef Name="IdContacto" />
+      </Principal>
+      <Dependent Role="Proforma">
+        <PropertyRef Name="IdContacto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_CuentaBancaria_Empresa">
     <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
     <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="*" />
@@ -869,6 +886,18 @@
         <PropertyRef Name="IdCuentaBancaria" />
       </Principal>
       <Dependent Role="Movimiento">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proforma_CuentaBancaria">
+    <End Role="CuentaBancaria" Type="Self.CuentaBancaria" Multiplicity="0..1" />
+    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaBancaria">
+        <PropertyRef Name="IdCuentaBancaria" />
+      </Principal>
+      <Dependent Role="Proforma">
         <PropertyRef Name="IdCuentaBancaria" />
       </Dependent>
     </ReferentialConstraint>
@@ -1269,18 +1298,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Proforma_Responsable">
-    <End Role="Responsable" Type="Self.Responsable" Multiplicity="1" />
-    <End Role="Proforma" Type="Self.Proforma" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Responsable">
-        <PropertyRef Name="IdResponsable" />
-      </Principal>
-      <Dependent Role="Proforma">
-        <PropertyRef Name="IdResponsable" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Proyecto_Responsable">
     <End Role="Responsable" Type="Self.Responsable" Multiplicity="0..1" />
     <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
@@ -1433,6 +1450,10 @@
       <End Role="EntidadResponsable" EntitySet="EntidadResponsable" />
       <End Role="Contacto" EntitySet="Contacto" />
     </AssociationSet>
+    <AssociationSet Name="FK_Proforma_Contacto" Association="Self.FK_Proforma_Contacto">
+      <End Role="Contacto" EntitySet="Contacto" />
+      <End Role="Proforma" EntitySet="Proforma" />
+    </AssociationSet>
     <AssociationSet Name="FK_CuentaBancaria_Empresa" Association="Self.FK_CuentaBancaria_Empresa">
       <End Role="Empresa" EntitySet="Empresa" />
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
@@ -1448,6 +1469,10 @@
     <AssociationSet Name="FK_Movimiento_CuentaBancaria" Association="Self.FK_Movimiento_CuentaBancaria">
       <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
       <End Role="Movimiento" EntitySet="Movimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proforma_CuentaBancaria" Association="Self.FK_Proforma_CuentaBancaria">
+      <End Role="CuentaBancaria" EntitySet="CuentaBancaria" />
+      <End Role="Proforma" EntitySet="Proforma" />
     </AssociationSet>
     <AssociationSet Name="FK_DetalleProforma_Item" Association="Self.FK_DetalleProforma_Item">
       <End Role="Item" EntitySet="Item" />
@@ -1580,10 +1605,6 @@
     <AssociationSet Name="FK_MovimientoInv_Usuario" Association="Self.FK_MovimientoInv_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
       <End Role="MovimientoInv" EntitySet="MovimientoInv" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Proforma_Responsable" Association="Self.FK_Proforma_Responsable">
-      <End Role="Responsable" EntitySet="Responsable" />
-      <End Role="Proforma" EntitySet="Proforma" />
     </AssociationSet>
     <AssociationSet Name="FK_Proyecto_Responsable" Association="Self.FK_Proyecto_Responsable">
       <End Role="Responsable" EntitySet="Responsable" />
