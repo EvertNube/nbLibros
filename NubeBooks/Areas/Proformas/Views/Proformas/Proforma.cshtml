@@ -463,7 +463,7 @@ else { cadena = "Actualizar"; }
 
                 @Html.TextBoxFor(u => u.CodigoProforma, new { @value = Model.CodigoProforma, @type = "hidden" })
                 @Html.TextBoxFor(u => u.IdEmpresa, new { @value = Model.IdEmpresa, @type = "hidden" })
-                @Html.TextBoxFor(u => u.IdProforma, new { @value = Model.IdProforma != 0 ? Model.IdProforma.ToString() : "", @type = "hidden" })
+                @Html.TextBoxFor(u => u.IdProforma, new { @value = Model.IdProforma != 0 ? Model.IdProforma.ToString() : "0", @type = "hidden" })
                 <div class="line line-dashed b-b line-lg pull-in"></div>
 
                 <div class="form-group">

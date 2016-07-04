@@ -214,8 +214,8 @@ namespace NubeBooks.Core.Logistics.BL
                     if (proforma.IdProforma != 0)
                     {
                         nuevo = context.Proforma.Where(c => c.IdProforma == proforma.IdProforma).SingleOrDefault();
-                        nuevo.FechaRegistro = DateTime.Now;
                     }
+                    else { nuevo.FechaRegistro = DateTime.Now; }
                     nuevo.IdProforma = proforma.IdProforma;
                     if (proforma.CodigoProforma == null || proforma.CodigoProforma == "") { nuevo.CodigoProforma = CodigoProforma(proforma.IdEmpresa); }
                     //else { nuevo.CodigoProforma = proforma.CodigoProforma; }
