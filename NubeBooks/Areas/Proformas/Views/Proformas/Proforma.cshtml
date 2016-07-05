@@ -18,6 +18,7 @@
         var miBaseUrl = '';
         var jslstItems = [];
         var jslstContactos = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(ViewBag.lstContactos)))');
+        var jslstItems = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(ViewBag.lstItems)))');
 
         $(function () {
             miBaseUrl = baseURL(window.location.pathname);
@@ -29,6 +30,8 @@
                 placeholder: "Seleccionar"
             });
 
+            //jslstItems = ConvertirItems(jslstItems);
+            $('#ddlitem').select2({ data: ConvertirItems(jslstItems) })
             $('#IdContacto').select2({ data: jslstContactos })
             ListarContactos(0);
             jslstItems = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(Model.DetalleProforma)))');
@@ -41,6 +44,12 @@
             $("#txtdescuento").val('0.00');
         }
 
+        function InsertarPrecio()
+        {
+            var jsPrecio = parseFloat($("#ddlitem").select2('data').data.Precio).toFixed(2);
+            $("#txtprecio").val(jsPrecio);
+        }
+
         function ListarContactos(cambio)
         {
             var idEntidad = parseInt($('#IdEntidadResponsable').val());
@@ -50,7 +59,7 @@
                 }
 
                 GetClientesAjax(idEntidad);
-                console.log(jslstContactos);
+                //console.log(jslstContactos);
                 $('#IdContacto').select2({
                     allowClear: true,
                     data: jslstContactos,
@@ -73,8 +82,19 @@
             });
         }
 
+        function ConvertirItems(pLista) {
+            var lstItemsAux = [];
+            $.each(pLista, function (index, item) {
+                lstItemsAux.push({
+                    'id': item.IdItem,
+                    'text': item.Codigo,
+                    'data': item
+                });
+            });
+            return lstItemsAux;
+        }
+
         function ConvertirClientes(pLista) {
-            debugger;
             var lstClientesAux = [];
             $.each(pLista, function (index, item) {
                 lstClientesAux.push({
@@ -91,7 +111,7 @@
             if (jsIdItem != "") {
                 var cadena = '';
                 if ($("#txtcantidad").val() == "") cadena += "Debe de ingresar una cantidad\n";
-                if ($("#txtprecio").val() == "") cadena += "Debe de ingresar un presio\n";
+                if ($("#txtprecio").val() == "") cadena += "Debe de ingresar un precio\n";
                 if ($("#txtcantidad").val() == "0.00") cadena += "Debe de ingresar una cantidad mayor a cero\n";
                 if ($("#txtprecio").val() == "0.00") cadena += "Debe de ingresar un presio mayor a cero\n";
                 if (cadena != "") { alert(cadena); return; }
@@ -188,7 +208,6 @@
         }
 
         function activarOrdenDeCompra() {
-            debugger;
             if ($('#Estado').val() == 2) {
                 $('#divOrdenCompra').removeClass('hidden');
                 $('#divFechaFacturacion').removeClass('hidden');
@@ -294,13 +313,14 @@ else { cadena = "Actualizar"; }
                     <div class="row">
                         <div class="col-md-3">
                             <label class="control-label">Ítem / Servicio</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" id="ddlitem" name="ddlitem" onchange="ResetearValoresItems();">
+                            @*<select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" id="ddlitem" name="ddlitem" onchange="ResetearValoresItems(); InsertarPrecio();">
                                 <option value=""></option>
                                 @foreach (var nItem in (List<ItemDTO>)ViewBag.lstItems)
                                 {
-                                    <option value="@nItem.IdItem">@nItem.Codigo</option>
+                                    <option value="@nItem.IdItem" data-precio="@nItem.Precio.GetValueOrDefault()">@nItem.Codigo</option>
                                 }
-                            </select>
+                            </select>*@
+                            @Html.TextBox("ddlitem", "", new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @onchange = "ResetearValoresItems(); InsertarPrecio();" })
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Cantidad</label>
@@ -367,7 +387,7 @@ else { cadena = "Actualizar"; }
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="7" class="text-right"><strong>Total IGV</strong></td>
+                                <td colspan="7" class="text-right"><strong>IGV</strong></td>
                                 <td class="text-right"><span class="totaligv">@Model.DetalleProforma.Sum(x => x.Igv).GetValueOrDefault().ToString("N2", CultureInfo.InvariantCulture)</span></td>
                                 <td></td>
                             </tr>
@@ -418,7 +438,7 @@ else { cadena = "Actualizar"; }
                                 @{
                                     List<SelectItem> lstEstados = new List<SelectItem>();
                                     lstEstados.Add(new SelectItem { valor = 1, nombre = "Pendiente" });
-                                    lstEstados.Add(new SelectItem { valor = 2, nombre = "Aprobanda" });
+                                    lstEstados.Add(new SelectItem { valor = 2, nombre = "Aprobada" });
                                     lstEstados.Add(new SelectItem { valor = 3, nombre = "Rechazada" });
                                     var pEstado = Model != null ? Model.Estado : 1;
                                 }

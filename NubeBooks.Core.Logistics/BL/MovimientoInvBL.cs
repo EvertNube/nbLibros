@@ -395,7 +395,8 @@ namespace NubeBooks.Core.Logistics.BL
                     var result = context.Item.Where(x => x.IdEmpresa == idEmpresa && x.Estado).Select(x => new ItemDTO
                     {
                         IdItem = x.IdItem,
-                        Codigo = x.Codigo + " - " + x.Nombre
+                        Codigo = x.Codigo + " - " + x.Nombre,
+                        Precio = x.Precio ?? 0
                     }).OrderBy(x => x.Codigo).ToList();
                     return result;
                 }
@@ -408,7 +409,8 @@ namespace NubeBooks.Core.Logistics.BL
                                    select new ItemDTO
                                    {
                                        IdItem = mov.IdItem,
-                                       Codigo = itm.Codigo + " - " + itm.Nombre
+                                       Codigo = itm.Codigo + " - " + itm.Nombre,
+                                       Precio = itm.Precio ?? 0
                                    }).Distinct().ToList();
                     return result;
                 }
