@@ -192,6 +192,7 @@ namespace NubeBooks.Core.Logistics.BL
                     IdItem = x.IdItem,
                     Cantidad = x.Cantidad,
                     PrecioUnidad = x.PrecioUnidad,
+                    UnidadMedida = x.UnidadMedida,
                     MontoTotal = x.MontoTotal,
                     TipoCambio = x.TipoCambio,
                     //NombreItem = context.Item.FirstOrDefault(i => i.IdItem == x.IdItem).Nombre,
@@ -255,6 +256,7 @@ namespace NubeBooks.Core.Logistics.BL
                         deta.IdItem = detalle.IdItem;
                         deta.Cantidad = detalle.Cantidad;
                         deta.PrecioUnidad = detalle.PrecioUnidad;
+                        deta.UnidadMedida = detalle.UnidadMedida;
                         deta.Descuento = detalle.Descuento;
                         deta.MontoTotal = detalle.MontoTotal;
                         deta.TipoCambio = detalle.TipoCambio;

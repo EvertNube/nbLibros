@@ -103,7 +103,7 @@ namespace NubeBooks.Core.BL
                     Banco = x.Banco,
                     CuentaSoles = x.CuentaSoles,
                     CuentaDolares = x.CuentaDolares,
-                    Credito = x.Credito,
+                    Credito = x.Credito ?? 0,
                     TipoPersona = x.TipoPersona,
                     Telefono1 = x.Telefono1,
                     Telefono2 = x.Telefono2,

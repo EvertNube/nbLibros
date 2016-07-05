@@ -24,6 +24,7 @@ namespace NubeBooks.Data
         public Nullable<decimal> TipoCambio { get; set; }
         public Nullable<decimal> PorcentajeIgv { get; set; }
         public Nullable<decimal> Igv { get; set; }
+        public string UnidadMedida { get; set; }
     
         public virtual Item Item { get; set; }
         public virtual Proforma Proforma { get; set; }

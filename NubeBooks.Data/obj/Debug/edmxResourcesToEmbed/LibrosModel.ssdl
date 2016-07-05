@@ -125,6 +125,7 @@
     <Property Name="TipoCambio" Type="decimal" Precision="18" Scale="4" />
     <Property Name="PorcentajeIgv" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Igv" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="UnidadMedida" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Empresa">
     <Key>

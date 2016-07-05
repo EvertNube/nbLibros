@@ -396,7 +396,8 @@ namespace NubeBooks.Core.Logistics.BL
                     {
                         IdItem = x.IdItem,
                         Codigo = x.Codigo + " - " + x.Nombre,
-                        Precio = x.Precio ?? 0
+                        Precio = x.Precio ?? 0,
+                        UnidadMedida = x.UnidadMedida
                     }).OrderBy(x => x.Codigo).ToList();
                     return result;
                 }
@@ -410,7 +411,8 @@ namespace NubeBooks.Core.Logistics.BL
                                    {
                                        IdItem = mov.IdItem,
                                        Codigo = itm.Codigo + " - " + itm.Nombre,
-                                       Precio = itm.Precio ?? 0
+                                       Precio = itm.Precio ?? 0,
+                                       UnidadMedida = itm.UnidadMedida
                                    }).Distinct().ToList();
                     return result;
                 }

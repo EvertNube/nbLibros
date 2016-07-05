@@ -150,6 +150,7 @@
     <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="4" />
     <Property Name="PorcentajeIgv" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Igv" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="UnidadMedida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Item" Relationship="Self.FK_DetalleProforma_Item" FromRole="DetalleProforma" ToRole="Item" />
     <NavigationProperty Name="Proforma" Relationship="Self.FK_DetalleProforma_Proforma" FromRole="DetalleProforma" ToRole="Proforma" />
   </EntityType>

@@ -30,7 +30,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/04/2016 12:08:58</publishTime>
     </File>
     <File Include="Areas/Proformas/Views/Proformas/Proforma.cshtml">
-      <publishTime>07/04/2016 13:00:26</publishTime>
+      <publishTime>07/05/2016 10:40:10</publishTime>
     </File>
     <File Include="Areas/Proformas/Views/Proformas/ProformaDetalle.cshtml">
       <publishTime>07/04/2016 12:28:32</publishTime>
@@ -123,16 +123,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2016 09:31:09</publishTime>
     </File>
     <File Include="bin/NubeBooks.Core.dll">
-      <publishTime>07/04/2016 12:46:01</publishTime>
+      <publishTime>07/05/2016 10:41:00</publishTime>
     </File>
     <File Include="bin/NubeBooks.Core.Logistics.dll">
-      <publishTime>07/04/2016 13:06:51</publishTime>
+      <publishTime>07/05/2016 10:41:01</publishTime>
     </File>
     <File Include="bin/NubeBooks.Data.dll">
-      <publishTime>07/04/2016 12:45:57</publishTime>
+      <publishTime>07/05/2016 10:41:00</publishTime>
     </File>
     <File Include="bin/NubeBooks.dll">
-      <publishTime>07/04/2016 13:06:55</publishTime>
+      <publishTime>07/05/2016 10:41:05</publishTime>
     </File>
     <File Include="bin/NubeBooks.Helpers.dll">
       <publishTime>06/28/2016 09:36:23</publishTime>

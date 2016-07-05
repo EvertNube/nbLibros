@@ -16,7 +16,8 @@
     @Scripts.Render("~/Content/themes/admin/js/select2/select2.min.js")
     <script type="text/javascript">
         var miBaseUrl = '';
-        var jslstItems = [];
+
+        var jslstClientes = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(ViewBag.lstClientes)))');
         var jslstContactos = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(ViewBag.lstContactos)))');
         var jslstItems = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(ViewBag.lstItems)))');
 
@@ -30,9 +31,9 @@
                 placeholder: "Seleccionar"
             });
 
-            //jslstItems = ConvertirItems(jslstItems);
-            $('#ddlitem').select2({ data: ConvertirItems(jslstItems) })
+            $('#IdEntidadResponsable').select2({ data: ConvertirClientes(jslstClientes) })
             $('#IdContacto').select2({ data: jslstContactos })
+            $('#ddlitem').select2({ data: ConvertirItems(jslstItems) })
             ListarContactos(0);
             jslstItems = JSON.parse('@(Html.Raw(new JavaScriptSerializer().Serialize(Model.DetalleProforma)))');
         })
@@ -77,9 +78,21 @@
                 data: { idEntidad: idEntidad },
                 dataType: 'json',
                 success: function (data) {
-                    jslstContactos = ConvertirClientes(data.lista);
+                    jslstContactos = ConvertirContactos(data.lista);
                 }
             });
+        }
+
+        function ConvertirClientes(pLista) {
+            var lstClientesAux = [];
+            $.each(pLista, function (index, item) {
+                lstClientesAux.push({
+                    'id': item.IdEntidadResponsable,
+                    'text': item.Nombre,
+                    'data': item
+                });
+            });
+            return lstClientesAux;
         }
 
         function ConvertirItems(pLista) {
@@ -94,16 +107,16 @@
             return lstItemsAux;
         }
 
-        function ConvertirClientes(pLista) {
-            var lstClientesAux = [];
+        function ConvertirContactos(pLista) {
+            var lstContactosAux = [];
             $.each(pLista, function (index, item) {
-                lstClientesAux.push({
+                lstContactosAux.push({
                     'id': item.IdContacto,
                     'text': item.Nombre,
                     'data': item
                 });
             });
-            return lstClientesAux;
+            return lstContactosAux;
         }
 
         function AgregarItem() {
@@ -113,7 +126,7 @@
                 if ($("#txtcantidad").val() == "") cadena += "Debe de ingresar una cantidad\n";
                 if ($("#txtprecio").val() == "") cadena += "Debe de ingresar un precio\n";
                 if ($("#txtcantidad").val() == "0.00") cadena += "Debe de ingresar una cantidad mayor a cero\n";
-                if ($("#txtprecio").val() == "0.00") cadena += "Debe de ingresar un presio mayor a cero\n";
+                if ($("#txtprecio").val() == "0.00") cadena += "Debe de ingresar un precio mayor a cero\n";
                 if (cadena != "") { alert(cadena); return; }
                 var items01 = $.grep(jslstItems, function (e, i) { return (e.IdItem == jsIdItem) })[0];
                 if (items01 == undefined) {
@@ -124,6 +137,7 @@
                     lista.NombreItem = $('#ddlitem').select2('data').text;
                     lista.Cantidad = parseInt($("#txtcantidad").val());
                     lista.PrecioUnidad = parseFloat($("#txtprecio").val());
+                    lista.UnidadMedida = $("#ddlitem").select2('data').data.UnidadMedida;
                     lista.TipoCambio = 3.30;
                     lista.PorcentajeIgv = 18;
                     lista.Igv = ((lista.Cantidad * lista.PrecioUnidad) * (lista.PorcentajeIgv / 100)).toFixed(2);
@@ -191,7 +205,7 @@
             $("#tblitem tbody").empty();
             $.each(jslstItems, function (i, e) {
                 $("#tblitem tbody").append('<tr><td>' + (i + 1) + '</td><td>' + e.IdItem + '</td><td>' + e.NombreItem + '</td><td>' + e.Cantidad
-                    + '</td><td></td><td>' + e.PrecioUnidad + '</td><td>' + e.Descuento +
+                    + '</td><td>' + e.UnidadMedida + '</td><td>' + e.PrecioUnidad + '</td><td>' + e.Descuento +
                     '</td><td>' + e.MontoTotal + '</td><td><span class="glyphicon glyphicon-remove" data-id="' + e.IdItem + '" style="cursor:pointer" onclick="deleteRow(this)"></span></td></tr>');
             });
 
@@ -218,6 +232,19 @@
                 $('#divFechaCobranza').addClass('hidden');
             }
         }
+
+        function ActualizarFechaCobranza() {
+            var nCredito = $("#IdEntidadResponsable").select2('data').data.Credito;
+
+            var jsFechaInicio = $("#FechaFacturacion").val().split("/");
+            jsFechaInicio = jsFechaInicio[2] + "/" + jsFechaInicio[1] + "/" + jsFechaInicio[0];
+
+            var jsFechaNeo = new Date(jsFechaInicio);
+            jsFechaNeo.setDate(jsFechaNeo.getDate() + nCredito);
+
+            $("#FechaCobranza").datepicker('setDate', jsFechaNeo);
+        }
+
 
     </script>
 }
@@ -247,7 +274,7 @@ else { cadena = "Actualizar"; }
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Cliente</label>
-                            <select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarContactos(1)"
+                            @*<select class="col-xs-12 col-sm-12 col-md-12 no-padder miselect2_clear rol-accs" onchange="ListarContactos(1)"
                                     id="IdEntidadResponsable" name="IdEntidadResponsable" required>
                                 @{ var pCliente = Model != null ? Model.IdEntidadResponsable : 0;
                                     List<EntidadResponsableDTO> listaClientes = ViewBag.lstClientes;
@@ -257,8 +284,8 @@ else { cadena = "Actualizar"; }
                                 {
                                     <option value="@ent.IdEntidadResponsable" @(ent.IdEntidadResponsable == pCliente ? "selected=selected" : "")>@ent.Nombre</option>
                                 }
-                            </select>
-
+                            </select>*@
+                            @Html.TextBoxFor(u => u.IdEntidadResponsable, new { @class = "col-xs-12 col-sm-12 col-md-12 no-padder rol-accs", @required = "", @onchange = "ListarContactos(1)" })
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Contacto</label>
@@ -458,7 +485,7 @@ else { cadena = "Actualizar"; }
                         <div id="divFechaFacturacion" class="col-md-3 @cOCompra">
                             <label class="control-label">Fecha Estimada de Facturación</label>
                             <div class="input-group date">
-                                @Html.TextBoxFor(u => u.FechaFacturacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "" })
+                                @Html.TextBoxFor(u => u.FechaFacturacion, "{0:dd/MM/yyyy}", new { @class = "form-control rol-accs", @placeholder = "Fecha", @type = "text", @readonly = "", @onchange = "ActualizarFechaCobranza()" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>

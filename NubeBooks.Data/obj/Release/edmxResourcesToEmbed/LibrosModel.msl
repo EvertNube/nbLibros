@@ -123,6 +123,7 @@
           <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
           <ScalarProperty Name="PorcentajeIgv" ColumnName="PorcentajeIgv" />
           <ScalarProperty Name="Igv" ColumnName="Igv" />
+          <ScalarProperty Name="UnidadMedida" ColumnName="UnidadMedida" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
